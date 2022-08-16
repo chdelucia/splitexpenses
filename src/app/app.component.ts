@@ -12,4 +12,5 @@ export class AppComponent {
   constructor(private expenses: ExpensesService){
     this.expenses.loadExpensesFromLocalStorage();
   }
+
 }

@@ -1,29 +1,47 @@
 
-<label for="users">Who paid:</label>
+<main class="container">
+    <label for="users">Who paid:</label>
 
-<select name="users" #user>
-    <option *ngFor="let user of users" [value]="user">{{user}}</option>
-</select>
+    <select name="users" #user class="form-select">
+        <option *ngFor="let user of users" [value]="user">{{user}}</option>
+    </select>
+    
+    <div >
+        <input #title  class="form-control" type="text" placeholder="description" />
+    </div>
 
-<input #title class="title" type="text" placeholder="description" />
-<input #cost class="cost" type="number" min="1" step="any" />
-
-<button type="button" (click)="add(user.value, cost.value, title.value)">Añadir</button>
-
-
-
-<section class="debts">
-    <table class="debt-table">
-        <thead>
-            <th> Name </th>
-            <th> Deudas </th>
-            <th> A pagar:</th>
-        </thead>
+    <div class="input-group mb-3">
         
-        <tr *ngFor="let user of users; let i = index">
-            <td>{{user}}</td>
-            <td>{{debts.get(user)}} €</td>
-            <td>{{calc.get(user)}} €</td>
-        </tr>    
-    </table>
-</section>
+        <input type="text" class="form-control" #cost  type="number" min="1" step="any">
+        <span class="input-group-text">€</span>
+    </div>
+
+   
+ 
+    
+    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value, cost.value, title.value)">Añadir</button>
+    
+    
+    
+    <section class="debts">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Name </th>
+                    <th> Deudas </th>
+                    <th> A pagar:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                    <td>{{user}}</td>
+                    <td>{{debts.get(user)}} €</td>
+                    <td>{{calc.get(user)}} €</td>
+                </tr>    
+            </tbody>
+        </table>
+    </section>
+    
+    <a routerLink='/details' class="btn btn-success">See details</a>
+
+</main>

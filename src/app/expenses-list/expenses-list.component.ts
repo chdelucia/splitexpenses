@@ -8,13 +8,15 @@ import { Expense } from '../models';
   styleUrls: ['./expenses-list.component.less']
 })
 export class ExpensesListComponent implements OnInit {
-  expenses: Map<string, Expense>
+  expenses: Map<string, Expense> = new Map()
+  expensesHTML: any;
 
   constructor(private expensesService: ExpensesService) { 
-    this.expenses = expensesService.getExpenses();
+    this.expenses = this.expensesService.getExpenses();
   }
 
   ngOnInit(): void {
+    this.expensesHTML = this.expenses.values();
   }
 
 }
