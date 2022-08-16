@@ -33,6 +33,7 @@ export class AddExpenseComponent implements OnInit {
 
     this.expensesService.setExpense(obj);
     this.calcDebt();
+    this.difference();
   }
 
   calcDebt(){

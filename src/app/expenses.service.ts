@@ -6,7 +6,7 @@ import { Expense, User } from './models';
   providedIn: 'root'
 })
 export class ExpensesService {
-  users: Array<string> = ['FatiguitasPower', 'Jess'];
+  users: Array<string> = ['Vane', 'Jess'];
   expenses = new Map();
   id: string = '0';
 
