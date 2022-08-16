@@ -1,1 +1,29 @@
-<p>add-expense works!</p>
+
+<label for="users">Who paid:</label>
+
+<select name="users" #user>
+    <option *ngFor="let user of users" [value]="user">{{user}}</option>
+</select>
+
+<input #title class="title" type="text" placeholder="description" />
+<input #cost class="cost" type="number" min="1" step="any" />
+
+<button type="button" (click)="add(user.value, cost.value, title.value)">Añadir</button>
+
+
+
+<section class="debts">
+    <table class="debt-table">
+        <thead>
+            <th> Name </th>
+            <th> Deudas </th>
+            <th> A pagar:</th>
+        </thead>
+        
+        <tr *ngFor="let user of users; let i = index">
+            <td>{{user}}</td>
+            <td>{{debts.get(user)}} €</td>
+            <td>{{calc.get(user)}} €</td>
+        </tr>    
+    </table>
+</section>

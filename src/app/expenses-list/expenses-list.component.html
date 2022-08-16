@@ -1,1 +1,6 @@
-<p>expenses-list works!</p>
+<div *ngFor="let expense of expenses.values()" class="list">
+    <div class="date">{{expense.date}} </div>
+    <div class="paid"><small>Pagado por:</small><br><strong>{{expense.paidBy}}</strong> </div>
+    <div class="title">{{expense.title}} </div>
+    <div class="cost">{{expense.cost}} € </div>
+</div>

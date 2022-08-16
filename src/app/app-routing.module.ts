@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: '',   component: AddExpenseComponent, pathMatch: 'full' },
+  { path: 'details', component: ExpensesListComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
