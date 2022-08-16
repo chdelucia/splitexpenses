@@ -6,6 +6,6 @@ export interface User {
 export interface Expense {
     title: string;
     date: string;
-    cost: string;
+    cost: number;
     paidBy: string;
 }

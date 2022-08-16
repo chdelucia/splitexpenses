@@ -24,9 +24,10 @@ export class AddExpenseComponent implements OnInit {
   }
   
   add(user:string, cost:string, title:string) {
+    let costb = parseInt(cost) / 2;
     const obj: Expense = {
       "title": title,
-      "cost": cost,
+      "cost": costb,
       "date": new Date().toLocaleDateString('ES', { weekday: 'long', day: 'numeric' }),
       "paidBy": user
     }
@@ -44,7 +45,7 @@ export class AddExpenseComponent implements OnInit {
         this.users.forEach(userName => {
           if(userName !== item.paidBy){
             let debt = this.debts.get(userName);
-            debt = parseInt(debt) + parseInt(item.cost);
+            debt = debt + item.cost;
             this.debts.set(userName, debt);
           }
         });
