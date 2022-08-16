@@ -24,7 +24,7 @@ export class AddExpenseComponent implements OnInit {
   }
   
   add(user:string, cost:string, title:string) {
-    let costb = parseInt(cost) / 2;
+    let costb = parseFloat(cost) / 2;
     const obj: Expense = {
       "title": title,
       "cost": costb,
