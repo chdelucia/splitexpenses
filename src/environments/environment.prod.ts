@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  localStorageExpenses: 'Expenses'
+  localStorageExpenses: 'Expenses',
+  localStorageUsers: 'Users'
+
 };

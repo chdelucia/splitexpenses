@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  localStorageExpenses: 'Expenses'
+  localStorageExpenses: 'Expenses',
+  localStorageUsers: 'Users'
 };
 
 /*

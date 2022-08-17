@@ -1,1 +1,31 @@
-<p>add-user works!</p>
+
+
+<main class="container">
+    <h2>Users administration</h2>
+    <div>
+        <input #user  class="form-control" type="text" placeholder="user name"  [(ngModel)]="inputValue" />
+    </div>
+
+    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value)">Add</button>
+
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th> Name </th>
+                <th> - </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td> {{user}} </td>
+                <td (click)="delete(user)"> 🗑 </td>
+            </tr>
+        </tbody>
+ </table>
+
+
+
+<a routerLink='/' class="btn btn-success">Back to Home</a>
+</main>

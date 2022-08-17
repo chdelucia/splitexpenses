@@ -22,20 +22,19 @@ export class DebtsService {
     this.calcDirectDebtsDiff();
   }
 
-  getDebts() {
+  getDebts(): Map<string, Debt> {
     return this.debts;
   }
 
-  calcDebt(){
+  calcDebt(): void{
     let expenses = this.expenses.values();
 
       for (const item of expenses) {
         this.updateExpenseDebt(item);
-      } 
-      console.log(this.debts);  
+      }  
   }
 
-  updateExpenseDebt(item: Expense) {
+  updateExpenseDebt(item: Expense): void {
     this.users.forEach(userName => {
       let billWasNotPaidByMe = userName !== item.paidBy;
 
@@ -77,7 +76,7 @@ export class DebtsService {
     return newMap;
   }
 
-  calcDirectDebtsDiff() {
+  calcDirectDebtsDiff(): void {
       this.debts.forEach( (i,me) => {
         i.debts.forEach( (j,userName) => {
 
