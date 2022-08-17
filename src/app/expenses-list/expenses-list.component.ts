@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpensesService } from '../expenses.service';
-import { Expense } from '../models';
+import { ExpensesService } from '../shared/expenses.service';
+import { Expense } from '../shared/models';
 
 @Component({
   selector: 'app-expenses-list',
@@ -8,7 +8,7 @@ import { Expense } from '../models';
   styleUrls: ['./expenses-list.component.less']
 })
 export class ExpensesListComponent implements OnInit {
-  expenses: Map<string, Expense> = new Map()
+  expenses: Map<number, Expense> = new Map()
   expensesHTML: any;
 
   constructor(private expensesService: ExpensesService) { 
@@ -16,6 +16,12 @@ export class ExpensesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.expensesHTML = this.expenses.values();
+  }
+
+  deleteExpense(key: number) {
+    this.expensesService.deleteExpense(key);
+    this.expenses = this.expensesService.getExpenses();
     this.expensesHTML = this.expenses.values();
   }
 

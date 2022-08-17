@@ -7,20 +7,17 @@
     </select>
     
     <div >
-        <input #title  class="form-control" type="text" placeholder="description" />
+        <input #title  class="form-control" type="text" placeholder="description"  [(ngModel)]="inputValueTitle" />
     </div>
 
     <div class="input-group mb-3">
         
-        <input type="text" class="form-control" #cost  type="number" min="1" step="any">
+        <input type="text" class="form-control" #cost  type="number" min="1" step="any" [(ngModel)]="inputValueCost">
         <span class="input-group-text">€</span>
     </div>
 
    
- 
-    
-    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value, cost.value, title.value)">Añadir</button>
-    
+    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value, cost.value, title.value)">Add</button>
     
     
     <section class="debts">
@@ -28,15 +25,34 @@
             <thead>
                 <tr>
                     <th> Name </th>
-                    <th> Deudas </th>
+                    <th> Debts </th>
                     <th> A pagar:</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users; let i = index">
+                <tr *ngFor="let user of users">
                     <td>{{user}}</td>
-                    <td>{{debts.get(user)}} €</td>
-                    <td>{{calc.get(user)}} €</td>
+                    <td>{{debts.get(user)?.totalDebts | number : '1.2-2'}} €</td>
+                    <td>
+                        <div *ngFor="let person of users">
+                            <span *ngIf="user !== person">
+                                
+                                <ng-container *ngIf="debts.get(user)?.debts?.get(person)?.individualTotalDebts !=
+                                                    debts.get(user)?.debts?.get(person)?.newDebt; else elseBlock">
+                                    <small class="oldDebt">
+                                        <del>{{debts.get(user)?.debts?.get(person)?.individualTotalDebts}}€ </del>
+                                    </small>
+                                    {{debts.get(user)?.debts?.get(person)?.newDebt}}€
+                                </ng-container>
+
+                                <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts}}€ </ng-template>
+
+                                to {{person}}
+                                
+                            </span>  
+                        </div>
+
+                    </td>
                 </tr>    
             </tbody>
         </table>

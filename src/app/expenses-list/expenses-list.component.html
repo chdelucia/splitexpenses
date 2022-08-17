@@ -1,14 +1,14 @@
 
 
 
-
     <table class="table table-striped">
         <thead>
             <tr>
                 <th> Date </th>
-                <th> Paid by </th>
+                <th> Paidby </th>
                 <th> Title</th>
                 <th> Amount </th>
+                <th> - </th>
             </tr>
         </thead>
         <tbody>
@@ -17,8 +17,14 @@
                 <td> {{expense.paidBy}}</td>
                 <td> {{expense.title}}</td>
                 <td> {{expense.cost}} €</td>
+                <td (click)="deleteExpense(expense.id)"> 🗑 </td>
             </tr>
         </tbody>
-    </table>
+ </table>
 
-    <a routerLink='/' class="btn btn-success">Back</a>
+
+
+<a routerLink='/' class="btn btn-success">Back</a>
+
+
+    

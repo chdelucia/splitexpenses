@@ -6,7 +6,10 @@ import { AppComponent } from './app.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
-import { ExpensesService } from './expenses.service';
+import { ExpensesService } from './shared/expenses.service';
+import { FormsModule } from '@angular/forms';
+import { UsersService } from './shared/users.service';
+import { DebtsService } from './shared/debts.service';
 
 @NgModule({
   declarations: [
@@ -17,9 +20,14 @@ import { ExpensesService } from './expenses.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [ExpensesService],
+  providers: [
+    ExpensesService,
+    UsersService,
+    DebtsService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

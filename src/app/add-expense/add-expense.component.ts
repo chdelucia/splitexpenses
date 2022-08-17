@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpensesService } from '../expenses.service';
-import { Expense } from '../models';
+import { DebtsService } from '../shared/debts.service';
+import { ExpensesService } from '../shared/expenses.service';
+import { Debt, Expense, IndividualDebt } from '../shared/models';
+import { UsersService } from '../shared/users.service';
 
 @Component({
   selector: 'app-add-expense',
@@ -9,65 +11,49 @@ import { Expense } from '../models';
 })
 export class AddExpenseComponent implements OnInit {
   users: Array<string>
-  expenses: Map<string, Expense>
-  debts = new Map();
-  calc = new Map();
+  expenses: Map<number, Expense>
+  debts: Map<string, Debt>;
 
-  constructor(private expensesService: ExpensesService) {
-    this.users = this.expensesService.getUsers();
+  inputValueCost = NaN;
+  inputValueTitle = '';
+  
+
+  constructor(
+    private expensesService: ExpensesService,
+    private usersService: UsersService,
+    private debtsService: DebtsService
+    ) {
+    this.users = this.usersService.getUsers();
     this.expenses = this.expensesService.getExpenses();
+    this.debts = this.debtsService.getDebts();
   }
 
   ngOnInit(): void {
-    this.calcDebt();
-    this.difference();
   }
   
   add(user:string, cost:string, title:string) {
-    let costb = parseFloat(cost) / 2;
+    let costb = parseFloat(cost) / this.users.length;
     const obj: Expense = {
+      "id": 0,
       "title": title,
       "cost": costb,
       "date": new Date().toLocaleDateString('ES', { weekday: 'long', day: 'numeric' }),
       "paidBy": user
     }
 
-    this.expensesService.setExpense(obj);
-    this.calcDebt();
-    this.difference();
+    this.expensesService.addExpense(obj);
+    this.debtsService.updateExpenseDebt(obj);
+    
+    this.clearInput();
+    alert('Añadido correctamente:' + cost + '€ de ' + title);
+
+    this.debts = this.debtsService.getDebts();
   }
 
-  calcDebt(){
-    this.users.map( user => this.debts.set(user, 0))
-    let obj = this.expenses.values();
-
-      for (const item of obj) {
-        this.users.forEach(userName => {
-          if(userName !== item.paidBy){
-            let debt = this.debts.get(userName);
-            debt = debt + item.cost;
-            this.debts.set(userName, debt);
-          }
-        });
-      } 
-
+  clearInput():void {
+    this.inputValueTitle = '';
+    this.inputValueCost = NaN;
   }
 
-  difference() {
-    let V = this.users[0];
-    let J = this.users[1];
-
-    let VDebts = this.debts.get(V);
-    let JDebts = this.debts.get(J);
-
-    if (VDebts > JDebts) {
-      this.calc.set(J, 0);
-      this.calc.set(V, VDebts - JDebts);
-    } else {
-      this.calc.set(V, 0);
-      this.calc.set(J, JDebts - VDebts);
-    }
-  
-  }
 
 }

@@ -6,9 +6,7 @@ import { Expense, User } from './models';
   providedIn: 'root'
 })
 export class ExpensesService {
-  users: Array<string> = ['Vane', 'Jess'];
   expenses = new Map();
-  id: string = '0';
 
   constructor() { }
 
@@ -22,34 +20,45 @@ export class ExpensesService {
     }
   }
 
-  saveExpensesIntoLocalStorage(data: Expense):void {
-    localStorage.setItem(environment.localStorageExpenses, this.convertMaptoString(this.expenses) );
+  saveExpensesIntoLocalStorage():void {
+    localStorage.setItem(environment.localStorageExpenses, this.convertMaptoString(this.expenses));
   }
 
-  getUsers(): Array<string> {
-    return this.users;
-  }
-
-  setUsers(user: string) {
-    this.users.push(user);
-  }
-
-  getExpenses(): Map<string, Expense> {
+  getExpenses(): Map<number, Expense> {
     return this.expenses;
   }
 
-  setExpense(data: Expense) {
-    this.expenses.set(this.expenses.size, data);
-    this.saveExpensesIntoLocalStorage(data);
+  setExpense(data: Expense): void{
+    this.expenses.set(data.id, data);
+    this.saveExpensesIntoLocalStorage();
   }
 
+  addExpense(data: Expense): void {
+    let nextId = this.calcNextID();
+    data.id = nextId;
+    this.expenses.set(nextId, data);
+    this.saveExpensesIntoLocalStorage();
+  }
+
+  deleteExpense(key: number) {
+    this.expenses.delete(key);
+    this.saveExpensesIntoLocalStorage();
+  }
+
+  calcNextID(): number{
+    let lastId = Array.from(this.expenses.keys()).pop() || 0;
+    let nextId = parseInt(lastId) + 1;
+    return nextId;
+  }
+
+  //TODO move to utils
   convertStringToMap(data:string) {
     let obj = JSON.parse(data);
     let map = new Map(Object.entries(obj));
     return map;
   }
 
-  convertMaptoString(map: any): string{
+  convertMaptoString(map: Map<number, Expense>): string{
     let obj = Object.fromEntries(map);
     let jsonString = JSON.stringify(obj);
     return jsonString;
