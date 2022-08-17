@@ -10,13 +10,15 @@ import { ExpensesService } from './shared/expenses.service';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from './shared/users.service';
 import { DebtsService } from './shared/debts.service';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddUserComponent,
     AddExpenseComponent,
-    ExpensesListComponent
+    ExpensesListComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

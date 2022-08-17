@@ -2,15 +2,15 @@
 <main class="container">
     <label for="users">Who paid:</label>
 
-    <select name="users" #user class="form-select">
+    <select name="users" #user class="form-select mb-2">
         <option *ngFor="let user of users" [value]="user">{{user}}</option>
     </select>
     
-    <div >
+    <div class="input-group mb-2">
         <input #title  class="form-control" type="text" placeholder="description"  [(ngModel)]="inputValueTitle" />
     </div>
 
-    <div class="input-group mb-3">
+    <div class="input-group mb-2">
         
         <input type="text" class="form-control" #cost  type="number" min="1" step="any" [(ngModel)]="inputValueCost">
         <span class="input-group-text">€</span>
@@ -40,12 +40,12 @@
                                 <ng-container *ngIf="debts.get(user)?.debts?.get(person)?.individualTotalDebts !=
                                                     debts.get(user)?.debts?.get(person)?.newDebt; else elseBlock">
                                     <small class="oldDebt">
-                                        <del>{{debts.get(user)?.debts?.get(person)?.individualTotalDebts}}€ </del>
+                                        <del>{{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </del>
                                     </small>
-                                    {{debts.get(user)?.debts?.get(person)?.newDebt}}€
+                                    {{debts.get(user)?.debts?.get(person)?.newDebt | number : '1.2-2'}}€
                                 </ng-container>
 
-                                <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts}}€ </ng-template>
+                                <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
 
                                 to {{person}}
                                 
@@ -62,3 +62,5 @@
     <a routerLink='/users' class="btn btn-success">Admin. Users</a>
 
 </main>
+
+<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

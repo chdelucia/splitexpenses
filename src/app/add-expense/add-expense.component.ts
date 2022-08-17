@@ -16,6 +16,9 @@ export class AddExpenseComponent implements OnInit {
 
   inputValueCost = NaN;
   inputValueTitle = '';
+
+  showAlert = false;
+  isError = false;
   
 
   constructor(
@@ -43,9 +46,9 @@ export class AddExpenseComponent implements OnInit {
 
     this.expensesService.addExpense(obj);
     this.debtsService.updateExpenseDebt(obj);
-    
+
     this.clearInput();
-    alert('Añadido correctamente:' + cost + '€ de ' + title);
+    this.showAlert = true;
 
     this.debts = this.debtsService.getDebts();
   }
@@ -53,6 +56,10 @@ export class AddExpenseComponent implements OnInit {
   clearInput():void {
     this.inputValueTitle = '';
     this.inputValueCost = NaN;
+  }
+
+  close(){
+    this.showAlert = false;
   }
 
 

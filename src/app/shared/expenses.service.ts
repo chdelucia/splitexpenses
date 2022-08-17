@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Expense, User } from './models';
+import { Expense } from './models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpensesService {
-  expenses = new Map();
+  expenses: Map<number, Expense> = new Map();
 
-  constructor() { }
+  constructor() {
+    this.expenses = this.loadExpensesFromLocalStorage();
+   }
 
-  loadExpensesFromLocalStorage():void {
+  loadExpensesFromLocalStorage(): Map<number, Expense> {
     const ans = localStorage.getItem(environment.localStorageExpenses) || '';
     let answers = ans ? this.convertStringToMap(ans) : new Map();
-    const isNotLoaded = answers.size != this.expenses.size;
-
-    if( isNotLoaded ) {
-      this.expenses = answers;
-    }
+ 
+    return answers;
+    
   }
 
   saveExpensesIntoLocalStorage():void {
@@ -47,7 +47,7 @@ export class ExpensesService {
 
   calcNextID(): number{
     let lastId = Array.from(this.expenses.keys()).pop() || 0;
-    let nextId = parseInt(lastId) + 1;
+    let nextId = lastId + 1;
     return nextId;
   }
 

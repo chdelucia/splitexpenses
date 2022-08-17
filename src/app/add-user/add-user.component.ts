@@ -8,7 +8,10 @@ import { UsersService } from '../shared/users.service';
 })
 export class AddUserComponent implements OnInit {
   inputValue = '';
-  users: Array<string>
+  users: Array<string>;
+  showAlert = false;
+  isError = false;
+
   constructor(private userService: UsersService) {
     this.users = this.userService.getUsers();
    }
@@ -20,8 +23,14 @@ export class AddUserComponent implements OnInit {
     this.inputValue = '';
   }
   add(name: string) {
-    this.userService.addUser(name);
-    this.updateUsers();
+    if(this.userService.checkIfNameExist(name)){
+      this.isError = true;
+    } else {
+      this.isError = false;
+      this.userService.addUser(name);
+      this.updateUsers();
+    }
+    this.showAlert = true;
   }
 
   delete(name: string) {
@@ -31,6 +40,10 @@ export class AddUserComponent implements OnInit {
 
   updateUsers(){
     this.users = this.userService.getUsers();
+  }
+
+  close(){
+    this.showAlert = false;
   }
 
 }

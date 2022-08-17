@@ -2,7 +2,7 @@
 
 <main class="container">
     <h2>Users administration</h2>
-    <div>
+    <div class="mb-2">
         <input #user  class="form-control" type="text" placeholder="user name"  [(ngModel)]="inputValue" />
     </div>
 
@@ -27,5 +27,8 @@
 
 
 
-<a routerLink='/' class="btn btn-success">Back to Home</a>
+<a routerLink='/' class="btn btn-success">Back Home</a>
+
 </main>
+
+<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

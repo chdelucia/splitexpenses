@@ -9,8 +9,6 @@ import { ExpensesService } from './shared/expenses.service';
 export class AppComponent {
   title = 'splitexpenses';
 
-  constructor(private expenses: ExpensesService){
-    this.expenses.loadExpensesFromLocalStorage();
-  }
+  constructor(){}
 
 }

@@ -37,4 +37,13 @@ export class UsersService {
     localStorage.setItem(environment.localStorageUsers, JSON.stringify(this.users) );
   }
 
+  checkIfNameExist(name: string): boolean{
+    let index = this.users.indexOf(name);
+    let result = false;
+    if(index >= 0) {
+      result = true;
+    }
+    return result;
+  }
+
 }
