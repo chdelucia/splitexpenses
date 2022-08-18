@@ -8,7 +8,7 @@ import { Expense } from '../shared/models';
   styleUrls: ['./expenses-list.component.less']
 })
 export class ExpensesListComponent implements OnInit {
-  expenses: Map<number, Expense> = new Map()
+  expenses: Map<string, Expense> = new Map()
   expensesHTML: any;
 
   constructor(private expensesService: ExpensesService) { 
@@ -19,7 +19,7 @@ export class ExpensesListComponent implements OnInit {
     this.expensesHTML = this.expenses.values();
   }
 
-  deleteExpense(key: number) {
+  deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
     this.expenses = this.expensesService.getExpenses();
     this.expensesHTML = this.expenses.values();

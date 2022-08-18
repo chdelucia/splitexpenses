@@ -9,7 +9,7 @@ import { UsersService } from './users.service';
 export class DebtsService {
   private debts: Map<string, Debt>;
   private users: Array<string>;
-  private expenses: Map<number, Expense>;
+  private expenses: Map<string, Expense>;
 
   constructor(
     private userService: UsersService,
@@ -55,24 +55,28 @@ export class DebtsService {
 
   createStructure(): Map<string, Debt> {
     let newMap = new Map();
-    this.users.forEach(parentUserName => {
-      let obj1 = {
-        'totalDebts': 0,
-        'debts': new Map(),
-      }
-      
-      this.users.forEach(userName => {
-        if (parentUserName !== userName) {
-          let obj = {
-            'individualTotalDebts': 0,
-            'RefDebtsIds': [],
-          }     
-          obj1.debts.set(userName, obj);
+    if(this.users){
+      this.users.forEach(parentUserName => {
+        let obj1 = {
+          'totalDebts': 0,
+          'debts': new Map(),
         }
+        
+        this.users.forEach(userName => {
+          if (parentUserName !== userName) {
+            let obj = {
+              'individualTotalDebts': 0,
+              'RefDebtsIds': [],
+            }     
+            obj1.debts.set(userName, obj);
+          }
+        })
+    
+        newMap.set(parentUserName, obj1);
       })
-  
-      newMap.set(parentUserName, obj1);
-    })
+    }
+
+
     return newMap;
   }
 

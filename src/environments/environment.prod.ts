@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
   localStorageExpenses: 'Expenses',
-  localStorageUsers: 'Users'
+  localStorageUsers: 'Users',
+  expensesTypes: ['Hobbies', 'Meals','Transport', 'Drinks', 'Culture',
+  'Accommodation','Souvenirs',  'Other']
 
 };

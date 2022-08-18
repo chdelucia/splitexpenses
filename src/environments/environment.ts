@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   localStorageExpenses: 'Expenses',
-  localStorageUsers: 'Users'
+  localStorageUsers: 'Users',
+  expensesTypes: ['Hobbies', 'Meals','Transport', 'Drinks', 'Culture',
+  'Accommodation','Souvenirs',  'Other']
 };
 
 /*

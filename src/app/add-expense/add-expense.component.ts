@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { Debt, Expense, IndividualDebt } from '../shared/models';
+import { Debt, Expense } from '../shared/models';
 import { UsersService } from '../shared/users.service';
+
+import { ExpensesForm } from './model'
 
 @Component({
   selector: 'app-add-expense',
@@ -11,15 +14,12 @@ import { UsersService } from '../shared/users.service';
 })
 export class AddExpenseComponent implements OnInit {
   users: Array<string>
-  expenses: Map<number, Expense>
-  debts: Map<string, Debt>;
-
-  inputValueCost = NaN;
-  inputValueTitle = '';
 
   showAlert = false;
   isError = false;
   
+  model: ExpensesForm;
+  ExpenseTypes = environment.expensesTypes;
 
   constructor(
     private expensesService: ExpensesService,
@@ -27,21 +27,22 @@ export class AddExpenseComponent implements OnInit {
     private debtsService: DebtsService
     ) {
     this.users = this.usersService.getUsers();
-    this.expenses = this.expensesService.getExpenses();
-    this.debts = this.debtsService.getDebts();
+    this.model = new ExpensesForm(this.users[0], '', 0, this.ExpenseTypes[this.ExpenseTypes.length - 1]);
   }
 
   ngOnInit(): void {
   }
-  
-  add(user:string, cost:string, title:string) {
-    let costb = parseFloat(cost) / this.users.length;
+
+  onSubmit(expenseForm: ExpensesForm) {
+    let costb = expenseForm.cost / this.users.length;
     const obj: Expense = {
-      "id": 0,
-      "title": title,
+      "id": '',
+      "title": expenseForm.title,
+      "originalCost": ++expenseForm.cost,
       "cost": costb,
-      "date": new Date().toLocaleDateString('ES', { weekday: 'long', day: 'numeric' }),
-      "paidBy": user
+      "date": new Date().toLocaleDateString('ES', { weekday: 'short', day: 'numeric' }),
+      "paidBy": expenseForm.name,
+      "type": expenseForm.type
     }
 
     this.expensesService.addExpense(obj);
@@ -49,17 +50,21 @@ export class AddExpenseComponent implements OnInit {
 
     this.clearInput();
     this.showAlert = true;
-
-    this.debts = this.debtsService.getDebts();
   }
 
   clearInput():void {
-    this.inputValueTitle = '';
-    this.inputValueCost = NaN;
+    this.model.cost = 0;
+    this.model.title = '';
   }
 
   close(){
     this.showAlert = false;
+  }
+
+  loadData(data: string) {
+    let users = ['Vane', 'Jess']
+    localStorage.setItem(environment.localStorageExpenses, data);
+    localStorage.setItem(environment.localStorageUsers, JSON.stringify(users))
   }
 
 

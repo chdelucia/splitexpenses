@@ -1,66 +1,52 @@
 
 <main class="container">
-    <label for="users">Who paid:</label>
 
-    <select name="users" #user class="form-select mb-2">
-        <option *ngFor="let user of users" [value]="user">{{user}}</option>
-    </select>
+    <form class="row g-2" (ngSubmit)="onSubmit(ExpenseForm.form.value)" #ExpenseForm="ngForm">
+
+        <label for="name">Who paid:</label>
+
+        <div class="col-6">
+            <select name="name" #user class="form-select mb-2" [(ngModel)]="model.name" required>
+                <option *ngFor="let user of users" [value]="user">{{user}}</option>
+            </select>
+        </div>
+        <div class="col-6">
+            <div class="input-group">   
+                <input name="cost" type="text" class="form-control" type="number" min="1" step="any" [(ngModel)]="model.cost" required>
+                <span class="input-group-text">€</span>
+            </div>
+        </div>
+
+
+
     
     <div class="input-group mb-2">
-        <input #title  class="form-control" type="text" placeholder="description"  [(ngModel)]="inputValueTitle" />
+        <input name="title" class="form-control" type="text" placeholder="description"  [(ngModel)]="model.title" required/>
     </div>
 
-    <div class="input-group mb-2">
-        
-        <input type="text" class="form-control" #cost  type="number" min="1" step="any" [(ngModel)]="inputValueCost">
-        <span class="input-group-text">€</span>
+
+
+    <div class="input-group mb-2">  
+        <div class="form-check form-check-inline col-3" *ngFor="let type of ExpenseTypes; let i=index">
+            <input class="form-check-input" type="radio" name="type" [(ngModel)]="model.type" [value]="type">
+            <label class="form-check-label" [for]="type"> {{type}} </label>
+        </div>
     </div>
 
    
-    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value, cost.value, title.value)">Add</button>
+    <button class="input-group mb-3 btn btn-primary" type="submit" [disabled]="!ExpenseForm.form.valid">Add</button>
+    </form>
     
     
-    <section class="debts">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th> Name </th>
-                    <th> Debts </th>
-                    <th> A pagar:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let user of users">
-                    <td>{{user}}</td>
-                    <td>{{debts.get(user)?.totalDebts | number : '1.2-2'}} €</td>
-                    <td>
-                        <div *ngFor="let person of users">
-                            <span *ngIf="user !== person">
-                                
-                                <ng-container *ngIf="debts.get(user)?.debts?.get(person)?.individualTotalDebts !=
-                                                    debts.get(user)?.debts?.get(person)?.newDebt; else elseBlock">
-                                    <small class="oldDebt">
-                                        <del>{{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </del>
-                                    </small>
-                                    {{debts.get(user)?.debts?.get(person)?.newDebt | number : '1.2-2'}}€
-                                </ng-container>
-
-                                <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
-
-                                to {{person}}
-                                
-                            </span>  
-                        </div>
-
-                    </td>
-                </tr>    
-            </tbody>
-        </table>
-    </section>
-    
-    <a routerLink='/details' class="btn btn-success">See details</a>
-    <a routerLink='/users' class="btn btn-success">Admin. Users</a>
+    <a routerLink='/' class="btn btn-success">Back home</a>
 
 </main>
 
 <app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>
+
+
+<section class="responder" *ngIf="0">
+    <input #answer type="text">
+
+    <button type="button" (click)="loadData(answer.value)">Cargar datos</button>
+</section>

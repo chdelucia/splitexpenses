@@ -7,14 +7,16 @@ export interface Expense {
     title: string;
     date: string;
     cost: number;
+    originalCost: number;
     paidBy: string;
-    id: number;
+    id: string;
+    type: string;
 }
 
 export interface IndividualDebt {
     newDebt?: number;
     individualTotalDebts: number,
-    RefDebtsIds: Array<number>,
+    RefDebtsIds: Array<string>,
 }
 
 export interface Debt {

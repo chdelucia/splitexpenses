@@ -16,7 +16,7 @@
                 <td> {{expense.date}} </td>
                 <td> {{expense.paidBy}}</td>
                 <td> {{expense.title}}</td>
-                <td> {{expense.cost | number : '1.2-2'}} €</td>
+                <td> {{expense.originalCost | number : '1.2-2'}} €</td>
                 <td (click)="deleteExpense(expense.id)"> 🗑 </td>
             </tr>
         </tbody>

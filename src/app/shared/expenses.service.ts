@@ -6,16 +6,15 @@ import { Expense } from './models';
   providedIn: 'root'
 })
 export class ExpensesService {
-  expenses: Map<number, Expense> = new Map();
+  expenses: Map<string, Expense> = new Map();
 
   constructor() {
     this.expenses = this.loadExpensesFromLocalStorage();
    }
 
-  loadExpensesFromLocalStorage(): Map<number, Expense> {
+  loadExpensesFromLocalStorage(): Map<string, Expense> {
     const ans = localStorage.getItem(environment.localStorageExpenses) || '';
     let answers = ans ? this.convertStringToMap(ans) : new Map();
- 
     return answers;
     
   }
@@ -24,7 +23,7 @@ export class ExpensesService {
     localStorage.setItem(environment.localStorageExpenses, this.convertMaptoString(this.expenses));
   }
 
-  getExpenses(): Map<number, Expense> {
+  getExpenses(): Map<string, Expense> {
     return this.expenses;
   }
 
@@ -40,15 +39,15 @@ export class ExpensesService {
     this.saveExpensesIntoLocalStorage();
   }
 
-  deleteExpense(key: number) {
+  deleteExpense(key: string) {
     this.expenses.delete(key);
     this.saveExpensesIntoLocalStorage();
   }
 
-  calcNextID(): number{
-    let lastId = Array.from(this.expenses.keys()).pop() || 0;
-    let nextId = lastId + 1;
-    return nextId;
+  calcNextID(): string{
+    let lastId = Array.from(this.expenses.keys()).pop() || '0';
+    let nextId = parseInt(lastId) + 1;
+    return nextId.toString();
   }
 
   //TODO move to utils
@@ -58,7 +57,7 @@ export class ExpensesService {
     return map;
   }
 
-  convertMaptoString(map: Map<number, Expense>): string{
+  convertMaptoString(map: Map<string, Expense>): string{
     let obj = Object.fromEntries(map);
     let jsonString = JSON.stringify(obj);
     return jsonString;

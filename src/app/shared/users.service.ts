@@ -28,7 +28,7 @@ export class UsersService {
 
   loadUsersFromLocalStorage():Array<string> {
     const ans = localStorage.getItem(environment.localStorageUsers) || '';
-    let users = JSON.parse(ans);
+    let users = ans ? JSON.parse(ans) : [];
     return users;
  
   }

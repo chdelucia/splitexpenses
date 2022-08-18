@@ -1,0 +1,49 @@
+
+<main class="container">
+    <section class="debts">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> Name </th>
+                    <th> Debts </th>
+                    <th> A pagar:</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of users">
+                    <td>{{user}}</td>
+                    <td>{{debts.get(user)?.totalDebts | number : '1.2-2'}} €</td>
+                    <td>
+                        <div *ngFor="let person of users">
+                            <span *ngIf="user !== person">
+                                
+                                <ng-container *ngIf="debts.get(user)?.debts?.get(person)?.individualTotalDebts !=
+                                                    debts.get(user)?.debts?.get(person)?.newDebt; else elseBlock">
+                                    <small class="oldDebt">
+                                        <del>{{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </del>
+                                    </small>
+                                    {{debts.get(user)?.debts?.get(person)?.newDebt | number : '1.2-2'}}€
+                                </ng-container>
+
+                                <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
+
+                                to {{person}}
+                                
+                            </span>  
+                        </div>
+
+                    </td>
+                </tr>    
+            </tbody>
+        </table>
+    </section>
+    
+    <app-summarygraph [bytype]="true"></app-summarygraph>
+    <app-summarygraph [bytype]="false"></app-summarygraph>
+    <a routerLink='/expense' class="btn btn-success">Add Expense</a>
+    <a routerLink='/details' class="btn btn-success">See details</a>
+    <a routerLink='/users' class="btn btn-success mb-4">Admin. Users</a>
+
+</main>
+
+
