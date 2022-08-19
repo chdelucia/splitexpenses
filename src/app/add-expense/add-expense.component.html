@@ -17,14 +17,9 @@
             </div>
         </div>
 
-
-
-    
     <div class="input-group mb-2">
         <input name="title" class="form-control" type="text" placeholder="description"  [(ngModel)]="model.title" required/>
     </div>
-
-
 
     <div class="input-group mb-2">  
         <div class="form-check form-check-inline col-3" *ngFor="let type of ExpenseTypes; let i=index">
@@ -33,12 +28,8 @@
         </div>
     </div>
 
-   
     <button class="input-group mb-3 btn btn-primary" type="submit" [disabled]="!ExpenseForm.form.valid">Add</button>
     </form>
-    
-    
-    <a routerLink='/' class="btn btn-success">Back home</a>
 
 </main>
 

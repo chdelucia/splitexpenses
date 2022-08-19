@@ -1,4 +1,9 @@
-<main class="container mt-4">
+
+
+
+<div *ngIf="!bytype" class="mb-3 mt-2 text-center">
+    <h6>Gasto persona/dia: {{meanCost | number : '1.2-2'}} €</h6>
+</div>
 <div>
     <div>
       <div style="display: block">
@@ -7,11 +12,11 @@
           [options]="barChartOptions"
           [plugins]="barChartPlugins"
           [type]="barChartType"
-          (chartHover)="chartHovered($event)"
+          (chartHover)="chartHovered($event)" 
           (chartClick)="chartClicked($event)">
         </canvas>
       </div>
       <!-- <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button> -->
     </div>
   </div>
-</main>
+

@@ -1,5 +1,5 @@
 
-<main class="container">
+<main class="container mb-5">
     <section class="debts">
         <table class="table table-striped">
             <thead>
@@ -38,11 +38,9 @@
         </table>
     </section>
     
-    <app-summarygraph [bytype]="true"></app-summarygraph>
     <app-summarygraph [bytype]="false"></app-summarygraph>
-    <a routerLink='/expense' class="btn btn-success">Add Expense</a>
-    <a routerLink='/details' class="btn btn-success">See details</a>
-    <a routerLink='/users' class="btn btn-success mb-4">Admin. Users</a>
+    <app-summarygraph [bytype]="true"></app-summarygraph>
+    
 
 </main>
 
