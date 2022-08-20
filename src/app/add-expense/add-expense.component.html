@@ -1,6 +1,6 @@
 
 <main class="container">
-
+    <h2>Add a expense</h2>
     <form class="row g-2" (ngSubmit)="onSubmit(ExpenseForm.form.value)" #ExpenseForm="ngForm">
 
         <label for="name">Who paid:</label>
@@ -10,6 +10,7 @@
                 <option *ngFor="let user of users" [value]="user">{{user}}</option>
             </select>
         </div>
+        
         <div class="col-6">
             <div class="input-group">   
                 <input name="cost" type="text" class="form-control" type="number" min="1" step="any" [(ngModel)]="model.cost" required>
@@ -36,8 +37,4 @@
 <app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>
 
 
-<section class="responder" *ngIf="0">
-    <input #answer type="text">
 
-    <button type="button" (click)="loadData(answer.value)">Cargar datos</button>
-</section>

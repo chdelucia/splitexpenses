@@ -61,11 +61,4 @@ export class AddExpenseComponent implements OnInit {
     this.showAlert = false;
   }
 
-  loadData(data: string) {
-    let users = ['Vane', 'Jess']
-    localStorage.setItem(environment.localStorageExpenses, data);
-    localStorage.setItem(environment.localStorageUsers, JSON.stringify(users))
-  }
-
-
 }

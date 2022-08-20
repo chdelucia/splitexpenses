@@ -1,0 +1,17 @@
+
+
+<main class="container">
+    <h3>Setting Zone</h3>
+
+    <button  class="input-group mt-3 btn btn-success" type="button" (click)="copyData()" >Copiar datos actuales</button>
+    <hr class="border border-danger border-2">
+    <div class="alert alert-danger" role="alert">
+       <strong>DANGER ZONE</strong><br> Todos tus datos actuales serán reemplazados si pulsas cargar datos
+      </div>
+    <div class="form-floating mb-2">
+        <textarea #answer class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+        <label for="floatingTextarea2">Copy here your data</label>
+      </div>
+
+    <button  class="input-group mb-3 btn btn-danger" type="button" (click)="loadData(answer.value)">Cargar datos</button>
+</main>

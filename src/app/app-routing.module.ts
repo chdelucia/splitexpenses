@@ -4,6 +4,7 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { MainComponent } from './main/main.component';
+import { SettingsComponent } from './settings/settings.component';
 import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'details', component: ExpensesListComponent },
   { path: 'users', component: AddUserComponent },
   { path: 'help', component: SummarygraphComponent },
+  { path: 'settings', component: SettingsComponent },
 
 ];
 

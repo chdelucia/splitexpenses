@@ -14,6 +14,7 @@ import { DebtsService } from './shared/debts.service';
 import { AlertComponent } from './alert/alert.component';
 import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 import { MainComponent } from './main/main.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MainComponent } from './main/main.component';
     ExpensesListComponent,
     AlertComponent,
     SummarygraphComponent,
-    MainComponent
+    MainComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

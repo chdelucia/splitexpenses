@@ -2,11 +2,10 @@
 
 
 <div *ngIf="!bytype" class="mb-3 mt-2 text-center">
-    <h6>Gasto persona/dia: {{meanCost | number : '1.2-2'}} €</h6>
+    <h6>Gasto medio persona/dia: {{meanCost | number : '1.2-2'}} €</h6>
 </div>
-<div>
-    <div>
-      <div style="display: block">
+
+      <div style="display: block" class="mb-3">
         <canvas baseChart
           [data]="barChartData"
           [options]="barChartOptions"
@@ -17,6 +16,5 @@
         </canvas>
       </div>
       <!-- <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button> -->
-    </div>
-  </div>
+ 
 
