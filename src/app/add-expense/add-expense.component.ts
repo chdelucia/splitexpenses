@@ -38,7 +38,7 @@ export class AddExpenseComponent implements OnInit {
     const obj: Expense = {
       "id": '',
       "title": expenseForm.title,
-      "originalCost": ++expenseForm.cost,
+      "originalCost": expenseForm.cost,
       "cost": costb,
       "date": new Date().toLocaleDateString('ES', { weekday: 'short', day: 'numeric' }),
       "paidBy": expenseForm.name,

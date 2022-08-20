@@ -2,6 +2,7 @@
 
 
 <div *ngIf="!bytype" class="mb-3 mt-2 text-center">
+    <h5>Hoy por persona: {{todayCost | number : '1.2-2'}} €</h5>
     <h6>Gasto medio persona/dia: {{meanCost | number : '1.2-2'}} €</h6>
 </div>
 

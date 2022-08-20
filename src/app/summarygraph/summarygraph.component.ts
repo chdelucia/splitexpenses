@@ -16,6 +16,7 @@ import { UsersService } from '../shared/users.service';
 export class SummarygraphComponent implements OnInit {
   expenses: Map<string, Expense>
   meanCost: number = 0;
+  todayCost: number = 0;
   bgColors = [
     'rgba(255, 99, 132, 1)',
     'rgba(255, 159, 64, 1)',
@@ -178,12 +179,14 @@ export class SummarygraphComponent implements OnInit {
   }
 
   getMeanCostPerPersonDay(data: Array<number>){
+    const todayCost = data[data.length -1];
     const totalCost = data.reduce((partialSum, value) => partialSum + value, 0);
     const totalDays = this.barChartData.labels?.length || 1;
 
     const meanCostPerDay = totalCost / totalDays
     const users = this.userService.getUsers().length;
 
+    this.todayCost = todayCost / users;
     this.meanCost = meanCostPerDay / users
   }
 
