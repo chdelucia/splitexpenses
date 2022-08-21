@@ -33,8 +33,6 @@ export class DebtsDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.debts);
-    console.log(this.myDebts);
   }
 
 }

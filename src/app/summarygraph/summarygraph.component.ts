@@ -94,7 +94,7 @@ export class SummarygraphComponent implements OnInit {
   calcByType(){
     this.barChartData.datasets[0].label = '';
 
-    if(this.barChartOptions?.plugins?.title?.text) {
+    if(this.barChartOptions?.plugins?.title) {
       this.barChartOptions.plugins.title.text = $localize `Gasto acumulado por tipo`;
     }
     

@@ -9,17 +9,14 @@ import { UsersService } from './users.service';
 export class DebtsService {
   private debts: Map<string, Debt>;
   private users: Array<string>;
-  private expenses: Map<string, Expense>;
 
   constructor(
     private userService: UsersService,
     private expensesService: ExpensesService
     ) { 
     this.users = this.userService.getUsers();
-    this.expenses = this.expensesService.getExpenses();
     this.debts = this.createStructure();
     this.calcDebt();
-    this.calcDirectDebtsDiff();
   }
 
   getDebts(): Map<string, Debt> {
@@ -27,7 +24,7 @@ export class DebtsService {
   }
 
   calcDebt(): void{
-    let expenses = this.expenses.values();
+    let expenses = this.expensesService.getExpenses().values();
 
       for (const item of expenses) {
         this.updateExpenseDebt(item);
@@ -76,10 +73,17 @@ export class DebtsService {
       })
     }
 
-
     return newMap;
   }
 
+  reset(){
+    this.debts = this.createStructure();
+    this.calcDebt();
+  }
+
+  /**
+   * If two persons have deubts between theirself extract the difference 
+   */
   calcDirectDebtsDiff(): void {
       this.debts.forEach( (i,me) => {
         i.debts.forEach( (j,userName) => {

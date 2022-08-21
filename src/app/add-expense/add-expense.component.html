@@ -19,7 +19,7 @@
         </div>
 
     <div class="input-group mb-2">
-        <input name="title" class="form-control" type="text" placeholder="description"  [(ngModel)]="model.title" required/>
+        <input name="title" class="form-control" type="text" placeholder="Description"  [(ngModel)]="model.title" required/>
     </div>
 
     <div class="input-group mb-2">  
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <button class="input-group mb-3 btn btn-primary" type="submit" [disabled]="!ExpenseForm.form.valid">Add</button>
+    <button class="input-group mb-3 btn btn-primary" type="submit" [disabled]="!ExpenseForm.form.valid" i18n>Añadir gasto</button>
     </form>
 
 </main>

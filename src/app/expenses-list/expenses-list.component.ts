@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { Expense } from '../shared/models';
 
@@ -11,7 +12,10 @@ export class ExpensesListComponent implements OnInit {
   expenses: Map<string, Expense> = new Map()
   expensesHTML: any;
 
-  constructor(private expensesService: ExpensesService) { 
+  constructor(
+    private expensesService: ExpensesService,
+    private debtsService: DebtsService
+    ) { 
     this.expenses = this.expensesService.getExpenses();
   }
 
@@ -23,6 +27,7 @@ export class ExpensesListComponent implements OnInit {
     this.expensesService.deleteExpense(key);
     this.expenses = this.expensesService.getExpenses();
     this.expensesHTML = this.expenses.values();
+    this.debtsService.reset();
   }
 
 }
