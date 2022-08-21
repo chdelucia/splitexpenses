@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { AddUserComponent } from './add-user/add-user.component';
+import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -14,6 +15,8 @@ const routes: Routes = [
   { path: 'users', component: AddUserComponent },
   { path: 'help', component: SummarygraphComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'debts/:name', component: DebtsDetailComponent },
+
 
 ];
 

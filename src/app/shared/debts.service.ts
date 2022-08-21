@@ -45,7 +45,7 @@ export class DebtsService {
 
         if(individualDebt && allDebts) {
           individualDebt.individualTotalDebts = individualDebt?.individualTotalDebts + item.cost;
-          individualDebt.RefDebtsIds.push(item.id);
+          individualDebt.RefDebtsIds.push(item);
           allDebts.totalDebts = allDebts.totalDebts + item.cost;
         }
       }

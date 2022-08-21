@@ -15,6 +15,7 @@ import { AlertComponent } from './alert/alert.component';
 import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
+import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SettingsComponent } from './settings/settings.component';
     AlertComponent,
     SummarygraphComponent,
     MainComponent,
-    SettingsComponent
+    SettingsComponent,
+    DebtsDetailComponent
   ],
   imports: [
     BrowserModule,

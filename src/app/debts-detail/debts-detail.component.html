@@ -1,0 +1,33 @@
+
+<main class="container mb-8">
+    <h2 i18n>Deudas de  {{userName}}</h2>
+    <ng-container *ngFor="let user of users">
+        <div class="card mt-3" *ngIf="user != userName">
+            <div class="card-header">
+                <div class="row fw-bold">
+                    <div class="col-8" i18n>Le debes a {{user}}</div> 
+                    <div class="col-4 text-end">{{myDebts?.debts?.get(user)?.individualTotalDebts | number : '1.2-2'}}€</div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" *ngFor="let expense of myDebts?.debts?.get(user)?.RefDebtsIds">
+                    <div class="col-9">{{expense.title}}</div> 
+                    <div class="col-3 text-end">{{expense.cost }}€</div>
+                </li>
+            </ul>
+            <div class="card-footer">
+                <div class="row fw-bold">
+                    <div class="col-8" i18n>Te debe {{user}}</div> 
+                    <div class="col-4 text-end">{{debts.get(user)?.debts?.get(userName)?.individualTotalDebts | number : '1.2-2'}}€</div>
+                </div>
+            </div>
+            <div class="card-footer"> 
+                <div class="row fw-bold">
+                    <div class="col-8" i18n>Total</div> 
+                    <div class="col-4 text-end">{{myDebts?.debts?.get(user)?.newDebt | number : '1.2-2'}}€</div>
+                </div>
+            </div>
+          </div>
+    </ng-container>
+
+</main>

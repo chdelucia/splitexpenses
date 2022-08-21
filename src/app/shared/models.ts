@@ -16,7 +16,7 @@ export interface Expense {
 export interface IndividualDebt {
     newDebt?: number;
     individualTotalDebts: number,
-    RefDebtsIds: Array<string>,
+    RefDebtsIds: Array<Expense>,
 }
 
 export interface Debt {
