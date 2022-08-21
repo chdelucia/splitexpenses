@@ -4,6 +4,15 @@
   "newProjectRoot": "projects",
   "projects": {
     "splitexpenses": {
+      "i18n": {
+        "sourceLocale": "es",
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.json",
+            "baseHref": "/en/"
+          }
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -57,6 +66,11 @@
               ],
               "outputHashing": "all"
             },
+            "en": {
+              "localize": ["en"],
+              "outputPath": "dist/en/",
+              "i18nMissingTranslation": "error"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -76,6 +90,9 @@
             },
             "development": {
               "browserTarget": "splitexpenses:build:development"
+            },
+            "en": {
+              "browserTarget": "splitexpenses:build:en"
             }
           },
           "defaultConfiguration": "development"

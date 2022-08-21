@@ -1,19 +1,19 @@
 
 
 <main class="container">
-    <h2>Users administration</h2>
+    <h2 i18n>Administración de usuarios</h2>
     <div class="mb-2">
         <input #user  class="form-control" type="text" placeholder="user name"  [(ngModel)]="inputValue" />
     </div>
 
-    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value)">Add</button>
+    <button class="input-group mb-3 btn btn-primary" type="button" (click)="add(user.value)" i18n>Añadir</button>
 
 
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th> Name </th>
+                <th i18n>Nombre</th>
                 <th> - </th>
             </tr>
         </thead>

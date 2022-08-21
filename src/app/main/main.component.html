@@ -4,9 +4,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th> Name </th>
-                    <th> Debts </th>
-                    <th> A pagar:</th>
+                    <th i18n>Nombre</th>
+                    <th i18n>Deuda</th>
+                    <th i18n>A pagar</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
 
                                 <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
 
-                                to {{person}}
+                                <span i18n>a</span> {{person}}
                                 
                             </span>  
                         </div>

@@ -1,0 +1,29 @@
+{
+    "locale": "en",
+    "translations": {
+      "8250792152016179419": "Add an expense",
+      "5607898752570071098": "Who paid:",
+      "2387463619924673554": "Users administration",
+      "6503613780068201083": "Add",
+      "5357661269973482487": "Name",
+      "4381703814155517271": "Name already exist!",
+      "5402721176537623501": "Success!",
+      "7944442845393176638": "Date",
+      "2648436492645723146": "Paidby",
+      "2925056160404963579": "Title",
+      "5426109382041281633": "Amount",
+      "8176404461909215621": "Debt",
+      "928461189750068692": "to pay",
+      "3021572406473344372": "to",
+      "6076319951837431770": "Settings Zone",
+      "1999989562819186383": "Copy your data",
+      "4784269264281753499": "DANGER ZONE",
+      "1262063339364804983": "All your data will be replaced after press load data",
+      "4737563562074541211": "Copy here your data",
+      "8939087043093648877": "Load data",
+      "5840112444578585582": "Hoy por persona: {$INTERPOLATION} €",
+      "7991884358264748583": "mean expenses person/day: {$INTERPOLATION} €",
+      "4205590065033539686": "Gasto acumulado por tipo",
+      "8694790215536826861": "Daily expenses"
+    }
+  }

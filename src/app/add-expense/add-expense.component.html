@@ -1,9 +1,9 @@
 
 <main class="container">
-    <h2>Add an expense</h2>
+    <h2 i18n>Añadir gastos</h2>
     <form class="row g-2" (ngSubmit)="onSubmit(ExpenseForm.form.value)" #ExpenseForm="ngForm">
 
-        <label for="name">Who paid:</label>
+        <label for="name" i18n>Pagado por:</label>
 
         <div class="col-6">
             <select name="name" #user class="form-select mb-2" [(ngModel)]="model.name" required>

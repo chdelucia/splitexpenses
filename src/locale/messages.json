@@ -1,0 +1,29 @@
+{
+  "locale": "es",
+  "translations": {
+    "8250792152016179419": "Añadir gastos",
+    "5607898752570071098": "Pagado por:",
+    "2387463619924673554": "Administración de usuarios",
+    "6503613780068201083": "Añadir",
+    "5357661269973482487": "Nombre",
+    "4381703814155517271": "Ya existe ese nombre!",
+    "5402721176537623501": "Guardado con exito!",
+    "7944442845393176638": "Fecha",
+    "2648436492645723146": "Pagador",
+    "2925056160404963579": "Titulo",
+    "5426109382041281633": "Cantidad",
+    "8176404461909215621": "Deuda",
+    "928461189750068692": "A pagar",
+    "3021572406473344372": "a",
+    "6076319951837431770": "Configuración",
+    "1999989562819186383": "Copiar datos al portapapeles",
+    "4784269264281753499": "PELIGRO",
+    "1262063339364804983": "Todos tus datos actuales serán reemplazados si pulsas cargar datos",
+    "4737563562074541211": "Copia tus datos aqui",
+    "8939087043093648877": "Cargar datos",
+    "5840112444578585582": "Hoy por persona: {$INTERPOLATION} €",
+    "7991884358264748583": "Gasto medio persona/dia: {$INTERPOLATION} €",
+    "4205590065033539686": "Gasto acumulado por tipo",
+    "8694790215536826861": "Gasto diario"
+  }
+}

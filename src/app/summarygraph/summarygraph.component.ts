@@ -6,8 +6,6 @@ import { ExpensesService } from '../shared/expenses.service';
 import { Expense } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
-//import DataLabelsPlugin from 'chartjs-plugin-datalabels';
-
 @Component({
   selector: 'app-summarygraph',
   templateUrl: './summarygraph.component.html',
@@ -60,20 +58,19 @@ export class SummarygraphComponent implements OnInit {
       },
       title: {
         display: true,
-        text: 'Gasto diario',
+        text: '',
       }
     }
   };
   public barChartType: ChartType = 'bar';
   public barChartPlugins = [
-    //DataLabelsPlugin
   ];
 
   barChartData: ChartData<'bar'> = {
     labels: environment.expensesTypes,
     datasets: [
       { data: [  ], 
-        label: 'Gasto diario',
+        label: '',
         backgroundColor: [
           'rgba(75, 192, 192, 1)',
         ], 
@@ -98,7 +95,7 @@ export class SummarygraphComponent implements OnInit {
     this.barChartData.datasets[0].label = '';
 
     if(this.barChartOptions?.plugins?.title?.text) {
-      this.barChartOptions.plugins.title.text = 'Gasto acumulado por tipo'
+      this.barChartOptions.plugins.title.text = $localize `Gasto acumulado por tipo`;
     }
     
     this.barChartData.datasets[0].backgroundColor = this.bgColors;
@@ -115,7 +112,7 @@ export class SummarygraphComponent implements OnInit {
 
   calcByDay(){
     if(this.barChartOptions?.plugins?.title){
-      this.barChartOptions.plugins.title.text = 'Gasto diario'
+      this.barChartOptions.plugins.title.text = $localize `Gasto diario`;
     } 
 
     let xAxis: Array<number> = [];

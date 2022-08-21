@@ -10,7 +10,6 @@ import { UsersService } from '../shared/users.service';
   styleUrls: ['./main.component.less']
 })
 export class MainComponent implements OnInit {
-
   users: Array<string>
   expenses: Map<string, Expense>
   debts: Map<string, Debt>;

@@ -1,17 +1,18 @@
 
 
 <main class="container">
-    <h3>Settings Zone</h3>
+    <h3 i18n>Configuración</h3>
 
-    <button  class="input-group mt-3 btn btn-success" type="button" (click)="copyData()" >Copiar datos actuales</button>
+    <button  class="input-group mt-3 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
     <hr class="border border-danger border-2">
     <div class="alert alert-danger" role="alert">
-       <strong>DANGER ZONE</strong><br> Todos tus datos actuales serán reemplazados si pulsas cargar datos
-      </div>
+       <strong i18n>PELIGRO</strong><br> 
+       <span i18n>Todos tus datos actuales serán reemplazados si pulsas cargar datos</span>
+    </div>
     <div class="form-floating mb-2">
         <textarea #answer class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-        <label for="floatingTextarea2">Copy here your data</label>
+        <label for="floatingTextarea2" i18n>Copia tus datos aqui</label>
       </div>
 
-    <button  class="input-group mb-3 btn btn-danger" type="button" (click)="loadData(answer.value)">Cargar datos</button>
+    <button  class="input-group mb-3 btn btn-danger" type="button" (click)="loadData(answer.value)" i18n>Cargar datos</button>
 </main>
