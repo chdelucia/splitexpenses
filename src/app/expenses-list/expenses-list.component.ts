@@ -9,7 +9,7 @@ import { Expense } from '../shared/models';
   styleUrls: ['./expenses-list.component.less']
 })
 export class ExpensesListComponent implements OnInit {
-  expenses: Map<string, Expense> = new Map()
+  expenses: Map<string, Expense>;
   expensesHTML: any;
 
   constructor(

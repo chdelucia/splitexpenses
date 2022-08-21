@@ -23,3 +23,14 @@ export interface Debt {
     totalDebts: number,
     debts: Map<string, IndividualDebt>
 }
+
+export interface StorageData {
+    users: string
+    expenses: string,
+    travels?: string
+}
+
+export interface Travel {
+    names: Array<string>
+    active: string
+}

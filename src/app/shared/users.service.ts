@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { environment } from 'src/environments/environment';
 export class UsersService {
   users: Array<string>
   
-  constructor() { 
+  constructor(private storageService: LocalstorageService) { 
     this.users = this.loadUsersFromLocalStorage();
   }
 
@@ -27,14 +28,13 @@ export class UsersService {
   }
 
   loadUsersFromLocalStorage():Array<string> {
-    const ans = localStorage.getItem(environment.localStorageUsers) || '';
+    const ans = this.storageService.getData().users || '';
     let users = ans ? JSON.parse(ans) : [];
     return users;
- 
   }
 
   saveUsersIntoLocalStorage():void {
-    localStorage.setItem(environment.localStorageUsers, JSON.stringify(this.users) );
+    this.storageService.saveDataToLocalStorage(this.users)
   }
 
   checkIfNameExist(name: string): boolean{
