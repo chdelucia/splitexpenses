@@ -7,7 +7,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./settings.component.less']
 })
 export class SettingsComponent implements OnInit {
-  inputValue = ''
+  inputTravel = '';
+  inputLoadData = ''
+  showAlert = false;
+  isError = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -16,14 +20,15 @@ export class SettingsComponent implements OnInit {
   copyData(){
     let data = localStorage.getItem(environment.localStorageExpenses) || '';
     navigator.clipboard.writeText(data);
+    this.showAlert = true;
   }
 
   loadData(data: string) {
     localStorage.setItem(environment.localStorageExpenses, data);
+     this.showAlert = true;
   }
 
   download(text:string) {
-    console.log(text);
     let textFile;
     let expenses = localStorage.getItem(environment.localStorageExpenses) || '';
     var data = new Blob([expenses], {type: 'text/plain'});
@@ -36,5 +41,9 @@ export class SettingsComponent implements OnInit {
 
     return textFile;
   };
+
+  close(){
+    this.showAlert = false;
+  }
 
 }

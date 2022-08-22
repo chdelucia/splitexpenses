@@ -18,4 +18,7 @@
       </div>
       <!-- <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button> -->
  
-
+      <ng-container *ngIf="bytype && filter">
+        <app-expenses-list [filter]="filter"></app-expenses-list>
+      </ng-container>
+     

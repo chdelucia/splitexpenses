@@ -1,4 +1,4 @@
-import { Component, NgIterable, OnInit } from '@angular/core';
+import { Component, Input, NgIterable, OnChanges, OnInit } from '@angular/core';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { Expense } from '../shared/models';
@@ -8,7 +8,9 @@ import { Expense } from '../shared/models';
   templateUrl: './expenses-list.component.html',
   styleUrls: ['./expenses-list.component.less']
 })
-export class ExpensesListComponent implements OnInit {
+export class ExpensesListComponent implements OnInit, OnChanges {
+  @Input() filter: string = '';
+
   expenses: Map<string, Expense>;
   expensesHTML: Array<Expense> = []
 
@@ -22,6 +24,10 @@ export class ExpensesListComponent implements OnInit {
   ngOnInit(): void {
     this.createArrayofExpenses();
   }
+  
+  ngOnChanges(){
+    this.createArrayofExpenses();
+  }
 
   deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
@@ -33,7 +39,14 @@ export class ExpensesListComponent implements OnInit {
   createArrayofExpenses(){
     this.expensesHTML = [];
     this.expenses.forEach( item => {
-      this.expensesHTML.push(item);
+      if(this.filter){
+        if(this.filter === item.type){
+          this.expensesHTML.push(item);
+        } 
+      } else{
+        this.expensesHTML.push(item);
+      }
+      
     });
   }
 

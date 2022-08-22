@@ -12,6 +12,7 @@ import { UsersService } from '../shared/users.service';
   styleUrls: ['./summarygraph.component.less']
 })
 export class SummarygraphComponent implements OnInit {
+  filter: string = '';
   expenses: Map<string, Expense>
   meanCost: number = 0;
   todayCost: number = 0;
@@ -80,7 +81,15 @@ export class SummarygraphComponent implements OnInit {
 
   // events
   chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    console.log(event, active);
+    let data: any = active?.pop();
+    if(data){
+      let index = data.index;
+      let label = environment.expensesTypes[data.index];
+      this.filter = label;
+    } else {
+      this.filter = '';
+    }
+
   }
 
   chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {

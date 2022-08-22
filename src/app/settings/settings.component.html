@@ -10,7 +10,7 @@
 
     <div class="row g-2">
       <div class="col-6">
-        <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputValue"/>
+        <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputTravel"/>
        
       </div>
       <div class="col-6">
@@ -32,9 +32,12 @@
        <span i18n>Todos tus datos actuales serán reemplazados si pulsas cargar datos</span>
     </div>
     <div class="form-floating mb-2">
-        <textarea #answer class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+        <textarea #answer class="form-control" [(ngModel)]="inputLoadData"
+            placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px"></textarea>
         <label for="floatingTextarea2" i18n>Copia tus datos aqui</label>
       </div>
 
-    <button  class="input-group mb-3 btn btn-danger" type="button" (click)="loadData(answer.value)" i18n>Cargar datos</button>
+    <button  [disabled]="answer.value == ''" class="input-group mb-3 btn btn-danger" type="button" (click)="loadData(answer.value)" i18n>Cargar datos</button>
 </main>
+
+<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

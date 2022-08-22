@@ -27,18 +27,18 @@ export class AddExpenseComponent implements OnInit {
     private debtsService: DebtsService
     ) {
     this.users = this.usersService.getUsers();
-    this.model = new ExpensesForm(this.users[0], '', 0, this.ExpenseTypes[this.ExpenseTypes.length - 1]);
+    this.model = new ExpensesForm(this.users[0], '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1]);
   }
 
   ngOnInit(): void {
   }
 
   onSubmit(expenseForm: ExpensesForm) {
-    let costb = expenseForm.cost / this.users.length;
+    let costb = parseFloat(expenseForm.cost) / this.users.length;
     const obj: Expense = {
       "id": '',
       "title": expenseForm.title,
-      "originalCost": expenseForm.cost,
+      "originalCost": parseFloat(expenseForm.cost),
       "cost": costb,
       "date": new Date().toLocaleDateString('ES', { weekday: 'short', day: 'numeric' }),
       "paidBy": expenseForm.name,
@@ -53,7 +53,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   clearInput():void {
-    this.model.cost = 0;
+    this.model.cost = '';
     this.model.title = '';
   }
 
