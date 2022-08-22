@@ -14,7 +14,6 @@ export class MainComponent implements OnInit {
   expenses: Map<string, Expense>
   debts: Map<string, Debt>;
 
-
   constructor(
     private expensesService: ExpensesService,
     private usersService: UsersService,
@@ -27,6 +26,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
   }
 
 

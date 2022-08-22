@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgIterable, OnInit } from '@angular/core';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { Expense } from '../shared/models';
@@ -10,7 +10,7 @@ import { Expense } from '../shared/models';
 })
 export class ExpensesListComponent implements OnInit {
   expenses: Map<string, Expense>;
-  expensesHTML: any;
+  expensesHTML: Array<Expense> = []
 
   constructor(
     private expensesService: ExpensesService,
@@ -20,14 +20,21 @@ export class ExpensesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.expensesHTML = this.expenses.values();
+    this.createArrayofExpenses();
   }
 
   deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
     this.expenses = this.expensesService.getExpenses();
-    this.expensesHTML = this.expenses.values();
+    this.createArrayofExpenses();
     this.debtsService.reset();
+  }
+
+  createArrayofExpenses(){
+    this.expensesHTML = [];
+    this.expenses.forEach( item => {
+      this.expensesHTML.push(item);
+    });
   }
 
 }

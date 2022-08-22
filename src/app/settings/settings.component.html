@@ -3,8 +3,30 @@
 <main class="container">
     <h3 i18n>Configuración</h3>
 
-    <button  class="input-group mt-3 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
-    <hr class="border border-danger border-2">
+    <div class="alert alert-info" role="alert">
+      <span>Haz una copia de seguridad de tu viaje</span>
+   </div>
+    <a download="" id="downloadlink" style="display: none">Download</a>
+
+    <div class="row g-2">
+      <div class="col-6">
+        <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputValue"/>
+       
+      </div>
+      <div class="col-6">
+        <button  [disabled]="travel.value == ''" class="input-group btn btn-success"
+            type="button" (click)="download(travel.value)" i18n>
+            Descargar viaje
+        </button>
+      </div>
+  
+    </div>
+
+    <p class="text-center mt-4">o</p>
+    <button  class="input-group mt-2 mb-4 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
+
+    
+    <hr class="border border-danger border-2 mt-4">
     <div class="alert alert-danger" role="alert">
        <strong i18n>PELIGRO</strong><br> 
        <span i18n>Todos tus datos actuales serán reemplazados si pulsas cargar datos</span>
