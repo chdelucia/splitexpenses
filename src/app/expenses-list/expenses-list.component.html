@@ -7,7 +7,7 @@
                     <th i18n>Pagador</th>
                     <th i18n>Titulo</th>
                     <th i18n>Cantidad</th>
-                    <th> - </th>
+                    <th *ngIf="!filter"> - </th>
                 </tr>
             </thead>
             <tbody>
@@ -16,7 +16,7 @@
                     <td> {{expense.paidBy}}</td>
                     <td> {{expense.title}}</td>
                     <td> {{expense.originalCost | number : '1.2-2'}} €</td>
-                    <td (click)="deleteExpense(expense.id)"> 🗑 </td>
+                    <td *ngIf="!filter" (click)="deleteExpense(expense.id)"> 🗑 </td>
                 </tr>
             </tbody>
     </table>
