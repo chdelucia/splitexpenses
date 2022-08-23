@@ -16,6 +16,10 @@ import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
 import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
+import { WeatherComponent } from './weather/weather.component';
+import { WeatherService } from './shared/weather.service';
+import { HttpClientModule } from '@angular/common/http';
+import { WeatherforecastComponent } from './weatherforecast/weatherforecast.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +31,13 @@ import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
     SummarygraphComponent,
     MainComponent,
     SettingsComponent,
-    DebtsDetailComponent
+    DebtsDetailComponent,
+    WeatherComponent,
+    WeatherforecastComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     NgChartsModule
@@ -38,7 +45,8 @@ import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
   providers: [
     ExpensesService,
     UsersService,
-    DebtsService
+    DebtsService,
+    WeatherService
   ],
   bootstrap: [AppComponent]
 })

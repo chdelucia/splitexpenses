@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { WeatherPlugin } from '../shared/models';
+import { WeatherService } from '../shared/weather.service';
 
 @Component({
   selector: 'app-settings',
@@ -8,13 +10,18 @@ import { environment } from 'src/environments/environment';
 })
 export class SettingsComponent implements OnInit {
   inputTravel = '';
-  inputLoadData = ''
+  inputLoadData = '';
   showAlert = false;
   isError = false;
 
-  constructor() { }
+  weatherSettings: WeatherPlugin;
+
+  constructor(private weatherService: WeatherService) { 
+    this.weatherSettings = this.weatherService.getWeahterSettings()
+  }
 
   ngOnInit(): void {
+    
   }
 
   copyData(){
@@ -41,6 +48,10 @@ export class SettingsComponent implements OnInit {
 
     return textFile;
   };
+
+  setWeatherPlugin(city:string, status: boolean){
+    this.weatherService.setWeatherPluginOnLocalStorage(city, status);
+  }
 
   close(){
     this.showAlert = false;

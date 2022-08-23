@@ -1,32 +1,61 @@
 
 
-<main class="container">
-    <h3 i18n>Configuración</h3>
+<main class="container mb-8">
+    <h3 class="mt-2 text-center" i18n>Configuración</h3>
 
-    <div class="alert alert-info" role="alert">
-      <span>Haz una copia de seguridad de tu viaje</span>
-   </div>
-    <a download="" id="downloadlink" style="display: none">Download</a>
+    <hr class="border border-success border-2 mt-4">
+    <section class="mb-4 py-4" id="theweahter">
+        <h4 i18n>Modulo El Tiempo</h4>     
+        <div class="alert alert-secondary" role="alert">
+          <span i18n>Añade una ciudad para ver el tiempo y la previsión</span>
+        </div>
+        <div class="form-check form-switch mb-2">
+          <input #shweather class="form-check-input" type="checkbox" role="switch" [checked]="weatherSettings.active">
+          <label class="form-check-label">  On / Off "el tiempo"</label>
+        </div>
+        <div class="row g-2">
+            <div class="col-6">
+              <input #weather class="form-control" type="text" placeholder="Nombre ciudad" [(ngModel)]="weatherSettings.city"/>
+            </div>
+            <div class="col-6">
+              <button  [disabled]="weather.value == ''" class="input-group btn btn-primary"
+                  type="button" (click)="setWeatherPlugin(weather.value, shweather.checked)" i18n>
+                  Guardar cambios
+              </button>
+            </div>
 
-    <div class="row g-2">
-      <div class="col-6">
-        <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputTravel"/>
-       
+        </div>
+    </section>
+
+    <hr class="border border-success border-2 mb-4">
+    <section class="mb-4 py-4" id="theweahter">
+      <h4 i18n>Modulo Copia de Seguridad</h4>
+      <div class="alert alert-secondary" role="alert">
+        <span i18n>Haz una copia de seguridad de tu viaje</span>
       </div>
-      <div class="col-6">
-        <button  [disabled]="travel.value == ''" class="input-group btn btn-success"
-            type="button" (click)="download(travel.value)" i18n>
-            Descargar viaje
-        </button>
-      </div>
-  
-    </div>
+      <a download="" id="downloadlink" style="display: none">Download</a>
 
-    <p class="text-center mt-4">o</p>
-    <button  class="input-group mt-2 mb-4 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
+      <div class="row g-2">
+        <div class="col-6">
+          <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputTravel"/>
+        
+        </div>
+        <div class="col-6">
+          <button  [disabled]="travel.value == ''" class="input-group btn btn-success"
+              type="button" (click)="download(travel.value)" i18n>
+              Descargar viaje
+          </button>
+        </div>
+    
+      </div>
+    </section>
+
+      <p class="text-center mt-4">o</p>
+      <button  class="input-group mt-2 mb-4 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
 
     
-    <hr class="border border-danger border-2 mt-4">
+    <hr class="border border-danger border-2 mb-4">
+    <h4 i18n>Modulo Cargar Datos</h4>
     <div class="alert alert-danger" role="alert">
        <strong i18n>PELIGRO</strong><br> 
        <span i18n>Todos tus datos actuales serán reemplazados si pulsas cargar datos</span>

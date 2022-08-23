@@ -1,0 +1,19 @@
+
+<main class="container-fluid py-2" *ngIf="weatherInfo">
+
+ 
+<div class="text-center title"><small>{{datagraph.title}}</small></div>
+<app-summarygraph [bytype]="'weather'" [data]="datagraph"></app-summarygraph>
+
+
+    <section class="forecast g-2 mb-4">
+        <div class="" *ngFor="let day of mymap; let i = index" (click)="changeDate(i)">
+            {{day.title}} 
+            <br>
+            <img src="http://openweathermap.org/img/w/{{day.icon}}.png" alt="{{weatherInfo.name}}">
+            <br>
+            {{day.max}}° {{day.min}}°
+        </div>
+    </section>
+
+</main>

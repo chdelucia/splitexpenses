@@ -31,6 +31,14 @@
       "5840112444578585582": "Today per person: {$INTERPOLATION} €",
       "7991884358264748583": "mean expenses person/day: {$INTERPOLATION} €",
       "4205590065033539686": "Gasto acumulado por tipo",
-      "8694790215536826861": "Daily expenses"
+      "8694790215536826861": "Daily expenses",
+      "7986619642752385222": "Forecast",
+      "3446157837824807333": "Module - The Weather ",
+      "3840873661897039685": "Add a city name to see the weather and the forecast",
+      "5681858329013258618": " Save changes ",
+      "4957787868707410983": "Module - Backup",
+      "7895875312751090423": "Create a backup of your travel",
+      "6877787866089935533": "Module - Restore data"
+
     }
   }

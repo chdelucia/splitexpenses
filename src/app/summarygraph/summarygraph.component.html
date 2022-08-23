@@ -1,7 +1,7 @@
 
 
 
-<div *ngIf="!bytype" class="mb-3 mt-2 text-center">
+<div *ngIf="bytype == 'false'" class="mb-3 mt-2 text-center">
     <h5 i18n>Hoy por persona: {{todayCost | number : '1.2-2'}} €</h5>
     <h6 i18n>Gasto medio persona/dia: {{meanCost | number : '1.2-2'}} €</h6>
 </div>
@@ -16,7 +16,7 @@
           (chartClick)="chartClicked($event)">
         </canvas>
       </div>
-      <!-- <button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button> -->
+      
  
       <ng-container *ngIf="bytype && filter">
         <app-expenses-list [filter]="filter"></app-expenses-list>

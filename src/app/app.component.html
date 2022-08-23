@@ -1,4 +1,6 @@
-
+<ng-container *ngIf="weatherActive">
+    <app-weather></app-weather>
+</ng-container>
 <router-outlet></router-outlet>
 
 <footer class="footer mt-auto py-2 bg-light">

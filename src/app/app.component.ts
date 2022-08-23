@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ExpensesService } from './shared/expenses.service';
+import { WeatherService } from './shared/weather.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,10 @@ import { ExpensesService } from './shared/expenses.service';
 })
 export class AppComponent {
   title = 'splitexpenses';
+  weatherActive: boolean;
 
-  constructor(){}
+  constructor(private weatherService: WeatherService){
+    this.weatherActive = this.weatherService.getWeahterSettings().active;
+  }
 
 }

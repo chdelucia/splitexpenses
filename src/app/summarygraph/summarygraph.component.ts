@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild  } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild  } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
@@ -11,7 +11,11 @@ import { UsersService } from '../shared/users.service';
   templateUrl: './summarygraph.component.html',
   styleUrls: ['./summarygraph.component.less']
 })
-export class SummarygraphComponent implements OnInit {
+export class SummarygraphComponent implements OnInit, OnChanges {
+  @Input() bytype: string = 'false';
+  @Input() data?: any = [];
+
+
   filter: string = '';
   expenses: Map<string, Expense>
   meanCost: number = 0;
@@ -25,19 +29,29 @@ export class SummarygraphComponent implements OnInit {
     'rgba(153, 102, 255, 1)',
     'rgba(201, 203, 207, 1)'
   ]
-  @Input() bytype: boolean = false;
+  
 
   constructor(private expensesService: ExpensesService, private userService: UsersService) {
     this.expenses = expensesService.getExpenses();
    }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.bytype === 'weather'){
+      this.weatherChart();
+      this.chart?.update();
+    }
+  }
 
   ngOnInit(): void {
-    if(this.bytype){
+    if(this.bytype === 'true'){
       this.calcByType();
-    } else {
+    } else if(this.bytype === 'weather'){
+      this.weatherChart();
+    }
+    else {
       this.calcByDay();
     }
   }
+
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -67,27 +81,30 @@ export class SummarygraphComponent implements OnInit {
   public barChartPlugins = [
   ];
 
-  barChartData: ChartData<'bar'> = {
+  barChartData: ChartData<'line'> = {
     labels: environment.expensesTypes,
     datasets: [
       { data: [  ], 
         label: '',
+        borderColor: 'yellow',
         backgroundColor: [
-          'rgba(75, 192, 192, 1)',
-        ], 
+          'rgba(222,225,38,0.68)',
+        ]
       },
     ]
   };
 
   // events
   chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
-    let data: any = active?.pop();
-    if(data){
-      let index = data.index;
-      let label = environment.expensesTypes[data.index];
-      this.filter = label;
-    } else {
-      this.filter = '';
+    if(this.bytype === 'true'){
+      let data: any = active?.pop();
+      console.log(data);
+      if(data){
+        let label = environment.expensesTypes[data.index];
+        this.filter = label;
+      } else {
+        this.filter = '';
+      }
     }
 
   }
@@ -194,6 +211,24 @@ export class SummarygraphComponent implements OnInit {
 
     this.todayCost = todayCost / users;
     this.meanCost = meanCostPerDay / users
+  }
+
+  weatherChart(){
+
+    let labels = this.data.labels;
+    let data = this.data.data;
+    this.barChartData.labels = labels;
+    this.barChartType = 'line';
+
+    this.barChartData.datasets[0].data = data;
+    this.barChartData.datasets[0].fill = true;
+    if (this.barChartOptions?.scales && this.barChartOptions.scales['y']) {
+      this.barChartOptions.scales['y'].min = 10
+      this.barChartOptions.scales['y'].max = 35
+    }
+    if(this.barChartOptions?.plugins?.title) {
+      this.barChartOptions.plugins.title.text = $localize `Previsión`;
+    }
   }
 
 }

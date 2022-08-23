@@ -7,6 +7,7 @@ import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { MainComponent } from './main/main.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SummarygraphComponent } from './summarygraph/summarygraph.component';
+import { WeatherforecastComponent } from './weatherforecast/weatherforecast.component';
 
 const routes: Routes = [
   { path: '',   component: MainComponent, pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'help', component: SummarygraphComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'debts/:name', component: DebtsDetailComponent },
+  { path: 'weather', component: WeatherforecastComponent },
 
 
 ];

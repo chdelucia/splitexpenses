@@ -35,9 +35,13 @@
             </tbody>
         </table>
     </section>
+
+    <app-summarygraph [bytype]="'false'"></app-summarygraph>
+    <ng-container *ngIf="weatherActive">
+        <app-weatherforecast></app-weatherforecast>
+    </ng-container>
+    <app-summarygraph [bytype]="'true'"></app-summarygraph>
     
-    <app-summarygraph [bytype]="false"></app-summarygraph>
-    <app-summarygraph [bytype]="true"></app-summarygraph>
 
 </main>
 
