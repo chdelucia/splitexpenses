@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ExpensesService } from './expenses.service';
-import { Debt, Expense, IndividualDebt } from './models';
+import { Debt, Expense, IndividualDebt, User } from './models';
 import { UsersService } from './users.service';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { UsersService } from './users.service';
 })
 export class DebtsService {
   private debts: Map<string, Debt>;
-  private users: Array<string>;
+  private users: Map<string, User>;
 
   constructor(
     private userService: UsersService,
@@ -32,12 +32,12 @@ export class DebtsService {
   }
 
   updateExpenseDebt(item: Expense): void {
-    this.users.forEach(userName => {
-      let billWasNotPaidByMe = userName !== item.paidBy;
+    this.users.forEach(user => {
+      let billWasNotPaidByMe = user.id !== item.paidBy;
 
       if(billWasNotPaidByMe) {
 
-        let allDebts: Debt | undefined = this.debts.get(userName);
+        let allDebts: Debt | undefined = this.debts.get(user.id);
         let individualDebt: IndividualDebt | undefined = allDebts?.debts.get(item.paidBy);
 
         if(individualDebt && allDebts) {
@@ -53,23 +53,23 @@ export class DebtsService {
   createStructure(): Map<string, Debt> {
     let newMap = new Map();
     if(this.users){
-      this.users.forEach(parentUserName => {
+      this.users.forEach(parentUser => {
         let obj1 = {
           'totalDebts': 0,
           'debts': new Map(),
         }
         
-        this.users.forEach(userName => {
-          if (parentUserName !== userName) {
+        this.users.forEach(user => {
+          if (parentUser.id !== user.id) {
             let obj = {
               'individualTotalDebts': 0,
               'RefDebtsIds': [],
             }     
-            obj1.debts.set(userName, obj);
+            obj1.debts.set(user.id, obj);
           }
         })
     
-        newMap.set(parentUserName, obj1);
+        newMap.set(parentUser.id, obj1);
       })
     }
 

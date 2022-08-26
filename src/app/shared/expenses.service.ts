@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { LocalstorageService } from './localstorage.service';
 import { Expense } from './models';
+import { calcNextID, convertStringToMap } from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class ExpensesService {
 
   loadExpensesFromLocalStorage(): Map<string, Expense> {
     const ans = this.storageService.getData().expenses || '';
-    let answers = ans ? this.convertStringToMap(ans) : new Map();
+    let answers = ans ? convertStringToMap(ans) : new Map();
     return answers;
     
   }
@@ -33,9 +33,8 @@ export class ExpensesService {
   }
 
   addExpense(data: Expense): void {
-    let nextId = this.calcNextID();
-    data.id = nextId;
-    this.expenses.set(nextId, data);
+    data.id = calcNextID(this.expenses);
+    this.expenses.set(data.id, data);
     this.saveExpensesIntoLocalStorage();
   }
 
@@ -44,22 +43,7 @@ export class ExpensesService {
     this.saveExpensesIntoLocalStorage();
   }
 
-  calcNextID(): string{
-    let lastId = Array.from(this.expenses.keys()).pop() || '0';
-    let nextId = parseInt(lastId) + 1;
-    return nextId.toString();
-  }
 
-  //TODO move to utils.js
-  convertStringToMap(data:string) {
-    let obj = JSON.parse(data);
-    let map = new Map(Object.entries(obj));
-    return map;
-  }
-  //TODO move to utils.js
-  convertMaptoString(map: Map<string, Expense>): string{
-    let obj = Object.fromEntries(map);
-    let jsonString = JSON.stringify(obj);
-    return jsonString;
-  }
+
+
 }

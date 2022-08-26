@@ -10,23 +10,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users" routerLink='/debts/{{user}}'>
-                    <td>{{user}}</td>
-                    <td>{{debts.get(user)?.totalDebts | number : '1.2-2'}} €</td>
+                <tr *ngFor="let user of users" routerLink='/debts/{{user.id}}'>
+                    <td>{{user.name}}</td>
+                    <td>{{debts.get(user.id)?.totalDebts | number : '1.2-2'}} €</td>
                     <td class="text-end">
                         <div *ngFor="let person of users">
-                            <ng-container *ngIf="user !== person">
-                                <span i18n>a</span> {{person}}
+                            <ng-container *ngIf="user.id !== person.id">
+                                <span i18n>a</span> {{person.name}}
                                 
-                                <ng-container *ngIf="debts.get(user)?.debts?.get(person)?.individualTotalDebts !=
-                                                    debts.get(user)?.debts?.get(person)?.newDebt; else elseBlock">
+                                <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts !=
+                                                    debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
                                     <small class="oldDebt">
-                                        <del>{{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </del>
+                                        <del>{{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}€ </del>
                                     </small>
-                                    {{debts.get(user)?.debts?.get(person)?.newDebt | number : '1.2-2'}}€
+                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number : '1.2-2'}}€
                                 </ng-container>
 
-                                <ng-template #elseBlock> {{debts.get(user)?.debts?.get(person)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
+                                <ng-template #elseBlock> {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
                          
                             </ng-container>  
                         </div>
@@ -37,10 +37,12 @@
     </section>
 
     <app-summarygraph [bytype]="'false'"></app-summarygraph>
+
+    <app-summarygraph [bytype]="'true'"></app-summarygraph>
+
     <ng-container *ngIf="weatherActive">
         <app-weatherforecast></app-weatherforecast>
     </ng-container>
-    <app-summarygraph [bytype]="'true'"></app-summarygraph>
     
 
 </main>

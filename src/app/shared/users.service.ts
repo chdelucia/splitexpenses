@@ -1,35 +1,53 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { Injectable, ɵpublishDefaultGlobalUtils } from '@angular/core';
 import { LocalstorageService } from './localstorage.service';
+import { User } from './models';
+import { calcNextID, convertStringToMap } from './utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  users: Array<string>
+  users: Map<string, User>
   
   constructor(private storageService: LocalstorageService) { 
     this.users = this.loadUsersFromLocalStorage();
   }
 
-  getUsers(): Array<string> {
+  getUsers(): Map<string, User> {
     return this.users;
   }
 
-  addUser(user: string): void {
-    this.users.push(user);
+  getUserByID(key: string): User | undefined {
+    return this.users.get(key);
+  }
+
+  getIterableUsers(): Array<User> {
+    let users: Array<User> = [];
+    this.users.forEach( (user: User) => {
+     users.push(user);
+    });
+    return users;
+  }
+
+  editUser(user: User): void {
+    this.users.set(user.id, user);
     this.saveUsersIntoLocalStorage();
   }
 
-  removeUser(user: string): void {
-    let index = this.users.indexOf(user);
-    this.users.splice(index, 1);
+  addUser(user: User): void {
+    user.id = calcNextID(this.users);
+    this.users.set(user.id, user);
     this.saveUsersIntoLocalStorage();
   }
 
-  loadUsersFromLocalStorage():Array<string> {
+  removeUser(key: string): void {
+    this.users.delete(key);
+    this.saveUsersIntoLocalStorage();
+  }
+
+  loadUsersFromLocalStorage(): Map<string, User> {
     const ans = this.storageService.getData().users || '';
-    let users = ans ? JSON.parse(ans) : [];
+    let users = ans ? convertStringToMap(ans) :  new Map();
     return users;
   }
 
@@ -38,11 +56,13 @@ export class UsersService {
   }
 
   checkIfNameExist(name: string): boolean{
-    let index = this.users.indexOf(name);
     let result = false;
-    if(index >= 0) {
-      result = true;
-    }
+    this.users.forEach( user => {
+      if(user.name === name){
+        result = true;
+      }
+    })
+
     return result;
   }
 

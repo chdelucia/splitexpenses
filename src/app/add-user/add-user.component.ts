@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 @Component({
@@ -8,12 +9,13 @@ import { UsersService } from '../shared/users.service';
 })
 export class AddUserComponent implements OnInit {
   inputValue = '';
-  users: Array<string>;
+  inputPhone = '';
+  users: Array<User>;
   showAlert = false;
   isError = false;
 
   constructor(private userService: UsersService) {
-    this.users = this.userService.getUsers();
+    this.users = this.userService.getIterableUsers();
    }
 
   ngOnInit(): void {
@@ -21,16 +23,40 @@ export class AddUserComponent implements OnInit {
 
   clearInput():void {
     this.inputValue = '';
+    this.inputPhone = '';
   }
-  add(name: string) {
+
+  add(name: string, phone?: string) {
     if(this.userService.checkIfNameExist(name)){
       this.isError = true;
     } else {
+      const user: User = {
+        id: '',
+        name: name,
+        phone: phone
+      }
       this.isError = false;
-      this.userService.addUser(name);
+      this.userService.addUser(user);
       this.updateUsers();
+      this.clearInput();
     }
     this.showAlert = true;
+  }
+
+  edit(data: HTMLTableCellElement, key: string, fieldToEdit: string) {
+    let newValue = data.innerText.trim();
+    let user: any = this.userService.getUserByID(key);
+
+    if(user && user.hasOwnProperty(fieldToEdit) && newValue){
+        if(user[fieldToEdit] != newValue) {
+          user[fieldToEdit] = newValue;
+          this.userService.editUser(user);
+          this.isError = false;
+          this.showAlert = true;
+        }
+    } else {
+      data.innerText = user[fieldToEdit];
+    }
   }
 
   delete(name: string) {
@@ -39,7 +65,7 @@ export class AddUserComponent implements OnInit {
   }
 
   updateUsers(){
-    this.users = this.userService.getUsers();
+    this.users = this.userService.getIterableUsers();
   }
 
   close(){

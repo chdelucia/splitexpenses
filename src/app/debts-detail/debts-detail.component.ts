@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DebtsService } from '../shared/debts.service';
-import { Debt, IndividualDebt } from '../shared/models';
+import { Debt, IndividualDebt, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 @Component({
@@ -10,10 +10,11 @@ import { UsersService } from '../shared/users.service';
   styleUrls: ['./debts-detail.component.less']
 })
 export class DebtsDetailComponent implements OnInit {
-  userName: string;
+  userID: string;
   debts: Map<string, Debt>;
   myDebts: Debt | undefined;
-  users: Array<string>;
+  users: Map<string, User>;
+  usersHTML: Array<User>
 
   constructor(
     private debtsService: DebtsService,
@@ -21,13 +22,14 @@ export class DebtsDetailComponent implements OnInit {
     private userService: UsersService
   ) { 
     this.users = this.userService.getUsers();
-    this.userName = this.route.snapshot.paramMap.get('name') || '';
+    this.usersHTML = this.userService.getIterableUsers();
+    this.userID = this.route.snapshot.paramMap.get('id') || '';
     this.debts = this.debtsService.getDebts();
 
-    const userExist = this.users.indexOf(this.userName);
-    const myDebts = this.debts.get(this.userName);
+    const userExist = this.users.get(this.userID);
+    const myDebts = this.debts.get(this.userID);
 
-    if ( userExist >= 0 && myDebts ){
+    if ( userExist && myDebts ){
       this.myDebts = myDebts
     }
   }

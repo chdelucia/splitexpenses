@@ -1,6 +1,7 @@
 export interface User {
-    id: number;
+    id: string;
     name: string;
+    phone?: string;
 }
 
 export interface Expense {
@@ -11,6 +12,7 @@ export interface Expense {
     paidBy: string;
     id: string;
     type: string;
+    name: string;
 }
 
 export interface IndividualDebt {

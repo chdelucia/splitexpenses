@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'users', component: AddUserComponent },
   { path: 'help', component: SummarygraphComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'debts/:name', component: DebtsDetailComponent },
+  { path: 'debts/:id', component: DebtsDetailComponent },
   { path: 'weather', component: WeatherforecastComponent },
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { Debt, Expense } from '../shared/models';
+import { Debt, Expense, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 import { WeatherService } from '../shared/weather.service';
 
@@ -11,7 +11,7 @@ import { WeatherService } from '../shared/weather.service';
   styleUrls: ['./main.component.less']
 })
 export class MainComponent implements OnInit {
-  users: Array<string>
+  users: any
   expenses: Map<string, Expense>
   debts: Map<string, Debt>;
   weatherActive: boolean;
@@ -22,7 +22,7 @@ export class MainComponent implements OnInit {
     private debtsService: DebtsService,
     private weatherService: WeatherService
     ) {
-    this.users = this.usersService.getUsers();
+    this.users = this.usersService.getIterableUsers();
     this.expenses = this.expensesService.getExpenses();
     this.debts = this.debtsService.getDebts();
     this.weatherActive = this.weatherService.getWeahterSettings().active;
@@ -30,7 +30,6 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
   }
 
 

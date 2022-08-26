@@ -68,6 +68,8 @@ export class SummarygraphComponent implements OnInit, OnChanges {
       }
     },
     plugins: {
+      tooltip:{
+      },
       legend: {
         display: false,
       },
@@ -111,10 +113,6 @@ export class SummarygraphComponent implements OnInit, OnChanges {
 
   chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
     //console.log(event, active);
-  }
-
-  randomize(): void {
-    this.chart?.update();
   }
 
   calcByType(){
@@ -207,7 +205,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     const totalDays = this.barChartData.labels?.length || 1;
 
     const meanCostPerDay = totalCost / totalDays
-    const users = this.userService.getUsers().length;
+    const users = this.userService.getUsers().size;
 
     this.todayCost = todayCost / users;
     this.meanCost = meanCostPerDay / users
