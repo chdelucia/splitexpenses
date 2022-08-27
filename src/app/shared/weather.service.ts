@@ -4,14 +4,18 @@ import { environment } from 'src/environments/environment';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { WeatherObject, WeatherPlugin } from './models';
+import { LocalstorageService } from './localstorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WeatherService {
   private weatherSettings: WeatherPlugin;
-  constructor(private http: HttpClient) { 
-    this.weatherSettings = this.getWeatherPluginOnLocalStorage();
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalstorageService
+    ) { 
+    this.weatherSettings = this.getWeatherPlugin();
   }
   
   getWeatheritemsbyCity(cityName: string): any {
@@ -21,28 +25,26 @@ export class WeatherService {
           retry(3),
           catchError(this.handleError)
         ) 
-
   }
 
   getForecastbyCity(cityName: string) {
     return this.http.get<WeatherObject>(environment.baseUrl + 'forecast?q=' + cityName + '&appid=' + environment.appId + '&units=metric&lang=es')
   }
 
- 
-
   setWeatherPluginOnLocalStorage(city: string, status: boolean){
     let obj = {
-      'city': city,
-      'active': status,
+      'weather': {
+        'city': city,
+        'active': status,
+      }
     }
-    localStorage.setItem(environment.localStorageWeather,JSON.stringify(obj));
-    this.weatherSettings = obj;
+    this.localStorageService.saveSettings(obj);
+    this.weatherSettings = obj.weather;
   }
 
-  getWeatherPluginOnLocalStorage(): WeatherPlugin{
-    let data = localStorage.getItem(environment.localStorageWeather);
-    let result = data ? JSON.parse(data) : {};
-    return result
+  getWeatherPlugin(): WeatherPlugin {
+    let data = this.localStorageService.loadSettings();
+    return data.weather
   }
 
   getWeahterSettings() {

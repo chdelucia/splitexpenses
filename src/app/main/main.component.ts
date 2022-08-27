@@ -11,7 +11,7 @@ import { WeatherService } from '../shared/weather.service';
   styleUrls: ['./main.component.less']
 })
 export class MainComponent implements OnInit {
-  users: any
+  users: Array<User>
   expenses: Map<string, Expense>
   debts: Map<string, Debt>;
   weatherActive: boolean;
@@ -26,7 +26,6 @@ export class MainComponent implements OnInit {
     this.expenses = this.expensesService.getExpenses();
     this.debts = this.debtsService.getDebts();
     this.weatherActive = this.weatherService.getWeahterSettings().active;
-
   }
 
   ngOnInit(): void {

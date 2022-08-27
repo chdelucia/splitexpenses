@@ -3,9 +3,38 @@
 <main class="container mb-8">
     <h3 class="mt-2 text-center" i18n>Configuración</h3>
 
+    <section class="mb-4 py-4" id="theweahter">
+      <h4 i18n>Tus viajes</h4> 
+ 
+      <button type="button" class="btn btn-primary mb-2 me-2" 
+              *ngFor="let travel of settings.travels.names" 
+              [class.btn-secondary]="travel != settings.travels.active"
+              (click)="changeTravel(travel)">
+        <span contenteditable>{{travel}}</span>
+        <span class="ms-2 badge bg-danger" *ngIf="travel == settings.travels.active">Active</span>
+      </button>
+
+      <div class="alert alert-info" role="alert">
+        <span i18n>Añade un nombre y crea una hoja de gastos nueva (sin perder la actual).</span>
+      </div>
+      <div class="row g-2">
+        <div class="col-6">
+          <input #expensename class="form-control" type="text" placeholder="Nombre" [(ngModel)]="expenseNameInput"/>
+        </div>
+        <div class="col-6">
+          <button  [disabled]="expensename.value == ''" class="input-group btn btn-success"
+              type="button" (click)="addNewTravel(expensename.value)" i18n>
+              Crear nuevo viaje
+          </button>
+        </div>
+
+    </div>
+
+
+    </section>
     <hr class="border border-success border-2 mt-4">
     <section class="mb-4 py-4" id="theweahter">
-        <h4 i18n>Modulo El Tiempo</h4>     
+        <h4 i18n>El Tiempo</h4>     
         <div class="alert alert-secondary" role="alert">
           <span i18n>Añade una ciudad para ver el tiempo y la previsión</span>
         </div>
@@ -29,7 +58,7 @@
 
     <hr class="border border-success border-2 mb-4">
     <section class="mb-4 py-4" id="theweahter">
-      <h4 i18n>Modulo Copia de Seguridad</h4>
+      <h4 i18n>Copia de Seguridad</h4>
       <div class="alert alert-secondary" role="alert">
         <span i18n>Haz una copia de seguridad de tu viaje</span>
       </div>

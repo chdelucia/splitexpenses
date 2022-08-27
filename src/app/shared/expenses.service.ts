@@ -43,7 +43,9 @@ export class ExpensesService {
     this.saveExpensesIntoLocalStorage();
   }
 
-
+  reset(){
+    this.expenses = this.loadExpensesFromLocalStorage();
+  }
 
 
 }

@@ -46,7 +46,7 @@ export class UsersService {
   }
 
   loadUsersFromLocalStorage(): Map<string, User> {
-    const ans = this.storageService.getData().users || '';
+    const ans = this.storageService.getData().users;
     let users = ans ? convertStringToMap(ans) :  new Map();
     return users;
   }
@@ -64,6 +64,10 @@ export class UsersService {
     })
 
     return result;
+  }
+
+  reset(){
+    this.users = this.loadUsersFromLocalStorage();
   }
 
 }

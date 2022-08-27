@@ -29,7 +29,8 @@ export interface Debt {
 export interface StorageData {
     users: string
     expenses: string,
-    travels?: string
+    name: string,
+    currency: CurrencyPlugin
 }
 
 export interface Travel {
@@ -90,6 +91,22 @@ export interface WeatherObject {
     name: string;
     cod: number;
     dt_txt: string;
+}
+
+export interface Settings {
+    weather: WeatherPlugin,
+    travels: Travel,
+    graph: GraphPlugin
+}
+
+export interface GraphPlugin {
+    active: boolean;
+}
+
+export interface CurrencyPlugin {
+    currencySymbol: string,
+    currencyExchangeSymbol: string,
+    exchangeValue: number
 }
 
 export interface WeatherPlugin {
