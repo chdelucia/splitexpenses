@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ExpensesService } from './expenses.service';
 import { Debt, Expense, IndividualDebt, User } from './models';
 import { UsersService } from './users.service';
+import { round2decimals } from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -41,9 +42,9 @@ export class DebtsService {
         let individualDebt: IndividualDebt | undefined = allDebts?.debts.get(item.paidBy);
 
         if(individualDebt && allDebts) {
-          individualDebt.individualTotalDebts = individualDebt?.individualTotalDebts + item.cost;
+          individualDebt.individualTotalDebts = round2decimals(individualDebt?.individualTotalDebts + item.cost);
           individualDebt.RefDebtsIds.push(item);
-          allDebts.totalDebts = allDebts.totalDebts + item.cost;
+          allDebts.totalDebts = round2decimals(allDebts.totalDebts + item.cost);
         }
       }
     });

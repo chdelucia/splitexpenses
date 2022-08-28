@@ -20,7 +20,7 @@ export class WeatherService {
   
   getWeatheritemsbyCity(cityName: string): any {
 
-    return this.http.get<WeatherObject>(environment.baseUrl + 'weather?q=' + cityName + '&appid=' + environment.appId + '&units=metric&lang=es')
+    return this.http.get<WeatherObject>(environment.baseUrl + 'weather?q=' + cityName + '&appid=' + this.weatherSettings.key + '&units=metric&lang=es')
         .pipe(
           retry(3),
           catchError(this.handleError)
@@ -28,14 +28,15 @@ export class WeatherService {
   }
 
   getForecastbyCity(cityName: string) {
-    return this.http.get<WeatherObject>(environment.baseUrl + 'forecast?q=' + cityName + '&appid=' + environment.appId + '&units=metric&lang=es')
+    return this.http.get<WeatherObject>(environment.baseUrl + 'forecast?q=' + cityName + '&appid=' + this.weatherSettings.key + '&units=metric&lang=es')
   }
 
-  setWeatherPluginOnLocalStorage(city: string, status: boolean){
+  setWeatherPluginOnLocalStorage(city: string, status: boolean, key: string){
     let obj = {
       'weather': {
         'city': city,
         'active': status,
+        'key': key
       }
     }
     this.localStorageService.saveSettings(obj);

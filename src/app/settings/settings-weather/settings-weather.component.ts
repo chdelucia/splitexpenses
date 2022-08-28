@@ -25,8 +25,8 @@ export class SettingsWeatherComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  setWeatherPlugin(city:string, status: boolean){
-    this.weatherService.setWeatherPluginOnLocalStorage(city, status);
+  setWeatherPlugin(city:string, status: boolean, key: string){
+    this.weatherService.setWeatherPluginOnLocalStorage(city, status, key);
     this.showAlert = true;
   }
 

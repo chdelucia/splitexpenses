@@ -13,13 +13,11 @@
                 <tr *ngFor="let user of users" routerLink='/debts/{{user.id}}'>
                     <td>{{user.name}}</td>
                     <td>
-                        {{debts.get(user.id)?.totalDebts | number : '1.2-2'}} {{currency.currencySymbol}}
-                        <div *ngIf="currency.active">
-                            <small>
-                                {{ calcExchange(debts.get(user.id)?.totalDebts) }}
-                                {{currency.currencyExchangeSymbol}}
-                            </small>
-                        </div>
+                        {{debts.get(user.id)?.totalDebts}} {{currency.currencySymbol}}
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(debts.get(user.id)?.totalDebts) }}
+                            {{currency.currencyExchangeSymbol}}
+                         </small>
                     </td>
                     <td class="text-end">
                         <div *ngFor="let person of users">
@@ -30,16 +28,16 @@
                                                     debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
                                     <small class="oldDebt">
                                         <del>
-                                            {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}
+                                            {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts}}
                                             {{currency.currencySymbol}}
                                          </del>
                                     </small>
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number : '1.2-2'}}
+                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt }}
                                     {{currency.currencySymbol}}
                                 </ng-container>
 
                                 <ng-template #elseBlock> 
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}
+                                    {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts }}
                                     {{currency.currencySymbol}}
                                 </ng-template>
                          
@@ -109,7 +107,7 @@
                 <li i18n>No existe ninguna base de datos.</li>
                 <li i18n>Sin registro, sin emails.</li>
                 <li i18n>La web es de codigo abierto por lo cual podeis descargarlo y modificar lo que querais. 
-                    <a href="https://github.com/chdelucia/splitexpenses/" target="_blank">https://github.com/chdelucia/splitexpenses/</a>
+                    <a href="https://github.com/chdelucia/splitexpenses/" target="_blank">https://github.com/splitexpenses/</a>
                 </li>
             </ul>
         </div>

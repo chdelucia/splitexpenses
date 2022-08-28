@@ -1,39 +1,58 @@
 
 <main class="container mb-8">
-    <h2 i18n>Deudas de  {{users.get(userID)?.name}}</h2>
+    <h4 i18n>Deudas de  {{users.get(userID)?.name}}</h4>
     <ng-container *ngFor="let user of usersHTML">
         <div class="card mt-3" *ngIf="user.id != userID">
-            <div class="card-header">
-                <div class="row fw-bold">
+            <div class="card-header ">
+                <div class="row fw-bold align-items-center">
                     <div class="col-8" i18n>Le debes a {{user.name}}</div> 
                     <div class="col-4 text-end">
-                        {{myDebts?.debts?.get(user.id)?.individualTotalDebts | number : '1.2-2'}}
+                        {{myDebts?.debts?.get(user.id)?.individualTotalDebts }}
                         {{currency.currencySymbol}}
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(myDebts?.debts?.get(user.id)?.individualTotalDebts) }}
+                             {{currency.currencyExchangeSymbol}}
+                        </small>
                     </div>
                 </div>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let expense of myDebts?.debts?.get(user.id)?.RefDebtsIds">
+                <li class="list-group-item align-items-center" *ngFor="let expense of myDebts?.debts?.get(user.id)?.RefDebtsIds">
                     <div class="col-9">{{expense.title}}</div> 
-                    <div class="col-3 text-end">{{expense.cost }}{{currency.currencySymbol}}</div>
+                    <div class="col-3 text-end">
+                        {{expense.cost }}{{currency.currencySymbol}}
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(expense.cost) }}
+                            {{currency.currencyExchangeSymbol}}
+                        </small>
+                    </div>
                 </li>
             </ul>
             <div class="card-footer">
-                <div class="row fw-bold">
+                <div class="row fw-bold align-items-center">
                     <div class="col-8" i18n>Te debe {{user.name}}</div> 
                     <div class="col-4 text-end">
-                        {{debts.get(user.id)?.debts?.get(userID)?.individualTotalDebts | number : '1.2-2'}}
+                        {{debts.get(user.id)?.debts?.get(userID)?.individualTotalDebts }}
                         {{currency.currencySymbol}}
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(debts.get(user.id)?.debts?.get(userID)?.individualTotalDebts) }}
+                            {{currency.currencyExchangeSymbol}}
+                        </small>
                     </div>
                 </div>
             </div>
             <div class="card-footer"> 
-                <div class="row fw-bold">
-                    <div class="col-8" i18n>Total</div> 
+                <div class="row fw-bold align-items-center">
+                    <div class="col-8" i18n>Total a pagar:</div> 
                     <div class="col-4 text-end">
-                        {{myDebts?.debts?.get(user.id)?.newDebt | number : '1.2-2'}}
+                        {{myDebts?.debts?.get(user.id)?.newDebt }}
                         {{currency.currencySymbol}}
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(myDebts?.debts?.get(user.id)?.newDebt) }}
+                            {{currency.currencyExchangeSymbol}}
+                        </small>
                     </div>
+
                 </div>
             </div>
           </div>

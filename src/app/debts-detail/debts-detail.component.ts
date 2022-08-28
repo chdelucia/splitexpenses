@@ -40,5 +40,10 @@ export class DebtsDetailComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
+  calcExchange(value?: number) {
+    return this.currencyService.calcExchangeValue(value || 0);
+  }
+  
 
 }

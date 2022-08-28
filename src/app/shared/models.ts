@@ -113,7 +113,7 @@ export interface CurrencyPlugin {
 export interface WeatherPlugin {
     city: string;
     active: boolean;
-    key?: string
+    key: string
 }
 
 export interface Datagraph {

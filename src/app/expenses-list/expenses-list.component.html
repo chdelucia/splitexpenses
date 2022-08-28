@@ -1,5 +1,6 @@
 
-<main class="mb-5">
+<main class="mb-5 container-fluid">
+    <h2 class="mt-2 text-center" i18n>Historial</h2>
     <table class="table table-striped align-middle">
             <thead>
                 <tr>
@@ -17,12 +18,11 @@
                     <td> {{expense.title}}</td>
                     <td> 
                         {{expense.originalCost }} {{currency.currencySymbol}}
-                        <div *ngIf="currency.active">
-                            <small>
-                                {{ calcExchange(expense.originalCost) }}
-                                {{currency.currencyExchangeSymbol}}
-                            </small>
-                        </div>
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(expense.originalCost) }}
+                            {{currency.currencyExchangeSymbol}}
+                        </small>
+   
                     </td>
                     <td *ngIf="!filter" (click)="deleteExpense(expense.id)"> 🗑 </td>
                 </tr>
