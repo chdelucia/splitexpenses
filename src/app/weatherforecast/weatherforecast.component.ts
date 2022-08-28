@@ -55,6 +55,15 @@ export class WeatherforecastComponent implements OnInit {
     let stopAt = item[0].dt_txt.split(' ')[0];
     for (let i = 0 ; i < item.length; i++){
       
+      let hour = item[i].dt_txt.split(' ')[0];
+      obj.labels.push(item[i].dt_txt.split(' ')[1].slice(0, -3));
+      obj.title = new Date(hour).toLocaleDateString('ES', { weekday: 'short', day: 'numeric' })
+      obj.humidity.push(item[i].main.humidity);
+      obj.wind.push(item[i].wind.speed );
+      obj.description.push(item[i].weather[0].description);
+      obj.icons.push(item[i].weather[0].icon);
+      obj.data.push(item[i].main.temp);
+      
       if ( stopAt !== item[i].dt_txt.split(' ')[0]) {
         obj.min = Math.round(Math.min(...obj.data));
         obj.max = Math.round(Math.max(...obj.data));
@@ -64,14 +73,7 @@ export class WeatherforecastComponent implements OnInit {
         stopAt = item[i].dt_txt.split(' ')[0];
       }
 
-      let hour = item[i].dt_txt.split(' ')[0];
-      obj.labels.push(item[i].dt_txt.split(' ')[1].slice(0, -3));
-      obj.title = new Date(hour).toLocaleDateString('ES', { weekday: 'short', day: 'numeric' })
-      obj.humidity.push(item[i].main.humidity);
-      obj.wind.push(item[i].wind.speed );
-      obj.description.push(item[i].weather[0].description);
-      obj.icons.push(item[i].weather[0].icon);
-      obj.data.push(item[i].main.temp); 
+      
 
       }
 

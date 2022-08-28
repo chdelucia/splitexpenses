@@ -27,6 +27,7 @@ import { SettingsCurrencyComponent } from './settings/settings-currency/settings
 import { SettingsGraphComponent } from './settings/settings-graph/settings-graph.component';
 import { LocalstorageService } from './shared/localstorage.service';
 import { SettingsTravelComponent } from './settings/settings-travel/settings-travel.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SettingsTravelComponent } from './settings/settings-travel/settings-tra
     SettingsUploadComponent,
     SettingsCurrencyComponent,
     SettingsGraphComponent,
-    SettingsTravelComponent
+    SettingsTravelComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

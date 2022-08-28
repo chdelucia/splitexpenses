@@ -145,9 +145,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
       this.barChartOptions.plugins.title.text = $localize `Gasto diario`;
     } 
 
-    let xAxis: Array<number> = [];
     let a: Array<Expense> = []
-    
     // Create Yaxis
     this.expenses.forEach( item => {
       a.push(item);
@@ -166,6 +164,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
 
 
     // Create simple xAxis
+    let xAxis: Array<number> = [];
     for(let i = 0; i < yAxis.length; i++) {
       xAxis[i] = 0;
       let name = yAxis[i];

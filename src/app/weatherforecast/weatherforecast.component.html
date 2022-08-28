@@ -1,6 +1,7 @@
 
-<main class="container-fluid py-2" *ngIf="weatherInfo">
-
+<main class="container py-2 mb-8" *ngIf="weatherInfo">
+ 
+<h2 class="mt-2 mb-4 text-center" i18n>Previsión 5 dias</h2>
  
 <div class="text-center title"><small>{{datagraph.title}}</small></div>
 <app-summarygraph [bytype]="'weather'" [data]="datagraph"></app-summarygraph>

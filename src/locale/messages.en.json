@@ -61,10 +61,16 @@
       "7408993067766800404": "Add a name and create a new travel (without losing the previous one)",
       "7930503315232742383": "Add a new travel",
       "4434517505976941781": "{$START_BOLD_TEXT}All data is saved in your phone.{$CLOSE_BOLD_TEXT} (in the LocalStorage) ",
-      "7571411818487452974": "Open code at: {$START_LINK}https://github.com/chdelucia/splitexpenses/{$CLOSE_LINK}",
+      "333418749128643438": "Open code at: {$START_LINK}https://github.com/splitexpenses/{$CLOSE_LINK}",
       "8686102043619135339": "Manage yours currencies.{$LINE_BREAK}{$LINE_BREAK} Example:{$LINE_BREAK} I paid in £ but I want to see the price in € as well. 1 £ is equal to 1.18€. So i have to add 1.18 to the field",
       "8939087043093648877": "Load data",
       "5225174854223924216": "Average pp/day: {$INTERPOLATION} {$INTERPOLATION_1}",
-      "8387073404665120591": "Today per person: {$INTERPOLATION} {$INTERPOLATION_1}"
+      "8387073404665120591": "Today per person: {$INTERPOLATION} {$INTERPOLATION_1}",
+      "1244713060150425125": "Deudas de ",
+      "5729185301716628689": "Total a pagar:",
+      "1152562485710261873": "Statistics",
+      "2337884761304775820": "Expenses history",
+      "4421314805288084376": "To get an API key create an account here https://home.openweathermap.org/api_keys",
+      "2312079780120590975": "Forecast 5 days"
     }
   }

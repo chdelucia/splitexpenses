@@ -12,6 +12,7 @@ import { SettingsTravelComponent } from './settings/settings-travel/settings-tra
 import { SettingsUploadComponent } from './settings/settings-upload/settings-upload.component';
 import { SettingsWeatherComponent } from './settings/settings-weather/settings-weather.component';
 import { SettingsComponent } from './settings/settings.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 import { WeatherforecastComponent } from './weatherforecast/weatherforecast.component';
 
@@ -20,9 +21,8 @@ const routes: Routes = [
   { path: 'expense',   component: AddExpenseComponent },
   { path: 'details', component: ExpensesListComponent },
   { path: 'users', component: AddUserComponent },
-  { path: 'help', component: SummarygraphComponent },
-  { path: 'debts/:id', component: DebtsDetailComponent },
-  { path: 'weather', component: WeatherforecastComponent },
+  { path: 'statistics', component: StatisticsComponent },
+  { path: 'forecast', component: WeatherforecastComponent },
   { path: 'settings', component: SettingsComponent, children:[
     { path: '',   redirectTo:'currency', pathMatch: 'full'},
     { path: 'currency', component: SettingsCurrencyComponent },
