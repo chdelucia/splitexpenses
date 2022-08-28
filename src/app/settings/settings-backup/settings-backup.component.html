@@ -1,0 +1,29 @@
+
+<section class="mb-4">
+    <h4 class="my-4" i18n>Copia de Seguridad</h4>
+    <div class="alert alert-secondary" role="alert">
+      <span i18n>Haz una copia de seguridad de tu viaje</span>
+    </div>
+    <a download="" id="downloadlink" style="display: none">Download</a>
+
+    <div class="row g-2">
+      <div class="col-6">
+        <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputTravel"/>
+      
+      </div>
+      <div class="col-6">
+        <button  [disabled]="travel.value == ''" class="input-group btn btn-success"
+            type="button" (click)="download(travel.value)" i18n>
+            Descargar viaje
+        </button>
+      </div>
+  
+    </div>
+    <p class="text-center mt-4">o</p>
+    <button  class="input-group mt-2 mb-4 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
+
+</section>
+
+<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>
+
+

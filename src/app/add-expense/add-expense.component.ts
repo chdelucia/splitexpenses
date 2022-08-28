@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { Debt, Expense, User } from '../shared/models';
+import { CurrencyPlugin, Debt, Expense, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 import { ExpensesForm } from './model'
@@ -13,6 +14,8 @@ import { ExpensesForm } from './model'
   styleUrls: ['./add-expense.component.less']
 })
 export class AddExpenseComponent implements OnInit {
+
+  currency: CurrencyPlugin;
   usersHTML: Array<User>
   private users: Map<string, User>
 
@@ -25,11 +28,13 @@ export class AddExpenseComponent implements OnInit {
   constructor(
     private expensesService: ExpensesService,
     private usersService: UsersService,
-    private debtsService: DebtsService
+    private debtsService: DebtsService,
+    private currencyService: CurrencyService
     ) {
     this.users = this.usersService.getUsers();
     this.usersHTML = this.usersService.getIterableUsers()
     this.model = new ExpensesForm('1', '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1]);
+    this.currency = this.currencyService.getCurrencySettings();
   }
 
   ngOnInit(): void {
@@ -58,6 +63,10 @@ export class AddExpenseComponent implements OnInit {
   clearInput():void {
     this.model.cost = '';
     this.model.title = '';
+  }
+
+  calcExchange() {
+    return this.currencyService.calcExchangeValue(parseFloat(this.model.cost));
   }
 
   close(){

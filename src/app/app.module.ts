@@ -20,6 +20,13 @@ import { WeatherComponent } from './weather/weather.component';
 import { WeatherService } from './shared/weather.service';
 import { HttpClientModule } from '@angular/common/http';
 import { WeatherforecastComponent } from './weatherforecast/weatherforecast.component';
+import { SettingsBackupComponent } from './settings/settings-backup/settings-backup.component';
+import { SettingsWeatherComponent } from './settings/settings-weather/settings-weather.component';
+import { SettingsUploadComponent } from './settings/settings-upload/settings-upload.component';
+import { SettingsCurrencyComponent } from './settings/settings-currency/settings-currency.component';
+import { SettingsGraphComponent } from './settings/settings-graph/settings-graph.component';
+import { LocalstorageService } from './shared/localstorage.service';
+import { SettingsTravelComponent } from './settings/settings-travel/settings-travel.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +40,13 @@ import { WeatherforecastComponent } from './weatherforecast/weatherforecast.comp
     SettingsComponent,
     DebtsDetailComponent,
     WeatherComponent,
-    WeatherforecastComponent
+    WeatherforecastComponent,
+    SettingsBackupComponent,
+    SettingsWeatherComponent,
+    SettingsUploadComponent,
+    SettingsCurrencyComponent,
+    SettingsGraphComponent,
+    SettingsTravelComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +59,8 @@ import { WeatherforecastComponent } from './weatherforecast/weatherforecast.comp
     ExpensesService,
     UsersService,
     DebtsService,
-    WeatherService
+    WeatherService,
+    LocalstorageService
   ],
   bootstrap: [AppComponent]
 })

@@ -14,7 +14,7 @@ export class ExpensesService {
    }
 
   loadExpensesFromLocalStorage(): Map<string, Expense> {
-    const ans = this.storageService.getData().expenses || '';
+    const ans = this.storageService.getData().expenses;
     let answers = ans ? convertStringToMap(ans) : new Map();
     return answers;
     

@@ -105,8 +105,9 @@ export interface GraphPlugin {
 
 export interface CurrencyPlugin {
     currencySymbol: string,
-    currencyExchangeSymbol: string,
-    exchangeValue: number
+    currencyExchangeSymbol?: string,
+    exchangeValue: number,
+    active: boolean
 }
 
 export interface WeatherPlugin {

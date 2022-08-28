@@ -12,7 +12,15 @@
             <tbody>
                 <tr *ngFor="let user of users" routerLink='/debts/{{user.id}}'>
                     <td>{{user.name}}</td>
-                    <td>{{debts.get(user.id)?.totalDebts | number : '1.2-2'}} €</td>
+                    <td>
+                        {{debts.get(user.id)?.totalDebts | number : '1.2-2'}} {{currency.currencySymbol}}
+                        <div *ngIf="currency.active">
+                            <small>
+                                {{ calcExchange(debts.get(user.id)?.totalDebts) }}
+                                {{currency.currencyExchangeSymbol}}
+                            </small>
+                        </div>
+                    </td>
                     <td class="text-end">
                         <div *ngFor="let person of users">
                             <ng-container *ngIf="user.id !== person.id">
@@ -21,12 +29,19 @@
                                 <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts !=
                                                     debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
                                     <small class="oldDebt">
-                                        <del>{{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}€ </del>
+                                        <del>
+                                            {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}
+                                            {{currency.currencySymbol}}
+                                         </del>
                                     </small>
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number : '1.2-2'}}€
+                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number : '1.2-2'}}
+                                    {{currency.currencySymbol}}
                                 </ng-container>
 
-                                <ng-template #elseBlock> {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}€ </ng-template>
+                                <ng-template #elseBlock> 
+                                    {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts | number : '1.2-2'}}
+                                    {{currency.currencySymbol}}
+                                </ng-template>
                          
                             </ng-container>  
                         </div>

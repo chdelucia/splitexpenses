@@ -2,8 +2,8 @@
 
 
 <div *ngIf="bytype == 'false'" class="mb-3 mt-2 text-center">
-    <h5 i18n>Hoy por persona: {{todayCost | number : '1.2-2'}} €</h5>
-    <h6 i18n>Gasto medio persona/dia: {{meanCost | number : '1.2-2'}} €</h6>
+    <h5 i18n>Hoy por persona: {{todayCost | number : '1.2-2'}} {{currency.currencySymbol}}</h5>
+    <h6 i18n>Gasto medio persona/dia: {{meanCost | number : '1.2-2'}} {{currency.currencySymbol}}</h6>
 </div>
 
       <div style="display: block" class="mb-3">

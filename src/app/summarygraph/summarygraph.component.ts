@@ -2,8 +2,9 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild  } from '
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
+import { CurrencyService } from '../shared/currency.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { Expense } from '../shared/models';
+import { CurrencyPlugin, Expense } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   @Input() bytype: string = 'false';
   @Input() data?: any = [];
 
-
+  currency: CurrencyPlugin;
   filter: string = '';
   expenses: Map<string, Expense>
   meanCost: number = 0;
@@ -31,8 +32,13 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   ]
   
 
-  constructor(private expensesService: ExpensesService, private userService: UsersService) {
+  constructor(
+    private expensesService: ExpensesService, 
+    private userService: UsersService,
+    private currencyService: CurrencyService
+    ) {
     this.expenses = expensesService.getExpenses();
+    this.currency = this.currencyService.getCurrencySettings();
    }
   ngOnChanges(changes: SimpleChanges): void {
     if(this.bytype === 'weather'){

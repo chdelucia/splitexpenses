@@ -1,6 +1,6 @@
 
 <main class="mb-5">
-    <table class="table table-striped">
+    <table class="table table-striped align-middle">
             <thead>
                 <tr>
                     <th i18n>Fecha</th>
@@ -15,7 +15,15 @@
                     <td> {{expense.date}} </td>
                     <td> {{expense.name}}</td>
                     <td> {{expense.title}}</td>
-                    <td> {{expense.originalCost | number : '1.2-2'}} €</td>
+                    <td> 
+                        {{expense.originalCost }} {{currency.currencySymbol}}
+                        <div *ngIf="currency.active">
+                            <small>
+                                {{ calcExchange(expense.originalCost) }}
+                                {{currency.currencyExchangeSymbol}}
+                            </small>
+                        </div>
+                    </td>
                     <td *ngIf="!filter" (click)="deleteExpense(expense.id)"> 🗑 </td>
                 </tr>
             </tbody>

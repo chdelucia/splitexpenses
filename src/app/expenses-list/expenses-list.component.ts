@@ -1,7 +1,8 @@
 import { Component, Input, NgIterable, OnChanges, OnInit } from '@angular/core';
+import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { Expense } from '../shared/models';
+import { CurrencyPlugin, Expense } from '../shared/models';
 
 @Component({
   selector: 'app-expenses-list',
@@ -12,13 +13,16 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   @Input() filter: string = '';
 
   expenses: Map<string, Expense>;
-  expensesHTML: Array<Expense> = []
+  expensesHTML: Array<Expense> = [];
+  currency: CurrencyPlugin;
 
   constructor(
     private expensesService: ExpensesService,
-    private debtsService: DebtsService
+    private debtsService: DebtsService,
+    private currencyService: CurrencyService
     ) { 
     this.expenses = this.expensesService.getExpenses();
+    this.currency = this.currencyService.getCurrencySettings();
   }
 
   ngOnInit(): void {
@@ -48,6 +52,10 @@ export class ExpensesListComponent implements OnInit, OnChanges {
       }
       
     });
+  }
+
+  calcExchange(value?: number) {
+    return this.currencyService.calcExchangeValue(value || 0);
   }
 
 }

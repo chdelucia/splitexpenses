@@ -15,7 +15,7 @@ export class WeatherService {
     private http: HttpClient,
     private localStorageService: LocalstorageService
     ) { 
-    this.weatherSettings = this.getWeatherPlugin();
+    this.weatherSettings = this.loadWeatherPluginFromLocalStorage();
   }
   
   getWeatheritemsbyCity(cityName: string): any {
@@ -42,7 +42,7 @@ export class WeatherService {
     this.weatherSettings = obj.weather;
   }
 
-  getWeatherPlugin(): WeatherPlugin {
+  loadWeatherPluginFromLocalStorage(): WeatherPlugin {
     let data = this.localStorageService.loadSettings();
     return data.weather
   }
