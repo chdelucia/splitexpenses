@@ -1,8 +1,8 @@
 
 
 <main class="container">
-    <h2 class="mt-2 text-center" i18n>Administración de usuarios</h2>
-    <div class="mb-2 row">
+    <h2 class="my-4 text-center" i18n>Administración de usuarios</h2>
+    <div class="mb-2 row g-4">
         <div class="col-6">
             <input #user  class="form-control" type="text" i18n.placeholder placeholder="Nombre usuario"  
                 [(ngModel)]="inputValue" />
@@ -15,7 +15,7 @@
         
     </div>
 
-    <button [disabled]="user.value == ''" class="input-group mb-3 btn btn-primary" 
+    <button [disabled]="user.value == ''" class="input-group my-3 btn btn-primary" 
             type="button" 
             (click)="add(user.value)" i18n>
             Añadir Usuario
@@ -23,7 +23,7 @@
 
 
 
-    <table class="table table-striped" *ngIf="users.length">
+    <table class="table table-striped mt-4" *ngIf="users.length">
         <thead>
             <tr>
                 <th i18n>Nombre</th>
