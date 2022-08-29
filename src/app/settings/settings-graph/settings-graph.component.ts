@@ -21,9 +21,10 @@ export class SettingsGraphComponent implements OnInit {
   trackByIdx(index: number, obj: any): any {
     return index;
   }
-  
+
   onSubmit() {
     this.localStorageService.saveSettings(this.settings);
+    this.showAlert;
   }
   close(){
     this.showAlert = false;
