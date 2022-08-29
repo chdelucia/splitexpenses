@@ -26,8 +26,18 @@
         <input name="title" class="form-control" type="text" placeholder="Description"  [(ngModel)]="model.title" required/>
     </div>
 
+    <div class="input-group mb-2">
+        <div class="col-12 mb-2">Quien participa:</div>
+        <div class="form-check form-check-inline" *ngFor="let user of usersHTML; let i=index">
+            <input class="form-check-input" type="checkbox" name="sharedBy" [(ngModel)]="model.sharedBy[i]" [value]="user.id">
+            <label class="form-check-label" [for]="user.id">{{user.name}}</label>
+        </div>
+    </div>
+
+
     <div class="input-group mb-2">  
-        <div class="form-check form-check-inline col-3" *ngFor="let type of ExpenseTypes; let i=index">
+        <div class="col-12 mb-2">Tipo de gasto:</div>
+        <div class="form-check form-check-inline col-3" *ngFor="let type of ExpenseTypes;">
             <input class="form-check-input" type="radio" name="type" [(ngModel)]="model.type" [value]="type">
             <label class="form-check-label" [for]="type"> {{type}} </label>
         </div>

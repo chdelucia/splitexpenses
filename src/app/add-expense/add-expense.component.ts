@@ -5,6 +5,7 @@ import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, Debt, Expense, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
+import { round2decimals } from '../shared/utils';
 
 import { ExpensesForm } from './model'
 
@@ -33,7 +34,7 @@ export class AddExpenseComponent implements OnInit {
     ) {
     this.users = this.usersService.getUsers();
     this.usersHTML = this.usersService.getIterableUsers()
-    this.model = new ExpensesForm('1', '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1]);
+    this.model = new ExpensesForm('1', '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1], [true,true,true]);
     this.currency = this.currencyService.getCurrencySettings();
   }
 
@@ -41,16 +42,23 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onSubmit(expenseForm: ExpensesForm) {
-    let costb = parseFloat(expenseForm.cost) / this.users.size;
+    let sharedBy: Array<string> = [];
+    this.model.sharedBy.forEach( (value, i) => {
+      if(value) { sharedBy.push(this.usersHTML[i].id) };
+    })
+
+    let costb = parseFloat(expenseForm.cost) / sharedBy.length;
     const obj: Expense = {
       "id": '',
       "title": expenseForm.title,
       "originalCost": parseFloat(expenseForm.cost),
-      "cost": costb,
+      "cost": round2decimals(costb),
       "date": new Date().toLocaleDateString('ES', { weekday: 'short', day: 'numeric' }),
       "paidBy": expenseForm.name,
       "name": this.users.get(expenseForm.name)?.name || '',
-      "type": expenseForm.type
+      "type": expenseForm.type,
+      "sharedBy": sharedBy,
+      "settleBy": []
     }
 
     this.expensesService.addExpense(obj);

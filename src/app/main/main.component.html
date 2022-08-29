@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let user of users" routerLink='/debts/{{user.id}}'>
+                <tr *ngFor="let user of users">
                     <td>{{user.name}}</td>
                     <td>
                         {{debts.get(user.id)?.totalDebts}} {{currency.currencySymbol}}

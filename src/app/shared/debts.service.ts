@@ -35,8 +35,9 @@ export class DebtsService {
   updateExpenseDebt(item: Expense): void {
     this.users.forEach(user => {
       let billWasNotPaidByMe = user.id !== item.paidBy;
+      let Iparticipated = item.sharedBy.includes(user.id);
 
-      if(billWasNotPaidByMe) {
+      if(billWasNotPaidByMe && Iparticipated) {
 
         let allDebts: Debt | undefined = this.debts.get(user.id);
         let individualDebt: IndividualDebt | undefined = allDebts?.debts.get(item.paidBy);
@@ -93,7 +94,7 @@ export class DebtsService {
           let owesMe = this.debts.get(userName)?.debts.get(me)?.individualTotalDebts || 0;
 
           if(Iowe > owesMe) {
-            j.newDebt = Iowe - owesMe;
+            j.newDebt = round2decimals(Iowe - owesMe);
           } else if ( Iowe === owesMe || owesMe > Iowe) {
             j.newDebt = 0
           } else {

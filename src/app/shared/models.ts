@@ -13,6 +13,9 @@ export interface Expense {
     id: string;
     type: string;
     name: string;
+    sharedBy: Array<string>;
+    settleBy: Array<string>;
+
 }
 
 export interface IndividualDebt {
