@@ -5,8 +5,8 @@
             <h6 i18n>Deudas detalladas de </h6> 
         </div>
         <div>
-            <select name="name" #userName class="form-select mb-2" [(ngModel)]="userID" required>
-                <option *ngFor="let user of usersHTML" [value]="user.id" [selected]="1">{{user.name}}</option>
+            <select name="name" #user class="form-select mb-2" [(ngModel)]="userID" (change)="setDebts()">
+                <option *ngFor="let user of usersHTML" [value]="user.id">{{user.name}}</option>
             </select>
         </div>
     </div>

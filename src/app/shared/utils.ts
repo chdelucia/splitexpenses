@@ -20,4 +20,13 @@ export function calcNextID(data: Map<any, any>): string{
 export function round2decimals(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
+
+export function diffinDays(date1: string, date2: string): number {
+  const d1: any = new Date(date1);
+  const d2: any = new Date(date2);
+  const diffTime = Math.abs(d2 - d1);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays
+}
   

@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let expense of expensesHTML">
-                    <td> {{expense.date}} </td>
+                    <td> {{expense.date | date: 'E d'}} </td>
                     <td> 
                         {{expense.name}} 
                         <small i18n *ngIf="expense.sharedBy.length == totalUsers; else elseBlock">Todos</small>

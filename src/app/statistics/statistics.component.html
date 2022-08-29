@@ -1,9 +1,26 @@
 
 <main class="container py-2 mb-8">
- 
-    <h2 class="my-4 text-center" i18n>Estadisticas</h2>
+    <div class="d-flex flex-row align-items-center justify-content-center">
+        <div class="me-2">
+            <h2 class="my-4 text-center" i18n>Estadisticas</h2>
+        </div>
+        <div>
+            <select name="name" #user class="form-select" (change)="change(user.value)">
+                <option value="0" selected i18n>Grupo</option>
+                <option *ngFor="let user of usersHTML" [value]="user.id">{{user.name}}</option>
+            </select>
+        </div>
+    </div>
+    
 
-    <app-summarygraph [bytype]="'false'"></app-summarygraph>
-    <app-summarygraph [bytype]="'true'"></app-summarygraph>
+
+
+    <div class="mb-3 mt-2 text-center">
+        <h5 i18n>Gasto Total: {{todayCost}} {{currency.currencySymbol}}</h5>
+        <h6 i18n>Gasto medio por dia: {{meanCost}} {{currency.currencySymbol}}</h6>
+    </div>
+
+    <app-summarygraph bytype="ByDay" [data]="dailyData"></app-summarygraph>
+    <app-summarygraph bytype="ByType" [data]="typeData"></app-summarygraph>
 
  </main>   

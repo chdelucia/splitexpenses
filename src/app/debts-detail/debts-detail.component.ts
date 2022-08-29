@@ -1,8 +1,7 @@
-import { AfterContentChecked, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
-import { CurrencyPlugin, Debt, IndividualDebt, User } from '../shared/models';
+import { CurrencyPlugin, Debt, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 @Component({
@@ -10,8 +9,8 @@ import { UsersService } from '../shared/users.service';
   templateUrl: './debts-detail.component.html',
   styleUrls: ['./debts-detail.component.less']
 })
-export class DebtsDetailComponent implements OnInit, AfterContentChecked {
-  userID: string = '1';
+export class DebtsDetailComponent implements OnInit {
+  userID: string;
   debts: Map<string, Debt>;
   myDebts: Debt | undefined;
   users: Map<string, User>;
@@ -20,7 +19,6 @@ export class DebtsDetailComponent implements OnInit, AfterContentChecked {
 
   constructor(
     private debtsService: DebtsService,
-    private route: ActivatedRoute,
     private userService: UsersService,
     private currencyService: CurrencyService
   ) { 
@@ -28,17 +26,13 @@ export class DebtsDetailComponent implements OnInit, AfterContentChecked {
     this.usersHTML = this.userService.getIterableUsers();
     this.debts = this.debtsService.getDebts();
     this.currency = this.currencyService.getCurrencySettings();
+    this.userID = this.usersHTML[0].id;
 
     this.setDebts();
   }
 
   ngOnInit(): void {
   }
-
-  ngAfterContentChecked(): void {
-    this.setDebts();
-  }
-
   
   calcExchange(value?: number) {
     return this.currencyService.calcExchangeValue(value || 0);

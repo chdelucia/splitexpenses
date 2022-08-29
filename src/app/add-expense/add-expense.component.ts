@@ -34,7 +34,7 @@ export class AddExpenseComponent implements OnInit {
     ) {
     this.users = this.usersService.getUsers();
     this.usersHTML = this.usersService.getIterableUsers()
-    this.model = new ExpensesForm('1', '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1], [true,true,true]);
+    this.model = new ExpensesForm(this.usersHTML[0].id, '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1], [true,true,true]);
     this.currency = this.currencyService.getCurrencySettings();
   }
 
@@ -48,12 +48,13 @@ export class AddExpenseComponent implements OnInit {
     })
 
     let costb = parseFloat(expenseForm.cost) / sharedBy.length;
+    
     const obj: Expense = {
       "id": '',
       "title": expenseForm.title,
       "originalCost": parseFloat(expenseForm.cost),
       "cost": round2decimals(costb),
-      "date": new Date().toLocaleDateString('ES', { weekday: 'short', day: 'numeric' }),
+      "date": new Date().toISOString().split('T')[0],
       "paidBy": expenseForm.name,
       "name": this.users.get(expenseForm.name)?.name || '',
       "type": expenseForm.type,

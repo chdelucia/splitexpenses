@@ -1,24 +1,18 @@
 
 
-
-<div *ngIf="bytype == 'false'" class="mb-3 mt-2 text-center">
-    <h5 i18n>Hoy por persona: {{todayCost | number : '1.2-2'}} {{currency.currencySymbol}}</h5>
-    <h6 i18n>Gasto medio persona/dia: {{meanCost | number : '1.2-2'}} {{currency.currencySymbol}}</h6>
-</div>
-
-      <div style="display: block" class="mb-3">
-        <canvas baseChart
-          [data]="barChartData"
-          [options]="barChartOptions"
-          [plugins]="barChartPlugins"
-          [type]="barChartType"
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)">
-        </canvas>
-      </div>
+  <div class="mb-3">
+      <canvas baseChart
+        [data]="barChartData"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [type]="barChartType"
+        (chartHover)="chartHovered($event)" 
+        (chartClick)="chartClicked($event)">
+      </canvas>
+  </div>
       
  
-      <ng-container *ngIf="bytype && filter">
-        <app-expenses-list [filter]="filter"></app-expenses-list>
-      </ng-container>
+  <ng-container *ngIf="bytype && filter">
+    <app-expenses-list [filter]="filter"></app-expenses-list>
+  </ng-container>
      

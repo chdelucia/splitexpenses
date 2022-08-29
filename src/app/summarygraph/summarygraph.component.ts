@@ -2,10 +2,6 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild  } from '
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
-import { CurrencyService } from '../shared/currency.service';
-import { ExpensesService } from '../shared/expenses.service';
-import { CurrencyPlugin, Expense } from '../shared/models';
-import { UsersService } from '../shared/users.service';
 
 @Component({
   selector: 'app-summarygraph',
@@ -14,13 +10,10 @@ import { UsersService } from '../shared/users.service';
 })
 export class SummarygraphComponent implements OnInit, OnChanges {
   @Input() bytype: string = 'false';
-  @Input() data?: any = [];
+  @Input() data: { labels: Array<string>, data: Array<any>} = {'labels':[''], 'data': [] };
 
-  currency: CurrencyPlugin;
   filter: string = '';
-  expenses: Map<string, Expense>
-  meanCost: number = 0;
-  todayCost: number = 0;
+
   bgColors = [
     'rgba(255, 99, 132, 1)',
     'rgba(255, 159, 64, 1)',
@@ -31,24 +24,22 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     'rgba(201, 203, 207, 1)'
   ]
   
+  constructor() {}
 
-  constructor(
-    private expensesService: ExpensesService, 
-    private userService: UsersService,
-    private currencyService: CurrencyService
-    ) {
-    this.expenses = expensesService.getExpenses();
-    this.currency = this.currencyService.getCurrencySettings();
-   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.bytype === 'weather'){
+    if(this.bytype === 'ByType'){
+      this.calcByType();
+    } else if(this.bytype === 'weather'){
       this.weatherChart();
-      this.chart?.update();
     }
+    else {
+      this.calcByDay();
+    }
+    this.chart?.update();
   }
 
   ngOnInit(): void {
-    if(this.bytype === 'true'){
+    if(this.bytype === 'ByType'){
       this.calcByType();
     } else if(this.bytype === 'weather'){
       this.weatherChart();
@@ -57,7 +48,6 @@ export class SummarygraphComponent implements OnInit, OnChanges {
       this.calcByDay();
     }
   }
-
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
@@ -90,9 +80,9 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   ];
 
   barChartData: ChartData<'line'> = {
-    labels: environment.expensesTypes,
+    labels: [],
     datasets: [
-      { data: [  ], 
+      { data: [], 
         label: '',
         borderColor: 'yellow',
         backgroundColor: [
@@ -121,103 +111,33 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     //console.log(event, active);
   }
 
-  calcByType(){
+  calcByType(userId?: string){
     this.barChartData.datasets[0].label = '';
-
     if(this.barChartOptions?.plugins?.title) {
       this.barChartOptions.plugins.title.text = $localize `Gasto acumulado por tipo`;
     }
-    
     this.barChartData.datasets[0].backgroundColor = this.bgColors;
-    let data: Array<number> = [0,0,0,0,0,0,0,0];
 
-    this.expenses.forEach( item => {
-      let index = environment.expensesTypes.indexOf(item.type);
-      data[index] =  data[index] + item.originalCost;
-    })
-
-    this.barChartData.datasets[0].data = data;
+    this.barChartData.datasets[0].data = this.data.data;
+    this.barChartData.labels = this.data.labels;
   }
-
 
   calcByDay(){
     if(this.barChartOptions?.plugins?.title){
       this.barChartOptions.plugins.title.text = $localize `Gasto diario`;
     } 
 
-    let a: Array<Expense> = []
-    // Create Yaxis
-    this.expenses.forEach( item => {
-      a.push(item);
+    this.barChartData.datasets = this.data.data;
+    //this.barChartData.datasets[0].data = this.expensesService.getTotalCostEachDay().x;
+
+    //change Y-axis to the lang
+    this.barChartData.labels = this.data.labels.map( date => {
+        let d = new Date(date);
+        return d.toLocaleDateString('ES', { weekday: 'short', day: 'numeric' })
     })
-
-    // Dia numemo : { Expense }
-    // group by Day
-    let result = a.reduce(function (r, a) {
-        r[a.date] = r[a.date] || [];
-        r[a.date].push(a);
-        return r;
-    }, Object.create(null));
-
-    let yAxis = Object.keys(result);
-    this.barChartData.labels = yAxis;
-
-
-    // Create simple xAxis
-    let xAxis: Array<number> = [];
-    for(let i = 0; i < yAxis.length; i++) {
-      xAxis[i] = 0;
-      let name = yAxis[i];
-      let obj: Array<Expense> = result[name];
-      for ( const k in obj) {
-        xAxis[i] += obj[k].originalCost
-      }
-    }
-
-    // Create stacked xAxis
-    let stackedxAxis: Array<{label:string,data:Array<number>,backgroundColor:string}> = []
-    for(let i = 0; i < environment.expensesTypes.length; i++) {
-      stackedxAxis[i] = {
-        label: environment.expensesTypes[i],
-        data: [],
-        backgroundColor: this.bgColors[i]
-     }
-    }
-
-    for(let i = 0; i < yAxis.length; i++) {
-      let name = yAxis[i];
-      let obj: Array<Expense> = result[name];
-      for ( const k in obj) {
-        const typeIndex = environment.expensesTypes.indexOf(obj[k].type);
-
-        if(stackedxAxis[typeIndex].data[i] ) {
-          stackedxAxis[typeIndex].data[i] += obj[k].originalCost
-        } else{
-          stackedxAxis[typeIndex].data[i] = obj[k].originalCost
-        }
-        
-      }
-    }
-
-    this.barChartData.datasets = stackedxAxis;
-
-    this.getMeanCostPerPersonDay(xAxis);
-  }
-
-  getMeanCostPerPersonDay(data: Array<number>){
-    const todayCost = data[data.length -1];
-    const totalCost = data.reduce((partialSum, value) => partialSum + value, 0);
-    const totalDays = this.barChartData.labels?.length || 1;
-
-    const meanCostPerDay = totalCost / totalDays
-    const users = this.userService.getUsers().size;
-
-    this.todayCost = todayCost / users;
-    this.meanCost = meanCostPerDay / users
   }
 
   weatherChart(){
-
     let labels = this.data.labels;
     let data = this.data.data;
     this.barChartData.labels = labels;
@@ -226,7 +146,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     this.barChartData.datasets[0].data = data;
     this.barChartData.datasets[0].fill = true;
     if (this.barChartOptions?.scales && this.barChartOptions.scales['y']) {
-      this.barChartOptions.scales['y'].min = 10
+      //this.barChartOptions.scales['y'].min = 10
       this.barChartOptions.scales['y'].max = 35
     }
     if(this.barChartOptions?.plugins?.title) {
