@@ -68,7 +68,10 @@ export class LocalstorageService {
         'names': [environment.localStorageExpenses], 
         'active': environment.localStorageExpenses
       },
-      'graph': {}
+      'graph': {
+        'bgColors': environment.bgColors,
+        'types': environment.expensesTypes
+      }
     }
     localStorage.setItem(environment.localStorageSettings, JSON.stringify(obj));
     return obj

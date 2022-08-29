@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { LocalstorageService } from './localstorage.service';
-import { Expense } from './models';
+import { Expense, Settings } from './models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from './utils';
 
 @Injectable({
@@ -9,16 +8,17 @@ import { calcNextID, convertStringToMap, diffinDays, round2decimals } from './ut
 })
 export class ExpensesService {
   expenses: Map<string, Expense> = new Map();
+  settings: Settings;
 
   constructor(private storageService: LocalstorageService) {
-   this.expenses = this.loadExpensesFromLocalStorage()
-   }
+    this.expenses = this.loadExpensesFromLocalStorage();
+    this.settings = this.storageService.getSettings();
+  }
 
   loadExpensesFromLocalStorage(): Map<string, Expense> {
     const ans = this.storageService.getData().expenses;
     let answers = ans ? convertStringToMap(ans) : new Map();
     return answers;
-    
   }
 
   saveExpensesIntoLocalStorage():void {
@@ -74,10 +74,10 @@ export class ExpensesService {
   }
 
   getExpensesByType(userId?: string): {labels: Array<string>, data: Array<number>} {
-    let data = Array(environment.expensesTypes.length).fill(0);
+    let data = Array(this.settings.graph.types.length).fill(0);
 
     this.expenses.forEach( item => {
-      let index = environment.expensesTypes.indexOf(item.type);
+      let index = this.settings.graph.types.indexOf(item.type);
       if( userId && item.sharedBy.includes(userId) ) {
         data[index] =  data[index] + item.cost;
       } 
@@ -85,7 +85,7 @@ export class ExpensesService {
         data[index] =  data[index] + item.originalCost;
       }
     })
-    return { labels: environment.expensesTypes, data: data };;
+    return { labels: this.settings.graph.types, data: data };;
   }
 
   getTotalCostEachDay(userId?: string): {labels: Array<string>, data: Array<number>} {
@@ -113,15 +113,6 @@ export class ExpensesService {
   }
 
   gettotalCostEachDayPerType(userId?: string): {labels: Array<string>, data: Array<any>} {
-    const bgColors = [
-      'rgba(255, 99, 132, 1)',
-      'rgba(255, 159, 64, 1)',
-      'rgba(255, 205, 86, 1)',
-      'rgba(75, 192, 192, 1)',
-      'rgba(54, 162, 235, 1)',
-      'rgba(153, 102, 255, 1)',
-      'rgba(201, 203, 207, 1)'
-    ]
     let expensesArray: Array<Expense> = Array.from(this.expenses.values());
     
     // Create Object of expenses group by Day
@@ -135,11 +126,11 @@ export class ExpensesService {
 
     // Create stacked xAxis
     let stackedxAxis: Array<{ label:string, data:Array<number>, backgroundColor:string }> = []
-    for(let i = 0; i < environment.expensesTypes.length; i++) {
+    for(let i = 0; i < this.settings.graph.types.length; i++) {
       stackedxAxis[i] = {
-        label: environment.expensesTypes[i],
+        label: this.settings.graph.types[i],
         data: Array(yAxis.length).fill(0),
-        backgroundColor: bgColors[i]
+        backgroundColor: this.settings.graph.bgColors[i]
      }
     }
 
@@ -148,7 +139,7 @@ export class ExpensesService {
       let expenses: Array<Expense> = result[name];
 
       expenses.forEach(expense => {
-        const typeIndex = environment.expensesTypes.indexOf(expense.type);
+        const typeIndex = this.settings.graph.types.indexOf(expense.type);
         if( userId && expense.sharedBy.includes(userId) ) {
           stackedxAxis[typeIndex].data[i] += expense.cost;
         } else if(!userId) {

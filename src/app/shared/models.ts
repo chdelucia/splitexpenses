@@ -104,6 +104,8 @@ export interface Settings {
 
 export interface GraphPlugin {
     active: boolean;
+    types: Array<string>;
+    bgColors: Array<string>;
 }
 
 export interface CurrencyPlugin {

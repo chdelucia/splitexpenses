@@ -1,3 +1,21 @@
-<p>settings-graph works!</p>
+
+<section class="mb-4">
+        <h4 class="my-4" i18n>Graficos</h4>
+        <div class="row g-2 align-items-center">
+        <ng-container  *ngFor="let color of settings.graph.bgColors; let i = index;trackBy:trackByIdx">
+
+            <div class="col-6">
+                <input  class="form-control" type="text" [value]="settings.graph.types[i]" [(ngModel)]="settings.graph.types[i]">
+            </div>
+            <div class="col-2">
+                <input class="colors" type="color" [value]="color" [(ngModel)]="settings.graph.bgColors[i]">
+            </div>    
+                
+
+        </ng-container>
+        <button class="input-group my-4 btn btn-primary p-2" type="submit" (click)="onSubmit()" i18n>Guardar</button>
+    </div>
+</section>
+
 
 <app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

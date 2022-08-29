@@ -34,7 +34,13 @@ export class AddExpenseComponent implements OnInit {
     ) {
     this.users = this.usersService.getUsers();
     this.usersHTML = this.usersService.getIterableUsers()
-    this.model = new ExpensesForm(this.usersHTML[0].id, '', '', this.ExpenseTypes[this.ExpenseTypes.length - 1], [true,true,true]);
+    this.model = new ExpensesForm(
+      this.usersHTML[0].id,
+      '',
+      '',
+      this.ExpenseTypes[this.ExpenseTypes.length - 1],
+      Array(this.usersHTML.length).fill(true)
+      );
     this.currency = this.currencyService.getCurrencySettings();
   }
 

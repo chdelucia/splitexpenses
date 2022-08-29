@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild  } from '
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
+import { LocalstorageService } from '../shared/localstorage.service';
 
 @Component({
   selector: 'app-summarygraph',
@@ -13,18 +14,11 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   @Input() data: { labels: Array<string>, data: Array<any>} = {'labels':[''], 'data': [] };
 
   filter: string = '';
-
-  bgColors = [
-    'rgba(255, 99, 132, 1)',
-    'rgba(255, 159, 64, 1)',
-    'rgba(255, 205, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(153, 102, 255, 1)',
-    'rgba(201, 203, 207, 1)'
-  ]
+  settings;
   
-  constructor() {}
+  constructor(private storageService: LocalstorageService) {
+    this.settings = this.storageService.getSettings();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(this.bytype === 'ByType'){
@@ -86,7 +80,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
         label: '',
         borderColor: 'yellow',
         backgroundColor: [
-          'rgba(222,225,38,0.68)',
+          'rgba(222,225,38,0.68)'
         ]
       },
     ]
@@ -116,7 +110,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     if(this.barChartOptions?.plugins?.title) {
       this.barChartOptions.plugins.title.text = $localize `Gasto acumulado por tipo`;
     }
-    this.barChartData.datasets[0].backgroundColor = this.bgColors;
+    this.barChartData.datasets[0].backgroundColor = this.settings.graph.bgColors;
 
     this.barChartData.datasets[0].data = this.data.data;
     this.barChartData.labels = this.data.labels;
@@ -138,12 +132,10 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   }
 
   weatherChart(){
-    let labels = this.data.labels;
-    let data = this.data.data;
-    this.barChartData.labels = labels;
+    this.barChartData.labels = this.data.labels;
     this.barChartType = 'line';
 
-    this.barChartData.datasets[0].data = data;
+    this.barChartData.datasets[0].data = this.data.data;
     this.barChartData.datasets[0].fill = true;
     if (this.barChartOptions?.scales && this.barChartOptions.scales['y']) {
       //this.barChartOptions.scales['y'].min = 10
