@@ -72,6 +72,17 @@
       "2337884761304775820": "Expenses history",
       "4421314805288084376": "To get an API key create an account here https://home.openweathermap.org/api_keys",
       "2312079780120590975": "Forecast 5 days",
-      "7786108818644897483": "How to pay the debts"
+      "7786108818644897483": "How to pay the debts",
+      "3818149404177338399": "{$START_TAG_STRONG}Info!{$CLOSE_TAG_STRONG} Double tap to mark an expense as paid. {$START_TAG_BUTTON}{$CLOSE_TAG_BUTTON}",
+      "7876811410477571642": "PAID",
+      "255149415078226384": "Type:",
+      "5529407663061146340": "Split with:",
+      "2975016556673138449": "All",
+      "1372173599787735409": "Save",
+      "835164367480259099": "Graphics",
+      "8005537332900367381": "Group",
+      "2008490505821784657": "Total: {$INTERPOLATION} {$INTERPOLATION_1}",
+      "1800374506564306839": "Average per day: {$INTERPOLATION} {$INTERPOLATION_1}",
+      "1423337865631308056": "Edit the types and colors on your needs. Do it before start adding expenses"
     }
   }

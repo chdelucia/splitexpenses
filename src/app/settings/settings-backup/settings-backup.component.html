@@ -12,7 +12,7 @@
       
       </div>
       <div class="col-6">
-        <button  [disabled]="travel.value == ''" class="input-group btn btn-success"
+        <button  [disabled]="travel.value == ''" class="input-group btn btn-primary"
             type="button" (click)="download(travel.value)" i18n>
             Descargar viaje
         </button>
@@ -20,7 +20,7 @@
   
     </div>
     <p class="text-center mt-4">o</p>
-    <button  class="input-group mt-2 mb-4 btn btn-success" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
+    <button  class="input-group btn my-4 btn btn-primary p-2" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
 
 </section>
 

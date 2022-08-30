@@ -11,7 +11,7 @@
         <label for="floatingTextarea2" i18n>Copia tus datos aqui</label>
       </div>
 
-    <button  [disabled]="answer.value == ''" class="input-group mb-3 btn btn-danger" type="button" (click)="loadData(answer.value)" i18n>Cargar datos</button>
+    <button  [disabled]="answer.value == ''" class="input-group btn btn-danger my-4 p-2" type="button" (click)="loadData(answer.value)" i18n>Cargar datos</button>
   </section> 
 
   <app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

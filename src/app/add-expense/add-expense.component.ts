@@ -35,7 +35,7 @@ export class AddExpenseComponent implements OnInit {
     this.users = this.usersService.getUsers();
     this.usersHTML = this.usersService.getIterableUsers()
     this.model = new ExpensesForm(
-      this.usersHTML[0].id,
+      this.usersHTML[0] ? this.usersHTML[0].id : '1',
       '',
       '',
       this.ExpenseTypes[this.ExpenseTypes.length - 1],

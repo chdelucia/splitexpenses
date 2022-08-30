@@ -18,7 +18,7 @@
           <input #apikey class="form-control" type="text" placeholder="api key" [(ngModel)]="weatherSettings.key"/>
         </div>
         <div class="col-12">
-          <button  [disabled]="weather.value == '' || apikey.value == ''" class="input-group btn btn-primary"
+          <button  [disabled]="weather.value == '' || apikey.value == ''" class="input-group btn my-4 btn btn-primary p-2"
               type="button" (click)="setWeatherPlugin(weather.value, shweather.checked, apikey.value)" i18n>
               Guardar cambios
           </button>
