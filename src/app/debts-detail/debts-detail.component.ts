@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
-import { CurrencyPlugin, Debt, User } from '../shared/models';
+import { ExpensesService } from '../shared/expenses.service';
+import { CurrencyPlugin, Debt, Expense, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class DebtsDetailComponent implements OnInit {
   constructor(
     private debtsService: DebtsService,
     private userService: UsersService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private expensesService: ExpensesService
   ) { 
     this.users = this.userService.getUsers();
     this.usersHTML = this.userService.getIterableUsers();
@@ -44,6 +46,27 @@ export class DebtsDetailComponent implements OnInit {
     if ( userExist && myDebts ){
       this.myDebts = myDebts
     }
+  }
+
+  pay(expenseID: string, userID: string, paid: boolean) {
+    let expense = this.expensesService.getExpenseByID(expenseID);
+    if(expense) {
+      
+      // remove userID or added
+      paid ? expense.settleBy.splice(expense.settleBy.indexOf(userID), 1) : expense.settleBy.push(userID)
+      this.expensesService.editExpense(expense);
+      this.recalculateDebts();
+      
+    } else {
+      //TODO show toast or control errors
+      console.error('error');
+    }
+  }
+
+  recalculateDebts() {
+    this.debtsService.reset();
+    this.debts = this.debtsService.getDebts();
+    this.setDebts();
   }
   
 

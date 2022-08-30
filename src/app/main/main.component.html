@@ -1,55 +1,6 @@
 
-<main class="container mb-5" *ngIf="users.length && expenses.size; else elseTemplate">
-    <section class="debts" *ngIf="users.length > 1">
-        <h2 class="my-4 text-center" i18n>Como saldar las deudas</h2>
-        <table class="table table-striped align-middle table-hover">
-            <thead>
-                <tr>
-                    <th i18n>Nombre</th>
-                    <th i18n>Deuda</th>
-                    <th class="text-center" i18n>A pagar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let user of users">
-                    <td>{{user.name}}</td>
-                    <td>
-                        {{debts.get(user.id)?.totalDebts}} {{currency.currencySymbol}}
-                        <small *ngIf="currency.active">
-                            {{ calcExchange(debts.get(user.id)?.totalDebts) }}
-                            {{currency.currencyExchangeSymbol}}
-                         </small>
-                    </td>
-                    <td class="text-end">
-                        <div *ngFor="let person of users">
-                            <ng-container *ngIf="user.id !== person.id">
-                                <span i18n>a</span> {{person.name}}
-                                
-                                <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts !=
-                                                    debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
-                                    <small class="oldDebt">
-                                        <del>
-                                            {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts}}
-                                            {{currency.currencySymbol}}
-                                         </del>
-                                    </small>
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt }}
-                                    {{currency.currencySymbol}}
-                                </ng-container>
+<main class="container mb-5" *ngIf="users.length > 1 && expenses.size; else elseTemplate">
 
-                                <ng-template #elseBlock> 
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts }}
-                                    {{currency.currencySymbol}}
-                                </ng-template>
-                         
-                            </ng-container>  
-                        </div>
-                    </td>
-                </tr>    
-            </tbody>
-        </table>
-    </section>
-    <hr class="border border-secondary border-2 mt-4 mb-8">
 <app-debts-detail></app-debts-detail>
     
 </main>

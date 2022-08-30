@@ -36,6 +36,7 @@ export class DebtsService {
     this.users.forEach(user => {
       let billWasNotPaidByMe = user.id !== item.paidBy;
       let Iparticipated = item.sharedBy.includes(user.id);
+      let iDidntPayIt = !item.settleBy.includes(user.id);
 
       if(billWasNotPaidByMe && Iparticipated) {
 
@@ -43,9 +44,13 @@ export class DebtsService {
         let individualDebt: IndividualDebt | undefined = allDebts?.debts.get(item.paidBy);
 
         if(individualDebt && allDebts) {
-          individualDebt.individualTotalDebts = round2decimals(individualDebt?.individualTotalDebts + item.cost);
+
+          if(iDidntPayIt) {
+            individualDebt.individualTotalDebts = round2decimals(individualDebt?.individualTotalDebts + item.cost);
+            allDebts.totalDebts = round2decimals(allDebts.totalDebts + item.cost);
+          }
+
           individualDebt.RefDebtsIds.push(item);
-          allDebts.totalDebts = round2decimals(allDebts.totalDebts + item.cost);
         }
       }
     });

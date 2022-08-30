@@ -28,6 +28,14 @@ export class ExpensesService {
   getExpenses(): Map<string, Expense> {
     return this.expenses;
   }
+  getExpenseByID(id: string) {
+    return this.expenses.get(id);
+  }
+
+  editExpense(expense: Expense): void {
+    this.expenses.set(expense.id, expense);
+    this.saveExpensesIntoLocalStorage();
+  }
 
   setExpenses(data: Map<string,Expense>): void{
     this.expenses = data;
