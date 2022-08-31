@@ -28,13 +28,13 @@ export class SettingsGraphComponent implements OnInit {
   onSubmit() {
     let types = new Map();
     this.types.forEach( (type,i) => {
-      types.set(i, {'id': i, 'name': type, 'active': true})
+      types.set(i, {'id': i, 'name': type.name, 'active': true})
     });
 
+    //TODO ugly way to dont touch original object
     let obj = {
       'graph': {
         'bgColors': this.settings.graph.bgColors,
-        'active': true,
         'types': types
       }
     }

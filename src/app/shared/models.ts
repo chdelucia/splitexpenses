@@ -103,7 +103,6 @@ export interface Settings {
 }
 
 export interface GraphPlugin {
-    active: boolean;
     types: Map<string, ExpenseTypes>;
     bgColors: Array<string>;
 }

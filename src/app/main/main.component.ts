@@ -33,6 +33,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.users.length)
   }
 
   calcExchange(value?: number) {

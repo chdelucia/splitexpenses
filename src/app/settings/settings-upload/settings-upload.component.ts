@@ -27,6 +27,13 @@ export class SettingsUploadComponent implements OnInit {
     let name = this.localStorageService.getActiveTravelName();
     localStorage.setItem(name, data);
     this.showAlert = true;
+    location.reload();
+  }
+
+  deleteAll(){
+    localStorage.clear();
+    this.showAlert = true;
+    location.reload();
   }
 
   close(){
