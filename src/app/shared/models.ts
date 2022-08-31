@@ -5,13 +5,13 @@ export interface User {
 }
 
 export interface Expense {
+    id: string;
     title: string;
     date: string;
     cost: number;
     originalCost: number;
     paidBy: string;
-    id: string;
-    type: string;
+    typeId: string;
     name: string;
     sharedBy: Array<string>;
     settleBy: Array<string>;
@@ -104,8 +104,14 @@ export interface Settings {
 
 export interface GraphPlugin {
     active: boolean;
-    types: Array<string>;
+    types: Map<string, ExpenseTypes>;
     bgColors: Array<string>;
+}
+
+export interface ExpenseTypes {
+    id: string;
+    name: string;
+    active: boolean
 }
 
 export interface CurrencyPlugin {

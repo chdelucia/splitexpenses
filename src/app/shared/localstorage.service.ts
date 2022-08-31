@@ -53,15 +53,26 @@ export class LocalstorageService {
   loadSettings(): Settings {
     const ans = localStorage.getItem(environment.localStorageSettings);
     let answers = ans ? JSON.parse(ans) : this.createSettingsStructure();
+    answers.graph.types = utils.convertStringToMap(answers.graph.types);
     return answers;
   }
 
   saveSettings(data?: Object) {
-    let settings = {...this.settings, ...data};
-    localStorage.setItem(environment.localStorageSettings, JSON.stringify(settings));
+    this.settings= {...this.settings, ...data};
+
+    //const copy: Settings = structuredClone(this.settings);
+    //utils.convertMaptoString(copy.graph.types)
+
+    //localStorage.setItem(environment.localStorageSettings, JSON.stringify(copy));
+    console.log(this.settings)
+
   }
 
   createSettingsStructure() {
+    let types = new Map();
+    environment.expensesTypes.forEach( (type,i) => {
+      types.set(i, {'id': i, 'name': type, 'active': true})
+    })
     let obj = { 
       'weather': {}, 
       'travels': { 
@@ -70,7 +81,7 @@ export class LocalstorageService {
       },
       'graph': {
         'bgColors': environment.bgColors,
-        'types': environment.expensesTypes
+        'types': utils.convertMaptoString(types)
       }
     }
     localStorage.setItem(environment.localStorageSettings, JSON.stringify(obj));
@@ -80,7 +91,6 @@ export class LocalstorageService {
   getSettings(): Settings {
     return this.settings;
   }
-
 
   addNewTravel(name: string) {
     this.settings.travels.active = name;

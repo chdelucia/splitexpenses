@@ -9,16 +9,7 @@ import { Settings } from '../shared/models';
 })
 export class SettingsComponent implements OnInit {
  
-  showAlert = false;
-  isError = false;
-
-  settings: Settings;
-
-  constructor(
-    private localStorageService: LocalstorageService,
-    ) { 
-    this.settings = this.localStorageService.getSettings();
-  }
+  constructor() { }
 
   ngOnInit(): void {
   }

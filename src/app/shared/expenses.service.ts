@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalstorageService } from './localstorage.service';
-import { Expense, Settings } from './models';
+import { Expense, ExpenseTypes, Settings } from './models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from './utils';
 
 @Injectable({
@@ -30,6 +30,10 @@ export class ExpensesService {
   }
   getExpenseByID(id: string) {
     return this.expenses.get(id);
+  }
+
+  getExpensesTypes(): Array<ExpenseTypes> {
+    return Array.from(this.settings.graph.types.values())
   }
 
   editExpense(expense: Expense): void {
@@ -82,10 +86,14 @@ export class ExpensesService {
   }
 
   getExpensesByType(userId?: string): {labels: Array<string>, data: Array<number>} {
-    let data = Array(this.settings.graph.types.length).fill(0);
+    let data = Array(this.settings.graph.types.size).fill(0);
+    let labels: string[] = []
+    this.settings.graph.types.forEach(item => {
+      labels.push(item.name);
+    })
 
     this.expenses.forEach( item => {
-      let index = this.settings.graph.types.indexOf(item.type);
+      let index = parseInt(item.typeId)
       if( userId && item.sharedBy.includes(userId) ) {
         data[index] =  data[index] + item.cost;
       } 
@@ -93,7 +101,7 @@ export class ExpensesService {
         data[index] =  data[index] + item.originalCost;
       }
     })
-    return { labels: this.settings.graph.types, data: data };;
+    return { labels: labels, data: data };;
   }
 
   getTotalCostEachDay(userId?: string): {labels: Array<string>, data: Array<number>} {
@@ -134,9 +142,9 @@ export class ExpensesService {
 
     // Create stacked xAxis
     let stackedxAxis: Array<{ label:string, data:Array<number>, backgroundColor:string }> = []
-    for(let i = 0; i < this.settings.graph.types.length; i++) {
+    for(let i = 0; i < this.settings.graph.types.size; i++) {
       stackedxAxis[i] = {
-        label: this.settings.graph.types[i],
+        label: this.settings.graph.types.get(i.toString())?.name || '',
         data: Array(yAxis.length).fill(0),
         backgroundColor: this.settings.graph.bgColors[i]
      }
@@ -147,7 +155,7 @@ export class ExpensesService {
       let expenses: Array<Expense> = result[name];
 
       expenses.forEach(expense => {
-        const typeIndex = this.settings.graph.types.indexOf(expense.type);
+        const typeIndex = parseInt(expense.typeId);
         if( userId && expense.sharedBy.includes(userId) ) {
           stackedxAxis[typeIndex].data[i] += expense.cost;
         } else if(!userId) {

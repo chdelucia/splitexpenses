@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { CurrencyPlugin, Debt, Expense, User } from '../shared/models';
+import { CurrencyPlugin, Debt, Expense, ExpenseTypes, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 import { round2decimals } from '../shared/utils';
 
@@ -24,7 +24,7 @@ export class AddExpenseComponent implements OnInit {
   isError = false;
   
   model: ExpensesForm;
-  ExpenseTypes = environment.expensesTypes;
+  ExpenseTypes: ExpenseTypes[];
 
   constructor(
     private expensesService: ExpensesService,
@@ -32,13 +32,14 @@ export class AddExpenseComponent implements OnInit {
     private debtsService: DebtsService,
     private currencyService: CurrencyService
     ) {
+    this.ExpenseTypes = this.expensesService.getExpensesTypes()
     this.users = this.usersService.getUsers();
     this.usersHTML = this.usersService.getIterableUsers()
     this.model = new ExpensesForm(
       this.usersHTML[0] ? this.usersHTML[0].id : '1',
       '',
       '',
-      this.ExpenseTypes[this.ExpenseTypes.length - 1],
+      this.ExpenseTypes[this.ExpenseTypes.length - 1].id,
       Array(this.usersHTML.length).fill(true)
       );
     this.currency = this.currencyService.getCurrencySettings();
@@ -54,7 +55,7 @@ export class AddExpenseComponent implements OnInit {
     })
 
     let costb = parseFloat(expenseForm.cost) / sharedBy.length;
-    
+  
     const obj: Expense = {
       "id": '',
       "title": expenseForm.title,
@@ -63,7 +64,7 @@ export class AddExpenseComponent implements OnInit {
       "date": new Date().toISOString().split('T')[0],
       "paidBy": expenseForm.name,
       "name": this.users.get(expenseForm.name)?.name || '',
-      "type": expenseForm.type,
+      "typeId": expenseForm.type,
       "sharedBy": sharedBy,
       "settleBy": []
     }

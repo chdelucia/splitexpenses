@@ -38,8 +38,8 @@
     <div class="input-group mb-2">  
         <div class="col-12 mb-2" i18n>Tipo de gasto:</div>
         <div class="form-check form-check-inline col-3" *ngFor="let type of ExpenseTypes;">
-            <input class="form-check-input" type="radio" name="type" [(ngModel)]="model.type" [value]="type">
-            <label class="form-check-label" [for]="type"> {{type}} </label>
+            <input class="form-check-input" type="radio" name="type" [(ngModel)]="model.type" [value]="type.id">
+            <label class="form-check-label" [for]="type.id"> {{type.name}} </label>
         </div>
     </div>
 

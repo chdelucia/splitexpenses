@@ -50,7 +50,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     this.expensesHTML = [];
     this.expenses.forEach( item => {
       if(this.filter){
-        if(this.filter === item.type){
+        if(this.filter === item.typeId){
           this.expensesHTML.push(item);
         } 
       } else{
