@@ -83,6 +83,7 @@
       "8005537332900367381": "Group",
       "2008490505821784657": "Total: {$INTERPOLATION} {$INTERPOLATION_1}",
       "1800374506564306839": "Average per day: {$INTERPOLATION} {$INTERPOLATION_1}",
-      "1423337865631308056": "Edit the types and colors on your needs. Do it before start adding expenses"
+      "1423337865631308056": "Edit the types and colors on your needs. Do it before start adding expenses",
+      "5144452140276200456": "Restart the app"
     }
   }
