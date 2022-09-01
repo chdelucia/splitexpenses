@@ -12,7 +12,6 @@ export interface Expense {
     originalCost: number;
     paidBy: string;
     typeId: string;
-    name: string;
     sharedBy: Array<string>;
     settleBy: Array<string>;
 

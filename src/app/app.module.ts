@@ -28,6 +28,7 @@ import { SettingsGraphComponent } from './settings/settings-graph/settings-graph
 import { LocalstorageService } from './shared/localstorage.service';
 import { SettingsTravelComponent } from './settings/settings-travel/settings-travel.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { CurrencyService } from './shared/currency.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     UsersService,
     DebtsService,
     WeatherService,
-    LocalstorageService
+    LocalstorageService,
+    CurrencyService
   ],
   bootstrap: [AppComponent]
 })

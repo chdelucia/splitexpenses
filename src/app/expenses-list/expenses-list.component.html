@@ -15,7 +15,7 @@
                 <tr *ngFor="let expense of expensesHTML">
                     <td> {{expense.date | date: 'E d'}} </td>
                     <td> 
-                        {{expense.name}} 
+                        {{ users.get(expense.paidBy)?.name }}
                         <small i18n *ngIf="expense.sharedBy.length == totalUsers; else elseBlock">Todos</small>
                         
                         <ng-template #elseBlock>

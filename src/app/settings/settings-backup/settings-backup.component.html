@@ -8,7 +8,9 @@
 
     <div class="row g-2">
       <div class="col-6">
-        <input #travel class="form-control" type="text" placeholder="Travel name" [(ngModel)]="inputTravel"/>
+        <select name="name" #travel class="form-select mb-2"  required>
+          <option *ngFor="let travel of settings.travels.names; let i=index" [value]="travel">{{travel}}</option>
+      </select>
       
       </div>
       <div class="col-6">

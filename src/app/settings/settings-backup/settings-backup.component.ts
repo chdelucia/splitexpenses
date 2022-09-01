@@ -10,7 +10,6 @@ import { Settings } from 'src/app/shared/models';
 export class SettingsBackupComponent implements OnInit {
   showAlert = false;
   isError = false;
-  inputTravel= '';
   settings: Settings;
 
   constructor(

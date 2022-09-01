@@ -84,6 +84,7 @@ export class DebtsService {
   }
 
   reset(){
+    this.users = this.userService.getUsers();
     this.debts = this.createStructure();
     this.calcDebt();
   }

@@ -63,7 +63,6 @@ export class AddExpenseComponent implements OnInit {
       "cost": round2decimals(costb),
       "date": new Date().toISOString().split('T')[0],
       "paidBy": expenseForm.name,
-      "name": this.users.get(expenseForm.name)?.name || '',
       "typeId": expenseForm.type,
       "sharedBy": sharedBy,
       "settleBy": []

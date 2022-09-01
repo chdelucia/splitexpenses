@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '../shared/currency.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, User } from '../shared/models';
