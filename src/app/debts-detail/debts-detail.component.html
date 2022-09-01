@@ -65,9 +65,9 @@
     </div>
                
 
-    <div class="alert alert-warning alert-dismissible fade show" role="alert" i18n>
+    <div [class.hide]="hideInfo" class="alert alert-warning alert-dismissible fade show" role="alert" i18n>
         <strong>Info!</strong> Pulsa dos veces para marcar como pagado un gasto.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button (click)=closeInfo() type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
     <ng-container *ngFor="let user of usersHTML">

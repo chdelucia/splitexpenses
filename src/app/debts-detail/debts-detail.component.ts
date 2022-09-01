@@ -17,6 +17,7 @@ export class DebtsDetailComponent implements OnInit {
   users: Map<string, User>;
   usersHTML: Array<User>;
   currency: CurrencyPlugin;
+  hideInfo = false;
 
   constructor(
     private debtsService: DebtsService,
@@ -67,6 +68,10 @@ export class DebtsDetailComponent implements OnInit {
     this.debtsService.reset();
     this.debts = this.debtsService.getDebts();
     this.setDebts();
+  }
+
+  closeInfo(){
+    this.hideInfo = true;
   }
   
 
