@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponent } from 'ng-mocks';
+import { SummarygraphComponent } from '../summarygraph/summarygraph.component';
 
 import { StatisticsComponent } from './statistics.component';
 
@@ -8,7 +10,9 @@ describe('StatisticsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatisticsComponent ]
+      declarations: [ StatisticsComponent,  
+        MockComponent(SummarygraphComponent) 
+      ]
     })
     .compileComponents();
 

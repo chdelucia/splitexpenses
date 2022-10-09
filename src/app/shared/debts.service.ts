@@ -32,27 +32,22 @@ export class DebtsService {
       }  
   }
 
-  updateExpenseDebt(item: Expense): void {
+  updateExpenseDebt(expense: Expense): void {
     this.users.forEach(user => {
-      let billWasNotPaidByMe = user.id !== item.paidBy;
-      let Iparticipated = item.sharedBy.includes(user.id);
-      let iDidntPayIt = !item.settleBy.includes(user.id);
+      let userDebts: Debt | undefined = this.debts.get(user.id);
+      let individualDebt: IndividualDebt | undefined = userDebts?.debts.get(expense.paidBy);
 
-      if(billWasNotPaidByMe && Iparticipated) {
+      if(userDebts){
+        userDebts.totalIPaid = this.calcTotalAmountIpaid(user.id, expense, userDebts.totalIPaid);
+  
+        if(individualDebt) {
+          individualDebt.individualtotalIveBeenPaid = this.calcTotalAmountIhaveBeenPaid(user.id, expense, individualDebt.individualtotalIveBeenPaid )
+          userDebts.totalIveBeenPaid = this.calcTotalAmountIhaveBeenPaid(user.id, expense, userDebts.totalIveBeenPaid )
 
-        let allDebts: Debt | undefined = this.debts.get(user.id);
-        let individualDebt: IndividualDebt | undefined = allDebts?.debts.get(item.paidBy);
-
-        if(individualDebt && allDebts) {
-
-          if(iDidntPayIt) {
-            individualDebt.individualTotalDebts = round2decimals(individualDebt?.individualTotalDebts + item.cost);
-            allDebts.totalDebts = round2decimals(allDebts.totalDebts + item.cost);
-          }
-
-          individualDebt.RefDebtsIds.push(item);
-        }
+          individualDebt.RefDebtsIds.push(expense);
+        }    
       }
+
     });
     this.calcDirectDebtsDiff();
   }
@@ -62,14 +57,15 @@ export class DebtsService {
     if(this.users){
       this.users.forEach(parentUser => {
         let obj1 = {
-          'totalDebts': 0,
+          'totalIveBeenPaid': 0,
+          'totalIPaid': 0,
           'debts': new Map(),
         }
         
         this.users.forEach(user => {
           if (parentUser.id !== user.id) {
             let obj = {
-              'individualTotalDebts': 0,
+              'individualtotalIveBeenPaid': 0,
               'RefDebtsIds': [],
             }     
             obj1.debts.set(user.id, obj);
@@ -90,24 +86,71 @@ export class DebtsService {
   }
 
   /**
-   * If two persons have deubts between theirself extract the difference 
+   * If two persons have debts between theirself extract the difference 
    */
   calcDirectDebtsDiff(): void {
       this.debts.forEach( (i,me) => {
+        i.totalIowe = 0;
         i.debts.forEach( (j,userName) => {
 
-          let Iowe = j.individualTotalDebts;
-          let owesMe = this.debts.get(userName)?.debts.get(me)?.individualTotalDebts || 0;
+          let Iowe = j.individualtotalIveBeenPaid;
+          let owesMe = this.debts.get(userName)?.debts.get(me)?.individualtotalIveBeenPaid || 0;
 
-          if(Iowe > owesMe) {
-            j.newDebt = round2decimals(Iowe - owesMe);
-          } else if ( Iowe === owesMe || owesMe > Iowe) {
-            j.newDebt = 0
-          } else {
-            console.error('unexpected');
-          }
-
+          j.newDebt = round2decimals(Iowe - owesMe);
+          i.totalIowe = round2decimals(i.totalIowe + (j.newDebt));
         });
       })
   }
+
+  calcTotalAmountIpaid(userId: string, expense: Expense, oldValue: number): number {
+    let paidByme = userId === expense.paidBy;
+    let Iparticipated = expense.sharedBy.includes(userId);
+    let result = oldValue;
+
+    if(paidByme){
+      result += expense.originalCost
+      if(Iparticipated){
+        result -= expense.cost
+      }
+    }
+    return round2decimals(result);
+  }
+
+  verifyTotalAmountIPaid(userId: string): number {
+    let totalAmountIpaid = 0;
+    this.debts.forEach( (item, key) => {
+      if(userId !== key) {
+        totalAmountIpaid += item.debts.get(userId)?.individualtotalIveBeenPaid || 0
+      }
+    })
+    return totalAmountIpaid; 
+  }
+
+  calcTotalAmountIhaveBeenPaid(userId: string, expense: Expense, oldValue: number): number {
+    let billWasNotPaidByMe = userId !== expense.paidBy;
+    let Iparticipated = expense.sharedBy.includes(userId);
+    let iDidntPayIt = !expense.settleBy.includes(userId);
+    let userDebts: Debt | undefined = this.debts.get(userId);
+    let individualDebt: IndividualDebt | undefined = userDebts?.debts.get(expense.paidBy);
+    let result = oldValue;
+
+    if(userDebts && billWasNotPaidByMe && Iparticipated && individualDebt && iDidntPayIt) {
+      result += expense.cost;
+    }
+
+    return round2decimals(result);
+  }
+
+  verifyTotalAmountIhaveBeenPaid(userId: string): number{
+    let totalAmountIhaveBeenPaid = 0;
+    this.debts.get(userId)?.debts.forEach( (debt: IndividualDebt) => {
+      totalAmountIhaveBeenPaid += debt.individualtotalIveBeenPaid;
+    })
+    return totalAmountIhaveBeenPaid; 
+  }
+
+  calcTotalAmountIAmOwed(myDebts: Debt, newDebt: number): number {
+    return round2decimals(myDebts.totalIowe + (newDebt));
+  }
+
 }

@@ -7,6 +7,24 @@ import {
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
 
+import { MockInstance, ngMocks } from 'ng-mocks';
+import { DefaultTitleStrategy, TitleStrategy } from "@angular/router";
+import { MockService } from 'ng-mocks';
+
+ngMocks.defaultMock(TitleStrategy, () => MockService(DefaultTitleStrategy));
+
+// auto spy
+ngMocks.autoSpy('jasmine');
+jasmine.getEnv().addReporter({
+  specDone: MockInstance.restore,
+  specStarted: MockInstance.remember,
+  suiteDone: MockInstance.restore,
+  suiteStarted: MockInstance.remember,
+});
+
+
+
+
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {
     <T>(id: string): T;

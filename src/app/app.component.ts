@@ -1,5 +1,4 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { LocalstorageService } from './shared/localstorage.service';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { WeatherService } from './shared/weather.service';
 
 @Component({
@@ -8,14 +7,12 @@ import { WeatherService } from './shared/weather.service';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit, AfterContentChecked{
-  title = 'splitexpenses';
+  title = 'splity';
   weatherActive: boolean;
 
   constructor(
     private weatherService: WeatherService,
-    private local: LocalstorageService
     ){
-
     this.weatherActive = this.weatherService.getWeahterSettings().active;
   }
 

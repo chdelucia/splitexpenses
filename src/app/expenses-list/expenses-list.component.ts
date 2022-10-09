@@ -18,6 +18,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   currency: CurrencyPlugin;
   users: Map<string, User>;
   totalUsers: number;
+  dates: Array<string> = [];
 
   constructor(
     private expensesService: ExpensesService,
@@ -29,14 +30,21 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     this.currency = this.currencyService.getCurrencySettings();
     this.users = this.usersService.getUsers();
     this.totalUsers = this.users.size;
+    this.expensesHTML = Array.from(this.expenses.values());
+    this.dates = this.expensesService.getExpensesDates();
   }
 
   ngOnInit(): void {
-    this.createArrayofExpenses();
+    if(this.filter){
+      this.createArrayofExpenses();
+     }
+
   }
   
   ngOnChanges(){
-    this.createArrayofExpenses();
+    if(this.filter){
+     this.createArrayofExpenses();
+    }
   }
 
   deleteExpense(key: string) {
@@ -47,17 +55,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   }
 
   createArrayofExpenses(){
-    this.expensesHTML = [];
-    this.expenses.forEach( item => {
-      if(this.filter){
-        if(this.filter === item.typeId){
-          this.expensesHTML.push(item);
-        } 
-      } else{
-        this.expensesHTML.push(item);
-      }
-      
-    });
+    this.expensesHTML = this.expensesService.getExpensesFilterByType(this.filter);
   }
 
   calcExchange(value?: number) {

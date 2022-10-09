@@ -19,12 +19,14 @@ export interface Expense {
 
 export interface IndividualDebt {
     newDebt?: number;
-    individualTotalDebts: number,
+    individualtotalIveBeenPaid: number,
     RefDebtsIds: Array<Expense>,
 }
 
 export interface Debt {
-    totalDebts: number,
+    totalIveBeenPaid: number,
+    totalIPaid: number,
+    totalIowe: number,
     debts: Map<string, IndividualDebt>
 }
 

@@ -84,6 +84,12 @@
       "2008490505821784657": "Total: {$INTERPOLATION} {$INTERPOLATION_1}",
       "1800374506564306839": "Average per day: {$INTERPOLATION} {$INTERPOLATION_1}",
       "1423337865631308056": "Edit the types and colors on your needs. Do it before start adding expenses",
-      "5144452140276200456": "Restart the app"
+      "5144452140276200456": "Restart the app",
+      "1551876577917164513": "Save your data in",
+      "2821184804149917865": "Export expenses in Excel",
+      "5762295228161834092": "Shared by:",
+      "6296912868330901319": "Debts",
+      "5069906566146179182": "total amount owed:"
+
     }
   }

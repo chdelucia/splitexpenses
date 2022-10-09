@@ -28,6 +28,19 @@ export class ExpensesService {
   getExpenses(): Map<string, Expense> {
     return this.expenses;
   }
+
+  getExpensesFilterByType(filter: string): Array<Expense>{
+    let expensesArray: Array<Expense> = Array.from(this.expenses.values());
+    let expensesFiltered = expensesArray.filter( item => item.date === filter);
+    return expensesFiltered;
+  }
+
+  getExpensesDates(): Array<string>{
+    let expensesArray: Array<Expense> = Array.from(this.expenses.values());
+    let dates = expensesArray.map( item => item.date);
+    return [...new Set(dates.reverse())];
+  }
+
   getExpenseByID(id: string) {
     return this.expenses.get(id);
   }
@@ -101,7 +114,7 @@ export class ExpensesService {
         data[index] =  data[index] + item.originalCost;
       }
     })
-    return { labels: labels, data: data };;
+    return { labels: labels, data: data };
   }
 
   getTotalCostEachDay(userId?: string): {labels: Array<string>, data: Array<number>} {

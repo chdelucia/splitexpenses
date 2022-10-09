@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { AlertComponent } from '../alert/alert.component';
 
 import { AddUserComponent } from './add-user.component';
 
@@ -8,7 +11,9 @@ describe('AddUserComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddUserComponent ]
+      imports: [FormsModule],
+      declarations: [ AddUserComponent,
+        MockComponent(AlertComponent) ]
     })
     .compileComponents();
   });

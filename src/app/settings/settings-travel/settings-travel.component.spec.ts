@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { AlertComponent } from 'src/app/alert/alert.component';
 
 import { SettingsTravelComponent } from './settings-travel.component';
 
@@ -8,7 +11,10 @@ describe('SettingsTravelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsTravelComponent ]
+      imports: [FormsModule],
+      declarations: [ SettingsTravelComponent,
+        MockComponent(AlertComponent)
+       ]
     })
     .compileComponents();
 

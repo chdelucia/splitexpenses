@@ -1,52 +1,51 @@
 
-    <section class="debts">
-        <h2 class="my-4 text-center" i18n>Como saldar las deudas</h2>
-        <table class="table table-striped align-middle table-hover">
-            <thead>
-                <tr>
-                    <th i18n>Nombre</th>
-                    <th i18n>Deuda</th>
-                    <th class="text-center" i18n>A pagar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let user of usersHTML">
-                    <td>{{user.name}}</td>
-                    <td>
-                        {{debts.get(user.id)?.totalDebts}} {{currency.currencySymbol}}
-                        <small *ngIf="currency.active">
-                            {{ calcExchange(debts.get(user.id)?.totalDebts) }}
-                            {{currency.currencyExchangeSymbol}}
-                         </small>
-                    </td>
-                    <td class="text-end">
-                        <div *ngFor="let person of usersHTML">
-                            <ng-container *ngIf="user.id !== person.id">
-                                <span i18n>a</span> {{person.name}}
-                                
-                                <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts !=
-                                                    debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
-                                    <small class="oldDebt">
-                                        <del>
-                                            {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts}}
-                                            {{currency.currencySymbol}}
-                                         </del>
-                                    </small>
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.newDebt }}
-                                    {{currency.currencySymbol}}
-                                </ng-container>
 
-                                <ng-template #elseBlock> 
-                                    {{debts.get(user.id)?.debts?.get(person.id)?.individualTotalDebts }}
-                                    {{currency.currencySymbol}}
-                                </ng-template>
-                         
-                            </ng-container>  
+    <h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
+    <section class="row g-4">    
+        <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let user of usersHTML">
+            <div class="persoanlDebts p-md-3 p-2">
+                <div class="d-flex flex-row justify-content-between title">
+                    <div>{{user.name}} <span class="text" i18n>debe un total de:</span></div>
+                    <div>
+                        {{debts.get(user.id)?.totalIowe}} {{currency.currencySymbol}}
+                        <div *ngIf="currency.active" class="text-end mainExchange">
+                            {{ calcExchange(debts.get(user.id)?.totalIowe) }}
+                             {{currency.currencyExchangeSymbol}}
                         </div>
-                    </td>
-                </tr>    
-            </tbody>
-        </table>
+    
+                    </div>
+                </div>
+                <ng-container *ngFor="let person of usersHTML">
+                    <div class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
+                        *ngIf="user.id !== person.id">
+                        <div>{{person.name}}</div>
+                        <div>
+                            <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !=
+                                                        debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
+                                {{debts.get(user.id)?.debts?.get(person.id)?.newDebt }}
+                                {{currency.currencySymbol}}
+                                <small *ngIf="currency.active" class="text-end">
+                                    {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.newDebt) }}
+                                     {{currency.currencyExchangeSymbol}}
+                                </small>
+                            </ng-container>
+    
+                            <ng-template #elseBlock> 
+                                {{debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid }}
+                                {{currency.currencySymbol}}
+                                <small *ngIf="currency.active" class="text-end">
+                                    {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid) }}
+                                     {{currency.currencyExchangeSymbol}}
+                                </small>
+                             </ng-template>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+
+
+        </div>
+
     </section>
     <hr class="border border-secondary border-2 mt-4 mb-8">
 
@@ -55,7 +54,7 @@
 <section class="mt-4 mb-8">
     <div class="d-flex flex-row align-items-center">
         <div class="me-2">
-            <h6 i18n>Deudas detalladas de </h6> 
+            <h5 i18n>Deudas detalladas de </h5> 
         </div>
         <div>
             <select name="name" #user class="form-select mb-2" [(ngModel)]="userID" (change)="setDebts()">
@@ -76,10 +75,10 @@
                 <div class="row fw-bold align-items-center">
                     <div class="col-8" i18n>Le debes a {{user.name}}</div> 
                     <div class="col-4 text-end">
-                        {{myDebts?.debts?.get(user.id)?.individualTotalDebts }}
+                        {{myDebts?.debts?.get(user.id)?.individualtotalIveBeenPaid }}
                         {{currency.currencySymbol}}
                         <small *ngIf="currency.active">
-                            {{ calcExchange(myDebts?.debts?.get(user.id)?.individualTotalDebts) }}
+                            {{ calcExchange(myDebts?.debts?.get(user.id)?.individualtotalIveBeenPaid) }}
                              {{currency.currencyExchangeSymbol}}
                         </small>
                     </div>
@@ -106,15 +105,32 @@
                 <div class="row fw-bold align-items-center">
                     <div class="col-8" i18n>Te debe {{user.name}}</div> 
                     <div class="col-4 text-end">
-                        {{debts.get(user.id)?.debts?.get(userID)?.individualTotalDebts }}
+                        {{debts.get(user.id)?.debts?.get(userID)?.individualtotalIveBeenPaid }}
                         {{currency.currencySymbol}}
                         <small *ngIf="currency.active">
-                            {{ calcExchange(debts.get(user.id)?.debts?.get(userID)?.individualTotalDebts) }}
+                            {{ calcExchange(debts.get(user.id)?.debts?.get(userID)?.individualtotalIveBeenPaid) }}
                             {{currency.currencyExchangeSymbol}}
                         </small>
                     </div>
                 </div>
             </div>
+            <ul class="list-group list-group-flush">
+                <li (dblclick)="pay(expense.id, userID, expense.settleBy.includes(userID))" 
+                    class="list-group-item align-items-center list-group-item-action" 
+                    *ngFor="let expense of debts.get(user.id)?.debts?.get(userID)?.RefDebtsIds">
+
+                    <div class="col-9" [class.textpaid]="expense.settleBy.includes(userID)">{{expense.title}}</div> 
+                    <div class="col-3 text-end" [class.textpaid]="expense.settleBy.includes(userID)">
+                        {{expense.cost }}{{currency.currencySymbol}}
+                        <small *ngIf="currency.active">
+                            {{ calcExchange(expense.cost) }}
+                            {{currency.currencyExchangeSymbol}}
+                        </small>
+                    </div>
+                    <div class="paid" i18n *ngIf="expense.settleBy.includes(userID)">PAGADO</div>
+                    
+                </li>
+            </ul>
             <div class="card-footer"> 
                 <div class="row fw-bold align-items-center">
                     <div class="col-8" i18n>Total a pagar:</div> 

@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MockComponent } from 'ng-mocks';
+import { AlertComponent } from 'src/app/alert/alert.component';
 
 import { SettingsBackupComponent } from './settings-backup.component';
 
@@ -8,7 +10,9 @@ describe('SettingsBackupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsBackupComponent ]
+      declarations: [ SettingsBackupComponent,
+        MockComponent(AlertComponent)
+       ]
     })
     .compileComponents();
 

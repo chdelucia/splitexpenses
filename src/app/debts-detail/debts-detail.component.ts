@@ -35,6 +35,7 @@ export class DebtsDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.debts)
   }
   
   calcExchange(value?: number) {
