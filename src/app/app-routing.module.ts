@@ -19,6 +19,7 @@ import { WeatherforecastComponent } from './weatherforecast/weatherforecast.comp
 const routes: Routes = [
   { path: '',   component: MainComponent, pathMatch: 'full' },
   { path: 'expense',   component: AddExpenseComponent },
+  { path: 'debts/:id', component: DebtsDetailComponent },
   { path: 'details', component: ExpensesListComponent },
   { path: 'users', component: AddUserComponent },
   { path: 'statistics', component: StatisticsComponent },

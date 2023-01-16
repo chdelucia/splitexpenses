@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
@@ -23,13 +24,14 @@ export class DebtsDetailComponent implements OnInit {
     private debtsService: DebtsService,
     private userService: UsersService,
     private currencyService: CurrencyService,
-    private expensesService: ExpensesService
+    private expensesService: ExpensesService,
+    private route: ActivatedRoute,
   ) { 
     this.users = this.userService.getUsers();
     this.usersHTML = this.userService.getIterableUsers();
     this.debts = this.debtsService.getDebts();
     this.currency = this.currencyService.getCurrencySettings();
-    this.userID = this.usersHTML[0].id;
+    this.userID = this.route.snapshot.paramMap.get('id') || this.usersHTML[0].id;
 
     this.setDebts();
   }

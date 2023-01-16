@@ -38,7 +38,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     if(this.filter){
       this.createArrayofExpenses();
      }
-
   }
   
   ngOnChanges(){
@@ -50,12 +49,17 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
     this.expenses = this.expensesService.getExpenses();
+    this.dates = this.expensesService.getExpensesDates();
     this.createArrayofExpenses();
     this.debtsService.reset();
   }
 
   createArrayofExpenses(){
-    this.expensesHTML = this.expensesService.getExpensesFilterByType(this.filter);
+    if(this.filter){
+      this.expensesHTML = this.expensesService.getExpensesFilterByType(this.filter);
+    } else {
+      this.expensesHTML = Array.from(this.expenses.values());
+    } 
   }
 
   calcExchange(value?: number) {

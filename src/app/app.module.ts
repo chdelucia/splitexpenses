@@ -29,6 +29,7 @@ import { LocalstorageService } from './shared/localstorage.service';
 import { SettingsTravelComponent } from './settings/settings-travel/settings-travel.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CurrencyService } from './shared/currency.service';
+import { DebtsComponent } from './debts/debts.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { CurrencyService } from './shared/currency.service';
     SettingsCurrencyComponent,
     SettingsGraphComponent,
     SettingsTravelComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    DebtsComponent
   ],
   imports: [
     BrowserModule,
