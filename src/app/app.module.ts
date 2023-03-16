@@ -30,6 +30,8 @@ import { SettingsTravelComponent } from './settings/settings-travel/settings-tra
 import { StatisticsComponent } from './statistics/statistics.component';
 import { CurrencyService } from './shared/currency.service';
 import { DebtsComponent } from './debts/debts.component';
+import { StoreModule } from '@ngrx/store';
+import { userReducer } from './state/user/user.reducer';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { DebtsComponent } from './debts/debts.component';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    NgChartsModule
+    NgChartsModule,
+    StoreModule.forRoot({users: userReducer}, {})
   ],
   providers: [
     ExpensesService,

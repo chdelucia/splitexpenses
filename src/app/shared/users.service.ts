@@ -2,15 +2,23 @@ import { Injectable, ɵpublishDefaultGlobalUtils } from '@angular/core';
 import { LocalstorageService } from './localstorage.service';
 import { User } from './models';
 import { calcNextID, convertStringToMap } from './utils';
+import { Store } from '@ngrx/store';
+import { addUser, removeUser, updateUser, resetUsers, addUsers } from '../state/user/user.actions';
+import { selectUsers, selectUserByID, selectIterableUsers } from '../state/user/user.selectors';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
   users: Map<string, User>
-  
-  constructor(private storageService: LocalstorageService) { 
+
+  constructor(
+    private storageService: LocalstorageService,
+    private store: Store
+    ) {
     this.users = this.loadUsersFromLocalStorage();
+    this.store.dispatch(addUsers({ users: this.users }))
   }
 
   getUsers(): Map<string, User> {
@@ -22,21 +30,19 @@ export class UsersService {
   }
 
   getIterableUsers(): Array<User> {
-    let users: Array<User> = [];
-    this.users.forEach( (user: User) => {
-     users.push(user);
-    });
-    return users;
+    return Array.from(this.users.values());
   }
 
   editUser(user: User): void {
     this.users.set(user.id, user);
+    this.store.dispatch(updateUser({ user }));
     this.saveUsersIntoLocalStorage();
   }
 
   addUser(user: User): void {
     user.id = calcNextID(this.users);
     this.users.set(user.id, user);
+    this.store.dispatch(addUser({ user }));
     this.saveUsersIntoLocalStorage();
   }
 
@@ -56,14 +62,8 @@ export class UsersService {
   }
 
   checkIfNameExist(name: string): boolean{
-    let result = false;
-    this.users.forEach( user => {
-      if(user.name === name){
-        result = true;
-      }
-    })
-
-    return result;
+    let users = Array.from(this.users.values());
+    return users.find((user:User) => user.name === name) ? true : false;
   }
 
   reset(){

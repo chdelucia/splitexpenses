@@ -4,19 +4,19 @@
     <h2 class="my-4 text-center" i18n>Administración de usuarios</h2>
     <div class="mb-2 row g-4">
         <div class="col-6">
-            <input #user  class="form-control" type="text" i18n.placeholder placeholder="Nombre usuario"  
+            <input #user  class="form-control" type="text" i18n.placeholder placeholder="Nombre usuario"
                 [(ngModel)]="inputValue" />
         </div>
         <div class="col-6">
-            <input #phone  class="form-control" type="number" i18n.placeholder placeholder="whatsApp number (optional)"  
+            <input #phone  class="form-control" type="number" i18n.placeholder placeholder="whatsApp number (optional)"
                 [(ngModel)]="inputPhone" />
         </div>
-       
-        
+
+
     </div>
 
-    <button [disabled]="user.value == ''" class="input-group btn my-3 btn btn-primary p-2" 
-            type="button" 
+    <button [disabled]="user.value == ''" class="input-group btn my-3 btn btn-primary p-2"
+            type="button"
             (click)="add(user.value, phone.value)" i18n>
             Añadir Usuario
     </button>
@@ -32,7 +32,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users">
+            <tr *ngFor="let user of users$ | async">
                 <td #nameCell contentEditable (focusout)="edit(nameCell, user.id, 'name')"> {{user.name}} </td>
                 <td #phoneCell contentEditable (focusout)="edit(phoneCell, user.id, 'phone')"> {{user.phone}}</td>
                 <td (click)="delete(user.id)"> 🗑 </td>

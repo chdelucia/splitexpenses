@@ -26,7 +26,7 @@ export class DebtsDetailComponent implements OnInit {
     private currencyService: CurrencyService,
     private expensesService: ExpensesService,
     private route: ActivatedRoute,
-  ) { 
+  ) {
     this.users = this.userService.getUsers();
     this.usersHTML = this.userService.getIterableUsers();
     this.debts = this.debtsService.getDebts();
@@ -39,14 +39,14 @@ export class DebtsDetailComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.debts)
   }
-  
+
   calcExchange(value?: number) {
     return this.currencyService.calcExchangeValue(value || 0);
   }
 
   setDebts(){
     const userExist = this.users.get(this.userID);
-    const myDebts = this.debts.get(this.userID); 
+    const myDebts = this.debts.get(this.userID);
     if ( userExist && myDebts ){
       this.myDebts = myDebts
     }
@@ -55,12 +55,12 @@ export class DebtsDetailComponent implements OnInit {
   pay(expenseID: string, userID: string, paid: boolean) {
     let expense = this.expensesService.getExpenseByID(expenseID);
     if(expense) {
-      
+
       // remove userID or added
       paid ? expense.settleBy.splice(expense.settleBy.indexOf(userID), 1) : expense.settleBy.push(userID)
       this.expensesService.editExpense(expense);
       this.recalculateDebts();
-      
+
     } else {
       //TODO show toast or control errors
       console.error('error');
@@ -76,6 +76,5 @@ export class DebtsDetailComponent implements OnInit {
   closeInfo(){
     this.hideInfo = true;
   }
-  
 
 }

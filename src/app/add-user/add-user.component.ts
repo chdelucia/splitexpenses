@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectIterableUsers, selectUsers } from '../state/user/user.selectors';
+import { addUser, editUser, getUsers } from '../state/user/user.actions';
 
 @Component({
   selector: 'app-add-user',
@@ -14,15 +18,27 @@ export class AddUserComponent implements OnInit {
   users: Array<User>;
   showAlert = false;
   isError = false;
+  users$: Observable<User[]>;
 
   constructor(
     private userService: UsersService,
-    private debtsService: DebtsService
+    private debtsService: DebtsService,
+    private store: Store
     ) {
     this.users = this.userService.getIterableUsers();
+    this.users$ = this.store.select(selectIterableUsers);
    }
 
   ngOnInit(): void {
+    let user: User =  {
+      id: '8',
+      name: 'ojala'
+    }
+    this.store.dispatch(addUser({ user }));
+
+    this.users$.subscribe((users) => {
+      console.log(users);
+    });
   }
 
   clearInput():void {
