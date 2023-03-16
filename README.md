@@ -1,6 +1,13 @@
-# Splitexpenses
+# Splitexpenses Que es?
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.4.
+Es una aplicación para compartir gastos de viajes
+
+·No necesita internet
+·Solo usa localStorage nada de bases de datos
+·No necesitas registro
+·Puedes configurar las divisas
+·Te enseña tus gastos graficamente
+·Calcula como saldar las deudas entre los participantes.
 
 ## Development server
 

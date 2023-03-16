@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ExpensesService } from '../shared/expenses.service';
 import { Expense, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
@@ -10,7 +11,7 @@ import { UsersService } from '../shared/users.service';
   styleUrls: ['./main.component.less']
 })
 export class MainComponent implements OnInit {
-  users: Array<User>
+  users: Array<User> = [];
   expenses: Map<string, Expense>
 
 
@@ -18,11 +19,15 @@ export class MainComponent implements OnInit {
     private expensesService: ExpensesService,
     private usersService: UsersService,
     ) {
-    this.users = this.usersService.getIterableUsers();
     this.expenses = this.expensesService.getExpenses();
   }
 
   ngOnInit(): void {
+    this.usersService.getIterableUsers().subscribe(
+      (users) => {
+        this.users = users;
+      }
+    );
   }
 
 }

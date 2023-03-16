@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
@@ -16,8 +17,8 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   expenses: Map<string, Expense>;
   expensesHTML: Array<Expense> = [];
   currency: CurrencyPlugin;
-  users: Map<string, User>;
-  totalUsers: number;
+  users: Map<string, User> = new Map();
+  totalUsers: number = 0;
   dates: Array<string> = [];
 
   constructor(
@@ -25,11 +26,9 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     private debtsService: DebtsService,
     private currencyService: CurrencyService,
     private usersService: UsersService
-    ) { 
+    ) {
     this.expenses = this.expensesService.getExpenses();
     this.currency = this.currencyService.getCurrencySettings();
-    this.users = this.usersService.getUsers();
-    this.totalUsers = this.users.size;
     this.expensesHTML = Array.from(this.expenses.values());
     this.dates = this.expensesService.getExpensesDates();
   }
@@ -37,9 +36,15 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     if(this.filter){
       this.createArrayofExpenses();
-     }
+    }
+    this.usersService.getUsers().subscribe(
+      (users: Map<string, User>) => {
+        this.users = users;
+        this.totalUsers = users.size;
+      }
+    );
   }
-  
+
   ngOnChanges(){
     if(this.filter){
      this.createArrayofExpenses();
@@ -59,7 +64,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
       this.expensesHTML = this.expensesService.getExpensesFilterByType(this.filter);
     } else {
       this.expensesHTML = Array.from(this.expenses.values());
-    } 
+    }
   }
 
   calcExchange(value?: number) {

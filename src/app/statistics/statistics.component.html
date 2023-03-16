@@ -7,11 +7,11 @@
         <div>
             <select name="name" #user class="form-select" (change)="change(user.value)">
                 <option value="0" selected i18n>Grupo</option>
-                <option *ngFor="let user of usersHTML" [value]="user.id">{{user.name}}</option>
+                <option *ngFor="let user of usersHTML | async" [value]="user.id">{{user.name}}</option>
             </select>
         </div>
     </div>
-    
+
 
 
 
@@ -23,4 +23,4 @@
     <app-summarygraph bytype="ByDay" [data]="dailyData"></app-summarygraph>
     <app-summarygraph bytype="ByType" [data]="typeData"></app-summarygraph>
 
- </main>   
+ </main>

@@ -13,17 +13,17 @@
                     </div>
                     <div class="col-3">
                             {{expense.originalCost }} {{currency.currencySymbol}}
-  
+
                     </div>
-                    <div class="col-1" *ngIf="!filter" (click)="deleteExpense(expense.id)"> 🗑 </div>       
+                    <div class="col-1" *ngIf="!filter" (click)="deleteExpense(expense.id)"> 🗑 </div>
                 </div>
                 <div class="row g-2 align-items-center text-secondary">
                     <div class="col-8 paidBy">
-                        <span i18n>Pagado por:</span> {{ users.get(expense.paidBy)?.name }}
+                        <span i18n>Pagado por:</span> {{ users.get(expense.paidBy)?.name}}
                         <br>
                         <span i18n>Participan: </span>
                         <span i18n *ngIf="expense.sharedBy.length == totalUsers; else elseBlock">Todos</span>
-                                
+
                         <ng-template #elseBlock>
                             <span *ngFor="let userId of expense.sharedBy">
                                 {{ users.get(userId)?.name }}
@@ -36,9 +36,8 @@
                     </div>
                 </div>
             </div>
-        </ng-container>  
+        </ng-container>
     </ng-container>
 </main>
 
 
-    

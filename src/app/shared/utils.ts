@@ -16,7 +16,7 @@ export function calcNextID(data: Map<any, any>): string{
     let nextId = parseInt(lastId) + 1;
     return nextId.toString();
   }
-  
+
 export function round2decimals(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
@@ -29,4 +29,3 @@ export function diffinDays(date1: string, date2: string): number {
 
   return diffDays
 }
-  

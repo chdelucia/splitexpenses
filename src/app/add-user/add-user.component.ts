@@ -4,8 +4,7 @@ import { User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectIterableUsers, selectUsers } from '../state/user/user.selectors';
-import { addUser, editUser, getUsers } from '../state/user/user.actions';
+import { selectIterableUsers } from '../state/user/user.selectors';
 
 @Component({
   selector: 'app-add-user',
@@ -15,7 +14,6 @@ import { addUser, editUser, getUsers } from '../state/user/user.actions';
 export class AddUserComponent implements OnInit {
   inputValue = '';
   inputPhone = '';
-  users: Array<User>;
   showAlert = false;
   isError = false;
   users$: Observable<User[]>;
@@ -25,20 +23,10 @@ export class AddUserComponent implements OnInit {
     private debtsService: DebtsService,
     private store: Store
     ) {
-    this.users = this.userService.getIterableUsers();
-    this.users$ = this.store.select(selectIterableUsers);
+    this.users$ = this.userService.getIterableUsers();
    }
 
   ngOnInit(): void {
-    let user: User =  {
-      id: '8',
-      name: 'ojala'
-    }
-    this.store.dispatch(addUser({ user }));
-
-    this.users$.subscribe((users) => {
-      console.log(users);
-    });
   }
 
   clearInput():void {
@@ -57,7 +45,6 @@ export class AddUserComponent implements OnInit {
       }
       this.isError = false;
       this.userService.addUser(user);
-      this.updateUsers();
       this.clearInput();
     }
     this.debtsService.reset();
@@ -81,12 +68,8 @@ export class AddUserComponent implements OnInit {
 
   delete(name: string) {
     this.userService.removeUser(name);
-    this.updateUsers();
   }
 
-  updateUsers(){
-    this.users = this.userService.getIterableUsers();
-  }
 
   close(){
     this.showAlert = false;

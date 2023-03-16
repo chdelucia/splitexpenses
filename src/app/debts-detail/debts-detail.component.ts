@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { firstValueFrom, Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
@@ -15,8 +16,8 @@ export class DebtsDetailComponent implements OnInit {
   userID: string;
   debts: Map<string, Debt>;
   myDebts: Debt | undefined;
-  users: Map<string, User>;
-  usersHTML: Array<User>;
+  users: Observable<Map<string, User>>;
+  usersHTML: Observable<Array<User>>;
   currency: CurrencyPlugin;
   hideInfo = false;
 
@@ -31,7 +32,7 @@ export class DebtsDetailComponent implements OnInit {
     this.usersHTML = this.userService.getIterableUsers();
     this.debts = this.debtsService.getDebts();
     this.currency = this.currencyService.getCurrencySettings();
-    this.userID = this.route.snapshot.paramMap.get('id') || this.usersHTML[0].id;
+    this.userID = this.route.snapshot.paramMap.get('id') || '0';
 
     this.setDebts();
   }
@@ -44,8 +45,9 @@ export class DebtsDetailComponent implements OnInit {
     return this.currencyService.calcExchangeValue(value || 0);
   }
 
-  setDebts(){
-    const userExist = this.users.get(this.userID);
+  async setDebts(){
+    const users = await firstValueFrom(this.users)
+    const userExist = users.get(this.userID);
     const myDebts = this.debts.get(this.userID);
     if ( userExist && myDebts ){
       this.myDebts = myDebts

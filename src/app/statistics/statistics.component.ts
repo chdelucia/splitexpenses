@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, User } from '../shared/models';
@@ -10,7 +11,7 @@ import { UsersService } from '../shared/users.service';
   styleUrls: ['./statistics.component.less']
 })
 export class StatisticsComponent implements OnInit {
-  usersHTML: Array<User>;
+  usersHTML: Observable<Array<User>>;
 
   meanCost: number = 0;
   todayCost: number = 0;

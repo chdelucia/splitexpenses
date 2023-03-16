@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
@@ -13,16 +14,14 @@ import { UsersService } from '../shared/users.service';
 export class DebtsComponent implements OnInit {
 
   debts: Map<string, Debt>;
-  users: Map<string, User>;
-  usersHTML: Array<User>;
+  usersHTML: Observable<Array<User>>;
   currency: CurrencyPlugin;
 
   constructor(
     private debtsService: DebtsService,
     private userService: UsersService,
     private currencyService: CurrencyService
-  ) { 
-    this.users = this.userService.getUsers();
+  ) {
     this.usersHTML = this.userService.getIterableUsers();
     this.debts = this.debtsService.getDebts();
     this.currency = this.currencyService.getCurrencySettings();

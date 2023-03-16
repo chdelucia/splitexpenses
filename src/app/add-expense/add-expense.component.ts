@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { firstValueFrom, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
@@ -17,14 +18,13 @@ import { ExpensesForm } from './model'
 export class AddExpenseComponent implements OnInit {
 
   currency: CurrencyPlugin;
-  usersHTML: Array<User>
-  private users: Map<string, User>
+  usersHTML: Observable<Array<User>>;
 
   showAlert = false;
   isError = false;
-  
+
   model: ExpensesForm;
-  ExpenseTypes: ExpenseTypes[];
+  expenseTypes: ExpenseTypes[];
 
   constructor(
     private expensesService: ExpensesService,
@@ -32,30 +32,39 @@ export class AddExpenseComponent implements OnInit {
     private debtsService: DebtsService,
     private currencyService: CurrencyService
     ) {
-    this.ExpenseTypes = this.expensesService.getExpensesTypes()
-    this.users = this.usersService.getUsers();
-    this.usersHTML = this.usersService.getIterableUsers()
+    this.expenseTypes = this.expensesService.getExpensesTypes();
+    this.usersHTML = this.usersService.getIterableUsers();
     this.model = new ExpensesForm(
-      this.usersHTML[0] ? this.usersHTML[0].id : '1',
+      '1',
       '',
       '',
-      this.ExpenseTypes[this.ExpenseTypes.length - 1].id,
-      Array(this.usersHTML.length).fill(true)
+      this.expenseTypes[this.expenseTypes.length - 1].id,
+      []
       );
+    this.usersHTML.subscribe(users => {
+    this.model = new ExpensesForm(
+      users[0] ? users[0].id : '1',
+      '',
+      '',
+      this.expenseTypes[this.expenseTypes.length - 1].id,
+      Array(users.length).fill(true)
+      );
+    });
     this.currency = this.currencyService.getCurrencySettings();
   }
 
   ngOnInit(): void {
   }
 
-  onSubmit(expenseForm: ExpensesForm) {
+  async onSubmit(expenseForm: ExpensesForm) {
     let sharedBy: Array<string> = [];
+    const users = await firstValueFrom(this.usersHTML)
     this.model.sharedBy.forEach( (value, i) => {
-      if(value) { sharedBy.push(this.usersHTML[i].id) };
+      if(value) { sharedBy.push(users[i].id) };
     })
 
     let costb = parseFloat(expenseForm.cost) / sharedBy.length;
-  
+
     const obj: Expense = {
       "id": '',
       "title": expenseForm.title,
@@ -80,11 +89,11 @@ export class AddExpenseComponent implements OnInit {
     this.model.title = '';
   }
 
-  calcExchange() {
+  calcExchange() :number {
     return this.currencyService.calcExchangeValue(parseFloat(this.model.cost));
   }
 
-  close(){
+  close(): void{
     this.showAlert = false;
   }
 

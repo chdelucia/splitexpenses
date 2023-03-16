@@ -2,26 +2,26 @@
 <section class="mt-4 mb-8">
     <div class="d-flex flex-row align-items-center">
         <div class="me-2">
-            <h5 i18n>Deudas detalladas de </h5> 
+            <h5 i18n>Deudas detalladas de </h5>
         </div>
         <div>
             <select name="name" #user class="form-select mb-2" [(ngModel)]="userID" (change)="setDebts()">
-                <option *ngFor="let user of usersHTML" [value]="user.id">{{user.name}}</option>
+                <option *ngFor="let user of usersHTML | async" [value]="user.id">{{user.name}}</option>
             </select>
         </div>
     </div>
-               
+
 
     <div [class.hide]="hideInfo" class="alert alert-warning alert-dismissible fade show" role="alert" i18n>
         <strong>Info!</strong> Pulsa dos veces para marcar como pagado un gasto.
         <button (click)=closeInfo() type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <ng-container *ngFor="let user of usersHTML">
+    <ng-container *ngFor="let user of usersHTML | async">
         <div class="card mt-3" *ngIf="user.id != userID">
             <div class="card-header ">
                 <div class="row fw-bold align-items-center">
-                    <div class="col-8" i18n>Le debes a {{user.name}}</div> 
+                    <div class="col-8" i18n>Le debes a {{user.name}}</div>
                     <div class="col-4 text-end">
                         {{myDebts?.debts?.get(user.id)?.individualtotalIveBeenPaid }}
                         {{currency.currencySymbol}}
@@ -33,11 +33,11 @@
                 </div>
             </div>
             <ul class="list-group list-group-flush">
-                <li (dblclick)="pay(expense.id, userID, expense.settleBy.includes(userID))" 
-                    class="list-group-item align-items-center list-group-item-action" 
+                <li (dblclick)="pay(expense.id, userID, expense.settleBy.includes(userID))"
+                    class="list-group-item align-items-center list-group-item-action"
                     *ngFor="let expense of myDebts?.debts?.get(user.id)?.RefDebtsIds">
 
-                    <div class="col-9" [class.textpaid]="expense.settleBy.includes(userID)">{{expense.title}}</div> 
+                    <div class="col-9" [class.textpaid]="expense.settleBy.includes(userID)">{{expense.title}}</div>
                     <div class="col-3 text-end" [class.textpaid]="expense.settleBy.includes(userID)">
                         {{expense.cost }}{{currency.currencySymbol}}
                         <small *ngIf="currency.active">
@@ -46,12 +46,12 @@
                         </small>
                     </div>
                     <div class="paid" i18n *ngIf="expense.settleBy.includes(userID)">PAGADO</div>
-                    
+
                 </li>
             </ul>
             <div class="card-footer">
                 <div class="row fw-bold align-items-center">
-                    <div class="col-8" i18n>Te debe {{user.name}}</div> 
+                    <div class="col-8" i18n>Te debe {{user.name}}</div>
                     <div class="col-4 text-end">
                         {{debts.get(user.id)?.debts?.get(userID)?.individualtotalIveBeenPaid }}
                         {{currency.currencySymbol}}
@@ -63,11 +63,11 @@
                 </div>
             </div>
             <ul class="list-group list-group-flush">
-                <li (dblclick)="pay(expense.id, userID, expense.settleBy.includes(userID))" 
-                    class="list-group-item align-items-center list-group-item-action" 
+                <li (dblclick)="pay(expense.id, userID, expense.settleBy.includes(userID))"
+                    class="list-group-item align-items-center list-group-item-action"
                     *ngFor="let expense of debts.get(user.id)?.debts?.get(userID)?.RefDebtsIds">
 
-                    <div class="col-9" [class.textpaid]="expense.settleBy.includes(userID)">{{expense.title}}</div> 
+                    <div class="col-9" [class.textpaid]="expense.settleBy.includes(userID)">{{expense.title}}</div>
                     <div class="col-3 text-end" [class.textpaid]="expense.settleBy.includes(userID)">
                         {{expense.cost }}{{currency.currencySymbol}}
                         <small *ngIf="currency.active">
@@ -76,12 +76,12 @@
                         </small>
                     </div>
                     <div class="paid" i18n *ngIf="expense.settleBy.includes(userID)">PAGADO</div>
-                    
+
                 </li>
             </ul>
-            <div class="card-footer"> 
+            <div class="card-footer">
                 <div class="row fw-bold align-items-center">
-                    <div class="col-8" i18n>Total a pagar:</div> 
+                    <div class="col-8" i18n>Total a pagar:</div>
                     <div class="col-4 text-end">
                         {{myDebts?.debts?.get(user.id)?.newDebt }}
                         {{currency.currencySymbol}}
