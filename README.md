@@ -2,12 +2,16 @@
 
 Es una aplicación para compartir gastos de viajes
 
-·No necesita internet
-·Solo usa localStorage nada de bases de datos
-·No necesitas registro
-·Puedes configurar las divisas
-·Te enseña tus gastos graficamente
-·Calcula como saldar las deudas entre los participantes.
+- No necesita internet
+- Solo usa localStorage nada de bases de datos
+- No necesitas registro
+- Puedes configurar las divisas
+- Te enseña tus gastos graficamente
+- Calcula como saldar las deudas entre los participantes.
+
+## Documentation
+
+Run `npm run compodoc` 
 
 ## Development server
 
