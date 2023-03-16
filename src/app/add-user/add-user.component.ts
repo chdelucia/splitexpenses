@@ -4,7 +4,6 @@ import { User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectIterableUsers } from '../state/user/user.selectors';
 
 @Component({
   selector: 'app-add-user',

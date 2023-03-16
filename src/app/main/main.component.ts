@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ExpensesService } from '../shared/expenses.service';
 import { Expense, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
