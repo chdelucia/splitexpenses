@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
-import { AddUserComponent } from './add-user/add-user.component';
 import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { MainComponent } from './main/main.component';
@@ -20,7 +19,6 @@ const routes: Routes = [
   { path: 'expense',   component: AddExpenseComponent },
   { path: 'debts/:id', component: DebtsDetailComponent },
   { path: 'details', component: ExpensesListComponent },
-  { path: 'users', component: AddUserComponent },
   { path: 'statistics', component: StatisticsComponent },
   { path: 'forecast', component: WeatherforecastComponent },
   { path: 'settings', component: SettingsComponent, children:[
@@ -33,6 +31,7 @@ const routes: Routes = [
     { path: 'upload',  component: SettingsUploadComponent},
   ]
 },
+  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
 ];
 
 @NgModule({

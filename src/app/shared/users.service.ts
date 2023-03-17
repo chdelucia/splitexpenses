@@ -12,7 +12,6 @@ import { firstValueFrom, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UsersService {
-  users: Map<string, User>
   users$: Observable<Map<string, User>> = this.store.select(selectUsers);
   iterableUsers$: Observable<Array<User>> = this.store.select(selectIterableUsers);
 
@@ -20,8 +19,8 @@ export class UsersService {
     private storageService: LocalstorageService,
     private store: Store
     ) {
-    this.users = this.loadUsersFromLocalStorage();
-    this.store.dispatch(addUsers({ users: this.users }))
+    const users = this.loadUsersFromLocalStorage();
+    this.store.dispatch(addUsers({ users: users }))
   }
 
   getUsers(): Observable<Map<string, User>> {
@@ -59,17 +58,16 @@ export class UsersService {
     return users;
   }
 
-  saveUsersIntoLocalStorage():void {
-    this.storageService.saveDataToLocalStorage(this.users)
+  async saveUsersIntoLocalStorage(): Promise<void> {
+    let users = await firstValueFrom(this.users$)
+    this.storageService.saveDataToLocalStorage(users)
   }
 
-  checkIfNameExist(name: string): boolean{
-    let users = Array.from(this.users.values());
-    return users.find((user:User) => user.name === name) ? true : false;
+  async checkIfNameExist(name: string): Promise<boolean>{
+    let users = await firstValueFrom(this.users$)
+    let usersArray = Array.from(users.values());
+    return usersArray.find((user:User) => user.name === name) ? true : false;
   }
 
-  reset(){
-    this.users = this.loadUsersFromLocalStorage();
-  }
 
 }

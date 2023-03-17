@@ -4,7 +4,6 @@ import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddUserComponent } from './add-user/add-user.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { ExpensesService } from './shared/expenses.service';
@@ -32,11 +31,11 @@ import { CurrencyService } from './shared/currency.service';
 import { DebtsComponent } from './debts/debts.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddUserComponent,
     AddExpenseComponent,
     ExpensesListComponent,
     AlertComponent,
@@ -61,7 +60,8 @@ import { userReducer } from './state/user/user.reducer';
     AppRoutingModule,
     FormsModule,
     NgChartsModule,
-    StoreModule.forRoot({users: userReducer}, {})
+    StoreModule.forRoot({users: userReducer}, {}),
+    BrowserAnimationsModule
   ],
   providers: [
     ExpensesService,

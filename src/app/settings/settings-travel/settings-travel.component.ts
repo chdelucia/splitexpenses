@@ -21,7 +21,7 @@ export class SettingsTravelComponent implements OnInit {
     private usersService: UsersService,
     private expensesService: ExpensesService,
     private debtsService: DebtsService
-    ) { 
+    ) {
     this.settings = this.localStorageService.getSettings();
   }
 
@@ -36,7 +36,6 @@ export class SettingsTravelComponent implements OnInit {
   }
 
   resetAll() {
-    this.usersService.reset();
     this.expensesService.reset();
     this.debtsService.reset();
   }
