@@ -1,0 +1,1232 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>splitexpenses documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">splitexpenses documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >DebtsService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/shared/debts.service.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#debts" >debts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#users" >users</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#calcDebt" >calcDebt</a>
+                            </li>
+                            <li>
+                                <a href="#calcDirectDebtsDiff" >calcDirectDebtsDiff</a>
+                            </li>
+                            <li>
+                                <a href="#calcTotalAmountIAmOwed" >calcTotalAmountIAmOwed</a>
+                            </li>
+                            <li>
+                                <a href="#calcTotalAmountIhaveBeenPaid" >calcTotalAmountIhaveBeenPaid</a>
+                            </li>
+                            <li>
+                                <a href="#calcTotalAmountIpaid" >calcTotalAmountIpaid</a>
+                            </li>
+                            <li>
+                                <a href="#createStructure" >createStructure</a>
+                            </li>
+                            <li>
+                                <a href="#getDebts" >getDebts</a>
+                            </li>
+                            <li>
+                                <a href="#reset" >reset</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateExpenseDebt" >updateExpenseDebt</a>
+                            </li>
+                            <li>
+                                <a href="#verifyTotalAmountIhaveBeenPaid" >verifyTotalAmountIhaveBeenPaid</a>
+                            </li>
+                            <li>
+                                <a href="#verifyTotalAmountIPaid" >verifyTotalAmountIPaid</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>, expensesService: <a href="../injectables/ExpensesService.html" target="_self">ExpensesService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/shared/debts.service.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>expensesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ExpensesService.html" target="_self" >ExpensesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcDebt"></a>
+                    <span class="name">
+                        <span ><b>calcDebt</b></span>
+                        <a href="#calcDebt"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcDebt()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">src/app/shared/debts.service.ts:28</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcDirectDebtsDiff"></a>
+                    <span class="name">
+                        <span ><b>calcDirectDebtsDiff</b></span>
+                        <a href="#calcDirectDebtsDiff"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcDirectDebtsDiff()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">src/app/shared/debts.service.ts:127</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If two persons have debts between theirself extract the difference</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcTotalAmountIAmOwed"></a>
+                    <span class="name">
+                        <span ><b>calcTotalAmountIAmOwed</b></span>
+                        <a href="#calcTotalAmountIAmOwed"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcTotalAmountIAmOwed(myDebts: <a href="../interfaces/Debt.html" target="_self">Debt</a>, newDebt: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">src/app/shared/debts.service.ts:188</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>myDebts</td>
+                                    <td>
+                                                <code><a href="../interfaces/Debt.html" target="_self" >Debt</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>newDebt</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcTotalAmountIhaveBeenPaid"></a>
+                    <span class="name">
+                        <span ><b>calcTotalAmountIhaveBeenPaid</b></span>
+                        <a href="#calcTotalAmountIhaveBeenPaid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcTotalAmountIhaveBeenPaid(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, expense: <a href="../interfaces/Expense.html" target="_self">Expense</a>, oldValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">src/app/shared/debts.service.ts:165</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>expense</td>
+                                    <td>
+                                                <code><a href="../interfaces/Expense.html" target="_self" >Expense</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>oldValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcTotalAmountIpaid"></a>
+                    <span class="name">
+                        <span ><b>calcTotalAmountIpaid</b></span>
+                        <a href="#calcTotalAmountIpaid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcTotalAmountIpaid(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, expense: <a href="../interfaces/Expense.html" target="_self">Expense</a>, oldValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">src/app/shared/debts.service.ts:141</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>expense</td>
+                                    <td>
+                                                <code><a href="../interfaces/Expense.html" target="_self" >Expense</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>oldValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createStructure"></a>
+                    <span class="name">
+                        <span ><b>createStructure</b></span>
+                        <a href="#createStructure"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createStructure()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/app/shared/debts.service.ts:89</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>createStructureOLD(): Map&lt;string, Debt&gt; {
+let newMap = new Map();
+if(this.users){
+this.users.forEach(parentUser =&gt; {
+let obj1 = {
+&#39;totalIveBeenPaid&#39;: 0,
+&#39;totalIPaid&#39;: 0,
+&#39;debts&#39;: new Map(),
+}</p>
+<p>this.users.forEach(user =&gt; {
+if (parentUser.id !== user.id) {
+let obj = {
+&#39;individualtotalIveBeenPaid&#39;: 0,
+&#39;RefDebtsIds&#39;: [],
+}
+obj1.debts.set(user.id, obj);
+}
+})</p>
+<p>newMap.set(parentUser.id, obj1);
+})
+}</p>
+<p>return newMap;
+}</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Debt.html" target="_self" >Map&lt;string, Debt&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDebts"></a>
+                    <span class="name">
+                        <span ><b>getDebts</b></span>
+                        <a href="#getDebts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDebts()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/app/shared/debts.service.ts:24</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Debt.html" target="_self" >Map&lt;string, Debt&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reset"></a>
+                    <span class="name">
+                        <span ><b>reset</b></span>
+                        <a href="#reset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>reset()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">src/app/shared/debts.service.ts:118</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateExpenseDebt"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>updateExpenseDebt</b></span>
+                        <a href="#updateExpenseDebt"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateExpenseDebt(expense: <a href="../interfaces/Expense.html" target="_self">Expense</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/shared/debts.service.ts:36</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>expense</td>
+                                    <td>
+                                                <code><a href="../interfaces/Expense.html" target="_self" >Expense</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="verifyTotalAmountIhaveBeenPaid"></a>
+                    <span class="name">
+                        <span ><b>verifyTotalAmountIhaveBeenPaid</b></span>
+                        <a href="#verifyTotalAmountIhaveBeenPaid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>verifyTotalAmountIhaveBeenPaid(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/app/shared/debts.service.ts:180</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="verifyTotalAmountIPaid"></a>
+                    <span class="name">
+                        <span ><b>verifyTotalAmountIPaid</b></span>
+                        <a href="#verifyTotalAmountIPaid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>verifyTotalAmountIPaid(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">src/app/shared/debts.service.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="debts"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>debts</b></span>
+                        <a href="#debts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Debt.html" target="_self" >Map&lt;string | Debt&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/shared/debts.service.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="users"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>users</b></span>
+                        <a href="#users"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/User.html" target="_self" >Observable&lt;Map&lt;string, User&gt;&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/shared/debts.service.ts:13</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { firstValueFrom, Observable } from &#x27;rxjs&#x27;;
+import { ExpensesService } from &#x27;./expenses.service&#x27;;
+import { Debt, Expense, IndividualDebt, User } from &#x27;./models&#x27;;
+import { UsersService } from &#x27;./users.service&#x27;;
+import { round2decimals } from &#x27;./utils&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class DebtsService {
+  private debts: Map&lt;string, Debt&gt;;
+  private users: Observable&lt;Map&lt;string, User&gt;&gt;;
+
+  constructor(
+    private userService: UsersService,
+    private expensesService: ExpensesService
+    ) {
+    this.users &#x3D; this.userService.getUsers();
+    this.debts &#x3D; this.createStructure();
+    this.calcDebt();
+  }
+
+  getDebts(): Map&lt;string, Debt&gt; {
+    return this.debts;
+  }
+
+  calcDebt(): void{
+    let expenses &#x3D; this.expensesService.getExpenses().values();
+
+      for (const item of expenses) {
+        this.updateExpenseDebt(item);
+      }
+  }
+
+  async updateExpenseDebt(expense: Expense): Promise&lt;void&gt; {
+    let users &#x3D; await firstValueFrom(this.users);
+    users.forEach((user) &#x3D;&gt; {
+      let userDebts: Debt | undefined &#x3D; this.debts.get(user.id);
+      let individualDebt: IndividualDebt | undefined &#x3D; userDebts?.debts.get(expense.paidBy);
+
+      if(userDebts){
+        userDebts.totalIPaid &#x3D; this.calcTotalAmountIpaid(user.id, expense, userDebts.totalIPaid);
+
+        if(individualDebt) {
+          individualDebt.individualtotalIveBeenPaid &#x3D; this.calcTotalAmountIhaveBeenPaid(user.id, expense, individualDebt.individualtotalIveBeenPaid )
+          userDebts.totalIveBeenPaid &#x3D; this.calcTotalAmountIhaveBeenPaid(user.id, expense, userDebts.totalIveBeenPaid )
+
+          individualDebt.RefDebtsIds.push(expense);
+        }
+      }
+
+    });
+    this.calcDirectDebtsDiff();
+  }
+
+  /**
+   *
+  createStructureOLD(): Map&lt;string, Debt&gt; {
+    let newMap &#x3D; new Map();
+    if(this.users){
+      this.users.forEach(parentUser &#x3D;&gt; {
+        let obj1 &#x3D; {
+          &#x27;totalIveBeenPaid&#x27;: 0,
+          &#x27;totalIPaid&#x27;: 0,
+          &#x27;debts&#x27;: new Map(),
+        }
+
+        this.users.forEach(user &#x3D;&gt; {
+          if (parentUser.id !&#x3D;&#x3D; user.id) {
+            let obj &#x3D; {
+              &#x27;individualtotalIveBeenPaid&#x27;: 0,
+              &#x27;RefDebtsIds&#x27;: [],
+            }
+            obj1.debts.set(user.id, obj);
+          }
+        })
+
+        newMap.set(parentUser.id, obj1);
+      })
+    }
+
+    return newMap;
+  }
+  */
+
+
+  //TODO use await async
+  createStructure(): Map&lt;string, Debt&gt; {
+      let newMap &#x3D; new Map();
+      firstValueFrom(this.users).then(users &#x3D;&gt; {
+          if (users) {
+              users.forEach(parentUser &#x3D;&gt; {
+                  if (parentUser) {
+                      let obj1 &#x3D; {
+                          &#x27;totalIveBeenPaid&#x27;: 0,
+                          &#x27;totalIPaid&#x27;: 0,
+                          &#x27;debts&#x27;: new Map(),
+                      }
+                      users.forEach(user &#x3D;&gt; {
+                          if (user &amp;&amp; parentUser.id !&#x3D;&#x3D; user.id) {
+                              let obj &#x3D; {
+                                  &#x27;individualtotalIveBeenPaid&#x27;: 0,
+                                  &#x27;RefDebtsIds&#x27;: [],
+                              }
+                              obj1.debts.set(user.id, obj);
+                          }
+                      })
+                      newMap.set(parentUser.id, obj1);
+                  }
+              })
+          }
+      });
+      return newMap;
+  }
+
+
+  reset(){
+    this.users &#x3D; this.userService.getUsers();
+    this.debts &#x3D; this.createStructure();
+    this.calcDebt();
+  }
+
+  /**
+   * If two persons have debts between theirself extract the difference
+   */
+  calcDirectDebtsDiff(): void {
+      this.debts.forEach( (i,me) &#x3D;&gt; {
+        i.totalIowe &#x3D; 0;
+        i.debts.forEach( (j,userName) &#x3D;&gt; {
+
+          let Iowe &#x3D; j.individualtotalIveBeenPaid;
+          let owesMe &#x3D; this.debts.get(userName)?.debts.get(me)?.individualtotalIveBeenPaid || 0;
+
+          j.newDebt &#x3D; round2decimals(Iowe - owesMe);
+          i.totalIowe &#x3D; round2decimals(i.totalIowe + (j.newDebt));
+        });
+      })
+  }
+
+  calcTotalAmountIpaid(userId: string, expense: Expense, oldValue: number): number {
+    let paidByme &#x3D; userId &#x3D;&#x3D;&#x3D; expense.paidBy;
+    let Iparticipated &#x3D; expense.sharedBy.includes(userId);
+    let result &#x3D; oldValue;
+
+    if(paidByme){
+      result +&#x3D; expense.originalCost
+      if(Iparticipated){
+        result -&#x3D; expense.cost
+      }
+    }
+    return round2decimals(result);
+  }
+
+  verifyTotalAmountIPaid(userId: string): number {
+    let totalAmountIpaid &#x3D; 0;
+    this.debts.forEach( (item, key) &#x3D;&gt; {
+      if(userId !&#x3D;&#x3D; key) {
+        totalAmountIpaid +&#x3D; item.debts.get(userId)?.individualtotalIveBeenPaid || 0
+      }
+    })
+    return totalAmountIpaid;
+  }
+
+  calcTotalAmountIhaveBeenPaid(userId: string, expense: Expense, oldValue: number): number {
+    let billWasNotPaidByMe &#x3D; userId !&#x3D;&#x3D; expense.paidBy;
+    let Iparticipated &#x3D; expense.sharedBy.includes(userId);
+    let iDidntPayIt &#x3D; !expense.settleBy.includes(userId);
+    let userDebts: Debt | undefined &#x3D; this.debts.get(userId);
+    let individualDebt: IndividualDebt | undefined &#x3D; userDebts?.debts.get(expense.paidBy);
+    let result &#x3D; oldValue;
+
+    if(userDebts &amp;&amp; billWasNotPaidByMe &amp;&amp; Iparticipated &amp;&amp; individualDebt &amp;&amp; iDidntPayIt) {
+      result +&#x3D; expense.cost;
+    }
+
+    return round2decimals(result);
+  }
+
+  verifyTotalAmountIhaveBeenPaid(userId: string): number{
+    let totalAmountIhaveBeenPaid &#x3D; 0;
+    this.debts.get(userId)?.debts.forEach( (debt: IndividualDebt) &#x3D;&gt; {
+      totalAmountIhaveBeenPaid +&#x3D; debt.individualtotalIveBeenPaid;
+    })
+    return totalAmountIhaveBeenPaid;
+  }
+
+  calcTotalAmountIAmOwed(myDebts: Debt, newDebt: number): number {
+    return round2decimals(myDebts.totalIowe + (newDebt));
+  }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'DebtsService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
