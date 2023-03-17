@@ -3,7 +3,7 @@ import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-user',
@@ -20,7 +20,6 @@ export class AddUserComponent implements OnInit {
   constructor(
     private userService: UsersService,
     private debtsService: DebtsService,
-    private store: Store
     ) {
     this.users$ = this.userService.getIterableUsers();
    }
@@ -50,10 +49,10 @@ export class AddUserComponent implements OnInit {
     this.showAlert = true;
   }
 
-  edit(data: HTMLTableCellElement, key: string, fieldToEdit: string) {
+  async edit(data: HTMLTableCellElement, userID: string, fieldToEdit: string) {
     let newValue = data.innerText.trim();
-    let user: any = this.userService.getUserByID(key);
-    if(user && user.hasOwnProperty(fieldToEdit) && newValue){
+    let user: any = await firstValueFrom(this.userService.getUserByID(userID));
+    if(user && user.hasOwnProperty(fieldToEdit) && newValue) {
         if(user[fieldToEdit] != newValue) {
           user[fieldToEdit] = newValue;
           this.userService.editUser(user);
@@ -68,7 +67,6 @@ export class AddUserComponent implements OnInit {
   delete(name: string) {
     this.userService.removeUser(name);
   }
-
 
   close(){
     this.showAlert = false;

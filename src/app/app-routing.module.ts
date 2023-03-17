@@ -13,7 +13,6 @@ import { SettingsUploadComponent } from './settings/settings-upload/settings-upl
 import { SettingsWeatherComponent } from './settings/settings-weather/settings-weather.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 import { WeatherforecastComponent } from './weatherforecast/weatherforecast.component';
 
 const routes: Routes = [
@@ -32,7 +31,7 @@ const routes: Routes = [
     { path: 'graph',  component: SettingsGraphComponent},
     { path: 'backup',  component: SettingsBackupComponent},
     { path: 'upload',  component: SettingsUploadComponent},
-  ] 
+  ]
 },
 ];
 
