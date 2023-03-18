@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { firstValueFrom, Observable } from 'rxjs';
 import { UsersService } from './shared/users.service';
+import { openSnackBar, userToast } from '../shared/utils';
+
 
 @Component({
   selector: 'app-users',
@@ -11,6 +13,11 @@ import { UsersService } from './shared/users.service';
   styleUrls: ['./users.component.less']
 })
 export class UsersComponent {
+   private toastmsg =  {
+    OK : $localize`Guardado correctamente`,
+    KO : $localize`Error fatal`,
+    EXIST: $localize`Usuario ya existe`
+  }
 
   inputValue = '';
   inputPhone = '';
@@ -35,7 +42,7 @@ export class UsersComponent {
   async add(name: string, phone?: string) {
     let nameExist = await this.userService.checkIfNameExist(name);
     if(nameExist){
-      this.openSnackBar('usario ya existe');
+      openSnackBar(this._snackBar, userToast.EXIST, this.toastmsg.EXIST);
     } else {
       const user: User = {
         id: '',
@@ -44,9 +51,9 @@ export class UsersComponent {
       }
       this.userService.addUser(user);
       this.clearInput();
+      openSnackBar(this._snackBar, userToast.OK, this.toastmsg.OK)
     }
     this.debtsService.reset();
-    this.openSnackBar('Usuario creado correctamente');
   }
 
   async edit(data: HTMLTableCellElement, userID: string, fieldToEdit: string) {
@@ -56,7 +63,7 @@ export class UsersComponent {
         if(user[fieldToEdit] != newValue) {
           user[fieldToEdit] = newValue;
           this.userService.editUser(user);
-          this.openSnackBar('Usuario editado');
+          openSnackBar(this._snackBar, userToast.OK, this.toastmsg.OK);
         }
     } else {
       data.innerText = user[fieldToEdit] || '';
@@ -65,14 +72,7 @@ export class UsersComponent {
 
   delete(name: string) {
     this.userService.removeUser(name);
-    this.openSnackBar('Usuario borrado');
-  }
-
-  openSnackBar(msg: string) {
-    this._snackBar.open(msg, 'Ok', {
-      duration: 4000,
-      panelClass: ['blue-snackbar']
-    });
+    openSnackBar(this._snackBar, userToast.OK, 'Usuario borrado');
   }
 
 }

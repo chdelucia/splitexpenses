@@ -12,13 +12,10 @@
             </div>
             <div class="col-2">
                 <input class="colors" type="color" [(ngModel)]="settings.graph.bgColors[i]">
-            </div>    
-                
+            </div>
+
 
         </ng-container>
         <button class="input-group my-4 btn btn-primary p-2" type="submit" (click)="onSubmit()" i18n>Guardar</button>
     </div>
 </section>
-
-
-<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

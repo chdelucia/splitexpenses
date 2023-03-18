@@ -1,9 +1,9 @@
 
 <section class="mb-4" id="travels">
-    <h4 class="my-4" i18n>Tus viajes</h4> 
+    <h4 class="my-4" i18n>Tus viajes</h4>
 
-    <button type="button" class="btn btn-primary mb-2 me-2" 
-            *ngFor="let travel of settings.travels.names" 
+    <button type="button" class="btn btn-primary mb-2 me-2"
+            *ngFor="let travel of settings.travels.names"
             [class.btn-secondary]="travel != settings.travels.active"
             (click)="changeTravel(travel)">
       <span contenteditable>{{travel}}</span>
@@ -26,5 +26,3 @@
   </div>
 
 </section>
-
-<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>

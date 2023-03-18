@@ -21,11 +21,11 @@
             <label class="form-check-label" i18n>  On / Off "Cambio de divisa"</label>
         </div>
 
-        
+
         <ng-container >
             <div class="col-6">
                 <label i18n>Moneda de cambio</label>
-                <input #excurrency class="form-control" type="text" maxlength="4" [disabled]="!exchange.checked" 
+                <input #excurrency class="form-control" type="text" maxlength="4" [disabled]="!exchange.checked"
                         placeholder="$" [(ngModel)]="currencySettings.currencyExchangeSymbol"/>
             </div>
             <div class="col-6">
@@ -45,6 +45,3 @@
     </div>
 
 </section>
-
-
-<app-alert [show]="showAlert" (click)="close()" [alert]="isError"></app-alert>
