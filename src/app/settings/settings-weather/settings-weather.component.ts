@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { WeatherService } from 'src/app/forecast/shared/weather.service';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Settings, WeatherPlugin } from 'src/app/shared/models';
-import { WeatherService } from 'src/app/shared/weather.service';
 
 @Component({
   selector: 'app-settings-weather',
@@ -17,7 +17,7 @@ export class SettingsWeatherComponent implements OnInit {
   constructor(
     private weatherService: WeatherService,
     private localStorageService: LocalstorageService,
-    ) { 
+    ) {
     this.settings = this.localStorageService.getSettings();
     this.weatherSettings = this.settings.weather;
   }

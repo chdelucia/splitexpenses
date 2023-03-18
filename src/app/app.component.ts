@@ -1,5 +1,5 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
-import { WeatherService } from './shared/weather.service';
+import { WeatherService } from './forecast/shared/weather.service';
 
 @Component({
   selector: 'app-root',

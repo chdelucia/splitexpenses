@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild  } from '
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
-import { LocalstorageService } from '../shared/localstorage.service';
+import { LocalstorageService } from '../localstorage.service';
 
 @Component({
   selector: 'app-summarygraph',
@@ -15,7 +15,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
 
   filter: string = '';
   settings;
-  
+
   constructor(private storageService: LocalstorageService) {
     this.settings = this.storageService.getSettings();
   }
@@ -76,7 +76,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   barChartData: ChartData<'line'> = {
     labels: [],
     datasets: [
-      { data: [], 
+      { data: [],
         label: '',
         borderColor: 'yellow',
         backgroundColor: [
@@ -119,7 +119,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   calcByDay(){
     if(this.barChartOptions?.plugins?.title){
       this.barChartOptions.plugins.title.text = $localize `Gasto diario`;
-    } 
+    }
 
     this.barChartData.datasets = this.data.data;
     //this.barChartData.datasets[0].data = this.expensesService.getTotalCostEachDay().x;

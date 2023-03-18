@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WeatherService } from '../forecast/shared/weather.service';
 import { WeatherObject, WeatherPlugin } from '../shared/models';
-import { WeatherService } from '../shared/weather.service';
 
 @Component({
   selector: 'app-weather',
@@ -10,11 +10,11 @@ import { WeatherService } from '../shared/weather.service';
 export class WeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;
   weatherInfo: any;
-  
+
   constructor(private weatherService: WeatherService) {
     this.weatherSettings = this.weatherService.getWeahterSettings();
   }
-  
+
   ngOnInit() {
     if(this.weatherSettings.active){
       this.getWeathers();
@@ -22,7 +22,7 @@ export class WeatherComponent implements OnInit {
   }
 
   getWeathers():void {
-      this.weatherService.getWeatheritemsbyCity(this.weatherSettings.city).subscribe( 
+      this.weatherService.getWeatheritemsbyCity(this.weatherSettings.city).subscribe(
         (result: WeatherObject) => {
           result.main.temp = Math.round(result.main.temp);
           this.weatherInfo = result

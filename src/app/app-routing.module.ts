@@ -12,7 +12,6 @@ import { SettingsUploadComponent } from './settings/settings-upload/settings-upl
 import { SettingsWeatherComponent } from './settings/settings-weather/settings-weather.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StatisticsComponent } from './statistics/statistics.component';
-import { WeatherforecastComponent } from './weatherforecast/weatherforecast.component';
 
 const routes: Routes = [
   { path: '',   component: MainComponent, pathMatch: 'full' },
@@ -20,7 +19,6 @@ const routes: Routes = [
   { path: 'debts/:id', component: DebtsDetailComponent },
   { path: 'details', component: ExpensesListComponent },
   { path: 'statistics', component: StatisticsComponent },
-  { path: 'forecast', component: WeatherforecastComponent },
   { path: 'settings', component: SettingsComponent, children:[
     { path: '',   redirectTo:'currency', pathMatch: 'full'},
     { path: 'currency', component: SettingsCurrencyComponent },
@@ -32,6 +30,7 @@ const routes: Routes = [
   ]
 },
   { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  { path: 'forecast', loadChildren: () => import('./forecast/forecast.module').then(m => m.ForecastModule) },
 ];
 
 @NgModule({

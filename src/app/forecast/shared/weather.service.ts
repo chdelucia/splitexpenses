@@ -3,8 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { WeatherObject, WeatherPlugin } from './models';
-import { LocalstorageService } from './localstorage.service';
+import { WeatherObject, WeatherPlugin } from 'src/app/shared/models';
+import { LocalstorageService } from 'src/app/shared/localstorage.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,17 @@ export class WeatherService {
   constructor(
     private http: HttpClient,
     private localStorageService: LocalstorageService
-    ) { 
+    ) {
     this.weatherSettings = this.loadWeatherPluginFromLocalStorage();
   }
-  
+
   getWeatheritemsbyCity(cityName: string): any {
 
     return this.http.get<WeatherObject>(environment.baseUrl + 'weather?q=' + cityName + '&appid=' + this.weatherSettings.key + '&units=metric&lang=es')
         .pipe(
           retry(3),
           catchError(this.handleError)
-        ) 
+        )
   }
 
   getForecastbyCity(cityName: string) {
