@@ -6,6 +6,7 @@ import { UsersComponent } from './users.component';
 
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
+import { UsersService } from './shared/users.service';
 
 
 @NgModule({
@@ -17,6 +18,9 @@ import { FormsModule } from '@angular/forms';
     UsersRoutingModule,
     MatSnackBarModule,
     FormsModule,
+  ],
+  providers: [
+    UsersService
   ]
 })
 export class UsersModule { }

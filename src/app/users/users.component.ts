@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
-import { UsersService } from '../shared/users.service';
 import { firstValueFrom, Observable } from 'rxjs';
+import { UsersService } from './shared/users.service';
 
 @Component({
   selector: 'app-users',

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, User } from '../shared/models';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from '../users/shared/users.service';
 
 @Component({
   selector: 'app-stats',

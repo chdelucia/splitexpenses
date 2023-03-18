@@ -4,7 +4,7 @@ import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '../shared/models';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from '../users/shared/users.service';
 
 @Component({
   selector: 'app-expenses-list',

@@ -3,7 +3,6 @@ import { DebtsService } from 'src/app/shared/debts.service';
 import { ExpensesService } from 'src/app/shared/expenses.service';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Settings } from 'src/app/shared/models';
-import { UsersService } from 'src/app/shared/users.service';
 
 @Component({
   selector: 'app-settings-travel',
@@ -18,7 +17,6 @@ export class SettingsTravelComponent implements OnInit {
 
   constructor(
     private localStorageService: LocalstorageService,
-    private usersService: UsersService,
     private expensesService: ExpensesService,
     private debtsService: DebtsService
     ) {

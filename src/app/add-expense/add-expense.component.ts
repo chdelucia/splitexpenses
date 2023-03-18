@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, Debt, Expense, ExpenseTypes, User } from '../shared/models';
-import { UsersService } from '../shared/users.service';
 import { round2decimals } from '../shared/utils';
+import { UsersService } from '../users/shared/users.service';
 
 import { ExpensesForm } from './model'
 

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { CurrencyPlugin, Debt, User } from '../shared/models';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from '../users/shared/users.service';
 
 @Component({
   selector: 'app-debts',

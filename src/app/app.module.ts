@@ -7,7 +7,6 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { ExpensesService } from './shared/expenses.service';
 import { FormsModule } from '@angular/forms';
-import { UsersService } from './shared/users.service';
 import { DebtsService } from './shared/debts.service';
 import { AlertComponent } from './alert/alert.component';
 import { MainComponent } from './main/main.component';
@@ -56,7 +55,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   providers: [
     ExpensesService,
-    UsersService,
     DebtsService,
     LocalstorageService,
     CurrencyService

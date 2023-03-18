@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { UsersService } from '../users/shared/users.service';
 import { ExpensesService } from './expenses.service';
 import { Debt, Expense, IndividualDebt, User } from './models';
-import { UsersService } from './users.service';
 import { round2decimals } from './utils';
 
 @Injectable({
