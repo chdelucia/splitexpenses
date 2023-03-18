@@ -11,14 +11,12 @@ import { SettingsTravelComponent } from './settings/settings-travel/settings-tra
 import { SettingsUploadComponent } from './settings/settings-upload/settings-upload.component';
 import { SettingsWeatherComponent } from './settings/settings-weather/settings-weather.component';
 import { SettingsComponent } from './settings/settings.component';
-import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
   { path: '',   component: MainComponent, pathMatch: 'full' },
   { path: 'expense',   component: AddExpenseComponent },
   { path: 'debts/:id', component: DebtsDetailComponent },
   { path: 'details', component: ExpensesListComponent },
-  { path: 'statistics', component: StatisticsComponent },
   { path: 'settings', component: SettingsComponent, children:[
     { path: '',   redirectTo:'currency', pathMatch: 'full'},
     { path: 'currency', component: SettingsCurrencyComponent },
@@ -31,6 +29,7 @@ const routes: Routes = [
 },
   { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
   { path: 'forecast', loadChildren: () => import('./forecast/forecast.module').then(m => m.ForecastModule) },
+  { path: 'stats', loadChildren: () => import('./stats/stats.module').then(m => m.StatsModule) },
 ];
 
 @NgModule({

@@ -22,13 +22,11 @@ import { SettingsCurrencyComponent } from './settings/settings-currency/settings
 import { SettingsGraphComponent } from './settings/settings-graph/settings-graph.component';
 import { LocalstorageService } from './shared/localstorage.service';
 import { SettingsTravelComponent } from './settings/settings-travel/settings-travel.component';
-import { StatisticsComponent } from './statistics/statistics.component';
 import { CurrencyService } from './shared/currency.service';
 import { DebtsComponent } from './debts/debts.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +44,6 @@ import { SharedModule } from './shared/shared.module';
     SettingsCurrencyComponent,
     SettingsGraphComponent,
     SettingsTravelComponent,
-    StatisticsComponent,
     DebtsComponent
   ],
   imports: [
@@ -55,8 +52,7 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     FormsModule,
     StoreModule.forRoot({users: userReducer}, {}),
-    BrowserAnimationsModule,
-    SharedModule
+    BrowserAnimationsModule
   ],
   providers: [
     ExpensesService,

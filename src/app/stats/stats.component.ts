@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { ExpensesService } from '../shared/expenses.service';
@@ -6,11 +6,12 @@ import { CurrencyPlugin, User } from '../shared/models';
 import { UsersService } from '../shared/users.service';
 
 @Component({
-  selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.less']
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.less']
 })
-export class StatisticsComponent implements OnInit {
+export class StatsComponent {
+
   usersHTML: Observable<Array<User>>;
 
   meanCost: number = 0;
@@ -49,7 +50,5 @@ export class StatisticsComponent implements OnInit {
     this.dailyData = this.expensesService.gettotalCostEachDayPerType(userId);
     this.typeData =  this.expensesService.getExpensesByType(userId);
   }
-
-
 
 }
