@@ -11,6 +11,7 @@ import { SettingsCurrencyComponent } from './settings-currency/settings-currency
 import { SettingsGraphComponent } from './settings-graph/settings-graph.component';
 import { SettingsTravelComponent } from './settings-travel/settings-travel.component';
 import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     OptionsRoutingModule,
     FormsModule,
+    SharedModule
   ],
   providers: [
     CurrencyService

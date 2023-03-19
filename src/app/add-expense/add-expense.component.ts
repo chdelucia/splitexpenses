@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom, Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '../shared/models';
-import { round2decimals } from '../shared/utils';
+import { openSnackBar, round2decimals, userToast } from '../shared/utils';
 import { UsersService } from '../users/shared/users.service';
 
 import { ExpensesForm } from './model'
@@ -17,23 +18,23 @@ import { ExpensesForm } from './model'
   styleUrls: ['./add-expense.component.less']
 })
 export class AddExpenseComponent implements OnInit {
-  usuarios: string[] = ['usuario1', 'usuario2', 'usuario3'];
-  tiposGasto = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
   currency: CurrencyPlugin;
   usersHTML: Observable<Array<User>>;
 
-  showAlert = false;
-  isError = false;
-
   model: ExpensesForm;
   expenseTypes: ExpenseTypes[];
+
+  private toastmsg =  {
+    OK : $localize`Gasto guardado correctamente`,
+    KO : $localize`Error fatal`,
+  }
 
   constructor(
     private expensesService: ExpensesService,
     private usersService: UsersService,
     private debtsService: DebtsService,
     private currencyService: CurrencyService,
-    private fb: FormBuilder
+    private _snackBar: MatSnackBar
     ) {
     this.expenseTypes = this.expensesService.getExpensesTypes();
     this.usersHTML = this.usersService.getIterableUsers();
@@ -58,9 +59,7 @@ export class AddExpenseComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   async onSubmit(expenseForm: ExpensesForm) {
     let sharedBy: Array<string> = [];
@@ -87,7 +86,7 @@ export class AddExpenseComponent implements OnInit {
     this.debtsService.updateExpenseDebt(obj);
 
     this.clearInput();
-    this.showAlert = true;
+    openSnackBar(this._snackBar, userToast.OK, this.toastmsg.OK)
   }
 
   clearInput():void {
@@ -97,10 +96,6 @@ export class AddExpenseComponent implements OnInit {
 
   calcExchange() :number {
     return this.currencyService.calcExchangeValue(parseFloat(this.model.cost));
-  }
-
-  close(): void{
-    this.showAlert = false;
   }
 
 

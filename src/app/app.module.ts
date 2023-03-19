@@ -14,7 +14,6 @@ import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LocalstorageService } from './shared/localstorage.service';
-import { CurrencyService } from './shared/currency.service';
 import { DebtsComponent } from './debts/debts.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
@@ -28,6 +27,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -55,13 +55,13 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    SharedModule
   ],
   providers: [
     ExpensesService,
     DebtsService,
     LocalstorageService,
-    CurrencyService
   ],
   bootstrap: [AppComponent]
 })
