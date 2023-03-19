@@ -18,6 +18,7 @@ import { UsersService } from './shared/users.service';
     UsersRoutingModule,
     MatSnackBarModule,
     FormsModule,
+
   ],
   providers: [
     UsersService

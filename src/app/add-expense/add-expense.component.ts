@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { firstValueFrom, Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { ExpensesService } from '../shared/expenses.service';
-import { CurrencyPlugin, Debt, Expense, ExpenseTypes, User } from '../shared/models';
+import { CurrencyPlugin, Expense, ExpenseTypes, User } from '../shared/models';
 import { round2decimals } from '../shared/utils';
 import { UsersService } from '../users/shared/users.service';
 
@@ -15,7 +17,8 @@ import { ExpensesForm } from './model'
   styleUrls: ['./add-expense.component.less']
 })
 export class AddExpenseComponent implements OnInit {
-
+  usuarios: string[] = ['usuario1', 'usuario2', 'usuario3'];
+  tiposGasto = ['Tipo 1', 'Tipo 2', 'Tipo 3'];
   currency: CurrencyPlugin;
   usersHTML: Observable<Array<User>>;
 
@@ -29,10 +32,12 @@ export class AddExpenseComponent implements OnInit {
     private expensesService: ExpensesService,
     private usersService: UsersService,
     private debtsService: DebtsService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private fb: FormBuilder
     ) {
     this.expenseTypes = this.expensesService.getExpensesTypes();
     this.usersHTML = this.usersService.getIterableUsers();
+
     this.model = new ExpensesForm(
       '1',
       '',
@@ -50,9 +55,11 @@ export class AddExpenseComponent implements OnInit {
       );
     });
     this.currency = this.currencyService.getCurrencySettings();
+
   }
 
   ngOnInit(): void {
+
   }
 
   async onSubmit(expenseForm: ExpensesForm) {
@@ -95,5 +102,6 @@ export class AddExpenseComponent implements OnInit {
   close(): void{
     this.showAlert = false;
   }
+
 
 }

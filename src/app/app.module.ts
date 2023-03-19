@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { ExpensesService } from './shared/expenses.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
 import { AlertComponent } from './alert/alert.component';
 import { MainComponent } from './main/main.component';
@@ -19,6 +19,15 @@ import { DebtsComponent } from './debts/debts.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavbarComponent } from './navbar/navbar.component';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -29,7 +38,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MainComponent,
     DebtsDetailComponent,
     WeatherComponent,
-    DebtsComponent
+    DebtsComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +47,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     FormsModule,
     StoreModule.forRoot({users: userReducer}, {}),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatNativeDateModule
   ],
   providers: [
     ExpensesService,

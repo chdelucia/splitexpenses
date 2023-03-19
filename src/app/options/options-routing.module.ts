@@ -8,6 +8,7 @@ import { SettingsTravelComponent } from './settings-travel/settings-travel.compo
 import { SettingsUploadComponent } from './settings-upload/settings-upload.component';
 import { SettingsWeatherComponent } from './settings-weather/settings-weather.component';
 
+
 const routes: Routes = [
   { path: '', component: OptionsComponent, children:[
     { path: '',   redirectTo:'currency', pathMatch: 'full'},
