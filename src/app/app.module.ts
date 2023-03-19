@@ -8,7 +8,6 @@ import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { ExpensesService } from './shared/expenses.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
-import { AlertComponent } from './alert/alert.component';
 import { MainComponent } from './main/main.component';
 import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
 import { WeatherComponent } from './weather/weather.component';
@@ -34,7 +33,6 @@ import { SharedModule } from './shared/shared.module';
     AppComponent,
     AddExpenseComponent,
     ExpensesListComponent,
-    AlertComponent,
     MainComponent,
     DebtsDetailComponent,
     WeatherComponent,
