@@ -3,9 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddExpenseComponent } from './add-expense/add-expense.component';
-import { ExpensesListComponent } from './expenses-list/expenses-list.component';
-import { ExpensesService } from './shared/expenses.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
 import { MainComponent } from './main/main.component';
@@ -31,8 +28,6 @@ import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
-    AddExpenseComponent,
-    ExpensesListComponent,
     MainComponent,
     DebtsDetailComponent,
     WeatherComponent,
@@ -57,7 +52,6 @@ import { SharedModule } from './shared/shared.module';
     SharedModule
   ],
   providers: [
-    ExpensesService,
     DebtsService,
     LocalstorageService,
   ],
