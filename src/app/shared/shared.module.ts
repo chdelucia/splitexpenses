@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SummarygraphComponent } from './summarygraph/summarygraph.component';
 import { NgChartsModule } from 'ng2-charts';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -13,11 +15,16 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
   imports: [
     CommonModule,
     NgChartsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatInputModule,
+    MatIconModule
+
   ],
   exports:[
     SummarygraphComponent,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatInputModule,
+    MatIconModule
   ]
 })
 export class SharedModule { }

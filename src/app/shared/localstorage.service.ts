@@ -16,28 +16,28 @@ export class LocalstorageService {
    }
 
   loadDataFromLocalStorage(): StorageData {
-    let name = this.getActiveTravelName();
-    const ans = localStorage.getItem(name);
+    const travelName = this.getActiveTravelName();
+    const ans = localStorage.getItem(travelName);
     let answers = ans ? JSON.parse(ans) : this.createDataStructure()
     return answers;
-    
+
   }
 
   saveDataToLocalStorage(users?: Map<string, User>, expenses?: Map<string, Expense>, currency?: CurrencyPlugin) {
-    let name = this.getActiveTravelName();
+    const travelName = this.getActiveTravelName();
 
     this.data.users = users ?  utils.convertMaptoString(users) : this.data.users;
     this.data.expenses = expenses ? utils.convertMaptoString(expenses) : this.data.expenses;
     this.data.currency = currency ? currency : this.data.currency;
-    
-    localStorage.setItem(name, JSON.stringify(this.data));
+
+    localStorage.setItem(travelName, JSON.stringify(this.data));
   }
 
   createDataStructure() {
-    let obj = { 
-      'users': '', 
-      'expenses': '', 
-      'name':environment.localStorageExpenses, 
+    let obj = {
+      'users': '',
+      'expenses': '',
+      'name':environment.localStorageExpenses,
       'currency': {
         'currencySymbol': environment.defaultCurrency
       }
@@ -72,10 +72,10 @@ export class LocalstorageService {
     environment.expensesTypes.forEach( (type,i) => {
       types.set(i, {'id': i, 'name': type, 'active': true})
     })
-    let obj = { 
-      'weather': {}, 
-      'travels': { 
-        'names': [environment.localStorageExpenses], 
+    let obj = {
+      'weather': {},
+      'travels': {
+        'names': [environment.localStorageExpenses],
         'active': environment.localStorageExpenses
       },
       'graph': {

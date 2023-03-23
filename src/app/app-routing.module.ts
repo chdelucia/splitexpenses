@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
-import { ExpensesListComponent } from './expenses/expenses-list/expenses-list.component';
 import { MainComponent } from './main/main.component';
 
 const routes: Routes = [

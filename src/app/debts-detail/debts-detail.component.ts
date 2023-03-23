@@ -30,10 +30,9 @@ export class DebtsDetailComponent implements OnInit {
   ) {
     this.users = this.userService.getUsers();
     this.usersHTML = this.userService.getIterableUsers();
-    this.debts = this.debtsService.getDebts();
     this.currency = this.currencyService.getCurrencySettings();
+    this.debts = this.debtsService.getDebts();
     this.userID = this.route.snapshot.paramMap.get('id') || '0';
-
     this.setDebts();
   }
 

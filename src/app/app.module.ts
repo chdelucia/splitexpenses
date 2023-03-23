@@ -14,16 +14,8 @@ import { DebtsComponent } from './debts/debts.component';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './navbar/navbar.component';
-
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatNativeDateModule } from '@angular/material/core';
 import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -31,8 +23,7 @@ import { SharedModule } from './shared/shared.module';
     MainComponent,
     DebtsDetailComponent,
     WeatherComponent,
-    DebtsComponent,
-    NavbarComponent,
+    DebtsComponent
   ],
   imports: [
     BrowserModule,
@@ -41,14 +32,6 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     StoreModule.forRoot({users: userReducer}, {}),
     BrowserAnimationsModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatNativeDateModule,
     SharedModule
   ],
   providers: [
