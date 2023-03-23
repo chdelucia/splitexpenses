@@ -41,7 +41,7 @@ export class ExpensesService {
     return [...new Set(dates.reverse())];
   }
 
-  getExpenseByID(id: string) {
+  getExpenseByID(id: string): Expense | undefined {
     return this.expenses.get(id);
   }
 
@@ -75,7 +75,7 @@ export class ExpensesService {
     this.expenses.forEach(expense => {
       if(!userId){
         total += expense.originalCost;
-      } 
+      }
       if(userId && expense.sharedBy.includes(userId)){
         total += expense.cost
       }
@@ -109,7 +109,7 @@ export class ExpensesService {
       let index = parseInt(item.typeId)
       if( userId && item.sharedBy.includes(userId) ) {
         data[index] =  data[index] + item.cost;
-      } 
+      }
       else if(!userId) {
         data[index] =  data[index] + item.originalCost;
       }
@@ -123,7 +123,7 @@ export class ExpensesService {
     this.expenses.forEach( expense => {
       if(!dates.includes(expense.date)) {
         dates.push(expense.date)
-      } 
+      }
     })
 
     let xAxis: Array<number> = Array(dates.length).fill(0);
@@ -143,14 +143,14 @@ export class ExpensesService {
 
   gettotalCostEachDayPerType(userId?: string): {labels: Array<string>, data: Array<any>} {
     let expensesArray: Array<Expense> = Array.from(this.expenses.values());
-    
+
     // Create Object of expenses group by Day
     let result = expensesArray.reduce(function (r, a) {
         r[a.date] = r[a.date] || [];
         r[a.date].push(a);
         return r;
     }, Object.create(null));
-  
+
     let yAxis = Object.keys(result);
 
     // Create stacked xAxis
@@ -173,7 +173,7 @@ export class ExpensesService {
           stackedxAxis[typeIndex].data[i] += expense.cost;
         } else if(!userId) {
           stackedxAxis[typeIndex].data[i] += expense.originalCost;
-        }    
+        }
       })
 
     }

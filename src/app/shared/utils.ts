@@ -39,7 +39,7 @@ export function openSnackBar(snackbar: MatSnackBar, style:string, msg: string) {
 }
 
 
-export enum userToast {
+export enum globalToast {
   OK = 'OK',
   KO = 'KO',
   EXIST = 'EXIST'

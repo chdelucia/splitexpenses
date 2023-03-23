@@ -4,7 +4,7 @@ import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { firstValueFrom, Observable } from 'rxjs';
 import { UsersService } from './shared/users.service';
-import { openSnackBar, userToast } from '../shared/utils';
+import { openSnackBar, globalToast } from '../shared/utils';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class UsersComponent {
   async add(name: string, phone?: string) {
     let nameExist = await this.userService.checkIfNameExist(name);
     if(nameExist){
-      openSnackBar(this._snackBar, userToast.EXIST, this.toastmsg.EXIST);
+      openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
     } else {
       const user: User = {
         id: '',
@@ -51,7 +51,7 @@ export class UsersComponent {
       }
       this.userService.addUser(user);
       this.clearInput();
-      openSnackBar(this._snackBar, userToast.OK, this.toastmsg.OK)
+      openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK)
     }
     this.debtsService.reset();
   }
@@ -63,7 +63,7 @@ export class UsersComponent {
         if(user[fieldToEdit] != newValue) {
           user[fieldToEdit] = newValue;
           this.userService.editUser(user);
-          openSnackBar(this._snackBar, userToast.OK, this.toastmsg.OK);
+          openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
         }
     } else {
       data.innerText = user[fieldToEdit] || '';
@@ -72,7 +72,7 @@ export class UsersComponent {
 
   delete(name: string) {
     this.userService.removeUser(name);
-    openSnackBar(this._snackBar, userToast.OK, 'Usuario borrado');
+    openSnackBar(this._snackBar, globalToast.OK, 'Usuario borrado');
   }
 
 }

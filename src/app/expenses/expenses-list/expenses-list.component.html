@@ -16,7 +16,7 @@
 
                     </div>
                     <div class="col-2 action-icons" *ngIf="!filter" >
-                      <span class="material-icons">edit</span>
+                      <span class="material-icons" (click)="editExpense(expense.id)">edit</span>
                       <span> </span>
                       <span class="material-icons" (click)="deleteExpense(expense.id)">delete_forever</span>
                     </div>

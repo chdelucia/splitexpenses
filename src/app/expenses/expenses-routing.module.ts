@@ -6,6 +6,7 @@ import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 const routes: Routes = [
   { path: '',   component: AddExpenseComponent },
   { path: 'details', component: ExpensesListComponent },
+  { path: ':id', component: AddExpenseComponent },
 ];
 
 @NgModule({

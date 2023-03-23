@@ -1,6 +1,9 @@
 
 <main class="container">
-    <h2 class="my-4 text-center" i18n>Añadir gastos</h2>
+
+    <h2 class="my-4 text-center" i18n>
+      {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
+    </h2>
 
     <form class="row g-2" [formGroup]="expenseForm" (ngSubmit)="onSubmit(expenseForm.value)">
 
@@ -42,7 +45,11 @@
 
       <div class="col-12">
         <div class="mb-2" i18n>Quien participa:</div>
-        <mat-checkbox *ngFor="let user of usersHTML | async; let i=index" [value]="user.id"  (change)="onCheckboxChange($event)" checked>
+        <mat-checkbox *ngFor="let user of usersHTML | async; let i=index"
+          [value]="user.id"
+          (change)="onCheckboxChange($event)"
+          [checked]="!expense || expense.sharedBy.includes(user.id)"
+        >
           {{user.name}}
         </mat-checkbox>
       </div>
@@ -59,7 +66,7 @@
 
 
       <button mat-raised-button color="primary" type="submit" [disabled]="!expenseForm.valid" class="input-group btn my-4 btn btn-primary p-2">
-        Añadir gasto
+        {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
       </button>
 
     </form>

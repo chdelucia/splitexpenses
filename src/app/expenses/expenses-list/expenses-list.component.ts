@@ -1,5 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
+import { openSnackBar, globalToast } from 'src/app/shared/utils';
 import { CurrencyService } from '../../shared/currency.service';
 import { DebtsService } from '../../shared/debts.service';
 import { ExpensesService } from '../../shared/expenses.service';
@@ -21,15 +24,22 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   totalUsers: number = 0;
   dates: Array<string> = [];
 
+  private toastmsg =  {
+    OK : $localize`Gasto eliminado correctamente`,
+    KO : $localize`Error fatal`,
+  }
+
   constructor(
     private expensesService: ExpensesService,
     private debtsService: DebtsService,
     private currencyService: CurrencyService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private _snackBar: MatSnackBar,
+    private router: Router,
     ) {
     this.expenses = this.expensesService.getExpenses();
     this.currency = this.currencyService.getCurrencySettings();
-    this.expensesHTML = Array.from(this.expenses.values());
+    this.expensesHTML = Array.from(this.expenses.values()).reverse();
     this.dates = this.expensesService.getExpensesDates();
   }
 
@@ -53,17 +63,18 @@ export class ExpensesListComponent implements OnInit, OnChanges {
 
   deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
-    this.expenses = this.expensesService.getExpenses();
-    this.dates = this.expensesService.getExpensesDates();
+    this.updateExpenses();
+    this.updateDates();
     this.createArrayofExpenses();
-    this.debtsService.reset();
+    this.resetDebts();
+    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
   }
 
-  editExpense(key: string) {
-
+  editExpense(expenseId: string) {
+    this.router.navigate(['/expense', expenseId]);
   }
 
-  createArrayofExpenses(){
+  createArrayofExpenses(): void {
     if(this.filter){
       this.expensesHTML = this.expensesService.getExpensesFilterByType(this.filter);
     } else {
@@ -71,8 +82,21 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     }
   }
 
-  calcExchange(value?: number) {
+  calcExchange(value?: number): number {
     return this.currencyService.calcExchangeValue(value || 0);
+  }
+
+  /** TODO remove this and add expense to the store ngrx */
+  private updateExpenses(): void {
+      this.expenses = this.expensesService.getExpenses()
+  }
+
+  private updateDates(): void {
+      this.dates = this.expensesService.getExpensesDates()
+  }
+
+  private resetDebts(): void {
+    this.debtsService.reset();
   }
 
 }

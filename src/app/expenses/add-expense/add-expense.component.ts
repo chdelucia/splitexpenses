@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { firstValueFrom, Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import {  Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
 import { DebtsService } from '../../shared/debts.service';
 import { ExpensesService } from '../../shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '../../shared/models';
-import { openSnackBar, round2decimals, userToast } from '../../shared/utils';
+import { globalToast, openSnackBar} from '../../shared/utils';
 import { UsersService } from '../../users/shared/users.service';
-import { ExpensesForm } from './model';
 
 @Component({
   selector: 'app-add-expense',
@@ -21,6 +20,11 @@ export class AddExpenseComponent implements OnInit {
   currency: CurrencyPlugin;
   usersHTML: Observable<Array<User>>;
   expenseTypes: ExpenseTypes[];
+  expense?: Expense;
+
+  get isEditing(): boolean {
+    return !!this.expense;
+  }
 
   private toastmsg =  {
     OK : $localize`Gasto guardado correctamente`,
@@ -28,6 +32,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   constructor(
+    private route: ActivatedRoute,
     private expensesService: ExpensesService,
     private usersService: UsersService,
     private debtsService: DebtsService,
@@ -47,24 +52,52 @@ export class AddExpenseComponent implements OnInit {
       type: ['', Validators.required],
       date: [new Date(), Validators.required]
     });
-
-
-    const sharedBy = this.expenseForm.get('sharedBy') as FormArray
-    this.usersHTML.forEach(users => {
-      users.forEach(user =>  sharedBy.push(this.fb.control(user.id)))
-    }
-      );
-
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initializeExpense();
+    this.initializeCheckbox();
+  }
+
+  private initializeExpense(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.expense = this.expensesService.getExpenseByID(id);
+      this.updateForm();
+    }
+  }
+
+  private initializeCheckbox(): void {
+    const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
+    this.usersHTML.forEach(users => {
+      users.forEach(user => {
+        const control = this.createFormControl(user.id);
+        sharedBy.push(control);
+      });
+    });
+  }
+
+  private createFormControl(userId: string): AbstractControl {
+    let controlValue = userId;
+    if(this.isEditing && !this.expense?.sharedBy.includes(userId)) {
+      controlValue = '';
+    }
+    return this.fb.control(controlValue);
+  }
 
   onSubmit(expenseForm: any) {
     const originalCost = parseFloat(expenseForm.cost);
     const costPerPerson = originalCost / expenseForm.sharedBy.length;
 
+    /** Necessary cause date format from edit page is not in isoFormat
+     * Why you do that?
+     * idk even why, some clody day I thought it was a brillant idea, now is a legacy code
+     * TODO  - all dates should be storage as ms
+    */
+    if (this.isEditing) expenseForm.date = new Date(expenseForm.date);
+
     const expense: Expense = {
-      "id": '',
+      "id": this.isEditing ? this.expense!.id : '',
       "title": expenseForm.title,
       "originalCost": originalCost,
       "cost": costPerPerson,
@@ -75,14 +108,22 @@ export class AddExpenseComponent implements OnInit {
       "settleBy": []
     }
 
-    this.expensesService.addExpense(expense);
+    this.addExpense(expense);
     this.debtsService.updateExpenseDebt(expense);
 
-    this.clearInput();
-    openSnackBar(this._snackBar, userToast.OK, this.toastmsg.OK)
+    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
+    this.expenseForm.reset();
   }
 
-  clearInput():void {
+
+  updateForm() {
+    this.expenseForm.patchValue({
+      name: this.expense?.paidBy,
+      cost: this.expense?.cost,
+      title: this.expense?.title,
+      date: this.expense?.date,
+      type: this.expense?.typeId
+    });
   }
 
   onCheckboxChange(e: any) {
@@ -98,6 +139,18 @@ export class AddExpenseComponent implements OnInit {
   calcExchange(cost: string) :number {
     return this.currencyService.calcExchangeValue(parseFloat(cost));
   }
+
+
+  private addExpense(expense: Expense): void {
+    if(this.isEditing) {
+      this.expensesService.editExpense(expense)
+    } else {
+      this.expensesService.addExpense(expense);
+    }
+  }
+
+
+
 
 
 }
