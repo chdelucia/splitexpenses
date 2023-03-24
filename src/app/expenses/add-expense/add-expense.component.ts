@@ -87,11 +87,11 @@ export class AddExpenseComponent implements OnInit {
 
   onSubmit(expenseForm: any) {
     const originalCost = parseFloat(expenseForm.cost);
-    const costPerPerson = originalCost / expenseForm.sharedBy.length;
+    const costPerPerson = originalCost / expenseForm.sharedBy.join('').split('').length;
 
     /** Necessary cause date format from edit page is not in isoFormat
      * Why you do that?
-     * idk even why, some clody day I thought it was a brillant idea, now is a legacy code
+     * idk even why, some cloudy day I thought it was a brillant idea, now is a legacy code
      * TODO  - all dates should be storage as ms
     */
     if (this.isEditing) expenseForm.date = new Date(expenseForm.date);
@@ -109,17 +109,16 @@ export class AddExpenseComponent implements OnInit {
     }
 
     this.addExpense(expense);
-    this.debtsService.updateExpenseDebt(expense);
-
+    this.updateDebts(expense)
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
-    this.expenseForm.reset();
+    this.resetForm();
   }
 
 
   updateForm() {
     this.expenseForm.patchValue({
       name: this.expense?.paidBy,
-      cost: this.expense?.cost,
+      cost: this.expense?.originalCost,
       title: this.expense?.title,
       date: this.expense?.date,
       type: this.expense?.typeId
@@ -140,6 +139,13 @@ export class AddExpenseComponent implements OnInit {
     return this.currencyService.calcExchangeValue(parseFloat(cost));
   }
 
+  private updateDebts(expense: Expense): void {
+    if(this.isEditing) {
+      this.debtsService.reset();
+    } else {
+      this.debtsService.updateExpenseDebt(expense);
+    }
+  }
 
   private addExpense(expense: Expense): void {
     if(this.isEditing) {
@@ -147,6 +153,10 @@ export class AddExpenseComponent implements OnInit {
     } else {
       this.expensesService.addExpense(expense);
     }
+  }
+
+  private resetForm(): void {
+    if(!this.isEditing) this.expenseForm.reset();
   }
 
 
