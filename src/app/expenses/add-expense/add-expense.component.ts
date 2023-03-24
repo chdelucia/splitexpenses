@@ -56,7 +56,7 @@ export class AddExpenseComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeExpense();
-    this.initializeCheckbox();
+    this.initializeCheckboxControls();
   }
 
   private initializeExpense(): void {
@@ -67,7 +67,7 @@ export class AddExpenseComponent implements OnInit {
     }
   }
 
-  private initializeCheckbox(): void {
+  private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
     this.usersHTML.forEach(users => {
       users.forEach(user => {
