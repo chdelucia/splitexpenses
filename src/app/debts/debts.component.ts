@@ -27,12 +27,15 @@ export class DebtsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.debts);
-    this.debtsService.settleCrossAccountDebts();
+
   }
 
   calcExchange(value?: number) {
     return this.currencyService.calcExchangeValue(value || 0);
+  }
+
+  autosettlement(){
+    this.debtsService.settleCrossAccountDebts();
   }
 
 }
