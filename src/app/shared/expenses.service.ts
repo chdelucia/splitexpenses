@@ -54,10 +54,6 @@ export class ExpensesService {
     this.saveExpensesIntoLocalStorage();
   }
 
-  setExpenses(data: Map<string,Expense>): void{
-    this.expenses = data;
-  }
-
   addExpense(data: Expense): void {
     data.id = calcNextID(this.expenses);
     this.expenses.set(data.id, data);
@@ -67,6 +63,21 @@ export class ExpensesService {
   deleteExpense(key: string) {
     this.expenses.delete(key);
     this.saveExpensesIntoLocalStorage();
+  }
+
+  getTotalPaidByUserToOthers(userId: string): number {
+    let total = 0
+    this.expenses.forEach(expense => {
+      let paidByme = userId === expense.paidBy;
+      let Iparticipated = expense.sharedBy.includes(userId);
+      if(paidByme){
+        total += expense.originalCost;
+        if(Iparticipated){
+          total -= expense.cost;
+        }
+      }
+    })
+    return total;
   }
 
   /* Calculate by group if user not given */

@@ -27,18 +27,57 @@ export class DebtsService {
 
   calcDebt(): void{
     let expenses = this.expensesService.getExpenses().values();
-
       for (const item of expenses) {
         this.updateExpenseDebt(item);
       }
   }
+
+settleCrossAccountDebts(){
+  this.debts.forEach((debts, debtorId) => {
+    debts.debts.forEach((individualDebt, borrowerId) => {
+      let debtorDebt = individualDebt.newDebt || 0;
+      if(debtorDebt > 0) {
+        const filteredDebtsMap = new Map([...this.debts].filter(([key, value]) => key !== debtorId && key !== borrowerId));
+        filteredDebtsMap.forEach((indDebt, intermediaryId) => {
+
+          let intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;
+          if(intermediaryDebtToDebtor > 0) {
+            let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
+            let borrowerDebtToIntermediary = indDebt.debts.get(borrowerId)?.newDebt || 0
+
+            if(borrowerDebtToIntermediary < 0) {
+              diff = Math.min(diff, Math.abs(borrowerDebtToIntermediary));
+              //reduce debt between the lender and intermediary
+              this.debts.get(borrowerId)!.debts.get(intermediaryId)!.newDebt! += diff
+            } else {
+              //add the debt to the intermediary
+              this.debts.get(borrowerId)!.debts.get(intermediaryId)!.newDebt! -= diff;
+            }
+
+            //settling the debts of the intermediary with the debtor
+            indDebt.debts.get(debtorId)!.newDebt! -= diff;
+            indDebt.debts.get(borrowerId)!.newDebt! += diff;
+
+            //settlement of debts owed by the debtor to the intermediary and the lender
+            debts.debts.get(intermediaryId)!.newDebt! += diff
+            individualDebt.newDebt! -= diff;
+
+            //reduce the debt on the lender's account
+            this.debts.get(borrowerId)!.debts.get(debtorId)!.newDebt! += diff;
+          }
+        })
+      }
+    })
+  })
+
+}
 
   async updateExpenseDebt(expense: Expense): Promise<void> {
     let users = await firstValueFrom(this.users);
     users.forEach((user) => {
       let userDebts: Debt | undefined = this.debts.get(user.id);
       let individualDebt: IndividualDebt | undefined = userDebts?.debts.get(expense.paidBy);
-
+      //TODO resivsar cuando entra si no he participado ni pagado hasta luegui
       if(userDebts){
         userDebts.totalIPaid = this.calcTotalAmountIpaid(user.id, expense, userDebts.totalIPaid);
 
@@ -53,36 +92,6 @@ export class DebtsService {
     });
     this.calcDirectDebtsDiff();
   }
-
-  /**
-   *
-  createStructureOLD(): Map<string, Debt> {
-    let newMap = new Map();
-    if(this.users){
-      this.users.forEach(parentUser => {
-        let obj1 = {
-          'totalIveBeenPaid': 0,
-          'totalIPaid': 0,
-          'debts': new Map(),
-        }
-
-        this.users.forEach(user => {
-          if (parentUser.id !== user.id) {
-            let obj = {
-              'individualtotalIveBeenPaid': 0,
-              'RefDebtsIds': [],
-            }
-            obj1.debts.set(user.id, obj);
-          }
-        })
-
-        newMap.set(parentUser.id, obj1);
-      })
-    }
-
-    return newMap;
-  }
-  */
 
 
   //TODO use await async
@@ -131,7 +140,7 @@ export class DebtsService {
 
           let Iowe = j.individualtotalIveBeenPaid;
           let owesMe = this.debts.get(userName)?.debts.get(me)?.individualtotalIveBeenPaid || 0;
-
+          //j.individualtotalIPaid = owesMe;
           j.newDebt = round2decimals(Iowe - owesMe);
           i.totalIowe = round2decimals(i.totalIowe + (j.newDebt));
         });
@@ -144,9 +153,9 @@ export class DebtsService {
     let result = oldValue;
 
     if(paidByme){
-      result += expense.originalCost
+      result += expense.originalCost;
       if(Iparticipated){
-        result -= expense.cost
+        result -= expense.cost;
       }
     }
     return round2decimals(result);

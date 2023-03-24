@@ -22,11 +22,13 @@ export class DebtsComponent implements OnInit {
     private currencyService: CurrencyService
   ) {
     this.usersHTML = this.userService.getIterableUsers();
-    this.debts = this.debtsService.getDebts();
     this.currency = this.currencyService.getCurrencySettings();
+    this.debts = this.debtsService.getDebts();
   }
 
   ngOnInit(): void {
+    console.log(this.debts);
+    this.debtsService.settleCrossAccountDebts();
   }
 
   calcExchange(value?: number) {
