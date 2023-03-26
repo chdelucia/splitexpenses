@@ -98,6 +98,7 @@ export class DebtsService {
                 diff = Math.min(diff, Math.abs(lenderDebtToIntermediary));
               }
 
+              //TODO split each comment into a function
               //settling the debts of the intermediary with the debtor
               indDebt.debts.get(debtorId)!.newDebt! -= diff;
               indDebt.debts.get(lenderId)!.newDebt! += diff;
@@ -115,6 +116,7 @@ export class DebtsService {
       });
     });
   }
+
 
   updateExpenseDebt(expense: Expense) {
     this.updatePayerDebt(expense);

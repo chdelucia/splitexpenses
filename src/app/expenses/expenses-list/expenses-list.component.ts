@@ -21,7 +21,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   expensesHTML: Array<Expense> = [];
   currency: CurrencyPlugin;
   users: Map<string, User> = new Map();
-  totalUsers: number = 0;
   dates: Array<string> = [];
 
   private toastmsg =  {
@@ -47,12 +46,11 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     if(this.filter){
       this.createArrayofExpenses();
     }
-    this.usersService.getUsers().subscribe(
-      (users: Map<string, User>) => {
-        this.users = users;
-        this.totalUsers = users.size;
-      }
-    );
+    this.loadUsers();
+  }
+
+  async loadUsers(): Promise<void> {
+    this.users = await firstValueFrom(this.usersService.getUsers());
   }
 
   ngOnChanges(){
