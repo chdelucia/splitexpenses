@@ -21,7 +21,7 @@
                         <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !=
                                                     debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
 
-                            {{debts.get(user.id)?.debts?.get(person.id)?.newDebt }}
+                            {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
                             {{currency.currencySymbol}}
                             <small *ngIf="currency.active" class="text-end">
                                 {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.newDebt) }}
