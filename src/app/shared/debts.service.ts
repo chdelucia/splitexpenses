@@ -38,6 +38,39 @@ export class DebtsService {
     return this.debts;
   }
 
+  async createStructure(users: Map<string,User>): Promise<void> {
+    let newMap = new Map<string, Debt>();
+    users.forEach(parentUser => {
+      let userDebts = this.createDebtObj();
+      users.forEach(user => {
+        if (user && parentUser.id !== user.id) {
+          let individualDebt = this.createIndividualDebtObj()
+          userDebts.debts.set(user.id, individualDebt);
+        }
+      });
+      newMap.set(parentUser.id, userDebts);
+
+    });
+    this.debts = new Map([...this.debts, ...newMap]);
+
+  }
+
+  private createDebtObj(): Debt {
+    return {
+      debts: new Map(),
+      totalIveBeenPaid: 0,
+      totalIPaid: 0,
+      totalIowe: 0
+    }
+  }
+
+  private createIndividualDebtObj(): IndividualDebt {
+    return {
+      individualtotalIveBeenPaid: 0,
+      RefDebtsIds: []
+    };
+  }
+
   calcDebt(): void{
     let expenses = this.expensesService.getExpenses().values();
       for (const expense of expenses) {
@@ -88,7 +121,6 @@ export class DebtsService {
     });
   }
 
-
   updateExpenseDebt(expense: Expense) {
     this.updatePayerDebt(expense);
     const { sharedBy: debtorsIds } = expense;
@@ -124,44 +156,6 @@ export class DebtsService {
     debtorDebts.debts.get(payerId)?.RefDebtsIds.push(expense);
   }
 
-
-  async createStructure(users: Map<string,User>): Promise<void> {
-    let newMap = new Map<string, Debt>();
-    users.forEach(parentUser => {
-      let userDebts = this.createDebtObj();
-      users.forEach(user => {
-        if (user && parentUser.id !== user.id) {
-          let individualDebt = this.createIndividualDebtObj()
-          userDebts.debts.set(user.id, individualDebt);
-        }
-      });
-      newMap.set(parentUser.id, userDebts);
-
-    });
-    this.debts = new Map([...this.debts, ...newMap]);
-
-  }
-
-  private createDebtObj(): Debt {
-    return {
-      debts: new Map(),
-      totalIveBeenPaid: 0,
-      totalIPaid: 0,
-      totalIowe: 0
-    }
-  }
-
-  private createIndividualDebtObj(): IndividualDebt {
-    return {
-      individualtotalIveBeenPaid: 0,
-      RefDebtsIds: []
-    };
-  }
-
-  reset(){
-    this.initialize();
-  }
-
   /**
    * If two persons have debts between theirself extract the difference
    */
@@ -180,17 +174,10 @@ export class DebtsService {
   }
 
   calcTotalAmountIpaid(userId: string, expense: Expense, oldValue: number): number {
-    let paidByme = userId === expense.paidBy;
-    let Iparticipated = expense.sharedBy.includes(userId);
-    let result = oldValue;
+    const userParticipated = expense.sharedBy.includes(userId);
+    const newTotalAmount  = oldValue + expense.originalCost - (userParticipated ? expense.cost : 0);
 
-    if(paidByme){
-      result += expense.originalCost;
-      if(Iparticipated){
-        result -= expense.cost;
-      }
-    }
-    return round2decimals(result);
+    return round2decimals(newTotalAmount );
   }
 
   verifyTotalAmountIPaid(userId: string): number {
@@ -204,14 +191,10 @@ export class DebtsService {
   }
 
   calcTotalAmountIhaveBeenPaid(userId: string, expense: Expense, oldValue: number): number {
-    let billWasNotPaidByMe = userId !== expense.paidBy;
-    let Iparticipated = expense.sharedBy.includes(userId);
-    let iDidntPayIt = !expense.settleBy.includes(userId);
-    let userDebts: Debt | undefined = this.debts.get(userId);
-    let individualDebt: IndividualDebt | undefined = userDebts?.debts.get(expense.paidBy);
+    const iDidntPayIt = !expense.settleBy.includes(userId);
     let result = oldValue;
 
-    if(userDebts && billWasNotPaidByMe && Iparticipated && individualDebt && iDidntPayIt) {
+    if (iDidntPayIt) {
       result += expense.cost;
     }
 
@@ -229,5 +212,10 @@ export class DebtsService {
   calcTotalAmountIAmOwed(myDebts: Debt, newDebt: number): number {
     return round2decimals(myDebts.totalIowe + (newDebt));
   }
+
+  reset(){
+    this.initialize();
+  }
+
 
 }
