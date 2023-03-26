@@ -57,15 +57,15 @@
       <div class="col-12">
         <div class="mb-2" i18n>Tipo de gasto:</div>
         <mat-radio-group formControlName="type">
-          <mat-radio-button *ngFor="let type of expenseTypes;" [value]="type.id">
-            {{type.name}}
-          </mat-radio-button>
+          <div class="row">
+            <div class="col-md-3 col-xl-2" *ngFor="let type of expenseTypes;">
+              <mat-radio-button [value]="type.id">{{type.name}}</mat-radio-button>
+            </div>
+          </div>
         </mat-radio-group>
       </div>
 
-
-
-      <button mat-raised-button color="primary" type="submit" [disabled]="!expenseForm.valid" class="input-group btn my-4 btn btn-primary p-2">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!expenseForm.valid" class="input-group btn my-4 btn btn-primary p-2" i18n>
         {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
       </button>
 
