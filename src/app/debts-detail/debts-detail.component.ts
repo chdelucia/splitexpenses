@@ -33,11 +33,11 @@ export class DebtsDetailComponent implements OnInit {
     this.currency = this.currencyService.getCurrencySettings();
     this.debts = this.debtsService.getDebts();
     this.userID = this.route.snapshot.paramMap.get('id') || '0';
-    this.setDebts();
   }
 
   ngOnInit(): void {
-    console.log(this.debts)
+    this.setDebts();
+    console.log(this.debts);
   }
 
   calcExchange(value?: number) {

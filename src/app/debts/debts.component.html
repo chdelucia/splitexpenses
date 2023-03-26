@@ -1,10 +1,5 @@
 <h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
 <section class="row g-4">
-    <div class="col-sm-12">
-      <button mat-raised-button color="primary" class="input-group btn my-4 btn btn-primary p-2" (click)="autosettlement()" i18n>
-        Calcular autoliquidación
-      </button>
-    </div>
     <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let user of usersHTML | async">
         <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/{{user.id}}'>
             <div class="d-flex flex-row justify-content-between title">

@@ -86,8 +86,9 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onSubmit(expenseForm: any) {
+    const sharedBy = expenseForm.sharedBy.join('').split('');
     const originalCost = parseFloat(expenseForm.cost);
-    const costPerPerson = originalCost / expenseForm.sharedBy.join('').split('').length;
+    const costPerPerson = originalCost / sharedBy.length;
 
     /** Necessary cause date format from edit page is not in isoFormat
      * Why you do that?
@@ -104,7 +105,7 @@ export class AddExpenseComponent implements OnInit {
       "date": expenseForm.date.toISOString().split('T')[0],
       "paidBy": expenseForm.name,
       "typeId": expenseForm.type,
-      "sharedBy": expenseForm.sharedBy,
+      "sharedBy": sharedBy,
       "settleBy": []
     }
 
