@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
-import { ExpensesService } from '../shared/expenses.service';
-import { CurrencyPlugin, Debt, Expense, User } from '../shared/models';
+import { ExpensesService } from '../expenses/shared/expenses.service';
+import { CurrencyPlugin, Debt, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
 
 @Component({

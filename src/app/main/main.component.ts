@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ExpensesService } from '../shared/expenses.service';
+import { ExpensesService } from '../expenses/shared/expenses.service';
 import { Expense, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
 

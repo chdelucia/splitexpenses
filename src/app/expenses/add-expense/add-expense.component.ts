@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import {  Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
 import { DebtsService } from '../../shared/debts.service';
-import { ExpensesService } from '../../shared/expenses.service';
+import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '../../shared/models';
 import { globalToast, openSnackBar} from '../../shared/utils';
 import { UsersService } from '../../users/shared/users.service';

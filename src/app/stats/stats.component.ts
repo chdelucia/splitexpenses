@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
-import { ExpensesService } from '../shared/expenses.service';
+import { ExpensesService } from '../expenses/shared/expenses.service';
 import { CurrencyPlugin, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
 

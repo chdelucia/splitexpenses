@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable, BehaviorSubject } from 'rxjs';
+import { ExpensesService } from '../expenses/shared/expenses.service';
 import { UsersService } from '../users/shared/users.service';
-import { ExpensesService } from './expenses.service';
 import { Debt, Expense, IndividualDebt, User } from './models';
 import { round2decimals } from './utils';
 

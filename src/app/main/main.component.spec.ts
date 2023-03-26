@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { ExpensesService } from '../shared/expenses.service';
+import { ExpensesService } from '../expenses/shared/expenses.service';
 import { Expense, User } from '../shared/models';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from '../users/shared/users.service';
 
 import { MainComponent } from './main.component';
 

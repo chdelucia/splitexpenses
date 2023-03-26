@@ -5,7 +5,7 @@ import { ExpensesRoutingModule } from './expenses-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
-import { ExpensesService } from '../shared/expenses.service';
+import { ExpensesService } from './shared/expenses.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
