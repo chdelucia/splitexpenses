@@ -30,6 +30,7 @@ export class DebtsService {
     }
     await this.createStructure(users);
     this.calcDebt();
+    this.settleCrossAccountDebts();
     this.myPropertySubject.next(this.debts);
 
   }
@@ -76,7 +77,6 @@ export class DebtsService {
       for (const expense of expenses) {
         this.updateExpenseDebt(expense);
       }
-    this.settleCrossAccountDebts();
   }
 
   settleCrossAccountDebts(): void {
@@ -88,18 +88,20 @@ export class DebtsService {
           filteredDebtsMap.forEach((indDebt, intermediaryId) => {
 
             let intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;
+
             if(intermediaryDebtToDebtor > 0) {
+              console.log(`${intermediaryId} pilla la deuda de ${debtorId} hacia ${lenderId} de ${debtorDebt} porque le debe ${intermediaryDebtToDebtor}`)
+
               let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
               let lenderDebtToIntermediary = indDebt.debts.get(lenderId)?.newDebt || 0;
 
               //negative amount: means lender has a debt with the intermediary
               if(lenderDebtToIntermediary < 0) {
                 diff = Math.min(diff, Math.abs(lenderDebtToIntermediary));
-                //reduce debt between the lender and the intermediary
-                this.debts.get(lenderId)!.debts.get(intermediaryId)!.newDebt! += diff;
+                console.log(`${debtorId} le debe a ${intermediaryId} ${lenderDebtToIntermediary} por lo que descuenta ${diff}`)
               } else {
-                //transfers the debt to the intermediary
-                this.debts.get(lenderId)!.debts.get(intermediaryId)!.newDebt! -= diff;
+                //lender has no debts to intermediary so intermediary buys the debt
+                console.log(`${lenderId} no le debe dinero a ${intermediaryId} por lo que la deuda se compra por ${diff}`);
               }
 
               //settling the debts of the intermediary with the debtor
@@ -112,6 +114,7 @@ export class DebtsService {
 
               //reduce the debt on the lender's account
               this.debts.get(lenderId)!.debts.get(debtorId)!.newDebt! += diff;
+              this.debts.get(lenderId)!.debts.get(intermediaryId)!.newDebt! -= diff;
             } else {
               //this user does not have debts with you. go next
             }

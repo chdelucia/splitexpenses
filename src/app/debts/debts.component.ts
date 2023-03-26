@@ -30,7 +30,9 @@ export class DebtsComponent implements OnInit {
   ngOnInit(): void {
     this.DebtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
+      console.log(this.debts);
     });
+
   }
 
   calcExchange(value?: number) {
