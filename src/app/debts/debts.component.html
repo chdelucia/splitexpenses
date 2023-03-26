@@ -1,6 +1,6 @@
 <h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
 <section class="row g-4">
-    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let user of usersHTML | async">
+    <div class="col-sm-12 col-lg-6 col-xl-4" *ngFor="let user of usersHTML | async">
         <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/{{user.id}}'>
             <div class="d-flex flex-row justify-content-between title">
                 <div>{{user.name}} <span class="text" i18n>debe un total de:</span></div>

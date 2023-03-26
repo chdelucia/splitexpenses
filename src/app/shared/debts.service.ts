@@ -158,8 +158,6 @@ export class DebtsService {
     };
   }
 
-
-
   reset(){
     this.initialize();
   }
