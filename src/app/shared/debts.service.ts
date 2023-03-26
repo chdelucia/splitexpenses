@@ -90,7 +90,7 @@ export class DebtsService {
 
 
   updateExpenseDebt(expense: Expense) {
-    this.cupdatePayerDebt(expense);
+    this.updatePayerDebt(expense);
     const { sharedBy: debtorsIds } = expense;
     debtorsIds.forEach(debtorId => {
         this.updateDebtorDebt(debtorId, expense);
@@ -98,7 +98,7 @@ export class DebtsService {
     this.calcDirectDebtsDiff();
   }
 
-  cupdatePayerDebt(expense: Expense) {
+  updatePayerDebt(expense: Expense) {
     const { paidBy: payerId } = expense;
     const payerDebts = this.debts.get(payerId);
     if (!payerDebts) {
