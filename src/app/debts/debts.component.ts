@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
 import { CurrencyPlugin, Debt, User } from '../shared/models';
@@ -15,6 +15,7 @@ export class DebtsComponent implements OnInit {
   debts: Map<string, Debt>;
   usersHTML: Observable<Array<User>>;
   currency: CurrencyPlugin;
+  private DebtsSubscription: Subscription | undefined;
 
   constructor(
     private debtsService: DebtsService,
@@ -27,14 +28,17 @@ export class DebtsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.debtsService.myProperty.subscribe(newValue => {
+    this.DebtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
     });
   }
 
-
   calcExchange(value?: number) {
     return this.currencyService.calcExchangeValue(value || 0);
+  }
+
+  ngOnDestroy(): void {
+    this.DebtsSubscription?.unsubscribe();
   }
 
 }

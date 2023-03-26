@@ -13,7 +13,7 @@ export class DebtsService {
   private users: Observable<Map<string, User>>;
 
   private myPropertySubject = new BehaviorSubject<Map<string, Debt>>(new Map());
-  myProperty = this.myPropertySubject.asObservable();
+  debtList$ = this.myPropertySubject.asObservable();
 
   constructor(
     private userService: UsersService,
