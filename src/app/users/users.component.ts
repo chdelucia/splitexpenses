@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UsersService } from './shared/users.service';
 import { openSnackBar, globalToast } from '../shared/utils';
 
