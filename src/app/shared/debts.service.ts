@@ -90,33 +90,25 @@ export class DebtsService {
             let intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;
 
             if(intermediaryDebtToDebtor > 0) {
-              console.log(`${intermediaryId} pilla la deuda de ${debtorId} hacia ${lenderId} de ${debtorDebt} porque le debe ${intermediaryDebtToDebtor}`)
-
               let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
               let lenderDebtToIntermediary = indDebt.debts.get(lenderId)?.newDebt || 0;
 
               //negative amount: means lender has a debt with the intermediary
               if(lenderDebtToIntermediary < 0) {
                 diff = Math.min(diff, Math.abs(lenderDebtToIntermediary));
-                console.log(`${debtorId} le debe a ${intermediaryId} ${lenderDebtToIntermediary} por lo que descuenta ${diff}`)
-              } else {
-                //lender has no debts to intermediary so intermediary buys the debt
-                console.log(`${lenderId} no le debe dinero a ${intermediaryId} por lo que la deuda se compra por ${diff}`);
               }
 
               //settling the debts of the intermediary with the debtor
               indDebt.debts.get(debtorId)!.newDebt! -= diff;
               indDebt.debts.get(lenderId)!.newDebt! += diff;
 
-              //settlement of debts owed by the debtor to the intermediary and the lender
+              //settling the debts of the debtor to the intermediary and the lender
               debts.debts.get(intermediaryId)!.newDebt! += diff;
               individualDebt.newDebt! -= diff;
 
-              //reduce the debt on the lender's account
+              //settling the debt of the lender's account
               this.debts.get(lenderId)!.debts.get(debtorId)!.newDebt! += diff;
               this.debts.get(lenderId)!.debts.get(intermediaryId)!.newDebt! -= diff;
-            } else {
-              //this user does not have debts with you. go next
             }
           });
         }
