@@ -59,9 +59,10 @@ export class DebtsService {
               let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
               let lenderDebtToIntermediary = indDebt.debts.get(lenderId)?.newDebt || 0;
 
+              //negative amount: means lender has a debt with the intermediary
               if(lenderDebtToIntermediary < 0) {
                 diff = Math.min(diff, Math.abs(lenderDebtToIntermediary));
-                //reduce debt between the lender and intermediary
+                //reduce debt between the lender and the intermediary
                 this.debts.get(lenderId)!.debts.get(intermediaryId)!.newDebt! += diff;
               } else {
                 //transfers the debt to the intermediary
