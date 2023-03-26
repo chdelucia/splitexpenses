@@ -32,8 +32,8 @@
       </thead>
       <tbody>
           <tr *ngFor="let user of users$ | async">
-              <td #nameCell contentEditable (focusout)="edit(nameCell, user.id, 'name')"> {{user.name}} </td>
-              <td #phoneCell contentEditable (focusout)="edit(phoneCell, user.id, 'phone')"> {{user.phone}}</td>
+              <td #nameCell contentEditable (focusout)="edit(nameCell, user, 'name')"> {{user.name}} </td>
+              <td #phoneCell contentEditable (focusout)="edit(phoneCell, user, 'phone')"> {{user.phone}}</td>
               <td (click)="delete(user.id)">
                 <span class="material-icons">delete_forever</span>
               </td>

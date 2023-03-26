@@ -43,30 +43,31 @@ export class UsersComponent {
     let nameExist = await this.userService.checkIfNameExist(name);
     if(nameExist){
       openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
-    } else {
-      const user: User = {
-        id: '',
-        name: name,
-        phone: phone || ''
-      }
-      this.userService.addUser(user);
-      this.clearInput();
-      openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK)
+      return;
     }
+
+    const user: User = {
+      id: '',
+      name: name,
+      phone: phone || ''
+    }
+    this.userService.addUser(user);
+    this.clearInput();
+    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK)
+
     this.debtsService.reset();
   }
 
-  async edit(data: HTMLTableCellElement, userID: string, fieldToEdit: string) {
-    let newValue = data.innerText.trim();
-    let user: any = await firstValueFrom(this.userService.getUserByID(userID));
-    if(user && user.hasOwnProperty(fieldToEdit) && newValue) {
-        if(user[fieldToEdit] != newValue) {
+  edit(data: HTMLTableCellElement, user: User, fieldToEdit: "phone" | "name") {
+    let oldValue =  user[fieldToEdit];
+    const newValue = data.innerText.trim();
+
+    if(newValue && (oldValue != newValue)) {
           user[fieldToEdit] = newValue;
           this.userService.editUser(user);
           openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
-        }
     } else {
-      data.innerText = user[fieldToEdit] || '';
+      data.innerText = oldValue || '';
     }
   }
 
