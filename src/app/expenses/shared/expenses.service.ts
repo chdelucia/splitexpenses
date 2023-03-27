@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from 'src/app/shared/utils';
-import { addExpenses } from 'src/app/state/expenses/expenses.actions';
-import { selectExpenses } from 'src/app/state/expenses/expenses.selectors';
+import { addExpense, addExpenses, removeExpense, updateExpense } from 'src/app/state/expenses/expenses.actions';
+import { selectExpenseByID, selectExpenses, selectExpensesDates, selectExpensesFilterByType, selectIterableExpenses } from 'src/app/state/expenses/expenses.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +13,18 @@ import { selectExpenses } from 'src/app/state/expenses/expenses.selectors';
 export class ExpensesService {
   expenses: Map<string, Expense> = new Map();
   settings: Settings;
+  expenses$: Observable<Map<string, Expense>>;
+  iterableExpenses$: Observable<Array<Expense>>;
 
   constructor(
     private storageService: LocalstorageService,
     private store: Store) {
     this.expenses = this.loadExpensesFromLocalStorage();
-    this.store.dispatch(addExpenses({ expenses: this.expenses }))
     this.settings = this.storageService.getSettings();
+
+    this.expenses$ = this.store.select(selectExpenses);
+    this.iterableExpenses$ = this.store.select(selectIterableExpenses);
+    this.store.dispatch(addExpenses({ expenses: this.expenses }));
   }
 
   loadExpensesFromLocalStorage(): Map<string, Expense> {
@@ -32,28 +37,24 @@ export class ExpensesService {
     this.storageService.saveDataToLocalStorage(undefined, this.expenses);
   }
 
-  getExpenses(): Map<string, Expense> {
-    return this.expenses;
+  getExpenses(): Observable<Map<string, Expense>> {
+    return this.expenses$;
   }
 
-  getExpensesTest(): Observable<Map<string, Expense>> {
-    return this.store.select(selectExpenses);
+  getExpenseByID(id: string): Observable<Expense | undefined> {
+    return this.store.select(selectExpenseByID(id));
   }
 
-  getExpensesFilterByType(filter: string): Array<Expense>{
-    let expensesArray: Array<Expense> = Array.from(this.expenses.values());
-    let expensesFiltered = expensesArray.filter( item => item.date === filter);
-    return expensesFiltered;
+  getIterableExpenses(): Observable<Expense[]> {
+    return this.iterableExpenses$;
   }
 
-  getExpensesDates(): Array<string>{
-    let expensesArray: Array<Expense> = Array.from(this.expenses.values());
-    let dates = expensesArray.map( item => item.date);
-    return [...new Set(dates.reverse())];
+  getExpensesFilterByType(filter: string): Observable<Array<Expense>>{
+    return this.store.select(selectExpensesFilterByType(filter));
   }
 
-  getExpenseByID(id: string): Expense | undefined {
-    return this.expenses.get(id);
+  getExpensesDates(): Observable<string[]>{
+    return this.store.select(selectExpensesDates);
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {
@@ -61,18 +62,18 @@ export class ExpensesService {
   }
 
   editExpense(expense: Expense): void {
-    this.expenses.set(expense.id, expense);
+    this.store.dispatch(updateExpense({ expense }));
     this.saveExpensesIntoLocalStorage();
   }
 
-  addExpense(data: Expense): void {
-    data.id = calcNextID(this.expenses);
-    this.expenses.set(data.id, data);
+  addExpense(expense: Expense): void {
+    expense.id = calcNextID(this.expenses);
+    this.store.dispatch(addExpense({ expense }));
     this.saveExpensesIntoLocalStorage();
   }
 
-  deleteExpense(key: string) {
-    this.expenses.delete(key);
+  deleteExpense(id: string) {
+    this.store.dispatch(removeExpense({ id }));
     this.saveExpensesIntoLocalStorage();
   }
 

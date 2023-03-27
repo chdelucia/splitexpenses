@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import {  Observable } from 'rxjs';
+import {  first, Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
 import { DebtsService } from '../../shared/debts.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
@@ -18,7 +18,7 @@ import { UsersService } from '../../users/shared/users.service';
 export class AddExpenseComponent implements OnInit {
   expenseForm: FormGroup;
   currency: CurrencyPlugin;
-  usersHTML: Observable<Array<User>>;
+  users$: Observable<Array<User>>;
   expenseTypes: ExpenseTypes[];
   expense?: Expense;
 
@@ -41,7 +41,7 @@ export class AddExpenseComponent implements OnInit {
     private fb: FormBuilder
     ) {
     this.expenseTypes = this.expensesService.getExpensesTypes();
-    this.usersHTML = this.usersService.getIterableUsers();
+    this.users$ = this.usersService.getIterableUsers();
     this.currency = this.currencyService.getCurrencySettings();
 
     this.expenseForm = this.fb.group({
@@ -62,14 +62,16 @@ export class AddExpenseComponent implements OnInit {
   private initializeExpense(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.expense = this.expensesService.getExpenseByID(id);
-      this.updateForm();
+      this.expensesService.getExpenseByID(id).pipe(first()).subscribe(expense => {
+        this.expense = expense;
+        this.updateForm();
+      });
     }
   }
 
   private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
-    this.usersHTML.forEach(users => {
+    this.users$.forEach(users => {
       users.forEach(user => {
         const control = this.createFormControl(user.id);
         sharedBy.push(control);

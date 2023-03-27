@@ -53,8 +53,8 @@ export class DebtsDetailComponent implements OnInit {
     }
   }
 
-  pay(expenseID: string, userID: string, paid: boolean) {
-    let expense = this.expensesService.getExpenseByID(expenseID);
+  async pay(expenseID: string, userID: string, paid: boolean) {
+    let expense = await firstValueFrom(this.expensesService.getExpenseByID(expenseID));
     if(expense) {
 
       // remove userID or added

@@ -10,7 +10,8 @@ import { round2decimals } from './utils';
 })
 export class DebtsService{
   private debts: Map<string, Debt> = new Map();
-  private users: Observable<Map<string, User>>;
+  private users$: Observable<Map<string, User>>;
+  private expenses$: Observable<Expense[]>;
 
   private myPropertySubject = new BehaviorSubject<Map<string, Debt>>(new Map());
   debtList$ = this.myPropertySubject.asObservable();
@@ -19,18 +20,19 @@ export class DebtsService{
     private userService: UsersService,
     private expensesService: ExpensesService
     ) {
-    this.users = this.userService.getUsers();
+    this.users$ = this.userService.getUsers();
+    this.expenses$ = this.expensesService.getIterableExpenses();
     this.initialize();
   }
 
 
   private async initialize(): Promise<void> {
-    let users = await firstValueFrom(this.users);
+    let users = await firstValueFrom(this.users$);
     if (!users) {
       throw new Error('No users found');
     }
     await this.createStructure(users);
-    this.calcDebt();
+    await this.calcDebt();
     this.settleCrossAccountDebts();
     this.myPropertySubject.next(this.debts);
 
@@ -73,8 +75,8 @@ export class DebtsService{
     };
   }
 
-  calcDebt(): void{
-    let expenses = this.expensesService.getExpenses().values();
+  async calcDebt(): Promise<void>{
+    let expenses = await firstValueFrom(this.expenses$);
       for (const expense of expenses) {
         this.updateExpenseDebt(expense);
       }

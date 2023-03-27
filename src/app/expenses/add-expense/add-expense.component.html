@@ -11,7 +11,7 @@
         <mat-form-field appearance="fill"  class="w-100">
           <mat-label i18n>Pagado por:</mat-label>
           <mat-select formControlName="name" required>
-            <mat-option *ngFor="let user of usersHTML | async" [value]="user.id">{{user.name}}</mat-option>
+            <mat-option *ngFor="let user of users$ | async" [value]="user.id">{{user.name}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -45,7 +45,7 @@
 
       <div class="col-12">
         <div class="mb-2" i18n>Quien participa:</div>
-        <mat-checkbox *ngFor="let user of usersHTML | async; let i=index"
+        <mat-checkbox *ngFor="let user of users$ | async; let i=index"
           [value]="user.id"
           (change)="onCheckboxChange($event)"
           [checked]="!expense || expense.sharedBy.includes(user.id)"

@@ -13,7 +13,7 @@ import { UsersService } from '../users/shared/users.service';
 export class DebtsComponent implements OnInit {
 
   debts: Map<string, Debt>;
-  usersHTML: Observable<Array<User>>;
+  users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
   private DebtsSubscription: Subscription | undefined;
 
@@ -22,7 +22,7 @@ export class DebtsComponent implements OnInit {
     private userService: UsersService,
     private currencyService: CurrencyService
   ) {
-    this.usersHTML = this.userService.getIterableUsers();
+    this.users$ = this.userService.getIterableUsers();
     this.currency = this.currencyService.getCurrencySettings();
     this.debts = this.debtsService.getDebts();
   }

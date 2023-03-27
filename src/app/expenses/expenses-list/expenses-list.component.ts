@@ -17,11 +17,10 @@ import { UsersService } from '../../users/shared/users.service';
 export class ExpensesListComponent implements OnInit, OnChanges {
   @Input() filter: string = '';
 
-  expenses: Map<string, Expense>;
-  expensesHTML: Array<Expense> = [];
+  expenses$: Observable<Array<Expense>>;
   currency: CurrencyPlugin;
-  users: Map<string, User> = new Map();
-  dates: Array<string> = [];
+  users$: Observable<Map<string, User>>;
+  dates$: Observable<Array<string>>;
 
   private toastmsg =  {
     OK : $localize`Gasto eliminado correctamente`,
@@ -36,21 +35,16 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     private _snackBar: MatSnackBar,
     private router: Router,
     ) {
-    this.expenses = this.expensesService.getExpenses();
+    this.expenses$ = this.expensesService.getIterableExpenses();
     this.currency = this.currencyService.getCurrencySettings();
-    this.expensesHTML = Array.from(this.expenses.values()).reverse();
-    this.dates = this.expensesService.getExpensesDates();
+    this.dates$ = this.expensesService.getExpensesDates();
+    this.users$ = this.usersService.getUsers();
   }
 
   ngOnInit(): void {
     if(this.filter){
       this.createArrayofExpenses();
     }
-    this.loadUsers();
-  }
-
-  async loadUsers(): Promise<void> {
-    this.users = await firstValueFrom(this.usersService.getUsers());
   }
 
   ngOnChanges(){
@@ -61,9 +55,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
 
   deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
-    this.updateExpenses();
-    this.updateDates();
-    this.createArrayofExpenses();
     this.resetDebts();
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
   }
@@ -74,23 +65,12 @@ export class ExpensesListComponent implements OnInit, OnChanges {
 
   createArrayofExpenses(): void {
     if(this.filter){
-      this.expensesHTML = this.expensesService.getExpensesFilterByType(this.filter);
-    } else {
-      this.expensesHTML = Array.from(this.expenses.values());
+      this.expenses$ = this.expensesService.getExpensesFilterByType(this.filter);
     }
   }
 
   calcExchange(value?: number): number {
     return this.currencyService.calcExchangeValue(value || 0);
-  }
-
-  /** TODO remove this and add expense to the store ngrx */
-  private updateExpenses(): void {
-      this.expenses = this.expensesService.getExpenses()
-  }
-
-  private updateDates(): void {
-      this.dates = this.expensesService.getExpensesDates()
   }
 
   private resetDebts(): void {
