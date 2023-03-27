@@ -34,8 +34,6 @@ export class DebtsService{
     await this.createStructure(users);
     await this.calcDebt();
     this.settleCrossAccountDebts();
-    this.myPropertySubject.next(this.debts);
-
   }
 
   getDebts(): Map<string, Debt> {
@@ -118,8 +116,8 @@ export class DebtsService{
         }
       });
     });
+    this.myPropertySubject.next(this.debts);
   }
-
 
   updateExpenseDebt(expense: Expense) {
     this.updatePayerDebt(expense);

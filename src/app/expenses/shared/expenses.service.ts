@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from 'src/app/shared/utils';
@@ -33,8 +33,9 @@ export class ExpensesService {
     return answers;
   }
 
-  saveExpensesIntoLocalStorage():void {
-    this.storageService.saveDataToLocalStorage(undefined, this.expenses);
+  async saveExpensesIntoLocalStorage():Promise<void> {
+    const expenses = await firstValueFrom(this.expenses$)
+    this.storageService.saveDataToLocalStorage(undefined, expenses);
   }
 
   getExpenses(): Observable<Map<string, Expense>> {

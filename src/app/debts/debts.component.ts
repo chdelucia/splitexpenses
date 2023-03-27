@@ -28,11 +28,10 @@ export class DebtsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.debtsService.settleCrossAccountDebts();
     this.DebtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
-      console.log(this.debts);
     });
-
   }
 
   calcExchange(value?: number) {
