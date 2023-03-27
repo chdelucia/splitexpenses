@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { UsersService } from './shared/users.service';
 import { openSnackBar, globalToast } from '../shared/utils';
 
@@ -40,7 +40,7 @@ export class UsersComponent {
   }
 
   async add(name: string, phone?: string) {
-    let nameExist = await this.userService.checkIfNameExist(name);
+    let nameExist = await firstValueFrom(this.userService.checkIfNameExist(name));
     if(nameExist){
       openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
       return;

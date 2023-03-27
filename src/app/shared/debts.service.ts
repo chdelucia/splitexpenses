@@ -8,7 +8,7 @@ import { round2decimals } from './utils';
 @Injectable({
   providedIn: 'root'
 })
-export class DebtsService {
+export class DebtsService{
   private debts: Map<string, Debt> = new Map();
   private users: Observable<Map<string, User>>;
 
@@ -22,6 +22,7 @@ export class DebtsService {
     this.users = this.userService.getUsers();
     this.initialize();
   }
+
 
   private async initialize(): Promise<void> {
     let users = await firstValueFrom(this.users);

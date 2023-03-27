@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
 import { MainComponent } from './main/main.component';
 import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
@@ -15,6 +15,7 @@ import { StoreModule } from '@ngrx/store';
 import { userReducer } from './state/user/user.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { expensesReducer } from './state/expenses/expenses.reducer';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    StoreModule.forRoot({users: userReducer}, {}),
+    StoreModule.forRoot({users: userReducer, expenses: expensesReducer}),
     BrowserAnimationsModule,
     SharedModule
   ],

@@ -1,4 +1,6 @@
+import { useAnimation } from '@angular/animations';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { User } from 'src/app/shared/models';
 import { UserState } from './user.reducer';
 
 
@@ -22,4 +24,9 @@ export const selectIterableUsers = createSelector(
 export const selectUserCount = createSelector(
   selectIterableUsers,
   (users) => users.length
+);
+
+export const checkIfNameExist = (userName: string) => createSelector(
+  selectIterableUsers,
+  (users) => users.find((user:User) => user.name === userName) ? true : false
 );

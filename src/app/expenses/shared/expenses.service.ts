@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from 'src/app/shared/utils';
+import { addExpenses } from 'src/app/state/expenses/expenses.actions';
+import { selectExpenses } from 'src/app/state/expenses/expenses.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +14,11 @@ export class ExpensesService {
   expenses: Map<string, Expense> = new Map();
   settings: Settings;
 
-  constructor(private storageService: LocalstorageService) {
+  constructor(
+    private storageService: LocalstorageService,
+    private store: Store) {
     this.expenses = this.loadExpensesFromLocalStorage();
+    this.store.dispatch(addExpenses({ expenses: this.expenses }))
     this.settings = this.storageService.getSettings();
   }
 
@@ -27,6 +34,10 @@ export class ExpensesService {
 
   getExpenses(): Map<string, Expense> {
     return this.expenses;
+  }
+
+  getExpensesTest(): Observable<Map<string, Expense>> {
+    return this.store.select(selectExpenses);
   }
 
   getExpensesFilterByType(filter: string): Array<Expense>{
@@ -46,7 +57,7 @@ export class ExpensesService {
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {
-    return Array.from(this.settings.graph.types.values())
+    return Array.from(this.settings.graph.types.values());
   }
 
   editExpense(expense: Expense): void {

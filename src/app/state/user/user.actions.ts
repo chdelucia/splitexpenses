@@ -3,8 +3,6 @@ import { User } from '../../shared/models';
 
 export const addUser = createAction('[User] Add User', props<{ user: User }>());
 
-export const editUser = createAction('[User] Edit User', props<{id: string, user:User}>())
-
 export const removeUser = createAction('[Users] Remove User', props<{ id: string }>());
 
 export const updateUser = createAction('[Users] Update User', props<{ user: User }>());

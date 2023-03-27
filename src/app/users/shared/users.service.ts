@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { calcNextID, convertStringToMap } from 'src/app/shared/utils';
 import { Store } from '@ngrx/store';
-import { selectUsers, selectUserByID, selectIterableUsers } from 'src/app/state/user/user.selectors';
+import { selectUsers, selectUserByID, selectIterableUsers, checkIfNameExist } from 'src/app/state/user/user.selectors';
 import { firstValueFrom, Observable } from 'rxjs';
 import { addUser, addUsers, removeUser, updateUser } from 'src/app/state/user/user.actions';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
@@ -58,15 +58,14 @@ export class UsersService {
     return users;
   }
 
+  //TODO import module to auto sync store and localstore
   async saveUsersIntoLocalStorage(): Promise<void> {
     let users = await firstValueFrom(this.users$)
     this.storageService.saveDataToLocalStorage(users)
   }
 
-  async checkIfNameExist(name: string): Promise<boolean>{
-    let users = await firstValueFrom(this.users$)
-    let usersArray = Array.from(users.values());
-    return usersArray.find((user:User) => user.name === name) ? true : false;
+  checkIfNameExist(name: string): Observable<boolean>{
+    return this.store.select(checkIfNameExist(name));
   }
 
 

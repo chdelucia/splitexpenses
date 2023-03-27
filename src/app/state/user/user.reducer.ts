@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { addUser, addUsers, editUser, removeUser, resetUsers, updateUser } from './user.actions';
+import { addUser, addUsers, removeUser, resetUsers, updateUser } from './user.actions';
 import { User } from '../../shared/models';
 
 export interface UserState {
@@ -16,14 +16,6 @@ export const userReducer = createReducer(
     ...state,
     users: new Map<string, User>([...state.users, [user.id, user]])
   })),
-  on(editUser, (state, { user }) => {
-    const newUsers = new Map<string, User>([...state.users]);
-    newUsers.set(user.id, user);
-    return {
-      ...state,
-      users: newUsers,
-    };
-  }),
   on(removeUser, (state, { id }) => {
     const newUsers = new Map<string, User>([...state.users]);
     newUsers.delete(id);
