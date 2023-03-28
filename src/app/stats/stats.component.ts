@@ -38,7 +38,7 @@ export class StatsComponent {
 
   change(id: string): void {
     if(id !== '0'){
-      this.init(id)
+      this.init(id);
     } else {
       this.init();
     }
@@ -49,6 +49,10 @@ export class StatsComponent {
     this.meanCost = this.expensesService.getAverageCostPerDay(userId);
     this.dailyData = this.expensesService.gettotalCostEachDayPerType(userId);
     this.typeData =  this.expensesService.getExpensesByType(userId);
+  }
+
+  calcExchange(value?: number) {
+    return this.currencyService.calcExchangeValue(value || 0);
   }
 
 }
