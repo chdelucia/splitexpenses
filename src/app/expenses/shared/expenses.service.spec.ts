@@ -64,6 +64,11 @@ const mockStore = {
   },
 };
 
+const expensesMock = new Map([
+  ['1',expense1],
+  ['2', expense2],
+]);
+
 describe('ExpensesService', () => {
   let service: ExpensesService;
   let mockStore: MockStore;
@@ -71,7 +76,7 @@ describe('ExpensesService', () => {
     expenses: {
       ids: ['1', '2'],
       entities: {
-        1: {
+        '1': {
           id: '1',
           name: 'Expense 1',
           originalCost: 100,
@@ -81,7 +86,7 @@ describe('ExpensesService', () => {
           sharedBy: ['user1', 'user2'],
           typeId: '1',
         },
-        2: {
+        '2': {
           id: '2',
           name: 'Expense 2',
           originalCost: 200,
@@ -92,6 +97,8 @@ describe('ExpensesService', () => {
           typeId: '2',
         },
       },
+      filter: null,
+      dates: [],
     },
   };
 
@@ -166,6 +173,7 @@ describe('ExpensesService', () => {
     it('should return expenses$', async() => {
       const expense = new Map<string, Expense>();
       expense.set('1', expense1);
+      //spyOnProperty(service, 'expenses$').and.returnValue(expense1);
       let result2 = await firstValueFrom(service.expenses$);
       spyOn(mockStore, 'select').and.returnValue(of(expense));
       let result = await firstValueFrom(service.getExpenses());
@@ -189,6 +197,22 @@ describe('ExpensesService', () => {
       spyOn(mockStore, 'select').and.returnValue(of(expense1));
       let resutl = await firstValueFrom(service.getExpenseByID('1'));
       expect(resutl).toEqual(expense1);
+    });
+
+    it('should return undefined if the expense does not exist', (done: DoneFn) => {
+      const id = '123';
+      spyOn(mockStore, 'select')
+      service.getExpenseByID(id).subscribe((result) => {
+        expect(result).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should call store with select and id provided', () => {
+      const id = '1';
+      spyOn(mockStore, 'select')
+      service.getExpenseByID(id).subscribe();
+      expect(mockStore.select).toHaveBeenCalledWith(selectExpenseByID(id));
     });
   });
 
