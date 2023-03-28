@@ -1,5 +1,5 @@
 
-<main class="container py-2 mb-8">
+<main class="container py-2 mb-8 flex">
   <div class="d-flex flex-row align-items-center justify-content-center">
       <div class="me-2">
           <h2 class="my-4 text-center" i18n>Estadisticas</h2>
@@ -30,8 +30,11 @@
 
   </div>
 
-  <app-summarygraph bytype="ByDay" [data]="dailyData"></app-summarygraph>
-  <app-summarygraph bytype="ByType" [data]="typeData"></app-summarygraph>
+  <section class="row g-4">
+    <app-summarygraph bytype="ByDay" [data]="dailyData" class="col-xl-6"></app-summarygraph>
+    <app-summarygraph bytype="ByType" [data]="typeData" class="col-xl-6"></app-summarygraph>
+  </section>
+
 
 </main>
 

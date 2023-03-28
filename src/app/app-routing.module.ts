@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
   { path: 'forecast', loadChildren: () => import('./forecast/forecast.module').then(m => m.ForecastModule) },
   { path: 'stats', loadChildren: () => import('./stats/stats.module').then(m => m.StatsModule) },
-  { path: 'settings', loadChildren: () => import('./options/options.module').then(m => m.OptionsModule) },
+  { path: 'settings', loadChildren: () => import('./settings/options.module').then(m => m.OptionsModule) },
   { path: 'expense', loadChildren: () => import('./expenses/expenses.module').then(m => m.ExpensesModule) },
 ];
 

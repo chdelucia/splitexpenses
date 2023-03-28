@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild  } from '
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
-import { LocalstorageService } from '../localstorage.service';
+import { LocalstorageService } from '../../shared/localstorage.service';
 
 @Component({
   selector: 'app-summarygraph',
