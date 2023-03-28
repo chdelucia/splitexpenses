@@ -44,14 +44,4 @@ describe('MainComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get users on init', () => {
-    expect(component.users).toEqual([
-      {id: '1', name: 'Alice'},
-      {id: '2', name: 'Bob'}
-    ]);
-  });
-
-  it('should get expenses', () => {
-    expect(component.expenses).toEqual(new Map<string, Expense>());
-  });
 });

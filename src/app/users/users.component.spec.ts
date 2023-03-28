@@ -4,7 +4,7 @@ import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { UsersComponent } from './users.component';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from './shared/users.service';
 import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { userReducer, UserState } from '../state/user/user.reducer';

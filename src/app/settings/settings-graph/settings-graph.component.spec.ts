@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
-import { AlertComponent } from 'src/app/alert/alert.component';
 
 import { SettingsGraphComponent } from './settings-graph.component';
 
@@ -12,8 +11,7 @@ describe('SettingsGraphComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ SettingsGraphComponent,
-        MockComponent(AlertComponent)
+      declarations: [ SettingsGraphComponent
        ]
     })
     .compileComponents();

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
-import { AlertComponent } from 'src/app/alert/alert.component';
 
 import { SettingsUploadComponent } from './settings-upload.component';
 
@@ -12,9 +11,7 @@ describe('SettingsUploadComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ SettingsUploadComponent,
-        MockComponent(AlertComponent)
-       ]
+      declarations: [ SettingsUploadComponent,]
     })
     .compileComponents();
 

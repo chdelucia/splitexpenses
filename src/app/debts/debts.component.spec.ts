@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { CurrencyPlugin, Debt, User } from '../shared/models';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from '../users/shared/users.service';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 describe('DebtsComponent', () => {
