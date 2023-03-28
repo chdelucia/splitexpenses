@@ -34,7 +34,7 @@ export class SettingsTravelComponent implements OnInit {
   }
 
   resetAll() {
-    this.expensesService.reset();
+    this.expensesService.init();
     this.debtsService.reset();
   }
 

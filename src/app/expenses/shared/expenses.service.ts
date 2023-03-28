@@ -11,20 +11,27 @@ import { selectExpenseByID, selectExpenses, selectExpensesDates, selectExpensesF
   providedIn: 'root'
 })
 export class ExpensesService {
-  expenses: Map<string, Expense> = new Map();
-  settings: Settings;
+  private settings: Settings;
   expenses$: Observable<Map<string, Expense>>;
   iterableExpenses$: Observable<Array<Expense>>;
+  private expenses : Map<string, Expense> = new Map();
 
   constructor(
     private storageService: LocalstorageService,
     private store: Store) {
-    this.expenses = this.loadExpensesFromLocalStorage();
-    this.settings = this.storageService.getSettings();
 
+    this.settings = this.storageService.getSettings();
     this.expenses$ = this.store.select(selectExpenses);
     this.iterableExpenses$ = this.store.select(selectIterableExpenses);
-    this.store.dispatch(addExpenses({ expenses: this.expenses }));
+    this.store.select(selectExpenses).subscribe((data) => {
+      this.expenses = data;
+    });
+    this.init();
+
+  }
+  init(){
+    const expenses = this.loadExpensesFromLocalStorage();
+    this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 
   loadExpensesFromLocalStorage(): Map<string, Expense> {
@@ -115,7 +122,7 @@ export class ExpensesService {
   }
 
   getTotalDays(): number {
-    let expenses = Array.from(this.expenses.values());
+    const  expenses = Array.from(this.expenses.values());
     let data1 = expenses.shift()?.date || '';
     let date2 = expenses.pop()?.date || '';
 
@@ -143,17 +150,16 @@ export class ExpensesService {
 
   getTotalCostEachDay(userId?: string): {labels: Array<string>, data: Array<number>} {
     let dates: Array<string> = []
-
-    this.expenses.forEach( expense => {
+    const expenses = Array.from(this.expenses.values());
+    expenses.forEach( expense => {
       if(!dates.includes(expense.date)) {
         dates.push(expense.date)
       }
     })
 
     let xAxis: Array<number> = Array(dates.length).fill(0);
-
     dates.forEach( (date, i) => {
-      this.expenses.forEach(expense => {
+      expenses.forEach(expense => {
         if( userId && expense.sharedBy.includes(userId) && expense.date === date ) {
           xAxis[i] += expense.cost;
         } else if(!userId && expense.date === date) {
@@ -166,8 +172,7 @@ export class ExpensesService {
   }
 
   gettotalCostEachDayPerType(userId?: string): {labels: Array<string>, data: Array<any>} {
-    let expensesArray: Array<Expense> = Array.from(this.expenses.values());
-
+    let expensesArray = Array.from(this.expenses.values());;
     // Create Object of expenses group by Day
     let result = expensesArray.reduce(function (r, a) {
         r[a.date] = r[a.date] || [];
@@ -203,10 +208,5 @@ export class ExpensesService {
     }
     return { labels: yAxis, data: stackedxAxis };
   }
-
-  reset(){
-    this.expenses = this.loadExpensesFromLocalStorage();
-  }
-
 
 }

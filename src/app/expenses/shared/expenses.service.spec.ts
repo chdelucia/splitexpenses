@@ -12,11 +12,11 @@ const expense1: Expense = {
   id: '1',
   title: 'Expense 1',
   cost: 10,
-  sharedBy: ['1'],
+  sharedBy: ['1','2'],
   typeId: '1',
   paidBy: '1',
   date: '2022-01-01',
-  originalCost: 10,
+  originalCost: 100,
   settleBy: []
 };
 
@@ -24,11 +24,11 @@ const expense2: Expense = {
   id: '2',
   title: 'Expense 2',
   cost: 5,
-  sharedBy: ['1'],
+  sharedBy: ['1','2'],
   typeId: '2',
   paidBy: '1',
   date: '2022-01-01',
-  originalCost: 5,
+  originalCost: 50,
   settleBy: []
 };
 
@@ -210,11 +210,30 @@ describe('ExpensesService', () => {
 
     it('should call store with select and id provided', () => {
       const id = '1';
-      spyOn(mockStore, 'select')
+      spyOn(mockStore, 'select').and.callThrough();
       service.getExpenseByID(id).subscribe();
       expect(mockStore.select).toHaveBeenCalledWith(selectExpenseByID(id));
     });
   });
+
+  describe('getTotalPaidByUserToOthers', () => {
+
+    it('should return 0 if the user has not paid for any expenses', () => {
+      expect(service.getTotalPaidByUserToOthers('1')).toBe(0);
+    });
+
+    it('should return the total amount paid by the user if the user has only paid for their own expenses', () => {
+      service.addExpense(expense1);
+      service.addExpense(expense2);
+      expect(service.getTotalPaidByUserToOthers('1')).toBe(150);
+    });
+  });
+
+
+
+
+
+
 
 });
 
