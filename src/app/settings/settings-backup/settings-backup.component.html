@@ -1,0 +1,35 @@
+
+<section class="mb-4">
+    <h4 class="my-4" i18n>Copia de Seguridad</h4>
+    <div class="alert alert-secondary" role="alert">
+      <span i18n>Haz una copia de seguridad de tu viaje</span>
+    </div>
+    <a download="" id="downloadlink" style="display: none">Download</a>
+    <a download="" id="downloadlinkExcel" style="display: none">Download</a>
+
+    <div class="row g-2">
+      <div class="col-6">
+        <select name="name" #travel class="form-select mb-2"  required>
+          <option *ngFor="let travel of travels; let i=index" [value]="travel">{{travel}}</option>
+      </select>
+
+      </div>
+      <div class="col-6">
+        <button class="input-group btn btn-primary" type="button" (click)="download(travel.value)" i18n>
+            Descargar viaje
+        </button>
+      </div>
+      <div class="col-6">
+        <button class="input-group btn btn-primary" type="button" (click)="downloadExcel(travel.value)" i18n>
+            Descargar solo gastos en Excel
+        </button>
+      </div>
+
+    </div>
+    <p class="text-center mt-4">o</p>
+    <button  class="input-group btn my-4 btn btn-primary p-2" type="button" (click)="copyData()" i18n>Copiar datos al portapapeles</button>
+
+</section>
+
+
+
