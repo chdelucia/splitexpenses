@@ -174,10 +174,9 @@ describe('ExpensesService', () => {
       const expense = new Map<string, Expense>();
       expense.set('1', expense1);
       //spyOnProperty(service, 'expenses$').and.returnValue(expense1);
-      let result2 = await firstValueFrom(service.expenses$);
       spyOn(mockStore, 'select').and.returnValue(of(expense));
       let result = await firstValueFrom(service.getExpenses());
-      expect(result).toEqual(result2);
+      expect(result).toEqual(expense);
     });
   });
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, firstValueFrom } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Observable, firstValueFrom, take } from 'rxjs';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from 'src/app/shared/utils';
@@ -12,8 +12,6 @@ import { selectExpenseByID, selectExpenses, selectExpensesDates, selectExpensesF
 })
 export class ExpensesService {
   private settings: Settings;
-  expenses$: Observable<Map<string, Expense>>;
-  iterableExpenses$: Observable<Array<Expense>>;
   private expenses : Map<string, Expense> = new Map();
 
   constructor(
@@ -21,32 +19,28 @@ export class ExpensesService {
     private store: Store) {
 
     this.settings = this.storageService.getSettings();
-    this.expenses$ = this.store.select(selectExpenses);
-    this.iterableExpenses$ = this.store.select(selectIterableExpenses);
-    this.store.select(selectExpenses).subscribe((data) => {
-      this.expenses = data;
-    });
+    this.loadExpensesFromLocalStorage();
     this.init();
 
   }
   init(){
-    const expenses = this.loadExpensesFromLocalStorage();
+    this.store.select(selectExpenses).subscribe((data) => {
+      this.expenses = data;
+    });
+  }
+
+  loadExpensesFromLocalStorage(): void {
+    const ans = this.storageService.getData().expenses;
+    let expenses = ans ? convertStringToMap(ans) : new Map();
     this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 
-  loadExpensesFromLocalStorage(): Map<string, Expense> {
-    const ans = this.storageService.getData().expenses;
-    let answers = ans ? convertStringToMap(ans) : new Map();
-    return answers;
-  }
-
   async saveExpensesIntoLocalStorage():Promise<void> {
-    const expenses = await firstValueFrom(this.expenses$)
-    this.storageService.saveDataToLocalStorage(undefined, expenses);
+    this.storageService.saveDataToLocalStorage(undefined, this.expenses);
   }
 
   getExpenses(): Observable<Map<string, Expense>> {
-    return this.expenses$;
+    return this.store.select(selectExpenses);
   }
 
   getExpenseByID(id: string): Observable<Expense | undefined> {
@@ -54,7 +48,7 @@ export class ExpensesService {
   }
 
   getIterableExpenses(): Observable<Expense[]> {
-    return this.iterableExpenses$;
+    return this.store.select(selectIterableExpenses);
   }
 
   getExpensesFilterByType(filter: string): Observable<Array<Expense>>{
