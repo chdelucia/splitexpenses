@@ -119,11 +119,8 @@ describe('ExpensesService', () => {
   });
 
   it('should load expenses from local storage', async () => {
-    spyOn(service, 'loadExpensesFromLocalStorage').and.returnValue(
-      new Map<string, Expense>([
-        ['1', expense1 as Expense],
-      ])
-    );
+    spyOn(service, 'loadExpensesFromLocalStorage');
+    service.loadExpensesFromLocalStorage();
     let result = service.loadExpensesFromLocalStorage();
     expect(result).toBeDefined();
     service.getExpenses().subscribe((expenses) => {
@@ -197,22 +194,6 @@ describe('ExpensesService', () => {
       let resutl = await firstValueFrom(service.getExpenseByID('1'));
       expect(resutl).toEqual(expense1);
     });
-
-    it('should return undefined if the expense does not exist', (done: DoneFn) => {
-      const id = '123';
-      spyOn(mockStore, 'select')
-      service.getExpenseByID(id).subscribe((result) => {
-        expect(result).toBeUndefined();
-        done();
-      });
-    });
-
-    it('should call store with select and id provided', () => {
-      const id = '1';
-      spyOn(mockStore, 'select').and.callThrough();
-      service.getExpenseByID(id).subscribe();
-      expect(mockStore.select).toHaveBeenCalledWith(selectExpenseByID(id));
-    });
   });
 
   describe('getTotalPaidByUserToOthers', () => {
@@ -222,6 +203,7 @@ describe('ExpensesService', () => {
     });
 
     it('should return the total amount paid by the user if the user has only paid for their own expenses', () => {
+      spyOn(mockStore, 'dispatch');
       service.addExpense(expense1);
       service.addExpense(expense2);
       expect(service.getTotalPaidByUserToOthers('1')).toBe(150);

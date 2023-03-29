@@ -2,7 +2,7 @@
 <main class="mb-5 container">
     <h2 class="my-4 text-center" i18n>Historial</h2>
 
-    <ng-container *ngFor="let date of dates$ | async; let i = index">
+    <ng-container *ngFor="let date of dates$ | async;">
         <div class="date-title p-2">{{date | date: 'fullDate'}}</div>
 
         <ng-container *ngFor="let expense of expenses$ | async;">
