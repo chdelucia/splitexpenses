@@ -57,6 +57,7 @@ export class AddExpenseComponent implements OnInit {
   ngOnInit(): void {
     this.initializeExpense();
     this.initializeCheckboxControls();
+    this.getExpenses();
   }
 
   private initializeExpense(): void {
@@ -115,6 +116,11 @@ export class AddExpenseComponent implements OnInit {
     this.updateDebts(expense)
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     this.resetForm();
+  }
+
+  getExpenses(): void {
+    this.expensesService.getExpensesAPI()
+      .subscribe(expenses => console.log(expenses));
   }
 
 

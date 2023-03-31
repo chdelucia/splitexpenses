@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, firstValueFrom, take } from 'rxjs';
@@ -16,13 +17,38 @@ export class ExpensesService {
 
   constructor(
     private storageService: LocalstorageService,
-    private store: Store) {
+    private store: Store,
+    private http: HttpClient
+    ) {
 
     this.settings = this.storageService.getSettings();
     this.loadExpensesFromLocalStorage();
     this.init();
 
   }
+
+  private apiUrl = 'http://localhost:3000'; // Reemplazar con la URL de tu API
+  getExpensesAPI(): Observable<Expense[]> {
+    return this.http.get<Expense[]>(`${this.apiUrl}/expenses`);
+  }
+
+  getExpenseAPI(id: string): Observable<Expense> {
+    return this.http.get<Expense>(`${this.apiUrl}/expenses/${id}`);
+  }
+
+  addExpenseAPI(expense: Expense): Observable<Expense> {
+    return this.http.post<Expense>(`${this.apiUrl}/expenses`, expense);
+  }
+
+  updateExpenseAPI(expense: Expense): Observable<Expense> {
+    return this.http.put<Expense>(`${this.apiUrl}/expenses/${expense.id}`, expense);
+  }
+
+  deleteExpenseAPI(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/expenses/${id}`);
+  }
+
+
   init(){
     this.store.select(selectExpenses).subscribe((data) => {
       this.expenses = data;
@@ -72,6 +98,7 @@ export class ExpensesService {
     expense.id = calcNextID(this.expenses);
     this.store.dispatch(addExpense({ expense }));
     this.saveExpensesIntoLocalStorage();
+    this.addExpenseAPI(expense).subscribe(x => console.log(x));
   }
 
   deleteExpense(id: string) {
@@ -202,5 +229,8 @@ export class ExpensesService {
     }
     return { labels: yAxis, data: stackedxAxis };
   }
+
+
+
 
 }
