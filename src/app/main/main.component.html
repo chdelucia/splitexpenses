@@ -1,8 +1,6 @@
 
 <main class="container-md mb-5" *ngIf="(users$ | async)?.size && (expenses$ | async)?.size; else elseTemplate">
 
-    <app-debts></app-debts>
-
 </main>
 
 <ng-template #elseTemplate>

@@ -12,7 +12,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -31,7 +30,6 @@ import {MatButtonModule} from '@angular/material/button';
     MatCheckboxModule,
     MatRadioModule,
     MatNativeDateModule,
-    MatButtonModule
 
   ],
   providers: [

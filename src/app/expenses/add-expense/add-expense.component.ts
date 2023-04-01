@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import {  first, Observable } from 'rxjs';
+import { first, Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
-import { DebtsService } from '../../shared/debts.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '../../shared/models';
 import { globalToast, openSnackBar} from '../../shared/utils';
@@ -35,7 +34,6 @@ export class AddExpenseComponent implements OnInit {
     private route: ActivatedRoute,
     private expensesService: ExpensesService,
     private usersService: UsersService,
-    private debtsService: DebtsService,
     private currencyService: CurrencyService,
     private _snackBar: MatSnackBar,
     private fb: FormBuilder
@@ -113,7 +111,6 @@ export class AddExpenseComponent implements OnInit {
     }
 
     this.addExpense(expense);
-    this.updateDebts(expense)
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     this.resetForm();
   }
@@ -146,14 +143,6 @@ export class AddExpenseComponent implements OnInit {
 
   calcExchange(cost: string) :number {
     return this.currencyService.calcExchangeValue(parseFloat(cost));
-  }
-
-  private updateDebts(expense: Expense): void {
-    if(this.isEditing) {
-      this.debtsService.reset();
-    } else {
-      this.debtsService.updateExpenseDebt(expense);
-    }
   }
 
   private addExpense(expense: Expense): void {

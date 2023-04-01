@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
-import { DebtsService } from '../shared/debts.service';
+import { DebtsService } from './shared/debts.service';
 import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
 

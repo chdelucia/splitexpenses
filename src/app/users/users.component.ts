@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { firstValueFrom, Observable } from 'rxjs';
 import { UsersService } from './shared/users.service';
@@ -25,7 +24,6 @@ export class UsersComponent {
 
   constructor(
     private userService: UsersService,
-    private debtsService: DebtsService,
     private _snackBar: MatSnackBar
     ) {
     this.users$ = this.userService.getIterableUsers();
@@ -55,7 +53,6 @@ export class UsersComponent {
     this.clearInput();
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK)
 
-    this.debtsService.reset();
   }
 
   edit(data: HTMLTableCellElement, user: User, fieldToEdit: "phone" | "name") {

@@ -1,10 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { openSnackBar, globalToast } from 'src/app/shared/utils';
 import { CurrencyService } from '../../shared/currency.service';
-import { DebtsService } from '../../shared/debts.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
@@ -29,7 +28,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
 
   constructor(
     private expensesService: ExpensesService,
-    private debtsService: DebtsService,
     private currencyService: CurrencyService,
     private usersService: UsersService,
     private _snackBar: MatSnackBar,
@@ -55,7 +53,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
 
   deleteExpense(key: string) {
     this.expensesService.deleteExpense(key);
-    this.resetDebts();
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
   }
 
@@ -71,10 +68,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
 
   calcExchange(value?: number): number {
     return this.currencyService.calcExchangeValue(value || 0);
-  }
-
-  private resetDebts(): void {
-    this.debtsService.reset();
   }
 
 }

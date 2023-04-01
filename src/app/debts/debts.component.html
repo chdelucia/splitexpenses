@@ -1,93 +1,95 @@
-<h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
-<section class="row g-4">
-  <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async">
-    <div class="persoanlDebts p-md-3 p-2  algo2" routerLink='/debts/{{user.id}}'>
-      <div class="d-flex flex-row justify-content-between title">
-          <div>{{user.name}} <span class="text" i18n>debe un total de:</span></div>
-            <div>
-              {{debts.get(user.id)?.totalIowe}} {{currency.currencySymbol}}
-              <div *ngIf="currency.active" class="text-end mainExchange">
-                  {{ calcExchange(debts.get(user.id)?.totalIowe) }}
-                  {{currency.currencyExchangeSymbol}}
-              </div>
 
-            </div>
-          </div>
-            <ng-container *ngFor="let person of users$ | async">
-                <div class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
-                    *ngIf="user.id !== person.id">
-                    <div>{{person.name}}</div>
-                    <div>
-                        <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !=
-                                                    debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
+<main class="container-md mb-5">
 
-                            {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
-                            {{currency.currencySymbol}}
-                            <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.newDebt !== 0" class="text-end">
-                                {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.newDebt) }}
-                                 {{currency.currencyExchangeSymbol}}
-                            </small>
-
-                        </ng-container>
-
-                        <ng-template #elseBlock>
-                            {{debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid }}
-                            {{currency.currencySymbol}}
-                            <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !== 0" class="text-end">
-                                {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid) }}
-                                 {{currency.currencyExchangeSymbol}}
-                            </small>
-                         </ng-template>
-                    </div>
+  <h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
+  <section class="row g-4">
+    <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async">
+      <div class="persoanlDebts p-md-3 p-2  algo2" routerLink='/debts/{{user.id}}'>
+        <div class="d-flex flex-row justify-content-between title">
+            <div>{{user.name}} <span class="text" i18n>debe un total de:</span></div>
+              <div>
+                {{debts.get(user.id)?.totalIowe}} {{currency.currencySymbol}}
+                <div *ngIf="currency.active" class="text-end mainExchange">
+                    {{ calcExchange(debts.get(user.id)?.totalIowe) }}
+                    {{currency.currencyExchangeSymbol}}
                 </div>
-            </ng-container>
-        </div>
-  </div>
 
-</section>
+              </div>
+            </div>
+              <ng-container *ngFor="let person of users$ | async">
+                  <div class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
+                      *ngIf="user.id !== person.id">
+                      <div>{{person.name}}</div>
+                      <div>
+                          <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !=
+                                                      debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
 
+                              {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
+                              {{currency.currencySymbol}}
+                              <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.newDebt !== 0" class="text-end">
+                                  {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.newDebt) }}
+                                  {{currency.currencyExchangeSymbol}}
+                              </small>
 
-<h2 class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
+                          </ng-container>
 
-<section class="g-4 row mt-4 card" *ngFor="let trace of traceDebts; let i=index;">
-
-  <div class="card-title">
-    <h3 class="card-title" i18n>Paso {{i+1}} de {{traceDebts.length}}</h3>
-    <div class="card-description" i18n>
-      {{ trace.intermediaryId }} asume las deudas de {{ trace.debtorId}} porque le debia
-      <strong>{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</strong>
+                          <ng-template #elseBlock>
+                              {{debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid }}
+                              {{currency.currencySymbol}}
+                              <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !== 0" class="text-end">
+                                  {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid) }}
+                                  {{currency.currencyExchangeSymbol}}
+                              </small>
+                          </ng-template>
+                      </div>
+                  </div>
+              </ng-container>
+          </div>
     </div>
 
-  </div>
+  </section>
 
-  <div class="container">
-      <div class="item first">{{ trace.intermediaryId }}</div>
-      <div class="element">
-        <div class="current-debt">{{ trace.finalIntermediaryDebt }}{{currency.currencySymbol}}</div>
-        <div class="old-debt">{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</div>
-        <div class="triangle"></div>
+  <h2 class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
+
+  <section class="g-4 row mt-4 card" *ngFor="let trace of traceDebts; let i=index;">
+
+    <div class="card-title">
+      <h3 class="card-title" i18n>Paso {{i+1}} de {{traceDebts.length}}</h3>
+      <div class="card-description" i18n>
+        {{ trace.intermediaryId }} asume las deudas de {{ trace.debtorId}} porque le debia
+        <strong>{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</strong>
       </div>
-      <div class="item last">{{ trace.debtorId}}</div>
-  </div>
-  <div class="container">
-      <div class="item first">{{ trace.intermediaryId }}</div>
-      <div class="element">
-        <div class="current-debt">{{ trace.finalLenderDebt }}{{currency.currencySymbol}}</div>
-        <div class="old-debt">{{ trace.lenderDebtToIntermediary }}{{currency.currencySymbol}}</div>
-        <div class="triangle"></div>
-      </div>
-      <div class="item last">{{ trace.lenderId}}</div>
-  </div>
-  <div class="container">
-      <div class="item first">{{ trace.debtorId }}</div>
-      <div class="element">
-        <div class="current-debt">{{ trace.finalDebtorDebt }}{{currency.currencySymbol}}</div>
-        <div class="old-debt">{{ trace.debtorDebt }}{{currency.currencySymbol}}</div>
-        <div class="triangle"></div>
-      </div>
-      <div class="item last">{{ trace.lenderId}}</div>
-  </div>
 
-</section>
+    </div>
 
+    <div class="container">
+        <div class="item first">{{ trace.intermediaryId }}</div>
+        <div class="element">
+          <div class="current-debt">{{ trace.finalIntermediaryDebt }}{{currency.currencySymbol}}</div>
+          <div class="old-debt">{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</div>
+          <div class="triangle"></div>
+        </div>
+        <div class="item last">{{ trace.debtorId}}</div>
+    </div>
+    <div class="container">
+        <div class="item first">{{ trace.intermediaryId }}</div>
+        <div class="element">
+          <div class="current-debt">{{ trace.finalLenderDebt }}{{currency.currencySymbol}}</div>
+          <div class="old-debt">{{ trace.lenderDebtToIntermediary }}{{currency.currencySymbol}}</div>
+          <div class="triangle"></div>
+        </div>
+        <div class="item last">{{ trace.lenderId}}</div>
+    </div>
+    <div class="container">
+        <div class="item first">{{ trace.debtorId }}</div>
+        <div class="element">
+          <div class="current-debt">{{ trace.finalDebtorDebt }}{{currency.currencySymbol}}</div>
+          <div class="old-debt">{{ trace.debtorDebt }}{{currency.currencySymbol}}</div>
+          <div class="triangle"></div>
+        </div>
+        <div class="item last">{{ trace.lenderId}}</div>
+    </div>
 
+  </section>
+
+</main>

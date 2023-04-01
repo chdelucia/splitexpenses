@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DebtsService } from 'src/app/shared/debts.service';
 import { ExpensesService } from 'src/app/expenses/shared/expenses.service';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Settings } from 'src/app/shared/models';
@@ -18,7 +17,6 @@ export class SettingsTravelComponent implements OnInit {
   constructor(
     private localStorageService: LocalstorageService,
     private expensesService: ExpensesService,
-    private debtsService: DebtsService
     ) {
     this.settings = this.localStorageService.getSettings();
   }
@@ -35,7 +33,6 @@ export class SettingsTravelComponent implements OnInit {
 
   resetAll() {
     this.expensesService.init();
-    this.debtsService.reset();
   }
 
   addNewTravel(name: string){

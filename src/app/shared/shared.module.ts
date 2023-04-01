@@ -5,6 +5,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -17,14 +18,16 @@ import { MatIconModule } from '@angular/material/icon';
     NgChartsModule,
     MatSnackBarModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
 
   ],
   exports:[
     SummarygraphComponent,
     MatSnackBarModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class SharedModule { }
