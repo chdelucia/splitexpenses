@@ -1,0 +1,107 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use '@angular/material' as mat;
+@include mat.core();
+@import '@angular/material/theming';
+
+
+$primary: mat-palette($mat-teal,700);
+$accent: mat-palette($mat-teal,600);
+$my-warn: mat-palette($mat-deep-orange, 800);
+
+// The "warn" palette is optional and defaults to red if not specified.
+//$my-warn: mat.define-palette(mat.$red-palette);
+$theme: mat-light-theme($primary, $accent, $my-warn);
+
+@include mat.all-component-themes($theme);
+
+
+$primary-color: #2e4f4f;
+$accent-color: #0e8388;
+$secondary-color: #cbe4de;
+$background-color: #2c3333;
+
+section {
+    margin-top: 1em;
+}
+
+.mb-6{
+    margin-bottom: 2rem;
+}
+.mb-8{
+    margin-bottom: 3rem;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+main.container, main.container-fluid {
+    padding-top: 0.4em;
+    background: #fff;
+    box-sizing: border-box;
+    margin-top: 2.5em;
+    border-radius: 6px;
+    min-height: 80vh;
+}
+
+
+button.btn-primary{
+    background: linear-gradient(-45deg, #2e4f4f, #0e8388);
+    border-color: #2c3333;
+    color: #fff;
+    box-shadow: 0 10px 30px 0 rgb(0 0 0 / 15%);
+}
+.btn-primary:disabled{
+  border-color: #2c3333;
+}
+
+.mat-mdc-snack-bar-container {
+  &.blue-snackbar {
+    --mdc-snackbar-container-color: #2196f3;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.OK-snackbar {
+  --mdc-snackbar-container-color: #4caf50;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+  background: linear-gradient(to right, #4caf50, #66bb6a);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.KO-snackbar {
+  --mdc-snackbar-container-color: #f44336;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+  background: linear-gradient(to right, #f44336, #ef5350);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.EXIST-snackbar {
+  --mdc-snackbar-container-color: #ffeb3b;
+  --mat-mdc-snack-bar-button-color: #333;
+  --mdc-snackbar-supporting-text-color: #333;
+  background-color: #fff9c4;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: 1px solid #ffd54f;
+  }
+}
+
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(316deg, #0e838899 0%, #cbe4de 100%);
+  background: linear-gradient(316deg, #0e838880 0%, #cbe4de8c 100%);
+}
+

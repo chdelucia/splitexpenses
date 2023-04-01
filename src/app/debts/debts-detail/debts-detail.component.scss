@@ -1,0 +1,43 @@
+.list-group-item {
+    display: flex;
+    border: 1px solid rgba(0,0,0,.125);;
+}
+small{
+    font-size: xx-small;
+    display: block;
+}
+
+.paid {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 115px;
+    letter-spacing: 8px;
+    font-weight: bold;
+    color: #e57b7b;
+}
+
+.textpaid{
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+li {
+    cursor: pointer;
+}
+.oldDebt {
+    display: inline-block;
+    font-size: x-small;
+}
+
+.hover {
+    cursor:pointer;
+    margin-left: 1em;
+}
+.done {
+    text-decoration: line-through;
+}
+
+.hide{
+    display: none;
+}
