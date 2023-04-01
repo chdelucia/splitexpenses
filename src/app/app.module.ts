@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { expensesReducer } from './state/expenses/expenses.reducer';
 import { NavbarComponent } from './navbar/navbar.component';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     FormsModule,
     StoreModule.forRoot({users: userReducer, expenses: expensesReducer}),
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    MatStepperModule
   ],
   providers: [
     LocalstorageService,

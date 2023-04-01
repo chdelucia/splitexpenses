@@ -14,6 +14,7 @@ export class MainComponent implements OnInit {
   users$: Observable<Map<string,User>>;
   expenses$: Observable<Map<string, Expense>>
 
+  isLinear = true;
 
   constructor(
     private expensesService: ExpensesService,
