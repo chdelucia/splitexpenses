@@ -5,15 +5,23 @@
 @import '@angular/material/theming';
 
 
-$primary: mat-palette($mat-teal,700);
-$accent: mat-palette($mat-teal,600);
+$my-primary: mat-palette($mat-teal,700);
+$my-accent: mat-palette($mat-teal,600);
 $my-warn: mat-palette($mat-deep-orange, 800);
 
-// The "warn" palette is optional and defaults to red if not specified.
-//$my-warn: mat.define-palette(mat.$red-palette);
-$theme: mat-light-theme($primary, $accent, $my-warn);
+//$my-warn: mat.define-palette(mat.$deep-orange-palette);
 
-@include mat.all-component-themes($theme);
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+   warn: $my-warn,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+
+@include mat.all-component-themes($my-theme);
 
 
 $primary-color: #2e4f4f;
