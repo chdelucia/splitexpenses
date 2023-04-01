@@ -6,7 +6,7 @@ import { Settings, WeatherPlugin } from 'src/app/shared/models';
 @Component({
   selector: 'app-settings-weather',
   templateUrl: './settings-weather.component.html',
-  styleUrls: ['./settings-weather.component.less']
+  styleUrls: ['./settings-weather.component.scss']
 })
 export class SettingsWeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;

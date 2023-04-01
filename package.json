@@ -43,6 +43,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
     "ng-mocks": "^14.7.3",
+    "schematics-scss-migrate": "^2.3.17",
     "typescript": "~4.9.5"
   }
 }

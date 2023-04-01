@@ -8,7 +8,7 @@ import { UsersService } from '../users/shared/users.service';
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.less']
+  styleUrls: ['./stats.component.scss']
 })
 export class StatsComponent {
 

@@ -6,7 +6,7 @@ import { convertStringToMap } from 'src/app/shared/utils';
 @Component({
   selector: 'app-settings-backup',
   templateUrl: './settings-backup.component.html',
-  styleUrls: ['./settings-backup.component.less']
+  styleUrls: ['./settings-backup.component.scss']
 })
 export class SettingsBackupComponent implements OnInit {
   showAlert = false;
@@ -16,7 +16,7 @@ export class SettingsBackupComponent implements OnInit {
 
   constructor(
     private localStorageService: LocalstorageService,
-    ) { 
+    ) {
     this.settings = this.localStorageService.getSettings();
     this.travels = this.settings.travels.names;
 
@@ -54,22 +54,22 @@ export class SettingsBackupComponent implements OnInit {
     let obj: any = localStorage.getItem(name) || '';
     obj = JSON.parse(obj)
     var arrData = Array.from(convertStringToMap(obj.expenses).values())
-    
+
     let CSV = 'sep=,' + '\r\n\n';
 
     let row = "";
-    for (let index in arrData[0]) {  
+    for (let index in arrData[0]) {
       row += index + ',';
     }
     row = row.slice(0, -1);
-        
+
     //append Label row with line break
     CSV += row + '\r\n';
-   
+
     //1st loop is to extract each row
     for (let i = 0; i < arrData.length; i++) {
         let row = "";
-        
+
         //2nd loop will extract each column and convert it in string comma-seprated
         for (var index in arrData[i]) {
             row += '"' + arrData[i][index] + '",';
@@ -79,20 +79,20 @@ export class SettingsBackupComponent implements OnInit {
         CSV += row + '\r\n';
     }
 
-    if (CSV == '') {        
+    if (CSV == '') {
         alert("Invalid data");
         return;
-    }   
-    
-    var fileName = name.replace(/ /g,"_");   
-    
+    }
+
+    var fileName = name.replace(/ /g,"_");
+
     //Initialize file format you want csv or xls
     var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
     var link = document.getElementById('downloadlinkExcel') as HTMLAnchorElement;
     link.href = uri;
     link.download = fileName + ".csv";
     link.click();
-  
+
 }
 
   close(){

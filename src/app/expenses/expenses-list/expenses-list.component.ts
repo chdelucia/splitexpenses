@@ -12,7 +12,7 @@ import { UsersService } from '../../users/shared/users.service';
 @Component({
   selector: 'app-expenses-list',
   templateUrl: './expenses-list.component.html',
-  styleUrls: ['./expenses-list.component.less']
+  styleUrls: ['./expenses-list.component.scss']
 })
 export class ExpensesListComponent implements OnInit, OnChanges {
   @Input() filter: string = '';

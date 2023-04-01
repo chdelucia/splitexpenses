@@ -7,7 +7,7 @@ import { LocalstorageService } from '../../shared/localstorage.service';
 @Component({
   selector: 'app-summarygraph',
   templateUrl: './summarygraph.component.html',
-  styleUrls: ['./summarygraph.component.less']
+  styleUrls: ['./summarygraph.component.scss']
 })
 export class SummarygraphComponent implements OnInit, OnChanges {
   @Input() bytype: string = 'false';

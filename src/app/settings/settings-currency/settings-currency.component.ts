@@ -5,7 +5,7 @@ import { CurrencyPlugin } from 'src/app/shared/models';
 @Component({
   selector: 'app-settings-currency',
   templateUrl: './settings-currency.component.html',
-  styleUrls: ['./settings-currency.component.less']
+  styleUrls: ['./settings-currency.component.scss']
 })
 export class SettingsCurrencyComponent implements OnInit {
   currencySettings: CurrencyPlugin;
@@ -14,7 +14,7 @@ export class SettingsCurrencyComponent implements OnInit {
 
   constructor(
     private currencyService: CurrencyService,
-    ) { 
+    ) {
     this.currencySettings = this.currencyService.getCurrencySettings();
   }
 

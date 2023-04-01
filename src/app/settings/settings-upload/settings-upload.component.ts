@@ -5,7 +5,7 @@ import { Settings } from 'src/app/shared/models';
 @Component({
   selector: 'app-settings-upload',
   templateUrl: './settings-upload.component.html',
-  styleUrls: ['./settings-upload.component.less']
+  styleUrls: ['./settings-upload.component.scss']
 })
 export class SettingsUploadComponent implements OnInit {
 
@@ -16,7 +16,7 @@ export class SettingsUploadComponent implements OnInit {
 
   constructor(
     private localStorageService: LocalstorageService,
-    ) { 
+    ) {
     this.settings = this.localStorageService.getSettings();
   }
 

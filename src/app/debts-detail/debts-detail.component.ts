@@ -10,7 +10,7 @@ import { UsersService } from '../users/shared/users.service';
 @Component({
   selector: 'app-debts-detail',
   templateUrl: './debts-detail.component.html',
-  styleUrls: ['./debts-detail.component.less']
+  styleUrls: ['./debts-detail.component.scss']
 })
 export class DebtsDetailComponent implements OnInit {
   userID: string;

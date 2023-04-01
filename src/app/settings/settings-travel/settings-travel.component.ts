@@ -7,7 +7,7 @@ import { Settings } from 'src/app/shared/models';
 @Component({
   selector: 'app-settings-travel',
   templateUrl: './settings-travel.component.html',
-  styleUrls: ['./settings-travel.component.less']
+  styleUrls: ['./settings-travel.component.scss']
 })
 export class SettingsTravelComponent implements OnInit {
   settings: Settings;

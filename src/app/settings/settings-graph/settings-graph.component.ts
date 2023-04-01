@@ -6,7 +6,7 @@ import { convertMaptoString } from 'src/app/shared/utils';
 @Component({
   selector: 'app-settings-graph',
   templateUrl: './settings-graph.component.html',
-  styleUrls: ['./settings-graph.component.less']
+  styleUrls: ['./settings-graph.component.scss']
 })
 export class SettingsGraphComponent implements OnInit {
   showAlert = false;

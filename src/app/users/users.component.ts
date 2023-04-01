@@ -10,7 +10,7 @@ import { openSnackBar, globalToast } from '../shared/utils';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.less']
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent {
    private toastmsg =  {

@@ -4,7 +4,7 @@ import { WeatherService } from './forecast/shared/weather.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterContentChecked{
   title = 'splity';

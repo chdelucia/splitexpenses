@@ -65,7 +65,7 @@
         </mat-radio-group>
       </div>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="!expenseForm.valid" class="input-group btn my-4 btn btn-primary p-2" i18n>
+      <button type="submit" [disabled]="!expenseForm.valid" class="input-group btn my-4 btn btn-primary p-2" i18n>
         {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
       </button>
 

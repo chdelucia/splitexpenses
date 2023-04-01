@@ -5,7 +5,7 @@ import { WeatherService } from './shared/weather.service';
 @Component({
   selector: 'app-forecast',
   templateUrl: './forecast.component.html',
-  styleUrls: ['./forecast.component.less']
+  styleUrls: ['./forecast.component.scss']
 })
 export class ForecastComponent {
   weatherInfo: any;

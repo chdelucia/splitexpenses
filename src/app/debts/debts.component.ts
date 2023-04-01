@@ -8,7 +8,7 @@ import { UsersService } from '../users/shared/users.service';
 @Component({
   selector: 'app-debts',
   templateUrl: './debts.component.html',
-  styleUrls: ['./debts.component.less']
+  styleUrls: ['./debts.component.scss']
 })
 export class DebtsComponent implements OnInit {
 
