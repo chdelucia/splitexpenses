@@ -18,7 +18,7 @@ export interface Expense {
 }
 
 export interface IndividualDebt {
-    newDebt?: number;
+    newDebt: number;
     individualtotalIveBeenPaid: number,
     RefDebtsIds: Array<Expense>,
     individualtotalIPaid?: number
@@ -139,4 +139,17 @@ export interface Datagraph {
     wind: [],
     humidity: [],
     labels: []
+}
+
+export interface TraceAutoSettle {
+  debtorId: string,
+  lenderId: string,
+  intermediaryId: string,
+  debtorDebt: number,
+  intermediaryDebtToDebtor: number,
+  lenderDebtToIntermediary: number,
+  amount: number,
+  finalDebtorDebt?: number,
+  finalLenderDebt?: number;
+  finalIntermediaryDebt?: number;
 }

@@ -1,8 +1,10 @@
+import { devOnlyGuardedExpression } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable, BehaviorSubject } from 'rxjs';
+import { DebtsDetailComponent } from '../debts-detail/debts-detail.component';
 import { ExpensesService } from '../expenses/shared/expenses.service';
 import { UsersService } from '../users/shared/users.service';
-import { Debt, Expense, IndividualDebt, User } from './models';
+import { Debt, Expense, IndividualDebt, TraceAutoSettle, User } from './models';
 import { round2decimals } from './utils';
 
 @Injectable({
@@ -12,6 +14,7 @@ export class DebtsService{
   private debts: Map<string, Debt> = new Map();
   private users$: Observable<Map<string, User>>;
   private expenses$: Observable<Expense[]>;
+  private traceDebts: TraceAutoSettle[] = [];
 
   private myPropertySubject = new BehaviorSubject<Map<string, Debt>>(new Map());
   debtList$ = this.myPropertySubject.asObservable();
@@ -33,12 +36,14 @@ export class DebtsService{
     }
     await this.createStructure(users);
     await this.calcDebt();
-
-    //this.settleCrossAccountDebts();
-    //this.settleCrossAccountDebts();
+    this.traceDebts = [];
+    this.settleCrossAccountDebts(users);
     this.myPropertySubject.next(this.debts);
   }
 
+  getTraceDebts(): TraceAutoSettle[] {
+    return this.traceDebts;
+  }
   getDebts(): Map<string, Debt> {
     return this.debts;
   }
@@ -72,6 +77,7 @@ export class DebtsService{
   private createIndividualDebtObj(): IndividualDebt {
     return {
       individualtotalIveBeenPaid: 0,
+      newDebt: 0,
       RefDebtsIds: []
     };
   }
@@ -83,10 +89,10 @@ export class DebtsService{
       }
   }
 
-  settleCrossAccountDebts(): void {
+  settleCrossAccountDebts(users: Map<string,User>): void {
     this.debts.forEach((debts, debtorId) => {
       debts.debts.forEach((individualDebt, lenderId) => {
-        let debtorDebt = individualDebt.newDebt || 0;
+        let debtorDebt = individualDebt.newDebt;
         if(debtorDebt > 0) {
           const filteredDebtsMap = new Map([...this.debts].filter(([key, value]) => key !== debtorId && key !== lenderId));
           filteredDebtsMap.forEach((indDebt, intermediaryId) => {
@@ -94,13 +100,24 @@ export class DebtsService{
             let intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;
 
             if(intermediaryDebtToDebtor > 0) {
-              let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
-              let lenderDebtToIntermediary = indDebt.debts.get(lenderId)?.newDebt || 0;
 
-              //negative amount: means lender has a debt with the intermediary
-              if(lenderDebtToIntermediary < 0) {
-                diff = Math.min(diff, Math.abs(lenderDebtToIntermediary));
+              let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
+              let lenderDebtToIntermediary = this.debts.get(lenderId)?.debts.get(intermediaryId)?.newDebt || 0;
+
+              if(lenderDebtToIntermediary > 0 && (intermediaryDebtToDebtor < lenderDebtToIntermediary)) {
+                diff = Math.min(debtorDebt, lenderDebtToIntermediary);
               }
+
+              const trace : TraceAutoSettle = {
+                "debtorId": debtorId,
+                "lenderId": lenderId,
+                "intermediaryId": intermediaryId,
+                "debtorDebt": debtorDebt,
+                "intermediaryDebtToDebtor": intermediaryDebtToDebtor,
+                "lenderDebtToIntermediary": lenderDebtToIntermediary,
+                "amount": diff
+              }
+              this.traceOfAutoSettlement(trace, users);
 
               //TODO split each comment into a function
               //settling the debts of the intermediary with the debtor
@@ -114,12 +131,52 @@ export class DebtsService{
               //settling the debt of the lender's account
               this.debts.get(lenderId)!.debts.get(debtorId)!.newDebt! += diff;
               this.debts.get(lenderId)!.debts.get(intermediaryId)!.newDebt! -= diff;
+
+              //update
+              debtorDebt = individualDebt.newDebt;
             }
           });
         }
       });
     });
-    this.myPropertySubject.next(this.debts);
+  }
+
+  traceOfAutoSettlement(trace: TraceAutoSettle, users: Map<string,User>){
+    const debtorName = users.get(trace.debtorId)?.name!;
+    const lenderName = users.get(trace.lenderId)?.name!;
+    const intermediaryName = users.get(trace.intermediaryId)?.name!;
+    const { debtorDebt, intermediaryDebtToDebtor , lenderDebtToIntermediary } = trace
+
+    trace.debtorId = debtorName;
+    trace.lenderId = lenderName;
+    trace.intermediaryId = intermediaryName;
+
+    if(trace.intermediaryDebtToDebtor > trace.debtorDebt) {
+      console.log('compra la deuda entera Paga el intermediario')
+    }
+    if (debtorDebt > intermediaryDebtToDebtor &&  lenderDebtToIntermediary < intermediaryDebtToDebtor) {
+      console.log('El intermediario se hace cargo de parte de la deuda')
+    }
+
+    if (debtorDebt > intermediaryDebtToDebtor &&  lenderDebtToIntermediary > intermediaryDebtToDebtor) {
+      console.log('El deudor compra la deuda al intermediario PAGA el deudor')
+      trace.debtorId = lenderName;
+      trace.lenderId = intermediaryName;
+      trace.intermediaryId = debtorName;
+
+      trace.debtorDebt = lenderDebtToIntermediary;
+      trace.lenderDebtToIntermediary = intermediaryDebtToDebtor;
+      trace.intermediaryDebtToDebtor = debtorDebt;
+    }
+
+    trace.finalDebtorDebt = round2decimals(trace.debtorDebt - trace.amount);
+    trace.finalLenderDebt = round2decimals(Math.abs(trace.lenderDebtToIntermediary - trace.amount));
+    trace.finalIntermediaryDebt = round2decimals(trace.intermediaryDebtToDebtor - trace.amount);
+
+    console.log(trace.debtorId, trace.debtorDebt, trace.lenderId, trace.lenderDebtToIntermediary, trace.intermediaryId,trace.intermediaryDebtToDebtor,trace.amount )
+
+
+    this.traceDebts.push(trace);
   }
 
   updateExpenseDebt(expense: Expense) {

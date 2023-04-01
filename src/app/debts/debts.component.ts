@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from '../shared/debts.service';
-import { CurrencyPlugin, Debt, User } from '../shared/models';
+import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class DebtsComponent implements OnInit {
   debts: Map<string, Debt>;
   users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
+  traceDebts: TraceAutoSettle[] = []
   private DebtsSubscription: Subscription | undefined;
 
   constructor(
@@ -32,6 +33,7 @@ export class DebtsComponent implements OnInit {
     this.DebtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
       console.log(newValue);
+      this.traceDebts = this.debtsService.getTraceDebts();
     });
   }
 
