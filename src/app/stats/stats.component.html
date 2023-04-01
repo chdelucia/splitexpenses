@@ -13,8 +13,6 @@
   </div>
 
 
-
-
   <div class="mb-3 mt-2 text-center">
       <h5 i18n>Gasto Total: {{todayCost}} {{currency.currencySymbol}}
         <span *ngIf="currency.active" class="mainExchange">
@@ -30,9 +28,9 @@
 
   </div>
 
-  <section class="row g-4">
-    <app-summarygraph bytype="ByDay" [data]="dailyData" class="col-xl-6"></app-summarygraph>
-    <app-summarygraph bytype="ByType" [data]="typeData" class="col-xl-6"></app-summarygraph>
+  <section class="d-flex flex-wrap g-4">
+    <app-summarygraph bytype="ByDay" [data]="dailyData" class="col-11 col-xxl-6"></app-summarygraph>
+    <app-summarygraph bytype="ByType" [data]="typeData" class="col-11 col-xxl-6"></app-summarygraph>
   </section>
 
 

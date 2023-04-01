@@ -1,7 +1,7 @@
 <h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
 <section class="row g-4">
   <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async">
-    <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/{{user.id}}'>
+    <div class="persoanlDebts p-md-3 p-2  algo2" routerLink='/debts/{{user.id}}'>
       <div class="d-flex flex-row justify-content-between title">
           <div>{{user.name}} <span class="text" i18n>debe un total de:</span></div>
             <div>
@@ -46,9 +46,11 @@
 
 </section>
 
-<h2 class="my-4 text-center" i18n>Como se han calculado las deudas</h2>
+
+<h2 class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
 
 <section class="g-4 row mt-4 card" *ngFor="let trace of traceDebts; let i=index;">
+
   <div class="card-title">
     <h3 class="card-title" i18n>Paso {{i+1}} de {{traceDebts.length}}</h3>
     <div class="card-description" i18n>
