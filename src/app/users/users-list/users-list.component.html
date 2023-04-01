@@ -1,0 +1,20 @@
+<table class="table table-striped mt-4" *ngIf="users$">
+  <thead>
+      <tr>
+          <th i18n>Nombre</th>
+          <th i18n>Telf</th>
+          <th> - </th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let user of users$ | async">
+          <td #nameCell contentEditable (focusout)="edit(nameCell, user, 'name')"> {{user.name}} </td>
+          <td #phoneCell contentEditable (focusout)="edit(phoneCell, user, 'phone')"> {{user.phone}}</td>
+          <td (click)="delete(user.id)">
+            <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+              <span class="material-icons">delete_forever</span>
+            </button>
+          </td>
+      </tr>
+  </tbody>
+</table>
