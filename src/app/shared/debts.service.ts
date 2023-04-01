@@ -152,14 +152,14 @@ export class DebtsService{
     trace.intermediaryId = intermediaryName;
 
     if(trace.intermediaryDebtToDebtor > trace.debtorDebt) {
-      console.log('compra la deuda entera Paga el intermediario')
+      //console.log('compra la deuda entera Paga el intermediario')
     }
     if (debtorDebt > intermediaryDebtToDebtor &&  lenderDebtToIntermediary < intermediaryDebtToDebtor) {
-      console.log('El intermediario se hace cargo de parte de la deuda')
+      //console.log('El intermediario se hace cargo de parte de la deuda')
     }
 
     if (debtorDebt > intermediaryDebtToDebtor &&  lenderDebtToIntermediary > intermediaryDebtToDebtor) {
-      console.log('El deudor compra la deuda al intermediario PAGA el deudor')
+      //console.log('El deudor compra la deuda al intermediario PAGA el deudor')
       trace.debtorId = lenderName;
       trace.lenderId = intermediaryName;
       trace.intermediaryId = debtorName;
@@ -172,8 +172,6 @@ export class DebtsService{
     trace.finalDebtorDebt = round2decimals(trace.debtorDebt - trace.amount);
     trace.finalLenderDebt = round2decimals(Math.abs(trace.lenderDebtToIntermediary - trace.amount));
     trace.finalIntermediaryDebt = round2decimals(trace.intermediaryDebtToDebtor - trace.amount);
-
-    console.log(trace.debtorId, trace.debtorDebt, trace.lenderId, trace.lenderDebtToIntermediary, trace.intermediaryId,trace.intermediaryDebtToDebtor,trace.amount )
 
 
     this.traceDebts.push(trace);
