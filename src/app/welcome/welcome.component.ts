@@ -3,7 +3,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ExpensesService } from '../expenses/shared/expenses.service';
 import { Expense, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription  } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -12,35 +12,45 @@ import { Observable } from 'rxjs';
 })
 export class WelcomeComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper!: MatStepper;
-  users$: Observable<Map<string, User>>;
-  expenses$: Observable<Map<string, Expense>>
-
+  usersSize: number = 0;
+  expensesSize: number = 0;
   isLinear = true;
+  private expensesSubscription: Subscription | undefined;;
+  private usersSubscription: Subscription | undefined;;
 
   constructor(
     private expensesService: ExpensesService,
     private usersService: UsersService,
-    ) {
-    this.expenses$ = this.expensesService.getExpenses();
-    this.users$ =  this.usersService.getUsers();
-  }
+    ) { }
 
   ngOnInit(): void {
-    this.expenses$.subscribe(x => console.log(x));
+    this.expensesService.getExpenses().subscribe(expenses => {
+      this.expensesSize = expenses.size;
+      if(expenses.size > 0) this.nextStep();
+    });
+
+    this.usersService.getUsers().subscribe(users => {
+      this.usersSize = users.size;
+      if(users.size > 1) this.nextStep();
+    });
    }
 
    ngAfterViewInit() {
-    this.users$.subscribe(users => {
+    /**this.users$.subscribe(users => {
       if(users.size > 2) {
         setTimeout(() => {
           this.nextStep();
         }, 0);
       }
-    });
+    }); */
   }
-
 
   nextStep() {
     this.stepper.next();
+  }
+
+  ngOnDestroy(): void {
+      this.expensesSubscription?.unsubscribe();
+      this.usersSubscription?.unsubscribe();
   }
 }
