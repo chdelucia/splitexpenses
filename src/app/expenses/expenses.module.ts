@@ -33,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   providers: [
     ExpensesService,
-  ]
+  ],
+  exports: [AddExpenseComponent]
 })
 export class ExpensesModule { }

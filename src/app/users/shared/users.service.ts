@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { calcNextID, convertStringToMap } from 'src/app/shared/utils';
 import { Store } from '@ngrx/store';
-import { selectUsers, selectUserByID, selectIterableUsers, checkIfNameExist } from 'src/app/state/user/user.selectors';
+import { selectUsers, selectUserByID, selectIterableUsers, checkIfNameExist, selectUserCount } from 'src/app/state/user/user.selectors';
 import { firstValueFrom, Observable } from 'rxjs';
 import { addUser, addUsers, removeUser, updateUser } from 'src/app/state/user/user.actions';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
@@ -24,7 +24,7 @@ export class UsersService {
   }
 
   getUsers(): Observable<Map<string, User>> {
-    return this.users$;
+    return this.store.select(selectUsers);
   }
 
   getUserByID(id: string):Observable<User | undefined> {
@@ -33,6 +33,10 @@ export class UsersService {
 
   getIterableUsers(): Observable<Array<User>> {
     return this.store.select(selectIterableUsers);
+  }
+
+  getNumberOfUser(): Observable<number>{
+    return this.store.select(selectUserCount);
   }
 
   editUser(user: User): void {

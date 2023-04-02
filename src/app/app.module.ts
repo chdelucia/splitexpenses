@@ -15,6 +15,8 @@ import { SharedModule } from './shared/shared.module';
 import { expensesReducer } from './state/expenses/expenses.reducer';
 import { NavbarComponent } from './navbar/navbar.component';
 import {MatStepperModule} from '@angular/material/stepper';
+import { UsersModule } from './users/users.module';
+import { ExpensesModule } from './expenses/expenses.module';
 
 
 @NgModule({
@@ -22,7 +24,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     AppComponent,
     MainComponent,
     WeatherComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,9 @@ import {MatStepperModule} from '@angular/material/stepper';
     StoreModule.forRoot({users: userReducer, expenses: expensesReducer}),
     BrowserAnimationsModule,
     SharedModule,
-    MatStepperModule
+    MatStepperModule,
+    UsersModule,
+    ExpensesModule
   ],
   providers: [
     LocalstorageService,

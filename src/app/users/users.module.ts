@@ -28,6 +28,7 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [
     UsersService
-  ]
+  ],
+  exports: [AddUserComponent]
 })
 export class UsersModule { }

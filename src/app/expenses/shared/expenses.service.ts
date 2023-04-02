@@ -49,7 +49,7 @@ export class ExpensesService {
   }
 
 
-  init(){
+  init(): void{
     this.store.select(selectExpenses).subscribe((data) => {
       this.expenses = data;
     });
