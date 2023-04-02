@@ -1,11 +1,15 @@
 .done {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 :host ::ng-deep app-add-user, :host ::ng-deep app-add-expense{
   h2 {
     display: none;
   }
+}
+
+:host ::ng-deep app-add-user .users {
+  padding-top: 2rem;
 }
 
 mat-stepper {

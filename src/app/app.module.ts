@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { MainComponent } from './main/main.component';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LocalstorageService } from './shared/localstorage.service';
@@ -14,15 +13,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { expensesReducer } from './state/expenses/expenses.reducer';
 import { NavbarComponent } from './navbar/navbar.component';
-import {MatStepperModule} from '@angular/material/stepper';
-import { UsersModule } from './users/users.module';
-import { ExpensesModule } from './expenses/expenses.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     WeatherComponent,
     NavbarComponent,
   ],
@@ -34,9 +29,6 @@ import { ExpensesModule } from './expenses/expenses.module';
     StoreModule.forRoot({users: userReducer, expenses: expensesReducer}),
     BrowserAnimationsModule,
     SharedModule,
-    MatStepperModule,
-    UsersModule,
-    ExpensesModule
   ],
   providers: [
     LocalstorageService,

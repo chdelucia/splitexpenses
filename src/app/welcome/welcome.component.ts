@@ -1,17 +1,16 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 import { ExpensesService } from '../expenses/shared/expenses.service';
 import { Expense, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
-import { MatStepper } from '@angular/material/stepper';
-
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  selector: 'app-welcome',
+  templateUrl: './welcome.component.html',
+  styleUrls: ['./welcome.component.scss']
 })
-export class MainComponent implements OnInit, AfterViewInit   {
+export class WelcomeComponent implements OnInit, AfterViewInit {
   @ViewChild('stepper') stepper!: MatStepper;
   users$: Observable<Map<string, User>>;
   expenses$: Observable<Map<string, Expense>>
@@ -44,5 +43,4 @@ export class MainComponent implements OnInit, AfterViewInit   {
   nextStep() {
     this.stepper.next();
   }
-
 }
