@@ -29,10 +29,8 @@ export class DebtsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.debtsService.settleCrossAccountDebts();
     this.DebtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
-      console.log(newValue);
       this.traceDebts = this.debtsService.getTraceDebts();
     });
   }

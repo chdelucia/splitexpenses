@@ -26,12 +26,17 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.expensesService.getExpenses().subscribe(expenses => {
       this.expensesSize = expenses.size;
-      if(expenses.size > 0) this.nextStep();
+      if(expenses.size > 0) {
+        this.nextStep();
+      }
     });
 
     this.usersService.getUsers().subscribe(users => {
+      console.log(users)
       this.usersSize = users.size;
-      if(users.size > 1) this.nextStep();
+      if(users.size > 1) {
+        this.nextStep();
+      }
     });
    }
 

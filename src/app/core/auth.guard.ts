@@ -23,10 +23,10 @@ export class AuthGuard implements CanActivate {
 
       return zip([currentUser$, currentExpense$]).pipe(
         map(([currentUser, currentExpense]) => {
-          if (currentUser && currentExpense && state.url !== '/welcome') {
+          if (currentUser.size && currentExpense.size && state.url !== '/welcome') {
             return true;
           } else if(state.url === '/welcome'){
-            if (currentUser && currentExpense) {
+            if (currentUser.size && currentExpense.size) {
               this.router.navigate(['/debts']);
               return false;
             }

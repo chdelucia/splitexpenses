@@ -3,16 +3,16 @@
 <h2  class="my-4 text-center" i18n>Antes de empezar</h2>
 
 <mat-stepper orientation="vertical" [linear]="isLinear" #stepper class="mb-5" >
-  <mat-step [completed]="usersSize > 1">
+  <mat-step>
     <ng-template *ngIf="usersSize < 2" matStepLabel i18n>Añade dos usuarios</ng-template>
     <ng-template *ngIf="usersSize > 1" matStepLabel i18n>Paso completado</ng-template>
 
     <ng-template matStepContent *ngIf="usersSize < 2; else elseBlock">
       <app-add-user></app-add-user>
     </ng-template>
-
   </mat-step>
-  <mat-step [completed]="expensesSize > 1">
+
+  <mat-step>
     <ng-template *ngIf="!expensesSize" matStepLabel i18n>Añade un gasto</ng-template>
     <ng-template *ngIf="expensesSize" matStepLabel i18n>Paso completado</ng-template>
 
@@ -21,6 +21,7 @@
     </ng-template>
 
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel i18n>Recordatorio</ng-template>
     <ng-template matStepContent>

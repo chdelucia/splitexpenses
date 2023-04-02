@@ -49,7 +49,8 @@
 
   </section>
 
-  <h2 class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
+
+  <h2 *ngIf="traceDebts.length" class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
 
   <section class="g-4 row mt-4 card" *ngFor="let trace of traceDebts; let i=index;">
 
