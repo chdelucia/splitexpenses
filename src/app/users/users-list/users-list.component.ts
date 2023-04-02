@@ -42,8 +42,8 @@ export class UsersListComponent {
     }
   }
 
-  delete(name: string) {
-    this.userService.removeUser(name);
+  delete(userId: string) {
+    this.userService.removeUser(userId);
     openSnackBar(this._snackBar, globalToast.OK, 'Usuario borrado');
   }
 }

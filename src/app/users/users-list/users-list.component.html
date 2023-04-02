@@ -11,7 +11,7 @@
           <td #nameCell contentEditable (focusout)="edit(nameCell, user, 'name')"> {{user.name}} </td>
           <td #phoneCell contentEditable (focusout)="edit(phoneCell, user, 'phone')"> {{user.phone}}</td>
           <td (click)="delete(user.id)">
-            <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
+            <button mat-mini-fab color="warn">
               <span class="material-icons">delete_forever</span>
             </button>
           </td>

@@ -16,12 +16,16 @@
 
                     </div>
                     <div class="col-2 action-icons" *ngIf="!filter" >
-                      <button mat-mini-fab color="primary" aria-label="Example icon button with a filter list icon">
-                        <span class="material-icons" (click)="editExpense(expense.id)">edit</span>
+                      <button mat-mini-fab color="primary"
+                        (click)="editExpense(expense.id)"
+                        aria-label="Example icon button with a filter list icon">
+                        <span class="material-icons" >edit</span>
                       </button>
                       <span> </span>
-                      <button mat-mini-fab color="warn" aria-label="Example icon button with a filter list icon">
-                        <span class="material-icons" (click)="deleteExpense(expense.id)">delete_forever</span>
+                      <button mat-mini-fab color="warn"
+                        (click)="deleteExpense(expense.id)"
+                        aria-label="Example icon button with a filter list icon">
+                        <span class="material-icons">delete_forever</span>
                       </button>
 
                     </div>
