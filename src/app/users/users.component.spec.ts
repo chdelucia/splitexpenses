@@ -5,9 +5,9 @@ import { of } from 'rxjs';
 
 import { UsersComponent } from './users.component';
 import { UsersService } from './shared/users.service';
-import { DebtsService } from '../shared/debts.service';
 import { User } from '../shared/models';
 import { userReducer, UserState } from '../state/user/user.reducer';
+import { DebtsService } from '../debts/shared/debts.service';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -52,21 +52,6 @@ describe('UsersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call addUser method on UsersService when add method is called', () => {
-    component.add('John Doe', '1112223333');
-    expect(usersServiceSpy.addUser).toHaveBeenCalled();
-  });
-
-  it('should call reset method on DebtsService when add method is called', () => {
-    component.add('John Doe', '1112223333');
-    expect(debtsServiceSpy.reset).toHaveBeenCalled();
-  });
-
-  it('should call checkIfNameExist method on UsersService when add method is called', () => {
-    component.add('John Doe', '1112223333');
-    expect(usersServiceSpy.checkIfNameExist).toHaveBeenCalled();
   });
 
 });

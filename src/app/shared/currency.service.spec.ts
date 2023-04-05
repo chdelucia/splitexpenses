@@ -17,7 +17,7 @@ describe('CurrencyService', () => {
     service.currency.exchangeValue = 0.87
     let result = service.calcExchangeValue(3.5)
     let countDecimals = result.toString().split(".")[1].length
-    expect(result).toBescssThan(3.5);
-    expect(countDecimals).toBescssThanOrEqual(2);
+    expect(result).toBeLessThan(3.5);
+    expect(countDecimals).toBeLessThanOrEqual(2);
   });
 });

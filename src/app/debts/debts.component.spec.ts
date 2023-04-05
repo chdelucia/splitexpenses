@@ -4,9 +4,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CurrencyPlugin, Debt, User } from '../shared/models';
 import { CurrencyService } from '../shared/currency.service';
-import { DebtsService } from '../shared/debts.service';
 import { UsersService } from '../users/shared/users.service';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { DebtsService } from './shared/debts.service';
 
 describe('DebtsComponent', () => {
   let component: DebtsComponent;
