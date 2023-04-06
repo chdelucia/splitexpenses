@@ -13,20 +13,20 @@
   </div>
 
 
-  <div class="mb-3 mt-2 text-center">
-      <h5 i18n>Gasto Total: {{todayCost}} {{currency.currencySymbol}}
+  <section class="mb-3 mt-2 text-center">
+      <h6 i18n>Gasto Total: {{todayCost}} {{currency.currencySymbol}}
         <span *ngIf="currency.active" class="mainExchange">
-          / {{ calcExchange(todayCost) }} {{currency.currencyExchangeSymbol}}
+          ( {{ calcExchange(todayCost) }} {{currency.currencyExchangeSymbol}} )
         </span>
-      </h5>
+      </h6>
 
-      <h5 i18n>Gasto por dia: {{meanCost}} {{currency.currencySymbol}}
+      <div i18n>Gasto por dia: {{meanCost}} {{currency.currencySymbol}}
         <span *ngIf="currency.active" class="mainExchange">
-          / {{ calcExchange(meanCost) }} {{currency.currencyExchangeSymbol}}
+          ( {{ calcExchange(meanCost) }} {{currency.currencyExchangeSymbol}} )
         </span>
-      </h5>
+      </div>
 
-  </div>
+  </section>
 
   <section class="d-flex flex-wrap g-4">
     <app-summarygraph bytype="ByDay" [data]="dailyData" class="col-11 col-xxl-6"></app-summarygraph>

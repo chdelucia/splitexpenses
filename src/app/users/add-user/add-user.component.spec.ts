@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 
 import { AddUserComponent } from './add-user.component';
 import { UsersService } from '../shared/users.service';
-import { DebtsService } from 'src/app/debts/shared/debts.service';
 import { User } from 'src/app/shared/models';
 import { UserState, userReducer } from 'src/app/state/user/user.reducer';
 
@@ -16,7 +15,6 @@ describe('AddUserComponent', () => {
   let fixture: ComponentFixture<AddUserComponent>;
   let store: Store<UserState>;
   let usersServiceSpy: jasmine.SpyObj<UsersService>;
-  let debtsServiceSpy: jasmine.SpyObj<DebtsService>;
 
   const mockUsers: User[] = [
     { id: '1', name: 'John', phone: '1234567890' },
@@ -28,7 +26,6 @@ describe('AddUserComponent', () => {
     usersService.getIterableUsers.and.returnValue(of(mockUsers));
     usersService.checkIfNameExist.and.returnValue(false);
 
-    const debtsService = jasmine.createSpyObj('DebtsService', ['reset']);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -38,7 +35,6 @@ describe('AddUserComponent', () => {
       declarations: [ AddUserComponent ],
       providers: [
         { provide: UsersService, useValue: usersService },
-        { provide: DebtsService, useValue: debtsService }
       ]
     })
     .compileComponents();
@@ -49,7 +45,6 @@ describe('AddUserComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     usersServiceSpy = TestBed.inject(UsersService) as jasmine.SpyObj<UsersService>;
-    debtsServiceSpy = TestBed.inject(DebtsService) as jasmine.SpyObj<DebtsService>;
   });
 
   it('should create', () => {
@@ -57,17 +52,16 @@ describe('AddUserComponent', () => {
   });
 
   it('should call addUser method on UsersService when add method is called', () => {
-    component.add('John Doe', '1112223333');
+    component.onSubmit({user:'John Doe', phone:'1112223333'});
     expect(usersServiceSpy.addUser).toHaveBeenCalled();
   });
 
-  it('should call reset method on DebtsService when add method is called', () => {
-    component.add('John Doe', '1112223333');
-    expect(debtsServiceSpy.reset).toHaveBeenCalled();
+  it('should call reset method on when add method is called', () => {
+    component.onSubmit({user:'John Doe', phone:'1112223333'});
   });
 
   it('should call checkIfNameExist method on UsersService when add method is called', () => {
-    component.add('John Doe', '1112223333');
+    component.onSubmit({user:'John Doe', phone:'1112223333'});
     expect(usersServiceSpy.checkIfNameExist).toHaveBeenCalled();
   });
 

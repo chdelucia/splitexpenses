@@ -6,6 +6,8 @@ import { DebtsComponent } from './debts.component';
 import { DebtsDetailComponent } from './debts-detail/debts-detail.component';
 import { FormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
+import {MatTableModule} from '@angular/material/table';
+
 
 
 @NgModule({
@@ -16,7 +18,8 @@ import { DebtsService } from './shared/debts.service';
   imports: [
     FormsModule,
     CommonModule,
-    DebtsRoutingModule
+    DebtsRoutingModule,
+    MatTableModule,
   ],
   providers: [
     DebtsService

@@ -7,14 +7,12 @@ import { UsersComponent } from './users.component';
 import { UsersService } from './shared/users.service';
 import { User } from '../shared/models';
 import { userReducer, UserState } from '../state/user/user.reducer';
-import { DebtsService } from '../debts/shared/debts.service';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
   let fixture: ComponentFixture<UsersComponent>;
   let store: Store<UserState>;
   let usersServiceSpy: jasmine.SpyObj<UsersService>;
-  let debtsServiceSpy: jasmine.SpyObj<DebtsService>;
 
   const mockUsers: User[] = [
     { id: '1', name: 'John', phone: '1234567890' },
@@ -26,8 +24,6 @@ describe('UsersComponent', () => {
     usersService.getIterableUsers.and.returnValue(of(mockUsers));
     usersService.checkIfNameExist.and.returnValue(false);
 
-    const debtsService = jasmine.createSpyObj('DebtsService', ['reset']);
-
     await TestBed.configureTestingModule({
       imports: [
         FormsModule,
@@ -36,7 +32,6 @@ describe('UsersComponent', () => {
       declarations: [ UsersComponent ],
       providers: [
         { provide: UsersService, useValue: usersService },
-        { provide: DebtsService, useValue: debtsService }
       ]
     })
     .compileComponents();
@@ -47,7 +42,6 @@ describe('UsersComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     usersServiceSpy = TestBed.inject(UsersService) as jasmine.SpyObj<UsersService>;
-    debtsServiceSpy = TestBed.inject(DebtsService) as jasmine.SpyObj<DebtsService>;
   });
 
   it('should create', () => {

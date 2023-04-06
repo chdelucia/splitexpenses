@@ -1,13 +1,15 @@
 
 <main class="container-md mb-5">
 
-  <h2 class="my-4 text-center" i18n>Como saldar las Deudas</h2>
+  <h2 class="my-4 text-center" i18n>Deudas</h2>
   <section class="row g-4">
-    <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async">
-      <div class="persoanlDebts p-md-3 p-2  algo2" routerLink='/debts/{{user.id}}'>
+    <ng-container *ngIf="debts.size">
+      <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async"
+      [class.order-2]="debts.get(user.id)!.totalIowe <= 0">
+      <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/details'>
         <div class="d-flex flex-row justify-content-between title">
-            <div>{{user.name}} <span class="text" i18n>debe un total de:</span></div>
-              <div>
+            <div>{{user.name}}</div>
+            <div class="totalIowe">
                 {{debts.get(user.id)?.totalIowe}} {{currency.currencySymbol}}
                 <div *ngIf="currency.active" class="text-end mainExchange">
                     {{ calcExchange(debts.get(user.id)?.totalIowe) }}
@@ -46,6 +48,8 @@
               </ng-container>
           </div>
     </div>
+    </ng-container>
+
 
   </section>
 

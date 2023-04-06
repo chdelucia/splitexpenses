@@ -1,81 +1,101 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, AfterViewInit  } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
-import { CurrencyPlugin, Debt, User } from '../../shared/models';
+import { CurrencyPlugin, Debt, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
 import { DebtsService } from '../shared/debts.service';
+import { round2decimals } from 'src/app/shared/utils';
+import { MatTable } from '@angular/material/table';
+import * as XLSX from 'xlsx'
+
 
 @Component({
   selector: 'app-debts-detail',
   templateUrl: './debts-detail.component.html',
   styleUrls: ['./debts-detail.component.scss']
 })
-export class DebtsDetailComponent implements OnInit {
-  userID: string;
+export class DebtsDetailComponent implements OnInit, AfterViewInit {
   debts: Map<string, Debt>;
-  myDebts: Debt | undefined;
-  users: Observable<Map<string, User>>;
-  usersHTML: Observable<Array<User>>;
+  users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
-  hideInfo = false;
+  expenses$: Observable<Expense[]>;
+  displayedColumns: string[] = [];
 
   constructor(
     private debtsService: DebtsService,
     private userService: UsersService,
     private currencyService: CurrencyService,
     private expensesService: ExpensesService,
-    private route: ActivatedRoute,
   ) {
-    this.users = this.userService.getUsers();
-    this.usersHTML = this.userService.getIterableUsers();
+    this.users$ = this.userService.getIterableUsers();
     this.currency = this.currencyService.getCurrencySettings();
     this.debts = this.debtsService.getDebts();
-    this.userID = this.route.snapshot.paramMap.get('id') || '0';
+    this.expenses$ = this.expensesService.getIterableExpenses();
   }
 
+
   ngOnInit(): void {
-    this.setDebts();
-    console.log(this.debts);
+    this.initColumns();
+  }
+
+  ngAfterViewInit() {
+
+  }
+
+  initColumns(): void {
+    this.users$.subscribe(users => {
+      let userNames = users.map(user => user.name)
+      this.displayedColumns = ['title', 'originalCost', ...userNames];
+    })
   }
 
   calcExchange(value?: number) {
     return this.currencyService.calcExchangeValue(value || 0);
   }
 
-  async setDebts(){
-    const users = await firstValueFrom(this.users)
-    const userExist = users.get(this.userID);
-    const myDebts = this.debts.get(this.userID);
-    if ( userExist && myDebts ){
-      this.myDebts = myDebts
+  getTotalAmount(userId: string): number {
+    //let total = this.debts.get(userId)?.totalIowe;
+    let total = 0;
+
+    this.expenses$.subscribe(expenses => {
+      expenses.forEach(expense => {
+        let paidByme = userId === expense.paidBy;
+        let Iparticipated = expense.sharedBy.includes(userId);
+        if(paidByme){
+          total += expense.originalCost;
+        }
+        if(Iparticipated){
+          total -= expense.cost;
+        }
+      })
+    })
+    return round2decimals(total);
+  }
+
+  getTotalUserPaid(expense: Expense, userId: string): number {
+    let total = -expense.cost;
+    let paidByme = userId === expense.paidBy;
+    let Iparticipated = expense.sharedBy.includes(userId);
+    if(paidByme){
+      total += expense.originalCost;
+      if(!Iparticipated){
+        total += expense.cost;
+      }
     }
+    return total;
   }
 
-  async pay(expenseID: string, userID: string, paid: boolean) {
-    let expense = await firstValueFrom(this.expensesService.getExpenseByID(expenseID));
-    if(expense) {
-
-      // remove userID or added
-      paid ? expense.settleBy.splice(expense.settleBy.indexOf(userID), 1) : expense.settleBy.push(userID)
-      this.expensesService.editExpense(expense);
-      this.recalculateDebts();
-
-    } else {
-      //TODO show toast or control errors
-      console.error('error');
-    }
+  exportToExcel() {
+    //this.expensesService.exportTableToExcel(this.expenses$, 'Balance de cuentas');
   }
 
-  recalculateDebts() {
-    this.debtsService.reset();
-    this.debts = this.debtsService.getDebts();
-    this.setDebts();
-  }
 
-  closeInfo(){
-    this.hideInfo = true;
+  exportTableToExcel(dataSource: any, sheetName: string) {
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataSource);
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+    XLSX.writeFile(workbook, `${sheetName}.xlsx`);
   }
 
 }

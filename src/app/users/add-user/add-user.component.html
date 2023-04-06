@@ -1,19 +1,24 @@
+
 <h2 class="my-4 text-center" i18n>Administración de usuarios</h2>
-<div class="mb-2 row g-4 users">
+
+<form [formGroup]="userForm" (ngSubmit)="onSubmit(userForm.value)">
+  <div class="mb-2 row g-4 users">
     <div class="col-6">
-        <input #user  class="form-control" type="text" i18n.placeholder placeholder="Nombre usuario"
-            [(ngModel)]="inputValue" />
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>Nombre usuario</mat-label>
+        <input  matInput formControlName="user" />
+      </mat-form-field>
     </div>
     <div class="col-6">
-        <input #phone  class="form-control" type="number" i18n.placeholder placeholder="whatsApp number (optional)"
-            [(ngModel)]="inputPhone" />
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>whatsApp number (optional)</mat-label>
+        <input matInput formControlName="phone" type="number" />
+      </mat-form-field>
     </div>
+  </div>
 
+  <button [disabled]="!userForm.valid" class="input-group btn mb-5 btn-primary p-2" type="submit" i18n>
+    Añadir Usuario
+  </button>
+</form>
 
-</div>
-
-<button [disabled]="user.value == ''" class="input-group btn my-3 btn btn-primary p-2"
-        type="button"
-        (click)="add(user.value, phone.value)" i18n>
-        Añadir Usuario
-</button>

@@ -11,11 +11,11 @@
                     <div class="col-7">
                         <div>{{ expense.title }}</div>
                     </div>
-                    <div class="col-3">
+                    <div class="d-none d-md-flex col-3">
                             {{expense.originalCost }} {{currency.currencySymbol}}
 
                     </div>
-                    <div class="col-2 action-icons" *ngIf="!filter" >
+                    <div class="col-5 col-md-2 action-icons" *ngIf="!filter" >
                       <button mat-mini-fab color="primary"
                         (click)="editExpense(expense.id)"
                         aria-label="Example icon button with a filter list icon">
@@ -43,7 +43,7 @@
                             </span>
                         </ng-template>
                     </div>
-                    <div class="col-4 paidBy" *ngIf="currency.active">
+                    <div class="col-4 paidBy d-none d-md-inline" *ngIf="currency.active">
                             {{ calcExchange(expense.originalCost) }}
                             {{currency.currencyExchangeSymbol}}
                     </div>

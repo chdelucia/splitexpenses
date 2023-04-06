@@ -23,18 +23,16 @@ export class DebtsService{
     ) {
     this.users$ = this.userService.getUsers();
     this.expenses$ = this.expensesService.getIterableExpenses();
-    this.initialize();
   }
 
 
-  private async initialize(): Promise<void> {
+  async initialize(): Promise<void> {
     let users = await firstValueFrom(this.users$);
     if (!users) {
       throw new Error('No users found');
     }
     await this.createStructure(users);
     await this.calcDebt();
-    this.traceDebts = [];
     this.settleCrossAccountDebts(users);
     this.myPropertySubject.next(this.debts);
   }
@@ -42,6 +40,7 @@ export class DebtsService{
   getTraceDebts(): TraceAutoSettle[] {
     return this.traceDebts;
   }
+
   getDebts(): Map<string, Debt> {
     return this.debts;
   }
@@ -59,7 +58,7 @@ export class DebtsService{
       newMap.set(parentUser.id, userDebts);
 
     });
-    this.debts = new Map([...this.debts, ...newMap]);
+    this.debts = new Map([...newMap]);
 
   }
 
@@ -88,6 +87,7 @@ export class DebtsService{
   }
 
   settleCrossAccountDebts(users: Map<string,User>): void {
+    this.traceDebts = [];
     this.debts.forEach((debts, debtorId) => {
       debts.debts.forEach((individualDebt, lenderId) => {
         let debtorDebt = individualDebt.newDebt;
@@ -201,7 +201,9 @@ export class DebtsService{
         throw new Error(`El deudor con ID ${debtorId} no está definido.`);
     }
 
-    debtorDebts.totalIveBeenPaid = this.calcTotalAmountIhaveBeenPaid(debtorId, expense, debtorDebts.totalIveBeenPaid);
+    if(payerId !== debtorId) {
+      debtorDebts.totalIveBeenPaid = this.calcTotalAmountIhaveBeenPaid(debtorId, expense, debtorDebts.totalIveBeenPaid);
+    }
 
     const myDebtwithPayer = debtorDebts.debts.get(payerId);
     if (myDebtwithPayer) {
@@ -265,10 +267,6 @@ export class DebtsService{
 
   calcTotalAmountIAmOwed(myDebts: Debt, newDebt: number): number {
     return round2decimals(myDebts.totalIowe + (newDebt));
-  }
-
-  reset(){
-    this.initialize();
   }
 
 

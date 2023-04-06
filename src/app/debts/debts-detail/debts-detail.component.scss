@@ -1,43 +1,49 @@
-.list-group-item {
-    display: flex;
-    border: 1px solid rgba(0,0,0,.125);;
+.mat-table-responsive {
+  overflow-x: auto;
 }
-small{
-    font-size: xx-small;
+
+@media (max-width: 600px) {
+  .mat-table-responsive {
+    overflow-x: scroll;
+  }
+
+  .mat-column-nombre,
+  .mat-column-edad,
+  .mat-column-direccion {
     display: block;
-}
+    width: 100%;
+    text-align: center;
+  }
 
-.paid {
-    position: absolute;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    width: 115px;
-    letter-spacing: 8px;
+  .mat-header-cell,
+  .mat-cell {
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .mat-header-cell {
     font-weight: bold;
-    color: #e57b7b;
+  }
 }
 
-.textpaid{
-    opacity: 0.4;
-    text-decoration: line-through;
-}
-li {
-    cursor: pointer;
-}
-.oldDebt {
-    display: inline-block;
-    font-size: x-small;
+th.mat-mdc-header-cell {
+  font-weight: bold;
 }
 
-.hover {
-    cursor:pointer;
-    margin-left: 1em;
-}
-.done {
-    text-decoration: line-through;
+tr.mat-mdc-footer-row td {
+  font-size: large;
+  &:first-child{
+    font-weight: bold;
+  }
 }
 
-.hide{
-    display: none;
+.expense-cost {
+  color: #00796b;
+  font-weight: bolder;
+  &.debt{
+    color: #d84315;
+
+  }
 }
+

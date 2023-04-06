@@ -4,6 +4,7 @@ import { User } from 'src/app/shared/models';
 import { UsersService } from '../shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalToast, openSnackBar } from 'src/app/shared/utils';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-user',
@@ -11,47 +12,48 @@ import { globalToast, openSnackBar } from 'src/app/shared/utils';
   styleUrls: ['./add-user.component.scss']
 })
 export class AddUserComponent {
+  userForm = this.fb.group({
+    user: ['', [Validators.required]],
+    phone: ['']
+  });
+
   private toastmsg =  {
     OK : $localize`Guardado correctamente`,
     KO : $localize`Error fatal`,
     EXIST: $localize`Usuario ya existe`
   }
 
-  inputValue = '';
-  inputPhone = '';
-  users$: Observable<User[]>;
-
   constructor(
     private userService: UsersService,
-    private _snackBar: MatSnackBar
-    ) {
-    this.users$ = this.userService.getIterableUsers();
-   }
+    private _snackBar: MatSnackBar,
+    private fb: FormBuilder
+    ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  clearInput():void {
-    this.inputValue = '';
-    this.inputPhone = '';
-  }
 
-  async add(name: string, phone?: string) {
-    let nameExist = await firstValueFrom(this.userService.checkIfNameExist(name));
+  async onSubmit(userForm: any) {
+    const {user, phone} = userForm
+    let nameExist = await firstValueFrom(this.userService.checkIfNameExist(user));
     if(nameExist){
       openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
       return;
     }
 
-    const user: User = {
+    const userObj: User = {
       id: '',
-      name: name,
-      phone: phone || ''
+      name: user,
+      phone: phone
     }
-    this.userService.addUser(user);
-    this.clearInput();
-    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK)
+
+    this.userService.addUser(userObj);
+    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
+    this.resetForm();
 
   }
 
+  private resetForm(): void {
+    this.userForm.reset();
+
+  }
 }

@@ -16,7 +16,7 @@ export class DebtsComponent implements OnInit {
   users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
   traceDebts: TraceAutoSettle[] = []
-  private DebtsSubscription: Subscription | undefined;
+  private debtsSubscription: Subscription | undefined;
 
   constructor(
     private debtsService: DebtsService,
@@ -29,7 +29,8 @@ export class DebtsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.DebtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
+    this.debtsService.initialize();
+    this.debtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
       this.traceDebts = this.debtsService.getTraceDebts();
     });
@@ -40,7 +41,7 @@ export class DebtsComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.DebtsSubscription?.unsubscribe();
+    this.debtsSubscription?.unsubscribe();
   }
 
 }
