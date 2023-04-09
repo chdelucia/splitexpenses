@@ -6,7 +6,7 @@
     <h3 class="card-title" i18n>Paso {{i+1}} de {{debtTracing.length}}</h3>
     <div class="card-description" i18n>
       {{ trace.intermediaryId }} asume las deudas de {{ trace.debtorId}} porque le debia
-      <strong>{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</strong>
+      <strong>{{ trace.intermediaryDebtToDebtor | number:'.0-2' }}{{currency.currencySymbol}}</strong>
     </div>
 
   </div>
@@ -14,8 +14,8 @@
   <div class="container">
       <div class="item first">{{ trace.intermediaryId }}</div>
       <div class="element">
-        <div class="current-debt">{{ trace.finalIntermediaryDebt }}{{currency.currencySymbol}}</div>
-        <div class="old-debt">{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</div>
+        <div class="current-debt">{{ trace.finalIntermediaryDebt | number:'.0-2' }}{{currency.currencySymbol}}</div>
+        <div class="old-debt">{{ trace.intermediaryDebtToDebtor | number:'.0-2' }}{{currency.currencySymbol}}</div>
         <div class="triangle"></div>
       </div>
       <div class="item last">{{ trace.debtorId}}</div>
@@ -23,8 +23,8 @@
   <div class="container">
       <div class="item first">{{ trace.intermediaryId }}</div>
       <div class="element">
-        <div class="current-debt">{{ trace.finalLenderDebt }}{{currency.currencySymbol}}</div>
-        <div class="old-debt">{{ trace.lenderDebtToIntermediary }}{{currency.currencySymbol}}</div>
+        <div class="current-debt">{{ trace.finalLenderDebt | number:'.0-2' }}{{currency.currencySymbol}}</div>
+        <div class="old-debt">{{ trace.lenderDebtToIntermediary | number:'.0-2' }}{{currency.currencySymbol}}</div>
         <div class="triangle"></div>
       </div>
       <div class="item last">{{ trace.lenderId}}</div>
@@ -32,8 +32,8 @@
   <div class="container">
       <div class="item first">{{ trace.debtorId }}</div>
       <div class="element">
-        <div class="current-debt">{{ trace.finalDebtorDebt }}{{currency.currencySymbol}}</div>
-        <div class="old-debt">{{ trace.debtorDebt }}{{currency.currencySymbol}}</div>
+        <div class="current-debt">{{ trace.finalDebtorDebt | number:'.0-2' }}{{currency.currencySymbol}}</div>
+        <div class="old-debt">{{ trace.debtorDebt | number:'.0-2' }}{{currency.currencySymbol}}</div>
         <div class="triangle"></div>
       </div>
       <div class="item last">{{ trace.lenderId}}</div>
