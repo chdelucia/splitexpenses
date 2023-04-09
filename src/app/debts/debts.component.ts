@@ -15,7 +15,7 @@ export class DebtsComponent implements OnInit {
   debts: Map<string, Debt>;
   users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
-  traceDebts: TraceAutoSettle[] = []
+  debtTracing: TraceAutoSettle[] = []
   private debtsSubscription: Subscription | undefined;
 
   constructor(
@@ -32,7 +32,7 @@ export class DebtsComponent implements OnInit {
     this.debtsService.initialize();
     this.debtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
       this.debts = newValue;
-      this.traceDebts = this.debtsService.getTraceDebts();
+      this.debtTracing = this.debtsService.getDebtTracing();
     });
   }
 

@@ -50,9 +50,9 @@ describe('DebtsService', () => {
     expensesServiceSpy = TestBed.inject(ExpensesService) as jasmine.SpyObj<ExpensesService>;
   });
 
-  it('should initialize debts and traceDebts', () => {
+  it('should initialize debts and debtTracing', () => {
     expect(debtsService['debts']).toEqual(new Map());
-    expect(debtsService['traceDebts']).toEqual([]);
+    expect(debtsService['debtTracing']).toEqual([]);
   });
 
   describe('getDebts', () => {
@@ -62,10 +62,10 @@ describe('DebtsService', () => {
     });
   });
 
-  describe('getTraceDebts', () => {
-    it('should return the traceDebts array', () => {
-      const traceDebts = debtsService.getTraceDebts();
-      expect(traceDebts).toEqual(debtsService['traceDebts']);
+  describe('getdebtTracing', () => {
+    it('should return the debtTracing array', () => {
+      const debtTracing = debtsService.getdebtTracing();
+      expect(debtTracing).toEqual(debtsService['debtTracing']);
     });
   });
 
@@ -76,8 +76,8 @@ describe('DebtsService', () => {
   });
 
   it('should get trace debts', () => {
-    const traceDebts = debtsService.getTraceDebts();
-    expect(traceDebts).toEqual([]);
+    const debtTracing = debtsService.getdebtTracing();
+    expect(debtTracing).toEqual([]);
   });
 
   it('should get debts', () => {

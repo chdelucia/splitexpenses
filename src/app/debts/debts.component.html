@@ -54,12 +54,12 @@
   </section>
 
 
-  <h2 *ngIf="traceDebts.length" class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
+  <h2 *ngIf="debtTracing.length" class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
 
-  <section class="g-4 row mt-4 card" *ngFor="let trace of traceDebts; let i=index;">
+  <section class="g-4 row mt-4 card" *ngFor="let trace of debtTracing; let i=index;">
 
     <div class="card-title">
-      <h3 class="card-title" i18n>Paso {{i+1}} de {{traceDebts.length}}</h3>
+      <h3 class="card-title" i18n>Paso {{i+1}} de {{debtTracing.length}}</h3>
       <div class="card-description" i18n>
         {{ trace.intermediaryId }} asume las deudas de {{ trace.debtorId}} porque le debia
         <strong>{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</strong>

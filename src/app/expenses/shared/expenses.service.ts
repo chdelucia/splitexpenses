@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { select, Store } from '@ngrx/store';
-import { Observable, firstValueFrom, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
 import { calcNextID, convertStringToMap, diffinDays, round2decimals } from 'src/app/shared/utils';
@@ -122,6 +121,8 @@ export class ExpensesService {
     return total;
   }
 
+
+  /** Move all below functions to stats service */
   /* Calculate by group if user not given */
   getTotalCost(userId?: string): number{
     let total = 0;

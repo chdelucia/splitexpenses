@@ -12,7 +12,7 @@ export class DebtsService{
   private debts: Map<string, Debt> = new Map();
   private users$: Observable<Map<string, User>>;
   private expenses$: Observable<Expense[]>;
-  private traceDebts: TraceAutoSettle[] = [];
+  private debtTracing: TraceAutoSettle[] = [];
 
   private myPropertySubject = new BehaviorSubject<Map<string, Debt>>(new Map());
   debtList$ = this.myPropertySubject.asObservable();
@@ -37,8 +37,8 @@ export class DebtsService{
     this.myPropertySubject.next(this.debts);
   }
 
-  getTraceDebts(): TraceAutoSettle[] {
-    return this.traceDebts;
+  getDebtTracing(): TraceAutoSettle[] {
+    return this.debtTracing;
   }
 
   getDebts(): Map<string, Debt> {
@@ -87,7 +87,7 @@ export class DebtsService{
   }
 
   settleCrossAccountDebts(users: Map<string,User>): void {
-    this.traceDebts = [];
+    this.debtTracing = [];
     this.debts.forEach((debts, debtorId) => {
       debts.debts.forEach((individualDebt, lenderId) => {
         let debtorDebt = individualDebt.newDebt;
@@ -172,7 +172,7 @@ export class DebtsService{
     trace.finalIntermediaryDebt = round2decimals(trace.intermediaryDebtToDebtor - trace.amount);
 
 
-    this.traceDebts.push(trace);
+    this.debtTracing.push(trace);
   }
 
   updateExpenseDebt(expense: Expense) {
