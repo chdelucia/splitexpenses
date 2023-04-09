@@ -1,1 +1,42 @@
-<p>debt-tracing works!</p>
+<h2 *ngIf="debtTracing.length" class="my-5 text-center" i18n>Como se han calculado las deudas</h2>
+
+<section class="g-4 row mt-4 card" *ngFor="let trace of debtTracing; let i=index;">
+
+  <div class="card-title">
+    <h3 class="card-title" i18n>Paso {{i+1}} de {{debtTracing.length}}</h3>
+    <div class="card-description" i18n>
+      {{ trace.intermediaryId }} asume las deudas de {{ trace.debtorId}} porque le debia
+      <strong>{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</strong>
+    </div>
+
+  </div>
+
+  <div class="container">
+      <div class="item first">{{ trace.intermediaryId }}</div>
+      <div class="element">
+        <div class="current-debt">{{ trace.finalIntermediaryDebt }}{{currency.currencySymbol}}</div>
+        <div class="old-debt">{{ trace.intermediaryDebtToDebtor }}{{currency.currencySymbol}}</div>
+        <div class="triangle"></div>
+      </div>
+      <div class="item last">{{ trace.debtorId}}</div>
+  </div>
+  <div class="container">
+      <div class="item first">{{ trace.intermediaryId }}</div>
+      <div class="element">
+        <div class="current-debt">{{ trace.finalLenderDebt }}{{currency.currencySymbol}}</div>
+        <div class="old-debt">{{ trace.lenderDebtToIntermediary }}{{currency.currencySymbol}}</div>
+        <div class="triangle"></div>
+      </div>
+      <div class="item last">{{ trace.lenderId}}</div>
+  </div>
+  <div class="container">
+      <div class="item first">{{ trace.debtorId }}</div>
+      <div class="element">
+        <div class="current-debt">{{ trace.finalDebtorDebt }}{{currency.currencySymbol}}</div>
+        <div class="old-debt">{{ trace.debtorDebt }}{{currency.currencySymbol}}</div>
+        <div class="triangle"></div>
+      </div>
+      <div class="item last">{{ trace.lenderId}}</div>
+  </div>
+
+</section>
