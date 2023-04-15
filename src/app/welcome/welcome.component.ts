@@ -3,7 +3,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ExpensesService } from '../expenses/shared/expenses.service';
 import { Expense, User } from '../shared/models';
 import { UsersService } from '../users/shared/users.service';
-import { Observable, Subscription  } from 'rxjs';
+import { Observable, Subscription, combineLatest, map  } from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -15,30 +15,35 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   usersSize: number = 0;
   expensesSize: number = 0;
   isLinear = true;
-  private expensesSubscription: Subscription | undefined;;
-  private usersSubscription: Subscription | undefined;;
+  private subscriptions = new Subscription();
 
   constructor(
     private expensesService: ExpensesService,
     private usersService: UsersService,
     ) { }
 
-  ngOnInit(): void {
-    this.expensesService.getExpenses().subscribe(expenses => {
-      this.expensesSize = expenses.size;
-      if(expenses.size > 0) {
+
+   ngOnInit(): void {
+    const expenses$ = this.expensesService.getExpenses().pipe(
+      map(expenses => expenses.size)
+    );
+
+    const users$ = this.usersService.getUsers().pipe(
+      map(users => users.size)
+    );
+
+    const combined$ = combineLatest([expenses$, users$]).subscribe(([expensesSize, usersSize]) => {
+      this.expensesSize = expensesSize;
+      this.usersSize = usersSize;
+
+      if (usersSize > 1) {
         this.nextStep();
       }
     });
 
-    this.usersService.getUsers().subscribe(users => {
-      console.log(users)
-      this.usersSize = users.size;
-      if(users.size > 1) {
-        this.nextStep();
-      }
-    });
-   }
+    this.subscriptions.add(combined$);
+  }
+
 
    ngAfterViewInit() {
     /**this.users$.subscribe(users => {
@@ -55,7 +60,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-      this.expensesSubscription?.unsubscribe();
-      this.usersSubscription?.unsubscribe();
+      this.subscriptions.unsubscribe();
   }
 }
