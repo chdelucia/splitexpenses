@@ -18,10 +18,6 @@ export function calcNextID(data: Map<any, any>): string{
     return nextId.toString();
   }
 
-export function round2decimals(value: number): number {
-  return Math.round((value + Number.EPSILON) * 100) / 100;
-}
-
 export function diffinDays(date1: string, date2: string): number {
   const d1: any = new Date(date1);
   const d2: any = new Date(date2);

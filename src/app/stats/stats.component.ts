@@ -51,8 +51,4 @@ export class StatsComponent {
     this.typeData =  this.expensesService.getExpensesByType(userId);
   }
 
-  calcExchange(value?: number) {
-    return this.currencyService.calcExchangeValue(value || 0);
-  }
-
 }

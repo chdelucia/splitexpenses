@@ -25,12 +25,6 @@ export class CurrencyService {
     return this.currency;
   }
 
-  calcExchangeValue(value: number): number {
-    let exchangeCost = value * this.currency.exchangeValue;
-    let round2decimals = Math.round((exchangeCost + Number.EPSILON) * 100) / 100;
-    return round2decimals;
-  }
-
   reset(){
     this.currency = this.loadCurrencyFromLocalStorage();
   }

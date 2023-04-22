@@ -6,12 +6,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ExchangePipe } from './pipes/exchange.pipe';
 
 
 
 @NgModule({
   declarations: [
     SummarygraphComponent,
+    ExchangePipe,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatSnackBarModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    ExchangePipe
   ]
 })
 export class SharedModule { }

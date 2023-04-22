@@ -20,7 +20,7 @@ describe('DebtsComponent', () => {
   beforeEach(() => {
     debtsServiceSpy = jasmine.createSpyObj('DebtsService', ['getDebts']);
     userServiceSpy = jasmine.createSpyObj('UsersService', ['getIterableUsers']);
-    currencyServiceSpy = jasmine.createSpyObj('CurrencyService', ['getCurrencySettings', 'calcExchangeValue']);
+    currencyServiceSpy = jasmine.createSpyObj('CurrencyService', ['getCurrencySettings']);
     TestBed.configureTestingModule({
       declarations: [ DebtsComponent ],
       providers: [
@@ -56,11 +56,5 @@ describe('DebtsComponent', () => {
     expect(component.currency).toEqual(currency);
   });
 
-  it('should calculate exchange value', () => {
-    const exchangeRate = 0.85;
-    const amount = 100;
-    currencyServiceSpy.calcExchangeValue.and.returnValue(amount * exchangeRate);
-    const result = component.calcExchange(amount);
-    expect(result).toEqual(amount * exchangeRate);
-  });
+
 });

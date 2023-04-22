@@ -1,12 +1,10 @@
-import { Component, OnInit, AfterViewInit  } from '@angular/core';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Debt, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
 import { DebtsService } from '../shared/debts.service';
-import { round2decimals } from 'src/app/shared/utils';
-import { MatTable } from '@angular/material/table';
 import * as XLSX from 'xlsx'
 
 
@@ -15,7 +13,7 @@ import * as XLSX from 'xlsx'
   templateUrl: './debts-detail.component.html',
   styleUrls: ['./debts-detail.component.scss']
 })
-export class DebtsDetailComponent implements OnInit, AfterViewInit {
+export class DebtsDetailComponent implements OnInit {
   debts: Map<string, Debt>;
   users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
@@ -39,19 +37,11 @@ export class DebtsDetailComponent implements OnInit, AfterViewInit {
     this.initColumns();
   }
 
-  ngAfterViewInit() {
-
-  }
-
   initColumns(): void {
     this.users$.subscribe(users => {
       let userNames = users.map(user => user.name)
       this.displayedColumns = ['title', 'originalCost', ...userNames];
     })
-  }
-
-  calcExchange(value?: number) {
-    return this.currencyService.calcExchangeValue(value || 0);
   }
 
   getTotalAmount(userId: string): number {
@@ -70,7 +60,7 @@ export class DebtsDetailComponent implements OnInit, AfterViewInit {
         }
       })
     })
-    return round2decimals(total);
+    return total;
   }
 
   getTotalUserPaid(expense: Expense, userId: string): number {

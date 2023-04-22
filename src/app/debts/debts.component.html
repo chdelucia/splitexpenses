@@ -10,9 +10,9 @@
         <div class="d-flex flex-row justify-content-between title">
             <div>{{user.name}}</div>
             <div class="totalIowe">
-                {{debts.get(user.id)?.totalIowe}} {{currency.currencySymbol}}
+                {{debts.get(user.id)?.totalIowe | number:'.0-2' }} {{currency.currencySymbol}}
                 <div *ngIf="currency.active" class="text-end mainExchange">
-                    {{ calcExchange(debts.get(user.id)?.totalIowe) }}
+                    {{ debts.get(user.id)?.totalIowe | exchange | number:'.0-2' }}
                     {{currency.currencyExchangeSymbol}}
                 </div>
 
@@ -29,7 +29,7 @@
                               {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
                               {{currency.currencySymbol}}
                               <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.newDebt !== 0" class="text-end">
-                                  {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.newDebt) }}
+                                  {{ debts.get(user.id)?.debts?.get(person.id)?.newDebt | exchange | number:'.0-2'}}
                                   {{currency.currencyExchangeSymbol}}
                               </small>
 
@@ -39,7 +39,7 @@
                               {{debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid }}
                               {{currency.currencySymbol}}
                               <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !== 0" class="text-end">
-                                  {{ calcExchange(debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid) }}
+                                  {{ debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid | exchange | number:'.0-2' }}
                                   {{currency.currencyExchangeSymbol}}
                               </small>
                           </ng-template>

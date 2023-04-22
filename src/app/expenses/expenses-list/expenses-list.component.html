@@ -44,7 +44,7 @@
                         </ng-template>
                     </div>
                     <div class="col-4 paidBy d-none d-md-inline" *ngIf="currency.active">
-                            {{ calcExchange(expense.originalCost) }}
+                            {{ expense.originalCost | exchange | number:'.0-2' }}
                             {{currency.currencyExchangeSymbol}}
                     </div>
                 </div>

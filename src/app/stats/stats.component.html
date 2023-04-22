@@ -16,13 +16,13 @@
   <section class="mb-3 mt-2 text-center">
       <h6 i18n>Gasto Total: {{todayCost}} {{currency.currencySymbol}}
         <span *ngIf="currency.active" class="mainExchange">
-          ( {{ calcExchange(todayCost) }} {{currency.currencyExchangeSymbol}} )
+          ( {{ todayCost | exchange | number:'.0-2' }} {{currency.currencyExchangeSymbol}} )
         </span>
       </h6>
 
       <div i18n>Gasto por dia: {{meanCost}} {{currency.currencySymbol}}
         <span *ngIf="currency.active" class="mainExchange">
-          ( {{ calcExchange(meanCost) }} {{currency.currencyExchangeSymbol}} )
+          ( {{ meanCost | exchange | number:'.0-2' }} {{currency.currencyExchangeSymbol}} )
         </span>
       </div>
 

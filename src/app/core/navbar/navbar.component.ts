@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { WeatherService } from '../../forecast/shared/weather.service';
-import { globalRoutes } from '../routes'
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +8,6 @@ import { globalRoutes } from '../routes'
 })
 export class NavbarComponent {
   weatherActive: boolean;
-  routes = globalRoutes;
   constructor(
     private weatherService: WeatherService,
     ){

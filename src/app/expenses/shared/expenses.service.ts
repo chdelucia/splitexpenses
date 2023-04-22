@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { LocalstorageService } from 'src/app/shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
-import { calcNextID, convertStringToMap, diffinDays, round2decimals } from 'src/app/shared/utils';
+import { calcNextID, convertStringToMap, diffinDays } from 'src/app/shared/utils';
 import { addExpense, addExpenses, removeExpense, updateExpense } from 'src/app/state/expenses/expenses.actions';
 import { selectExpenseByID, selectExpenses, selectExpensesDates, selectExpensesFilterByType, selectIterableExpenses } from 'src/app/state/expenses/expenses.selectors';
 
@@ -134,13 +134,13 @@ export class ExpensesService {
         total += expense.cost
       }
     })
-    return round2decimals(total);
+    return total;
   }
 
   getAverageCostPerDay(userId?: string): number {
     let totalCost = this.getTotalCost(userId);
     let totalDays = this.getTotalDays();
-    return round2decimals(totalCost / totalDays);
+    return (totalCost / totalDays);
 
   }
 

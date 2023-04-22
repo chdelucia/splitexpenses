@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable, BehaviorSubject } from 'rxjs';
 import { Debt, Expense, IndividualDebt, TraceAutoSettle, User } from 'src/app/shared/models';
-import { round2decimals } from 'src/app/shared/utils';
 import { UsersService } from 'src/app/users/shared/users.service';
 import { ExpensesService } from 'src/app/expenses/shared/expenses.service';
 
@@ -167,9 +166,9 @@ export class DebtsService{
       trace.intermediaryDebtToDebtor = debtorDebt;
     }
 
-    trace.finalDebtorDebt = round2decimals(trace.debtorDebt - trace.amount);
-    trace.finalLenderDebt = round2decimals(Math.abs(trace.lenderDebtToIntermediary - trace.amount));
-    trace.finalIntermediaryDebt = round2decimals(trace.intermediaryDebtToDebtor - trace.amount);
+    trace.finalDebtorDebt = trace.debtorDebt - trace.amount;
+    trace.finalLenderDebt = Math.abs(trace.lenderDebtToIntermediary - trace.amount);
+    trace.finalIntermediaryDebt = trace.intermediaryDebtToDebtor - trace.amount;
 
 
     this.debtTracing.push(trace);
@@ -223,8 +222,8 @@ export class DebtsService{
           let Iowe = j.individualtotalIveBeenPaid;
           let owesMe = this.debts.get(userName)?.debts.get(me)?.individualtotalIveBeenPaid || 0;
           //j.individualtotalIPaid = owesMe;
-          j.newDebt = round2decimals(Iowe - owesMe);
-          i.totalIowe = round2decimals(i.totalIowe + (j.newDebt));
+          j.newDebt = (Iowe - owesMe);
+          i.totalIowe = (i.totalIowe + (j.newDebt));
         });
       })
   }
@@ -233,7 +232,7 @@ export class DebtsService{
     const userParticipated = expense.sharedBy.includes(userId);
     const newTotalAmount  = oldValue + expense.originalCost - (userParticipated ? expense.cost : 0);
 
-    return round2decimals(newTotalAmount );
+    return newTotalAmount;
   }
 
   verifyTotalAmountIPaid(userId: string): number {
@@ -254,7 +253,7 @@ export class DebtsService{
       result += expense.cost;
     }
 
-    return round2decimals(result);
+    return result;
   }
 
   verifyTotalAmountIhaveBeenPaid(userId: string): number{
@@ -266,7 +265,7 @@ export class DebtsService{
   }
 
   calcTotalAmountIAmOwed(myDebts: Debt, newDebt: number): number {
-    return round2decimals(myDebts.totalIowe + (newDebt));
+    return (myDebts.totalIowe + (newDebt));
   }
 
 

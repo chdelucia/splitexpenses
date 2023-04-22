@@ -55,7 +55,6 @@ export class AddExpenseComponent implements OnInit {
   ngOnInit(): void {
     this.initializeExpense();
     this.initializeCheckboxControls();
-    this.getExpenses();
   }
 
   private initializeExpense(): void {
@@ -115,12 +114,6 @@ export class AddExpenseComponent implements OnInit {
     this.resetForm();
   }
 
-  getExpenses(): void {
-    this.expensesService.getExpensesAPI()
-      .subscribe(expenses => console.log(expenses));
-  }
-
-
   updateForm() {
     this.expenseForm.patchValue({
       name: this.expense?.paidBy,
@@ -139,10 +132,6 @@ export class AddExpenseComponent implements OnInit {
       const i = interests.controls.findIndex(x => x.value === e.source.value);
       interests.removeAt(i);
     }
-  }
-
-  calcExchange(cost: string) :number {
-    return this.currencyService.calcExchangeValue(parseFloat(cost));
   }
 
   private addExpense(expense: Expense): void {

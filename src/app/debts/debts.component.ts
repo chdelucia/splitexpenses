@@ -36,10 +36,6 @@ export class DebtsComponent implements OnInit {
     });
   }
 
-  calcExchange(value?: number) {
-    return this.currencyService.calcExchangeValue(value || 0);
-  }
-
   ngOnDestroy(): void {
     this.debtsSubscription?.unsubscribe();
   }

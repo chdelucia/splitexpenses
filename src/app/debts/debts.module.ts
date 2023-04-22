@@ -8,23 +8,25 @@ import { FormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
 import {MatTableModule} from '@angular/material/table';
 import { DebtTracingComponent } from './debt-tracing/debt-tracing.component';
+import { SharedModule } from "../shared/shared.module";
 
 
 
 @NgModule({
-  declarations: [
-    DebtsComponent,
-    DebtsDetailComponent,
-    DebtTracingComponent
-  ],
-  imports: [
-    FormsModule,
-    CommonModule,
-    DebtsRoutingModule,
-    MatTableModule,
-  ],
-  providers: [
-    DebtsService
-  ]
+    declarations: [
+        DebtsComponent,
+        DebtsDetailComponent,
+        DebtTracingComponent
+    ],
+    providers: [
+        DebtsService
+    ],
+    imports: [
+        FormsModule,
+        CommonModule,
+        DebtsRoutingModule,
+        MatTableModule,
+        SharedModule
+    ]
 })
 export class DebtsModule { }

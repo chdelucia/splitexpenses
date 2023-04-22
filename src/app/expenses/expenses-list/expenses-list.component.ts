@@ -66,8 +66,4 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     }
   }
 
-  calcExchange(value?: number): number {
-    return this.currencyService.calcExchangeValue(value || 0);
-  }
-
 }
