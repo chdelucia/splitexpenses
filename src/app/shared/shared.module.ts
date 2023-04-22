@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ExchangePipe } from './pipes/exchange.pipe';
+import { WrapFnPipe } from './pipes/wrap-fn.pipe';
 
 
 
@@ -14,6 +15,7 @@ import { ExchangePipe } from './pipes/exchange.pipe';
   declarations: [
     SummarygraphComponent,
     ExchangePipe,
+    WrapFnPipe,
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { ExchangePipe } from './pipes/exchange.pipe';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    ExchangePipe
+    ExchangePipe,
+    WrapFnPipe
   ]
 })
 export class SharedModule { }

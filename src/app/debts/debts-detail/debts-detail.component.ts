@@ -4,7 +4,6 @@ import { CurrencyService } from '../../shared/currency.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Debt, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
-import { DebtsService } from '../shared/debts.service';
 import * as XLSX from 'xlsx'
 
 
@@ -14,21 +13,18 @@ import * as XLSX from 'xlsx'
   styleUrls: ['./debts-detail.component.scss']
 })
 export class DebtsDetailComponent implements OnInit {
-  debts: Map<string, Debt>;
   users$: Observable<Array<User>>;
   currency: CurrencyPlugin;
   expenses$: Observable<Expense[]>;
   displayedColumns: string[] = [];
 
   constructor(
-    private debtsService: DebtsService,
     private userService: UsersService,
     private currencyService: CurrencyService,
     private expensesService: ExpensesService,
   ) {
     this.users$ = this.userService.getIterableUsers();
     this.currency = this.currencyService.getCurrencySettings();
-    this.debts = this.debtsService.getDebts();
     this.expenses$ = this.expensesService.getIterableExpenses();
   }
 
@@ -44,8 +40,7 @@ export class DebtsDetailComponent implements OnInit {
     })
   }
 
-  getTotalAmount(userId: string): number {
-    //let total = this.debts.get(userId)?.totalIowe;
+  calcUserTotalBalance(userId: string): number {
     let total = 0;
 
     this.expenses$.subscribe(expenses => {
@@ -63,7 +58,7 @@ export class DebtsDetailComponent implements OnInit {
     return total;
   }
 
-  getTotalUserPaid(expense: Expense, userId: string): number {
+  calculateExpenseBalance(expense: Expense, userId: string): number {
     let total = -expense.cost;
     let paidByme = userId === expense.paidBy;
     let Iparticipated = expense.sharedBy.includes(userId);

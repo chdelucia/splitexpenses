@@ -17,9 +17,4 @@ describe('DebtsDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
-    expect(component).toBeTruthy();
-    component.setDebts();
-    console.log(component.myDebts);
-  });
 });

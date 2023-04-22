@@ -30,15 +30,15 @@
         <th mat-header-cell *matHeaderCellDef data-label="id"> {{user.name}} </th>
         <td mat-cell *matCellDef="let expense">
           <ng-container *ngIf="expense.sharedBy.includes(user.id)" >
-            <span class="expense-cost" [class.debt]="getTotalUserPaid(expense, user.id) < 0">
-              {{getTotalUserPaid(expense, user.id) | number:'.0-2'}}
+            <span class="expense-cost" [class.debt]="!expense.paidBy.includes(user.id)">
+              {{ calculateExpenseBalance | wrapFn: expense : user.id | number:'.0-2'}}
             </span>
 
           </ng-container>
         </td>
         <td mat-footer-cell *matFooterCellDef>
-          <span class="expense-cost" [class.debt]="getTotalAmount(user.id) < 0">
-            {{getTotalAmount(user.id) | number:'.0-2' }}
+          <span class="expense-cost" [class.debt]="calcUserTotalBalance(user.id) < 0">
+            {{calcUserTotalBalance(user.id) | number:'.0-2' }}
           </span>
         </td>
       </ng-container>
