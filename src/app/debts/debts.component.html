@@ -23,26 +23,12 @@
                       *ngIf="user.id !== person.id">
                       <div>{{person.name}}</div>
                       <div>
-                          <ng-container *ngIf="debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !=
-                                                      debts.get(user.id)?.debts?.get(person.id)?.newDebt; else elseBlock">
-
-                              {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
-                              {{currency.currencySymbol}}
-                              <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.newDebt !== 0" class="text-end">
-                                  {{ debts.get(user.id)?.debts?.get(person.id)?.newDebt | exchange | number:'.0-2'}}
-                                  {{currency.currencyExchangeSymbol}}
-                              </small>
-
-                          </ng-container>
-
-                          <ng-template #elseBlock>
-                              {{debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid }}
-                              {{currency.currencySymbol}}
-                              <small *ngIf="currency.active && debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid !== 0" class="text-end">
-                                  {{ debts.get(user.id)?.debts?.get(person.id)?.individualtotalIveBeenPaid | exchange | number:'.0-2' }}
-                                  {{currency.currencyExchangeSymbol}}
-                              </small>
-                          </ng-template>
+                          {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
+                          {{currency.currencySymbol}}
+                          <small *ngIf="currency.active" class="text-end">
+                              {{ debts.get(user.id)?.debts?.get(person.id)?.newDebt | exchange | number:'.0-2'}}
+                              {{currency.currencyExchangeSymbol}}
+                          </small>
                       </div>
                   </div>
               </ng-container>
