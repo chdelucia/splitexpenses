@@ -8,10 +8,10 @@
         <ng-container *ngFor="let expense of expenses$ | async;">
             <div class="expense px-2" *ngIf="date === expense.date" >
                 <div class="row g-2 align-items-center">
-                    <div class="col-7">
+                    <div class="col-5">
                         <div>{{ expense.title }}</div>
                     </div>
-                    <div class="d-none d-md-flex col-3">
+                    <div class="d-md-flex col-2 col-md-3">
                             {{expense.originalCost }} {{currency.currencySymbol}}
 
                     </div>
