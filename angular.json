@@ -87,13 +87,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "splitexpenses:build:production"
+              "buildTarget": "splitexpenses:build:production"
             },
             "development": {
-              "browserTarget": "splitexpenses:build:development"
+              "buildTarget": "splitexpenses:build:development"
             },
             "en": {
-              "browserTarget": "splitexpenses:build:en"
+              "buildTarget": "splitexpenses:build:en"
             }
           },
           "defaultConfiguration": "development"
@@ -101,7 +101,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "splitexpenses:build"
+            "buildTarget": "splitexpenses:build"
           }
         },
         "test": {
