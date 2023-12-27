@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators, FormGroupDirective  } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { first, Observable } from 'rxjs';
@@ -85,7 +85,7 @@ export class AddExpenseComponent implements OnInit {
     return this.fb.control(controlValue);
   }
 
-  onSubmit(expenseForm: any) {
+  onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
     const sharedBy = expenseForm.sharedBy.join('').split('');
     const originalCost = parseFloat(expenseForm.cost);
     const costPerPerson = originalCost / sharedBy.length;
@@ -112,6 +112,7 @@ export class AddExpenseComponent implements OnInit {
     this.addExpense(expense);
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     this.resetForm();
+    formDirective.resetForm();
   }
 
   updateForm() {

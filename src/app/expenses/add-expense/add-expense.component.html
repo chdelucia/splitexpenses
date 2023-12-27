@@ -5,7 +5,7 @@
       {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
     </h2>
 
-    <form class="row g-2" [formGroup]="expenseForm" (ngSubmit)="onSubmit(expenseForm.value)">
+    <form class="row g-2" [formGroup]="expenseForm" (ngSubmit)="onSubmit(expenseForm.value, formDirective)" #formDirective="ngForm">
 
       <div class="col-6">
         <mat-form-field appearance="fill"  class="w-100">
