@@ -7,6 +7,7 @@ import { CurrencyService } from '../../shared/currency.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-expenses-list',
@@ -16,10 +17,13 @@ import { UsersService } from '../../users/shared/users.service';
 export class ExpensesListComponent implements OnInit, OnChanges {
   @Input() filter: string = '';
 
+  term = ''
+
   expenses$: Observable<Array<Expense>>;
   currency: CurrencyPlugin;
   users$: Observable<Map<string, User>>;
   dates$: Observable<Array<string>>;
+  test$ = this.expensesService.getExpensesOrderByDatesDesc();
 
   private toastmsg =  {
     OK : $localize`Gasto eliminado correctamente`,
@@ -64,6 +68,10 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     if(this.filter){
       this.expenses$ = this.expensesService.getExpensesFilterByType(this.filter);
     }
+  }
+
+  handlePageEvent(e: PageEvent) {
+    console.log(e.pageSize, e.pageIndex);
   }
 
 }

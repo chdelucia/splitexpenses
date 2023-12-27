@@ -1,56 +1,82 @@
-
 <main class="mb-5 container">
-    <h2 class="my-4 text-center" i18n>Historial</h2>
+  <h2 class="my-4 text-center" i18n>Historial</h2>
 
-    <ng-container *ngFor="let date of dates$ | async;">
-        <div class="date-title p-2">{{date | date: 'fullDate'}}</div>
+  <ng-container *ngIf="(test$ | async) as expenses; else noExpenses">
 
-        <ng-container *ngFor="let expense of expenses$ | async;">
-            <div class="expense px-2" *ngIf="date === expense.date" >
-                <div class="row g-2 align-items-center">
-                    <div class="col-5">
-                        <div>{{ expense.title }}</div>
-                    </div>
-                    <div class="d-md-flex col-2 col-md-3">
-                            {{expense.originalCost }} {{currency.currencySymbol}}
+   <section class="filters row">
+    <div class="col-12 col-md-5 col-xl-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>Buscador</mat-label>
+        <input matInput [(ngModel)]="term" type="text">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
 
-                    </div>
-                    <div class="col-5 col-md-4 action-icons" *ngIf="!filter" >
-                      <button mat-mini-fab color="primary"
-                        (click)="editExpense(expense.id)"
-                        aria-label="Example icon button with a filter list icon">
-                        <span class="material-icons" >edit</span>
-                      </button>
-                      <span> </span>
-                      <button mat-mini-fab color="warn"
-                        (click)="deleteExpense(expense.id)"
-                        aria-label="Example icon button with a filter list icon">
-                        <span class="material-icons">delete_forever</span>
-                      </button>
+    <div class="col-12 col-md-7 col-xl-6">
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="expenses.length"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+   </section>
 
-                    </div>
-                </div>
-                <div class="row g-2 align-items-center text-secondary">
-                    <div class="col-sm-7 col-md-5 paidBy">
-                        <span i18n>Pagado por:</span> {{ (users$ | async)?.get(expense.paidBy)?.name}}
-                        <br>
-                        <span i18n>Participan: </span>
-                        <span i18n *ngIf="expense.sharedBy.length == (users$ | async)?.size; else elseBlock">Todos</span>
+    <ng-container *ngFor="let expense of expenses | filter : term ; let i = index">
+      <div *ngIf="i === 0 || expenses[i-1].date !== expense.date" class="date-title p-2">
+        {{expense.date | date: 'fullDate'}}
+      </div>
 
-                        <ng-template #elseBlock>
-                            <span *ngFor="let userId of expense.sharedBy">
-                                {{ (users$ | async)?.get(userId)?.name }}
-                            </span>
-                        </ng-template>
-                    </div>
-                    <div class="col-4 paidBy d-none d-md-inline" *ngIf="currency.active">
-                            {{ expense.originalCost | exchange | number:'.0-2' }}
-                            {{currency.currencyExchangeSymbol}}
-                    </div>
-                </div>
-            </div>
-        </ng-container>
+      <div class="expense px-2">
+        <div class="row g-2 align-items-center">
+          <div class="col-5">
+            <div>{{ expense.title }}</div>
+          </div>
+          <div class="d-md-flex col-2 col-md-3">
+            {{expense.originalCost }} {{currency.currencySymbol}}
+
+          </div>
+          <div class="col-5 col-md-4 action-icons" *ngIf="!filter">
+            <button mat-mini-fab color="primary" (click)="editExpense(expense.id)"
+              aria-label="Example icon button with a filter list icon">
+              <span class="material-icons">edit</span>
+            </button>
+            <span> </span>
+            <button mat-mini-fab color="warn" (click)="deleteExpense(expense.id)"
+              aria-label="Example icon button with a filter list icon">
+              <span class="material-icons">delete_forever</span>
+            </button>
+
+          </div>
+        </div>
+        <div class="row g-2 align-items-center text-secondary">
+          <div class="col-sm-7 col-md-5 paidBy">
+            <span i18n>Pagado por:</span> {{ (users$ | async)?.get(expense.paidBy)?.name}}
+            <br>
+            <span i18n>Participan: </span>
+            <span i18n *ngIf="expense.sharedBy.length == (users$ | async)?.size; else elseBlock">Todos</span>
+
+            <ng-template #elseBlock>
+              <span *ngFor="let userId of expense.sharedBy">
+                {{ (users$ | async)?.get(userId)?.name }}
+              </span>
+            </ng-template>
+          </div>
+          <div class="col-4 paidBy d-none d-md-inline" *ngIf="currency.active">
+            {{ expense.originalCost | exchange | number:'.0-2' }}
+            {{currency.currencyExchangeSymbol}}
+          </div>
+        </div>
+      </div>
+
     </ng-container>
+  </ng-container>
+
+  <ng-template #noExpenses>
+    No tienes gastos aun
+  </ng-template>
+
+
 </main>
-
-

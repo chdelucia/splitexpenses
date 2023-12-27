@@ -20,7 +20,7 @@
         <mat-form-field appearance="fill"  class="w-100">
           <mat-label i18n>Precio</mat-label>
           <input matInput formControlName="cost" type="number" min="1" step="any" required>
-          <span matSuffix>{{currency.currencySymbol}}</span>
+          <span matSuffix class="currency">{{currency.currencySymbol}}</span>
           <mat-hint *ngIf="currency.active && expenseForm.controls['cost'].value" align="end" i18n>
             Equivale a {{ expenseForm.controls['cost'].value | exchange | number:'.0-2' }} {{currency.currencyExchangeSymbol}}
           </mat-hint>

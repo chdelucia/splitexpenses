@@ -6,8 +6,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import {MatPaginatorModule} from '@angular/material/paginator'
 import { ExchangePipe } from './pipes/exchange.pipe';
 import { WrapFnPipe } from './pipes/wrap-fn.pipe';
+
 
 
 
@@ -23,7 +25,8 @@ import { WrapFnPipe } from './pipes/wrap-fn.pipe';
     MatSnackBarModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatPaginatorModule,
 
   ],
   exports:[
@@ -32,8 +35,9 @@ import { WrapFnPipe } from './pipes/wrap-fn.pipe';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatPaginatorModule,
     ExchangePipe,
-    WrapFnPipe
+    WrapFnPipe,
   ]
 })
 export class SharedModule { }

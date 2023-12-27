@@ -21,6 +21,8 @@ import {
   selectExpensesDates,
   selectExpensesFilterByType,
   selectIterableExpenses,
+  selectExpensesGroupByDates,
+  selectExpensesOrderByDateDesc
 } from 'src/app/state/expenses/expenses.selectors';
 
 @Injectable({
@@ -98,6 +100,14 @@ export class ExpensesService {
 
   getExpensesDates(): Observable<string[]> {
     return this.store.select(selectExpensesDates);
+  }
+
+  getExpensesGroupByDates(): Observable<Record<string, Expense[]>> {
+    return this.store.select(selectExpensesGroupByDates)
+  }
+
+  getExpensesOrderByDatesDesc(): Observable<Expense[]> {
+    return this.store.select(selectExpensesOrderByDateDesc);
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {

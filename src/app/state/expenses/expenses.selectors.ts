@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ExpensesState } from './expenses.reducer';
+import { Expense } from 'src/app/shared/models';
 
 
 
@@ -28,4 +29,27 @@ export const selectExpensesFilterByType = (filter: string) => createSelector(
 export const selectExpensesDates = createSelector(
   selectIterableExpenses,
   (expenses) => [...new Set(expenses.map((expense) => expense.date).reverse())]
+);
+
+
+export const selectExpensesGroupByDates = createSelector(
+  selectIterableExpenses,
+  (expenses) => {
+    return expenses.reduce((acumulador, expense) => {
+      const date = expense.date;
+
+      if (!acumulador[date]) {
+        acumulador[date] = [];
+      }
+
+      acumulador[date].push(expense);
+
+      return acumulador;
+    }, {} as Record<string, Expense[]>);
+  }
+);
+
+export const selectExpensesOrderByDateDesc = createSelector(
+  selectIterableExpenses,
+  (expenses) => expenses.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 );

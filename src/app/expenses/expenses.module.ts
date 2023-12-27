@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FilterPipe } from '../shared/pipes/filter.pipe';
 
 
 @NgModule({
@@ -30,10 +31,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatCheckboxModule,
     MatRadioModule,
     MatNativeDateModule,
+    FilterPipe
   ],
   providers: [
     ExpensesService,
   ],
-  exports: [AddExpenseComponent]
+  exports: [AddExpenseComponent, ExpensesListComponent]
 })
 export class ExpensesModule { }
