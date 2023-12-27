@@ -2,14 +2,12 @@
 
 @use '@angular/material' as mat;
 @include mat.core();
-@import '@angular/material/theming';
+//@import '@angular/material/theming';
 
 
-$my-primary: mat-palette($mat-teal,700);
-$my-accent: mat-palette($mat-teal,600);
-$my-warn: mat-palette($mat-deep-orange, 800);
-
-//$my-warn: mat.define-palette(mat.$deep-orange-palette);
+$my-primary: mat.define-palette(mat.$teal-palette,700);
+$my-accent: mat.define-palette(mat.$teal-palette,600);
+$my-warn: mat.define-palette(mat.$deep-orange-palette, 800);
 
 $my-theme: mat.define-light-theme((
  color: (

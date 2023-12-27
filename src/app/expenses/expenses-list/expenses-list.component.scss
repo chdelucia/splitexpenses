@@ -16,5 +16,6 @@ small{
 .action-icons{
   cursor: pointer;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-end;
+  gap: 0.5em;
 }
