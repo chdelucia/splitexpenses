@@ -45,7 +45,7 @@ export class UsersService {
   }
 
   async addUser(user: User): Promise<void> {
-    let users = await firstValueFrom(this.users$)
+    const users = await firstValueFrom(this.users$)
     user.id = calcNextID(users);
     this.store.dispatch(addUser({ user }));
     this.saveUsersIntoLocalStorage();
@@ -58,13 +58,13 @@ export class UsersService {
 
   loadUsersFromLocalStorage(): Map<string, User> {
     const ans = this.storageService.getData().users;
-    let users = ans ? convertStringToMap(ans) :  new Map();
+    const users = ans ? convertStringToMap(ans) :  new Map();
     return users;
   }
 
   //TODO import module to auto sync store and localstore
   async saveUsersIntoLocalStorage(): Promise<void> {
-    let users = await firstValueFrom(this.users$)
+    const users = await firstValueFrom(this.users$)
     this.storageService.saveDataToLocalStorage(users)
   }
 

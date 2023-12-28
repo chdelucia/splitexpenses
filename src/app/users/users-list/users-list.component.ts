@@ -26,8 +26,6 @@ export class UsersListComponent {
     this.users$ = this.userService.getIterableUsers();
    }
 
-  ngOnInit(): void {
-  }
 
   edit(data: HTMLTableCellElement, user: User, fieldToEdit: "phone" | "name") {
     let oldValue =  user[fieldToEdit];

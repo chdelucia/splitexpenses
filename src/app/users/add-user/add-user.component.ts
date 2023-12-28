@@ -4,7 +4,7 @@ import { User } from 'src/app/shared/models';
 import { UsersService } from '../shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalToast, openSnackBar } from 'src/app/shared/utils';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-user',
@@ -28,9 +28,6 @@ export class AddUserComponent {
     private _snackBar: MatSnackBar,
     private fb: FormBuilder
     ) {}
-
-  ngOnInit(): void {}
-
 
   async onSubmit(userForm: any) {
     const {user, phone} = userForm

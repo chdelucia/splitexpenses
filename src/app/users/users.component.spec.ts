@@ -12,7 +12,6 @@ describe('UsersComponent', () => {
   let component: UsersComponent;
   let fixture: ComponentFixture<UsersComponent>;
   let store: Store<UserState>;
-  let usersServiceSpy: jasmine.SpyObj<UsersService>;
 
   const mockUsers: User[] = [
     { id: '1', name: 'John', phone: '1234567890' },
@@ -41,7 +40,6 @@ describe('UsersComponent', () => {
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    usersServiceSpy = TestBed.inject(UsersService) as jasmine.SpyObj<UsersService>;
   });
 
   it('should create', () => {

@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { UsersService } from './users.service';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { Store } from '@ngrx/store';
-import { firstValueFrom, of } from 'rxjs';
 import { User } from '../../shared/models';
 import { addUser, updateUser } from '../../state/user/user.actions';
 
