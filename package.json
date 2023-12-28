@@ -62,6 +62,7 @@
     "schematics-scss-migrate": "^2.3.17",
     "simple-git-hooks": "^2.9.0",
     "sonar-scanner": "^3.1.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^5.2"
   },
   "lint-staged": {
