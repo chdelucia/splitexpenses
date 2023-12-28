@@ -72,10 +72,5 @@
     "*.scss": [
       "prettier --write"
     ]
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged",
-    "pre-push": "ng lint",
-    "preserveUnused": true,
   }
 }
