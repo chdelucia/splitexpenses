@@ -1,4 +1,3 @@
-import { useAnimation } from '@angular/animations';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { User } from 'src/app/shared/models';
 import { UserState } from './user.reducer';
