@@ -28,7 +28,7 @@ export class UsersListComponent {
 
 
   edit(data: HTMLTableCellElement, user: User, fieldToEdit: "phone" | "name") {
-    let oldValue =  user[fieldToEdit];
+    const oldValue =  user[fieldToEdit];
     const newValue = data.innerText.trim();
 
     if(newValue && (oldValue != newValue)) {
@@ -36,7 +36,7 @@ export class UsersListComponent {
           this.userService.editUser(user);
           openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     } else {
-      data.innerText = oldValue || '';
+      data.innerText = oldValue ?? '';
     }
   }
 

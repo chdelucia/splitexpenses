@@ -10,7 +10,8 @@
     "test": "ng test",
     "compodoc": "npx compodoc -p tsconfig.doc.json",
     "sonar": "sonar-scanner",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "update-hooks": "simple-git-hooks"
   },
   "private": true,
   "dependencies": {
