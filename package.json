@@ -11,7 +11,9 @@
     "compodoc": "npx compodoc -p tsconfig.doc.json",
     "sonar": "sonar-scanner",
     "lint": "ng lint",
-    "update-hooks": "simple-git-hooks"
+    "update-hooks": "simple-git-hooks",
+    "pre-commit": "lint-staged",
+    "pre-push": "npm run lint"
   },
   "private": true,
   "dependencies": {
