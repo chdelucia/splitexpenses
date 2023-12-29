@@ -2,10 +2,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "module": "CommonJs",
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["jest"]
   },
   "files": [
     "src/test.ts",
