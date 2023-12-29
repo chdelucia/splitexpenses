@@ -72,7 +72,13 @@
                 "en"
               ],
               "outputPath": "dist/en/",
-              "i18nMissingTranslation": "error"
+              "i18nMissingTranslation": "error",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.en.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -80,7 +86,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

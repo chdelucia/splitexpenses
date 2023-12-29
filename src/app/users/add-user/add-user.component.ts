@@ -29,7 +29,7 @@ export class AddUserComponent {
     private fb: FormBuilder,
   ) {}
 
-  async onSubmit(userForm: { user: string; phone: string }) {
+  async onSubmit(userForm: any) {
     const { user, phone } = userForm;
     const nameExist = await firstValueFrom(
       this.userService.checkIfNameExist(user),

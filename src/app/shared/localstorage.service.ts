@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { CurrencyPlugin, Expense, Settings, StorageData, User } from './models';
 import * as utils from './utils';
 
@@ -18,7 +18,7 @@ export class LocalstorageService {
   loadDataFromLocalStorage(): StorageData {
     const travelName = this.getActiveTravelName();
     const ans = localStorage.getItem(travelName);
-    let answers = ans ? JSON.parse(ans) : this.createDataStructure()
+    const answers = ans ? JSON.parse(ans) : this.createDataStructure()
     return answers;
 
   }
@@ -52,7 +52,7 @@ export class LocalstorageService {
 
   loadSettings(): Settings {
     const ans = localStorage.getItem(environment.localStorageSettings);
-    let answers = ans ? JSON.parse(ans) : this.createSettingsStructure();
+    const answers = ans ? JSON.parse(ans) : this.createSettingsStructure();
     answers.graph.types = utils.convertStringToMap(answers.graph.types);
     return answers;
   }
@@ -68,11 +68,11 @@ export class LocalstorageService {
   }
 
   createSettingsStructure() {
-    let types = new Map();
+    const types = new Map();
     environment.expensesTypes.forEach( (type,i) => {
       types.set(i, {'id': i, 'name': type, 'active': true})
     })
-    let obj = {
+    const obj = {
       'weather': {},
       'travels': {
         'names': [environment.localStorageExpenses],
@@ -95,7 +95,7 @@ export class LocalstorageService {
     this.settings.travels.active = name;
     this.settings.travels.names.push(name);
 
-    let data = { 'users': '', 'expenses': '', 'name':name, 'currency': ''};
+    const data = { 'users': '', 'expenses': '', 'name':name, 'currency': ''};
     localStorage.setItem(name, JSON.stringify(data));
     localStorage.setItem(environment.localStorageSettings, JSON.stringify(this.settings));
     this.reset();
