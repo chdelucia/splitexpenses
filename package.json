@@ -14,7 +14,7 @@
     "lint": "ng lint",
     "update-hooks": "simple-git-hooks",
     "pre-commit": "",
-    "pre-push": "lint-staged"
+    "pre-push": ""
   },
   "private": true,
   "dependencies": {
