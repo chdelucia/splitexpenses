@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from 'src/app/forecast/shared/weather.service';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { Settings, WeatherPlugin } from 'src/app/shared/models';
+import { WeatherService } from '../../forecast/shared/weather.service';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { Settings, WeatherPlugin } from '../../shared/models';
 
 @Component({
   selector: 'app-settings-weather',

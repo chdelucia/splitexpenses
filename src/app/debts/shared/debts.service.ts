@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable, BehaviorSubject } from 'rxjs';
-import { Debt, Expense, IndividualDebt, TraceAutoSettle, User } from 'src/app/shared/models';
-import { UsersService } from 'src/app/users/shared/users.service';
-import { ExpensesService } from 'src/app/expenses/shared/expenses.service';
+import { Debt, Expense, IndividualDebt, TraceAutoSettle, User } from '../../shared/models';
+import { UsersService } from '../../users/shared/users.service';
+import { ExpensesService } from '../../expenses/shared/expenses.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class DebtsService{
 
 
   async initialize(): Promise<void> {
-    let users = await firstValueFrom(this.users$);
+    const users = await firstValueFrom(this.users$);
     if (!users) {
       throw new Error('No users found');
     }
@@ -45,12 +45,12 @@ export class DebtsService{
   }
 
   async createStructure(users: Map<string,User>): Promise<void> {
-    let newMap = new Map<string, Debt>();
+    const newMap = new Map<string, Debt>();
     users.forEach(parentUser => {
-      let userDebts = this.createDebtObj();
+      const userDebts = this.createDebtObj();
       users.forEach(user => {
         if (user && parentUser.id !== user.id) {
-          let individualDebt = this.createIndividualDebtObj()
+          const individualDebt = this.createIndividualDebtObj()
           userDebts.debts.set(user.id, individualDebt);
         }
       });
@@ -79,7 +79,7 @@ export class DebtsService{
   }
 
   async calcDebt(): Promise<void>{
-    let expenses = await firstValueFrom(this.expenses$);
+    const expenses = await firstValueFrom(this.expenses$);
       for (const expense of expenses) {
         this.updateExpenseDebt(expense);
       }
@@ -94,12 +94,12 @@ export class DebtsService{
           const filteredDebtsMap = new Map([...this.debts].filter(([key, value]) => key !== debtorId && key !== lenderId));
           filteredDebtsMap.forEach((indDebt, intermediaryId) => {
 
-            let intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;
+            const intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;
 
             if(intermediaryDebtToDebtor > 0) {
 
               let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
-              let lenderDebtToIntermediary = this.debts.get(lenderId)?.debts.get(intermediaryId)?.newDebt || 0;
+              const lenderDebtToIntermediary = this.debts.get(lenderId)?.debts.get(intermediaryId)?.newDebt || 0;
 
               if(lenderDebtToIntermediary > 0 && (intermediaryDebtToDebtor < lenderDebtToIntermediary)) {
                 diff = Math.min(debtorDebt, lenderDebtToIntermediary);
@@ -139,9 +139,9 @@ export class DebtsService{
   }
 
   traceOfAutoSettlement(trace: TraceAutoSettle, users: Map<string,User>){
-    const debtorName = users.get(trace.debtorId)?.name!;
-    const lenderName = users.get(trace.lenderId)?.name!;
-    const intermediaryName = users.get(trace.intermediaryId)?.name!;
+    const debtorName = users.get(trace.debtorId)!.name;
+    const lenderName = users.get(trace.lenderId)!.name;
+    const intermediaryName = users.get(trace.intermediaryId)!.name;
     const { debtorDebt, intermediaryDebtToDebtor , lenderDebtToIntermediary } = trace
 
     trace.debtorId = debtorName;
@@ -219,8 +219,8 @@ export class DebtsService{
         i.totalIowe = 0;
         i.debts.forEach( (j,userName) => {
 
-          let Iowe = j.individualtotalIveBeenPaid;
-          let owesMe = this.debts.get(userName)?.debts.get(me)?.individualtotalIveBeenPaid || 0;
+          const Iowe = j.individualtotalIveBeenPaid;
+          const owesMe = this.debts.get(userName)?.debts.get(me)?.individualtotalIveBeenPaid || 0;
           //j.individualtotalIPaid = owesMe;
           j.newDebt = (Iowe - owesMe);
           i.totalIowe = (i.totalIowe + (j.newDebt));

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { WeatherObject, WeatherPlugin } from 'src/app/shared/models';
+import { WeatherObject, WeatherPlugin } from '../../shared/models';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { environment } from '../../../environments/environment';
 

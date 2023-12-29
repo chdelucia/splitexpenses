@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 
 import { AddUserComponent } from './add-user.component';
 import { UsersService } from '../shared/users.service';
-import { User } from 'src/app/shared/models';
-import { UserState, userReducer } from 'src/app/state/user/user.reducer';
+import { User } from '../../shared/models';
+import { UserState, userReducer } from '../../state/user/user.reducer';
 
 
 describe('AddUserComponent', () => {

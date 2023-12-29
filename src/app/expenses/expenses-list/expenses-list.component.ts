@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { openSnackBar, globalToast } from 'src/app/shared/utils';
+import { openSnackBar, globalToast } from '../../shared/utils';
 import { CurrencyService } from '../../shared/currency.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '../../shared/models';

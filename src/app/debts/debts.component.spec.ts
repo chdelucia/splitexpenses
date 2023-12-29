@@ -1,59 +1,44 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebtsComponent } from './debts.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { CurrencyPlugin, Debt, User } from '../shared/models';
 import { CurrencyService } from '../shared/currency.service';
 import { UsersService } from '../users/shared/users.service';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { DebtsService } from './shared/debts.service';
+import { of } from 'rxjs';
 
-describe('DebtsComponent', () => {
+describe('DebtsComponent sin testbed', () => {
   let component: DebtsComponent;
-  let fixture: ComponentFixture<DebtsComponent>;
-  let debtsServiceSpy: jasmine.SpyObj<DebtsService>;
-  let userServiceSpy: jasmine.SpyObj<UsersService>;
-  let currencyServiceSpy: jasmine.SpyObj<CurrencyService>;
-  let mockStore: MockStore;
-  let initialState: any;
+  let debtsServiceStub: Partial<DebtsService>;
+  let userServiceStub: Partial<UsersService>;
+  let currencyServiceStub: Partial<CurrencyService>;
 
   beforeEach(() => {
-    debtsServiceSpy = jasmine.createSpyObj('DebtsService', ['getDebts']);
-    userServiceSpy = jasmine.createSpyObj('UsersService', ['getIterableUsers']);
-    currencyServiceSpy = jasmine.createSpyObj('CurrencyService', ['getCurrencySettings']);
-    TestBed.configureTestingModule({
-      declarations: [ DebtsComponent ],
-      providers: [
-        { provide: DebtsService, useValue: debtsServiceSpy },
-        { provide: UsersService, useValue: userServiceSpy },
-        { provide: CurrencyService, useValue: currencyServiceSpy },
-        provideMockStore({ initialState }),
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
-    });
-    fixture = TestBed.createComponent(DebtsComponent);
-    component = fixture.componentInstance;
-    mockStore = TestBed.inject(MockStore);
-    initialState = {
-      debts: new Map<string, Debt>(),
+    debtsServiceStub = {
+      getDebts: jest.fn(),
+      initialize: jest.fn(),
+      getDebtTracing: jest.fn(),
+      debtList$: of(true) as any
     };
-    fixture.detectChanges();
+    userServiceStub = { getIterableUsers: jest.fn() };
+    currencyServiceStub = { getCurrencySettings: jest.fn() };
+
+    component = new DebtsComponent(
+      debtsServiceStub as DebtsService,
+      userServiceStub as UsersService,
+      currencyServiceStub as CurrencyService
+      );
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should get currency settings from service', () => {
-    const currency: CurrencyPlugin = {
-      currencySymbol: 'string',
-      currencyExchangeSymbol: 'string',
-      exchangeValue: 8,
-      active: true
-    };
-    currencyServiceSpy.getCurrencySettings.and.returnValue(currency);
-    expect(component.currency).toEqual(currency);
+    const spyCurrency = jest.spyOn(currencyServiceStub,'getCurrencySettings');
+    const spyUser = jest.spyOn(userServiceStub,'getIterableUsers');
+    const spyDebts = jest.spyOn(debtsServiceStub,'getDebts');
+
+    expect(spyCurrency).toHaveBeenCalled();
+    expect(spyUser).toHaveBeenCalled();
+    expect(spyDebts).toHaveBeenCalled();
   });
 
 

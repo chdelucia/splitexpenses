@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { ExpenseTypes, Settings } from 'src/app/shared/models';
-import { convertMaptoString } from 'src/app/shared/utils';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { ExpenseTypes, Settings } from '../../shared/models';
+import { convertMaptoString } from '../../shared/utils';
 
 @Component({
   selector: 'app-settings-graph',

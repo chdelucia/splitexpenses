@@ -1,7 +1,7 @@
 import { Input } from '@angular/core';
 import { Component } from '@angular/core';
-import { CurrencyService } from 'src/app/shared/currency.service';
-import { CurrencyPlugin, TraceAutoSettle } from 'src/app/shared/models';
+import { CurrencyService } from '../../shared/currency.service';
+import { CurrencyPlugin, TraceAutoSettle } from '../../shared/models';
 
 @Component({
   selector: 'app-debt-tracing',
