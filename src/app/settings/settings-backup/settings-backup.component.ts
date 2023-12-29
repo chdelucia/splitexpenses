@@ -1,7 +1,7 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { Settings } from 'src/app/shared/models';
-import { convertStringToMap } from 'src/app/shared/utils';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { Settings } from '../../shared/models';
+import { convertStringToMap } from '../../shared/utils';
 
 @Component({
   selector: 'app-settings-backup',

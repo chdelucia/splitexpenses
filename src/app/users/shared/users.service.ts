@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { calcNextID, convertStringToMap } from 'src/app/shared/utils';
+import { calcNextID, convertStringToMap } from '../../shared/utils';
 import { Store } from '@ngrx/store';
-import { selectUsers, selectUserByID, selectIterableUsers, checkIfNameExist, selectUserCount } from 'src/app/state/user/user.selectors';
+import { selectUsers, selectUserByID, selectIterableUsers, checkIfNameExist, selectUserCount } from '../../state/user/user.selectors';
 import { firstValueFrom, Observable } from 'rxjs';
-import { addUser, addUsers, removeUser, updateUser } from 'src/app/state/user/user.actions';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { User } from 'src/app/shared/models';
+import { addUser, addUsers, removeUser, updateUser } from '../../state/user/user.actions';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { User } from '../../shared/models';
 
 
 @Injectable({

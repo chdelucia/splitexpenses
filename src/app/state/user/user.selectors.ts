@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { User } from 'src/app/shared/models';
+import { User } from '../../shared/models';
 import { UserState } from './user.reducer';
 
 

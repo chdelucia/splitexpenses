@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { Mock } from 'ng-mocks';
 import { DebtsService } from './debts.service';
-import { UsersService } from 'src/app/users/shared/users.service';
-import { ExpensesService } from 'src/app/expenses/shared/expenses.service';
-import { Debt, Expense, User } from 'src/app/shared/models';
+import { UsersService } from '../../users/shared/users.service';
+import { ExpensesService } from '../../expenses/shared/expenses.service';
+import { Debt, Expense, User } from '../../shared/models';
 
 
 

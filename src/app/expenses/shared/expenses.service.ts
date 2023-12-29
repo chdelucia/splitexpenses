@@ -2,19 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { Expense, ExpenseTypes, Settings } from 'src/app/shared/models';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { Expense, ExpenseTypes, Settings } from '../../shared/models';
 import {
   calcNextID,
   convertStringToMap,
   diffinDays,
-} from 'src/app/shared/utils';
+} from '../../shared/utils';
 import {
   addExpense,
   addExpenses,
   removeExpense,
   updateExpense,
-} from 'src/app/state/expenses/expenses.actions';
+} from '../../state/expenses/expenses.actions';
 import {
   selectExpenseByID,
   selectExpenses,
@@ -23,7 +23,7 @@ import {
   selectIterableExpenses,
   selectExpensesGroupByDates,
   selectExpensesOrderByDateDesc
-} from 'src/app/state/expenses/expenses.selectors';
+} from '../../state/expenses/expenses.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +74,7 @@ export class ExpensesService {
 
   loadExpensesFromLocalStorage(): void {
     const ans = this.storageService.getData().expenses;
-    let expenses = ans ? convertStringToMap(ans) : new Map();
+    const expenses = ans ? convertStringToMap(ans) : new Map();
     this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 
@@ -134,8 +134,8 @@ export class ExpensesService {
   getTotalPaidByUserToOthers(userId: string): number {
     let total = 0;
     this.expenses.forEach((expense) => {
-      let paidByme = userId === expense.paidBy;
-      let Iparticipated = expense.sharedBy.includes(userId);
+      const paidByme = userId === expense.paidBy;
+      const Iparticipated = expense.sharedBy.includes(userId);
       if (paidByme) {
         total += expense.originalCost;
         if (Iparticipated) {
@@ -150,8 +150,8 @@ export class ExpensesService {
     let total = 0;
 
     this.expenses.forEach((expense) => {
-      let paidByme = userId === expense.paidBy;
-      let Iparticipated = expense.sharedBy.includes(userId);
+      const paidByme = userId === expense.paidBy;
+      const Iparticipated = expense.sharedBy.includes(userId);
       if (paidByme) {
         total += expense.originalCost;
       }
@@ -164,8 +164,8 @@ export class ExpensesService {
 
   calculateExpenseBalanceByUser(expense: Expense, userId: string): number {
     let total = -expense.cost;
-    let paidByme = userId === expense.paidBy;
-    let Iparticipated = expense.sharedBy.includes(userId);
+    const paidByme = userId === expense.paidBy;
+    const Iparticipated = expense.sharedBy.includes(userId);
     if(paidByme){
       total += expense.originalCost;
       if(!Iparticipated){
@@ -191,15 +191,15 @@ export class ExpensesService {
   }
 
   getAverageCostPerDay(userId?: string): number {
-    let totalCost = this.getTotalCost(userId);
-    let totalDays = this.getTotalDays();
+    const totalCost = this.getTotalCost(userId);
+    const totalDays = this.getTotalDays();
     return totalCost / totalDays;
   }
 
   getTotalDays(): number {
     const expenses = Array.from(this.expenses.values());
-    let data1 = expenses.shift()?.date || '';
-    let date2 = expenses.pop()?.date || '';
+    const data1 = expenses.shift()?.date || '';
+    const date2 = expenses.pop()?.date || '';
 
     return diffinDays(data1, date2) + 1;
   }
@@ -208,14 +208,14 @@ export class ExpensesService {
     labels: Array<string>;
     data: Array<number>;
   } {
-    let data = Array(this.settings.graph.types.size).fill(0);
-    let labels: string[] = [];
+    const data = Array(this.settings.graph.types.size).fill(0);
+    const labels: string[] = [];
     this.settings.graph.types.forEach((item) => {
       labels.push(item.name);
     });
 
     this.expenses.forEach((item) => {
-      let index = parseInt(item.typeId);
+      const index = parseInt(item.typeId);
       if (userId && item.sharedBy.includes(userId)) {
         data[index] = data[index] + item.cost;
       } else if (!userId) {
@@ -229,7 +229,7 @@ export class ExpensesService {
     labels: Array<string>;
     data: Array<number>;
   } {
-    let dates: Array<string> = [];
+    const dates: Array<string> = [];
     const expenses = Array.from(this.expenses.values());
     expenses.forEach((expense) => {
       if (!dates.includes(expense.date)) {
@@ -237,7 +237,7 @@ export class ExpensesService {
       }
     });
 
-    let xAxis: Array<number> = Array(dates.length).fill(0);
+    const xAxis: Array<number> = Array(dates.length).fill(0);
     dates.forEach((date, i) => {
       expenses.forEach((expense) => {
         if (
@@ -259,18 +259,18 @@ export class ExpensesService {
     labels: Array<string>;
     data: Array<any>;
   } {
-    let expensesArray = Array.from(this.expenses.values());
+    const expensesArray = Array.from(this.expenses.values());
     // Create Object of expenses group by Day
-    let result = expensesArray.reduce(function (r, a) {
+    const result = expensesArray.reduce(function (r, a) {
       r[a.date] = r[a.date] || [];
       r[a.date].push(a);
       return r;
     }, Object.create(null));
 
-    let yAxis = Object.keys(result);
+    const yAxis = Object.keys(result);
 
     // Create stacked xAxis
-    let stackedxAxis: Array<{
+    const stackedxAxis: Array<{
       label: string;
       data: Array<number>;
       backgroundColor: string;
@@ -284,8 +284,8 @@ export class ExpensesService {
     }
 
     for (let i = 0; i < yAxis.length; i++) {
-      let name = yAxis[i];
-      let expenses: Array<Expense> = result[name];
+      const name = yAxis[i];
+      const expenses: Array<Expense> = result[name];
 
       expenses.forEach((expense) => {
         const typeIndex = parseInt(expense.typeId);

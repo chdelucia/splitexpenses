@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { CurrencyService } from '../shared/currency.service';
 import { DebtsService } from './shared/debts.service';
@@ -10,23 +10,23 @@ import { UsersService } from '../users/shared/users.service';
   templateUrl: './debts.component.html',
   styleUrls: ['./debts.component.scss']
 })
-export class DebtsComponent implements OnInit {
+export class DebtsComponent implements OnInit, OnDestroy {
 
-  debts: Map<string, Debt>;
-  users$: Observable<Array<User>>;
-  currency: CurrencyPlugin;
+  debts: Map<string, Debt> = this.debtsService.getDebts();
+
+  users$: Observable<Array<User>> = this.userService.getIterableUsers();
+
+  currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
+
   debtTracing: TraceAutoSettle[] = []
+
   private debtsSubscription: Subscription | undefined;
 
   constructor(
     private debtsService: DebtsService,
     private userService: UsersService,
     private currencyService: CurrencyService
-  ) {
-    this.users$ = this.userService.getIterableUsers();
-    this.currency = this.currencyService.getCurrencySettings();
-    this.debts = this.debtsService.getDebts();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.debtsService.initialize();

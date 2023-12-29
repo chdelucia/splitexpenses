@@ -2,10 +2,10 @@ import { TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { firstValueFrom, from, fromEvent, Observable, of } from 'rxjs';
 import { ExpensesService } from './expenses.service';
-import { addExpense, addExpenses, removeExpense, updateExpense } from 'src/app/state/expenses/expenses.actions';
-import { selectExpenses, selectIterableExpenses, selectExpensesFilterByType, selectExpensesDates, selectExpenseByID } from 'src/app/state/expenses/expenses.selectors';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { Expense, Settings } from 'src/app/shared/models';
+import { addExpense, addExpenses, removeExpense, updateExpense } from '../../state/expenses/expenses.actions';
+import { selectExpenses, selectIterableExpenses, selectExpensesFilterByType, selectExpensesDates, selectExpenseByID } from '../../state/expenses/expenses.selectors';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { Expense, Settings } from '../../shared/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 const expense1: Expense = {

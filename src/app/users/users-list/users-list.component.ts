@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/shared/models';
+import { User } from '../../shared/models';
 import { UsersService } from '../shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { globalToast, openSnackBar } from 'src/app/shared/utils';
+import { globalToast, openSnackBar } from '../../shared/utils';
 
 @Component({
   selector: 'app-users-list',

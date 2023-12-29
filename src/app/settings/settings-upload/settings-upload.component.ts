@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalstorageService } from 'src/app/shared/localstorage.service';
-import { Settings } from 'src/app/shared/models';
+import { LocalstorageService } from '../../shared/localstorage.service';
+import { Settings } from '../../shared/models';
 
 @Component({
   selector: 'app-settings-upload',
