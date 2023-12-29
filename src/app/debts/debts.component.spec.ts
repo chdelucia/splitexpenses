@@ -31,6 +31,28 @@ describe('DebtsComponent sin testbed', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should destroy subscriptions', () => {
+    const mockSubscription: any = { unsubscribe: jest.fn() };
+    component['debtsSubscription'] = mockSubscription;
+
+    component.ngOnDestroy();
+
+    expect(mockSubscription.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should init debts and subrcripbe to changes', () => {
+    const spyDebtInit = jest.spyOn(debtsServiceStub,'initialize');
+    const spyDebttracing = jest.spyOn(debtsServiceStub,'getDebtTracing').mockReturnValue('test' as any);
+
+    component.ngOnInit()
+
+    expect(spyDebtInit).toHaveBeenCalled();
+    expect(spyDebttracing).toHaveBeenCalled();
+    expect(component.debts).toBeTruthy();
+    expect(component.debtTracing).toBe('test')
+  });
+
+
   it('should get currency settings from service', () => {
     const spyCurrency = jest.spyOn(currencyServiceStub,'getCurrencySettings');
     const spyUser = jest.spyOn(userServiceStub,'getIterableUsers');
