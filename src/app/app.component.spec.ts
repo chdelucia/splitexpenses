@@ -8,12 +8,13 @@ import { WeatherService } from './forecast/shared/weather.service';
 const weatherServiceStub = {
   getWeahterSettings: jest.fn().mockReturnValue( { active: true})
 }
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         HttpClientTestingModule,

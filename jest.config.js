@@ -6,7 +6,7 @@
 
 module.exports = {
   // All imported modules in your tests should be mocked automatically
-  // automock: false,
+  //automock: false,
 
   // Stop running tests after `n` failures
   // bail: 0,
@@ -18,7 +18,7 @@ module.exports = {
   // clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: false,
+  collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -43,7 +43,14 @@ module.exports = {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: undefined,
+    coverageThreshold: {
+      global: {
+        branches: 85,
+        functions: 85,
+        lines: 85,
+        statements: 85
+      }
+    },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -60,7 +67,7 @@ module.exports = {
   // forceCoverageMatch: [],
 
   // A path to a module which exports an async function that is triggered once before all test suites
-     globalSetup: "jest-preset-angular/global-setup",
+  //globalSetup: "jest-preset-angular/global-setup",
 
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: undefined,

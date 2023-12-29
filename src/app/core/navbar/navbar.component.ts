@@ -7,11 +7,8 @@ import { WeatherService } from '../../forecast/shared/weather.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  weatherActive: boolean;
-  constructor(
-    private weatherService: WeatherService,
-    ){
-    this.weatherActive = this.weatherService.getWeahterSettings().active;
-  }
+  weatherActive = this.weatherService.getWeahterSettings().active;
+
+  constructor(private weatherService: WeatherService){}
 
 }
