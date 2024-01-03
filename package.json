@@ -17,7 +17,10 @@
     "pre-push": "",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "compodoc:build": "compodoc -p tsconfig.doc.json",
+    "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
+    "compodoc:serve": "compodoc -s"
   },
   "private": true,
   "dependencies": {
@@ -49,6 +52,7 @@
     "@angular/cli": "^17.0.8",
     "@angular/compiler-cli": "^17.0.5",
     "@angular/localize": "^17.0.5",
+    "@compodoc/compodoc": "1.1.23",
     "@cypress/schematic": "2.5.1",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.3",
