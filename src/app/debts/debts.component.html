@@ -6,7 +6,7 @@
     <ng-container *ngIf="debts.size">
       <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async"
       [class.order-2]="debts.get(user.id)!.totalIowe <= 0">
-      <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/details'>
+      <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/details' data-cy="user-debt">
         <div class="d-flex flex-row justify-content-between title">
             <div>{{user.name}}</div>
             <div class="totalIowe">

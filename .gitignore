@@ -32,6 +32,8 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+/cypress/e2e
+/cypress/screenshots
 .sass-cache/
 /connect.lock
 /coverage

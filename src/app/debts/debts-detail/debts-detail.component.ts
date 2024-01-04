@@ -69,8 +69,4 @@ export class DebtsDetailComponent implements OnInit {
     }
     return total;
   }
-
-  exportToExcel() {
-    //this.expensesService.exportTableToExcel(this.expenses$, 'Balance de cuentas');
-  }
 }
