@@ -1,14 +1,14 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "projects/**/*",
+    "*.cy.js"
   ],
   "overrides": [
     {
       "files": [
         "*.ts"
       ],
-      "excludedFiles": ["**/*.cy.ts"],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
