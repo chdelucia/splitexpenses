@@ -261,7 +261,7 @@ export class ExpensesService {
   } {
     const expensesArray = Array.from(this.expenses.values());
     // Create Object of expenses group by Day
-    const result = expensesArray.reduce(function (r, a) {
+    const result = expensesArray.reduce((r, a) => {
       r[a.date] = r[a.date] || [];
       r[a.date].push(a);
       return r;

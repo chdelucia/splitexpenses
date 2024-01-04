@@ -56,7 +56,7 @@
             <span i18n>Pagado por:</span> {{ (users$ | async)?.get(expense.paidBy)?.name}}
             <br>
             <span i18n>Participan: </span>
-            <span i18n *ngIf="expense.sharedBy.length == (users$ | async)?.size; else elseBlock">Todos</span>
+            <span i18n *ngIf="expense.sharedBy.length === (users$ | async)?.size; else elseBlock">Todos</span>
 
             <ng-template #elseBlock>
               <span *ngFor="let userId of expense.sharedBy">

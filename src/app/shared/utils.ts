@@ -1,27 +1,28 @@
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-export function convertStringToMap(data:string): Map<any, any> {
-  let obj = JSON.parse(data);
-  let map = new Map(Object.entries(obj));
+export function convertStringToMap(data:string): Map<string, any> {
+  const obj = JSON.parse(data);
+  const map = new Map(Object.entries(obj));
   return map;
 }
 
-export function convertMaptoString(map: Map<string, any>): string{
-  let obj = Object.fromEntries(map);
-  let jsonString = JSON.stringify(obj);
+export function convertMaptoString(map: Map<string, unknown>): string{
+  const obj = Object.fromEntries(map);
+  const jsonString = JSON.stringify(obj);
+
   return jsonString;
 }
 
-export function calcNextID(data: Map<any, any>): string{
-    let lastId = Array.from(data.keys()).pop() || '0';
-    let nextId = parseInt(lastId) + 1;
+export function calcNextID(data: Map<string, unknown>): string{
+    const lastId = Array.from(data.keys()).pop() || '0';
+    const nextId = parseInt(lastId) + 1;
     return nextId.toString();
   }
 
 export function diffinDays(date1: string, date2: string): number {
-  const d1: any = new Date(date1);
-  const d2: any = new Date(date2);
-  const diffTime = Math.abs(d2 - d1);
+  const d1 = new Date(date1).getTime();
+  const d2 = new Date(date2).getTime();
+  const diffTime = d2 - d1;
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
   return diffDays

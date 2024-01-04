@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable, combineLatest, forkJoin, map, zip } from 'rxjs';
+import { Observable, map, zip } from 'rxjs';
 import { UsersService } from '../users/shared/users.service';
 import { ExpensesService } from '../expenses/shared/expenses.service';
 import { Expense, User } from '../shared/models';

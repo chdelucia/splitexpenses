@@ -91,7 +91,7 @@ export class DebtsService{
       debts.debts.forEach((individualDebt, lenderId) => {
         let debtorDebt = individualDebt.newDebt;
         if(debtorDebt > 0) {
-          const filteredDebtsMap = new Map([...this.debts].filter(([key, value]) => key !== debtorId && key !== lenderId));
+          const filteredDebtsMap = new Map([...this.debts].filter(([key]) => key !== debtorId && key !== lenderId));
           filteredDebtsMap.forEach((indDebt, intermediaryId) => {
 
             const intermediaryDebtToDebtor = indDebt.debts.get(debtorId)?.newDebt || 0;

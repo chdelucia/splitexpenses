@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WeatherObject, WeatherPlugin } from '../shared/models';
 import { WeatherService } from './shared/weather.service';
 
@@ -7,7 +7,7 @@ import { WeatherService } from './shared/weather.service';
   templateUrl: './forecast.component.html',
   styleUrls: ['./forecast.component.scss']
 })
-export class ForecastComponent {
+export class ForecastComponent implements OnInit {
   weatherInfo: any;
   weatherSettings: WeatherPlugin;
   mymap:any = []
@@ -33,7 +33,7 @@ export class ForecastComponent {
   }
 
   resetObj() {
-    let obj: any = {
+    const obj: any = {
       'title': '',
       'icon': '',
       'data': [],
@@ -49,14 +49,14 @@ export class ForecastComponent {
   }
 
   filteringHours():void {
-    let mymap = [];
+    const mymap = [];
     let obj = this.resetObj();
-    let item: Array<WeatherObject> = this.weatherInfo.list;
+    const item: Array<WeatherObject> = this.weatherInfo.list;
 
     let stopAt = item[0].dt_txt.split(' ')[0];
     for (let i = 0 ; i < item.length; i++){
 
-      let hour = item[i].dt_txt.split(' ')[0];
+      const hour = item[i].dt_txt.split(' ')[0];
       obj.labels.push(item[i].dt_txt.split(' ')[1].slice(0, -3));
       obj.title = new Date(hour).toLocaleDateString('ES', { weekday: 'short', day: 'numeric' })
       obj.humidity.push(item[i].main.humidity);

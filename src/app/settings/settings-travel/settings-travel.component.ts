@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { Settings } from '../../shared/models';
@@ -8,7 +8,7 @@ import { Settings } from '../../shared/models';
   templateUrl: './settings-travel.component.html',
   styleUrls: ['./settings-travel.component.scss']
 })
-export class SettingsTravelComponent implements OnInit {
+export class SettingsTravelComponent {
   settings: Settings;
   expenseNameInput = '';
   showAlert = false;
@@ -19,9 +19,6 @@ export class SettingsTravelComponent implements OnInit {
     private expensesService: ExpensesService,
     ) {
     this.settings = this.localStorageService.getSettings();
-  }
-
-  ngOnInit(): void {
   }
 
   changeTravel(name: string){

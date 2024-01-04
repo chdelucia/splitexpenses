@@ -4,10 +4,10 @@
 
     <button type="button" class="btn btn-primary mb-2 me-2"
             *ngFor="let travel of settings.travels.names"
-            [class.btn-secondary]="travel != settings.travels.active"
+            [class.btn-secondary]="travel !== settings.travels.active"
             (click)="changeTravel(travel)">
       <span contenteditable>{{travel}}</span>
-      <span class="ms-2 badge bg-danger" *ngIf="travel == settings.travels.active">Active</span>
+      <span class="ms-2 badge bg-danger" *ngIf="travel === settings.travels.active">Active</span>
     </button>
 
     <div class="alert alert-secondary" role="alert">
@@ -18,7 +18,7 @@
         <input #expensename class="form-control" type="text" placeholder="Nombre" [(ngModel)]="expenseNameInput"/>
       </div>
       <div class="col-6">
-        <button  [disabled]="expensename.value == ''" class="input-group btn btn-success"
+        <button  [disabled]="expensename.value === ''" class="input-group btn btn-success"
             type="button" (click)="addNewTravel(expensename.value)" i18n>
             Crear nuevo viaje
         </button>

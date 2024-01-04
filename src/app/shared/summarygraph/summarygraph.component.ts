@@ -89,10 +89,10 @@ export class SummarygraphComponent implements OnInit, OnChanges {
   // events
   chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
     if(this.bytype === 'true'){
-      let data: any = active?.pop();
+      const data: any = active?.pop();
       console.log(data);
       if(data){
-        let label = environment.expensesTypes[data.index];
+        const label = environment.expensesTypes[data.index];
         this.filter = label;
       } else {
         this.filter = '';
@@ -126,7 +126,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
 
     //change Y-axis to the lang
     this.barChartData.labels = this.data.labels.map( date => {
-        let d = new Date(date);
+        const d = new Date(date);
         return d.toLocaleDateString('ES', { weekday: 'short', day: 'numeric' })
     })
   }

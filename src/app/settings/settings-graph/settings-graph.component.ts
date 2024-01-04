@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { ExpenseTypes, Settings } from '../../shared/models';
-import { convertMaptoString } from '../../shared/utils';
 
 @Component({
   selector: 'app-settings-graph',
   templateUrl: './settings-graph.component.html',
   styleUrls: ['./settings-graph.component.scss']
 })
-export class SettingsGraphComponent implements OnInit {
+export class SettingsGraphComponent {
   showAlert = false;
   isError = false;
   settings: Settings;
@@ -18,21 +17,18 @@ export class SettingsGraphComponent implements OnInit {
     this.types = Array.from(this.settings.graph.types.values());
   }
 
-  ngOnInit(): void {
-  }
-
-  trackByIdx(index: number, obj: any): any {
+  trackByIdx(index: number): number {
     return index;
   }
 
   onSubmit() {
-    let types = new Map();
+    const types = new Map();
     this.types.forEach( (type,i) => {
       types.set(i, {'id': i, 'name': type.name, 'active': true})
     });
 
     //TODO ugly way to dont touch original object
-    let obj = {
+    const obj = {
       'graph': {
         'bgColors': this.settings.graph.bgColors,
         'types': types

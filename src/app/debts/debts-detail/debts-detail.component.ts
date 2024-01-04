@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrencyService } from '../../shared/currency.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
-import { CurrencyPlugin, Debt, Expense, User } from '../../shared/models';
+import { CurrencyPlugin, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
-import * as XLSX from 'xlsx'
 
 
 @Component({
@@ -35,7 +34,7 @@ export class DebtsDetailComponent implements OnInit {
 
   initColumns(): void {
     this.users$.subscribe(users => {
-      let userNames = users.map(user => user.name)
+      const userNames = users.map(user => user.name)
       this.displayedColumns = ['title', 'originalCost', ...userNames];
     })
   }
@@ -45,8 +44,8 @@ export class DebtsDetailComponent implements OnInit {
 
     this.expenses$.subscribe(expenses => {
       expenses.forEach(expense => {
-        let paidByme = userId === expense.paidBy;
-        let Iparticipated = expense.sharedBy.includes(userId);
+        const paidByme = userId === expense.paidBy;
+        const Iparticipated = expense.sharedBy.includes(userId);
         if(paidByme){
           total += expense.originalCost;
         }
@@ -60,8 +59,8 @@ export class DebtsDetailComponent implements OnInit {
 
   calculateExpenseBalance(expense: Expense, userId: string): number {
     let total = -expense.cost;
-    let paidByme = userId === expense.paidBy;
-    let Iparticipated = expense.sharedBy.includes(userId);
+    const paidByme = userId === expense.paidBy;
+    const Iparticipated = expense.sharedBy.includes(userId);
     if(paidByme){
       total += expense.originalCost;
       if(!Iparticipated){
@@ -74,13 +73,4 @@ export class DebtsDetailComponent implements OnInit {
   exportToExcel() {
     //this.expensesService.exportTableToExcel(this.expenses$, 'Balance de cuentas');
   }
-
-
-  exportTableToExcel(dataSource: any, sheetName: string) {
-    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataSource);
-    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-    XLSX.writeFile(workbook, `${sheetName}.xlsx`);
-  }
-
 }

@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
-import { Mock } from 'ng-mocks';
+import { of } from 'rxjs';
 import { DebtsService } from './debts.service';
 import { UsersService } from '../../users/shared/users.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
-import { Debt, Expense, User } from '../../shared/models';
+import {  Expense, User } from '../../shared/models';
 
 
 

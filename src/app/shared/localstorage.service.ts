@@ -34,7 +34,7 @@ export class LocalstorageService {
   }
 
   createDataStructure() {
-    let obj = {
+    const obj = {
       'users': '',
       'expenses': '',
       'name':environment.localStorageExpenses,

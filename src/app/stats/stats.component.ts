@@ -34,8 +34,6 @@ export class StatsComponent {
     this.typeData =  this.expensesService.getExpensesByType();
    }
 
-  ngOnInit(): void {}
-
   change(id: string): void {
     if(id !== '0'){
       this.init(id);
