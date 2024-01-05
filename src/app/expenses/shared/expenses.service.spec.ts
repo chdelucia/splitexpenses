@@ -121,7 +121,7 @@ describe('ExpensesService', () => {
   it('should load expenses from local storage', async () => {
     spyOn(service, 'loadExpensesFromLocalStorage');
     service.loadExpensesFromLocalStorage();
-    let result = service.loadExpensesFromLocalStorage();
+    const result = service.loadExpensesFromLocalStorage();
     expect(result).toBeDefined();
     service.getExpenses().subscribe((expenses) => {
       expect(expenses.size).toBe(1);
@@ -172,7 +172,7 @@ describe('ExpensesService', () => {
       expense.set('1', expense1);
       //spyOnProperty(service, 'expenses$').and.returnValue(expense1);
       spyOn(mockStore, 'select').and.returnValue(of(expense));
-      let result = await firstValueFrom(service.getExpenses());
+      const result = await firstValueFrom(service.getExpenses());
       expect(result).toEqual(expense);
     });
   });
@@ -191,7 +191,7 @@ describe('ExpensesService', () => {
   describe('getExpenseByID', () => {
     it('should return an observable of Expense or undefined', async() => {
       spyOn(mockStore, 'select').and.returnValue(of(expense1));
-      let resutl = await firstValueFrom(service.getExpenseByID('1'));
+      const resutl = await firstValueFrom(service.getExpenseByID('1'));
       expect(resutl).toEqual(expense1);
     });
   });

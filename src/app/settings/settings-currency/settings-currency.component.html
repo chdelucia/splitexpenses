@@ -36,7 +36,7 @@
         </ng-container>
 
         <div class="col-12">
-            <button  [disabled]="currency.value == ''" class="input-group btn my-4 btn btn-primary p-2"
+            <button  [disabled]="currency.value === ''" class="input-group btn my-4 btn btn-primary p-2"
                 type="button" (click)="setCurrency(currency.value, exchange.checked, excurrency.value, exvalue.value)" i18n>
                 Guardar cambios
             </button>

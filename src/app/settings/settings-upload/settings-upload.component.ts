@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { Settings } from '../../shared/models';
 
@@ -7,7 +7,7 @@ import { Settings } from '../../shared/models';
   templateUrl: './settings-upload.component.html',
   styleUrls: ['./settings-upload.component.scss']
 })
-export class SettingsUploadComponent implements OnInit {
+export class SettingsUploadComponent {
 
   showAlert = false;
   isError = false;
@@ -20,11 +20,8 @@ export class SettingsUploadComponent implements OnInit {
     this.settings = this.localStorageService.getSettings();
   }
 
-  ngOnInit(): void {
-  }
-
   loadData(data: string) {
-    let name = this.localStorageService.getActiveTravelName();
+    const name = this.localStorageService.getActiveTravelName();
     localStorage.setItem(name, data);
     this.showAlert = true;
     location.reload();

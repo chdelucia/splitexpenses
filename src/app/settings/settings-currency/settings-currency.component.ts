@@ -26,7 +26,7 @@ export class SettingsCurrencyComponent implements OnInit {
   }
 
   setCurrency(currency: string, exchange: boolean, exCurrency?: string, exValue?: string) {
-    let exchangeValue = exValue ? parseFloat(exValue) : 0;
+    const exchangeValue = exValue ? parseFloat(exValue) : 0;
 
     const obj = {
       'currencySymbol': currency,
