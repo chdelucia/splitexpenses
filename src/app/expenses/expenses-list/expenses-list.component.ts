@@ -8,6 +8,7 @@ import { ExpensesService } from '../../expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '../../shared/models';
 import { UsersService } from '../../users/shared/users.service';
 import { PageEvent } from '@angular/material/paginator';
+import { LoggerService } from 'src/app/core/services/logger.service';
 
 @Component({
   selector: 'app-expenses-list',
@@ -36,6 +37,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     private usersService: UsersService,
     private _snackBar: MatSnackBar,
     private router: Router,
+    private loggerService: LoggerService
     ) {
     this.expenses$ = this.expensesService.getIterableExpenses();
     this.currency = this.currencyService.getCurrencySettings();
@@ -44,6 +46,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.loggerService.info('ExpensesListComponent', 'onInit', this.currency, 'olive')
     if(this.filter){
       this.createArrayofExpenses();
     }
