@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { calcNextID, convertStringToMap } from '../../shared/utils';
 import { Store } from '@ngrx/store';
-import { selectUsers, selectUserByID, selectIterableUsers, checkIfNameExist, selectUserCount } from '../../state/user/user.selectors';
+import { selectUsers, selectUserByID, selectIterableUsers, selectUserByName, selectUserCount } from '../../state/user/user.selectors';
 import { firstValueFrom, Observable } from 'rxjs';
 import { addUser, addUsers, removeUser, updateUser } from '../../state/user/user.actions';
 import { LocalstorageService } from '../../shared/localstorage.service';
@@ -69,7 +69,7 @@ export class UsersService {
   }
 
   checkIfNameExist(name: string): Observable<boolean>{
-    return this.store.select(checkIfNameExist(name));
+    return this.store.select(selectUserByName(name));
   }
 
 

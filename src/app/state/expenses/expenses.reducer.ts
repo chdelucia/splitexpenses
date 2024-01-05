@@ -27,7 +27,7 @@ export const expensesReducer = createReducer(
     expenses.delete(id);
     return { ...state, expenses };
   }),
-  on(addExpenses, (state, { expenses }) => ({
+  on(addExpenses, (state, { expenses }): ExpensesState => ({
     ...state,
     expenses: new Map([...state.expenses, ...expenses])
   })),

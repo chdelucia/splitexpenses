@@ -25,7 +25,7 @@ export const selectUserCount = createSelector(
   (users) => users.length
 );
 
-export const checkIfNameExist = (userName: string) => createSelector(
+export const selectUserByName = (userName: string) => createSelector(
   selectIterableUsers,
   (users) => users.find((user:User) => user.name === userName) ? true : false
 );

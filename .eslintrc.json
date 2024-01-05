@@ -35,7 +35,9 @@
       }
     },
     {
-      "files": ["**/*.spec.ts"],
+      "files": [
+        "**/*.spec.ts"
+      ],
       "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -43,7 +45,6 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
-        // Permite el uso de 'any' en archivos .spec.ts
         "@typescript-eslint/no-explicit-any": "off"
       }
     },
@@ -58,7 +59,9 @@
       "rules": {}
     },
     {
-      "files": ["**/*.cy.ts"],
+      "files": [
+        "**/*.cy.ts"
+      ],
       "extends": [
         "plugin:cypress/recommended"
       ],
@@ -69,6 +72,19 @@
         "cypress/no-force": "warn",
         "cypress/no-async-tests": "error",
         "cypress/no-pause": "error"
+      }
+    },
+    {
+      "files": [
+        "*.actions.ts",
+        "*.reducer.ts",
+        "*.selectors.ts"
+      ],
+      "extends": [
+        "plugin:@ngrx/recommended"
+      ],
+      "rules": {
+        "@ngrx/good-action-hygiene": "error"
       }
     }
   ]

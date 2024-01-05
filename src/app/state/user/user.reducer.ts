@@ -12,7 +12,7 @@ const initialState: UserState = {
 
 export const userReducer = createReducer(
   initialState,
-  on(addUser, (state, { user }) => ({
+  on(addUser, (state, { user }): UserState => ({
     ...state,
     users: new Map<string, User>([...state.users, [user.id, user]])
   })),
@@ -32,11 +32,11 @@ export const userReducer = createReducer(
       users: newUsers,
     };
   }),
-  on(addUsers, (state, { users }) => ({
+  on(addUsers, (state, { users }): UserState => ({
     ...state,
     users: new Map([...state.users, ...users])
   })),
-  on(resetUsers, () => {
+  on(resetUsers, (): UserState => {
     return initialState;
   })
 
