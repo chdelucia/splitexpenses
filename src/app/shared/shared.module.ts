@@ -9,8 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatPaginatorModule} from '@angular/material/paginator'
 import { ExchangePipe } from './pipes/exchange.pipe';
 import { WrapFnPipe } from './pipes/wrap-fn.pipe';
-
-
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 
 @NgModule({
@@ -27,6 +26,7 @@ import { WrapFnPipe } from './pipes/wrap-fn.pipe';
     MatIconModule,
     MatButtonModule,
     MatPaginatorModule,
+    NgxSkeletonLoaderModule,
 
   ],
   exports:[
@@ -38,6 +38,7 @@ import { WrapFnPipe } from './pipes/wrap-fn.pipe';
     MatPaginatorModule,
     ExchangePipe,
     WrapFnPipe,
+    NgxSkeletonLoaderModule,
   ]
 })
 export class SharedModule { }

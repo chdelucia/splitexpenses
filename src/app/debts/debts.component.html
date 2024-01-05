@@ -37,6 +37,14 @@
     </ng-container>
   </section>
 
+  <div class="item persoanlDebts">
+    <ngx-skeleton-loader animation="progress-dark" count="5" appearance="circle"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ height: '50px'}"></ngx-skeleton-loader>
+    <ngx-skeleton-loader animation="progress"></ngx-skeleton-loader>
+    <ngx-skeleton-loader></ngx-skeleton-loader>
+    <ngx-skeleton-loader animation="pulse"></ngx-skeleton-loader>
+  </div>
+
 <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
 
 </main>
