@@ -1,50 +1,67 @@
-
 <main class="container-md mb-5">
-
   <h2 class="my-4 text-center" i18n>Deudas</h2>
   <section class="row g-4">
     <ng-container *ngIf="debts.size">
-      <div class="col-sm-12 col-lg-6 col-xxl-4" *ngFor="let user of users$ | async"
-      [class.order-2]="debts.get(user.id)!.totalIowe <= 0">
-      <div class="persoanlDebts p-md-3 p-2" routerLink='/debts/details' data-cy="user-debt">
-        <div class="d-flex flex-row justify-content-between title">
-            <div>{{user.name}}</div>
+      <div
+        class="col-sm-12 col-lg-6 col-xxl-4"
+        *ngFor="let user of users$ | async"
+        [class.order-2]="debts.get(user.id)!.totalIowe <= 0"
+      >
+        <div
+          class="persoanlDebts p-md-3 p-2"
+          routerLink="/debts/details"
+          data-cy="user-debt"
+        >
+          <div class="d-flex flex-row justify-content-between title">
+            <div>{{ user.name }}</div>
             <div class="totalIowe">
-                {{debts.get(user.id)?.totalIowe | number:'.0-2' }} {{currency.currencySymbol}}
-                <div *ngIf="currency.active" class="text-end mainExchange">
-                    {{ debts.get(user.id)?.totalIowe | exchange | number:'.0-2' }}
-                    {{currency.currencyExchangeSymbol}}
-                </div>
-
+              {{ debts.get(user.id)?.totalIowe | number: ".0-2" }}
+              {{ currency.currencySymbol }}
+              <div *ngIf="currency.active" class="text-end mainExchange">
+                {{ debts.get(user.id)?.totalIowe | exchange | number: ".0-2" }}
+                {{ currency.currencyExchangeSymbol }}
               </div>
             </div>
-              <ng-container *ngFor="let person of users$ | async">
-                  <div class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
-                      *ngIf="user.id !== person.id">
-                      <div>{{person.name}}</div>
-                      <div>
-                          {{debts.get(user.id)?.debts?.get(person.id)?.newDebt | number:'.0-2' }}
-                          {{currency.currencySymbol}}
-                          <small *ngIf="currency.active" class="text-end">
-                              {{ debts.get(user.id)?.debts?.get(person.id)?.newDebt | exchange | number:'.0-2'}}
-                              {{currency.currencyExchangeSymbol}}
-                          </small>
-                      </div>
-                  </div>
-              </ng-container>
           </div>
-    </div>
+          <ng-container *ngFor="let person of users$ | async">
+            <div
+              class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
+              *ngIf="user.id !== person.id"
+            >
+              <div>{{ person.name }}</div>
+              <div>
+                {{
+                  debts.get(user.id)?.debts?.get(person.id)?.newDebt
+                    | number: ".0-2"
+                }}
+                {{ currency.currencySymbol }}
+                <small *ngIf="currency.active" class="text-end">
+                  {{
+                    debts.get(user.id)?.debts?.get(person.id)?.newDebt
+                      | exchange
+                      | number: ".0-2"
+                  }}
+                  {{ currency.currencyExchangeSymbol }}
+                </small>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
     </ng-container>
   </section>
 
   <div class="item persoanlDebts">
-    <ngx-skeleton-loader animation="progress-dark" count="5" appearance="circle"></ngx-skeleton-loader>
-    <ngx-skeleton-loader [theme]="{ height: '50px'}"></ngx-skeleton-loader>
+    <ngx-skeleton-loader
+      animation="progress-dark"
+      count="5"
+      appearance="circle"
+    ></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ height: '50px' }"></ngx-skeleton-loader>
     <ngx-skeleton-loader animation="progress"></ngx-skeleton-loader>
     <ngx-skeleton-loader></ngx-skeleton-loader>
     <ngx-skeleton-loader animation="pulse"></ngx-skeleton-loader>
   </div>
 
-<app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
-
+  <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
 </main>

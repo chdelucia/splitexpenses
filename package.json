@@ -22,7 +22,8 @@
     "cy:run:firefox": "cypress run --browser firefox",
     "compodoc:build": "compodoc -p tsconfig.doc.json",
     "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
-    "compodoc:serve": "compodoc -s"
+    "compodoc:serve": "compodoc -s",
+    "prettier": "npx prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -65,12 +66,15 @@
     "@typescript-eslint/parser": "6.16.0",
     "cypress": "^13.6.2",
     "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-prettier": "^5.1.2",
     "jest": "^29.7.0",
     "jest-preset-angular": "^13.1.4",
     "lint-staged": "^15.2.0",
     "ng-mocks": "^14.12.1",
     "prettier": "^3.1.1",
+    "prettier-eslint": "^16.2.0",
     "schematics-scss-migrate": "^2.3.17",
     "simple-git-hooks": "^2.9.0",
     "sonar-scanner": "^3.1.0",
