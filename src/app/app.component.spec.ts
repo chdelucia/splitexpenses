@@ -4,10 +4,9 @@ import { AppComponent } from './app.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { WeatherService } from './forecast/shared/weather.service';
 
-
 const weatherServiceStub = {
-  getWeahterSettings: jest.fn().mockReturnValue( { active: true})
-}
+  getWeahterSettings: jest.fn().mockReturnValue({ active: true }),
+};
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -15,16 +14,9 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-      ],
-      declarations: [
-        AppComponent
-      ],
-      providers: [
-        { provide: WeatherService, useValue: weatherServiceStub}
-      ]
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      declarations: [AppComponent],
+      providers: [{ provide: WeatherService, useValue: weatherServiceStub }],
     }).compileComponents();
   });
 
@@ -41,6 +33,4 @@ describe('AppComponent', () => {
   it(`should have as title 'splitexpenses'`, () => {
     expect(component.title).toEqual('splity');
   });
-
-
 });

@@ -8,33 +8,32 @@ import { globalToast, openSnackBar } from '../../shared/utils';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss']
+  styleUrls: ['./users-list.component.scss'],
 })
 export class UsersListComponent {
-  private toastmsg =  {
-    OK : $localize`Guardado correctamente`,
-    KO : $localize`Error fatal`,
-    EXIST: $localize`Usuario ya existe`
-  }
+  private toastmsg = {
+    OK: $localize`Guardado correctamente`,
+    KO: $localize`Error fatal`,
+    EXIST: $localize`Usuario ya existe`,
+  };
 
   users$: Observable<User[]>;
 
   constructor(
     private userService: UsersService,
-    private _snackBar: MatSnackBar
-    ) {
+    private _snackBar: MatSnackBar,
+  ) {
     this.users$ = this.userService.getIterableUsers();
-   }
+  }
 
-
-  edit(data: HTMLTableCellElement, user: User, fieldToEdit: "phone" | "name") {
-    const oldValue =  user[fieldToEdit];
+  edit(data: HTMLTableCellElement, user: User, fieldToEdit: 'phone' | 'name') {
+    const oldValue = user[fieldToEdit];
     const newValue = data.innerText.trim();
 
-    if(newValue && (oldValue != newValue)) {
-          user[fieldToEdit] = newValue;
-          this.userService.editUser(user);
-          openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
+    if (newValue && oldValue != newValue) {
+      user[fieldToEdit] = newValue;
+      this.userService.editUser(user);
+      openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     } else {
       data.innerText = oldValue ?? '';
     }

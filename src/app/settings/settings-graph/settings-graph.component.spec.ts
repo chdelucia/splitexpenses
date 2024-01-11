@@ -11,10 +11,8 @@ describe('SettingsGraphComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ SettingsGraphComponent
-       ]
-    })
-    .compileComponents();
+      declarations: [SettingsGraphComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsGraphComponent);
     component = fixture.componentInstance;

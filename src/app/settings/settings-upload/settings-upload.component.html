@@ -1,17 +1,39 @@
-
- <button class="input-group btn btn-danger my-4 p-2" type="button" (click)="deleteAll()" i18n>Empezar de nuevo</button>
+<button
+  class="input-group btn btn-danger my-4 p-2"
+  type="button"
+  (click)="deleteAll()"
+  i18n
+>
+  Empezar de nuevo
+</button>
 
 <section class="mb-4">
-    <h4 class="my-4" i18n>Cargar Datos</h4>
-    <div class="alert alert-danger" role="alert">
-       <strong i18n>PELIGRO</strong><br>
-       <span i18n>Todos tus datos actuales serán reemplazados si pulsas cargar datos</span>
-    </div>
-    <div class="form-floating mb-2">
-        <textarea #answer class="form-control" [(ngModel)]="inputLoadData"
-            placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px"></textarea>
-        <label for="floatingTextarea2" i18n>Copia tus datos aqui</label>
-      </div>
+  <h4 class="my-4" i18n>Cargar Datos</h4>
+  <div class="alert alert-danger" role="alert">
+    <strong i18n>PELIGRO</strong><br />
+    <span i18n
+      >Todos tus datos actuales serán reemplazados si pulsas cargar datos</span
+    >
+  </div>
+  <div class="form-floating mb-2">
+    <textarea
+      #answer
+      class="form-control"
+      [(ngModel)]="inputLoadData"
+      placeholder="Leave a comment here"
+      id="floatingTextarea2"
+      style="height: 150px"
+    ></textarea>
+    <label for="floatingTextarea2" i18n>Copia tus datos aqui</label>
+  </div>
 
-    <button  [disabled]="answer.value === ''" class="input-group btn btn-danger my-4 p-2" type="button" (click)="loadData(answer.value)" i18n>Cargar datos</button>
-  </section>
+  <button
+    [disabled]="answer.value === ''"
+    class="input-group btn btn-danger my-4 p-2"
+    type="button"
+    (click)="loadData(answer.value)"
+    i18n
+  >
+    Cargar datos
+  </button>
+</section>

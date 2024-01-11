@@ -33,7 +33,7 @@ th.mat-mdc-header-cell {
 
 tr.mat-mdc-footer-row td {
   font-size: large;
-  &:first-child{
+  &:first-child {
     font-weight: bold;
   }
 }
@@ -41,9 +41,7 @@ tr.mat-mdc-footer-row td {
 .expense-cost {
   color: #00796b;
   font-weight: bolder;
-  &.debt{
+  &.debt {
     color: #d84315;
-
   }
 }
-

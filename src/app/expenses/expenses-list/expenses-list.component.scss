@@ -1,19 +1,19 @@
-small{
-    font-size: x-small;
+small {
+  font-size: x-small;
 }
 .expense {
-    border-bottom: 1px solid #f5f5f5;
-    font-size:larger;
-    padding: 0.7em 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: larger;
+  padding: 0.7em 0;
 }
 .paidBy {
-    font-size:x-small;
+  font-size: x-small;
 }
 .date-title {
-    background: linear-gradient(169deg, #2e4f4f, #2c3333);
-    color: white;
+  background: linear-gradient(169deg, #2e4f4f, #2c3333);
+  color: white;
 }
-.action-icons{
+.action-icons {
   cursor: pointer;
   display: flex;
   justify-content: flex-end;

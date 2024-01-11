@@ -1,21 +1,37 @@
-
 <section class="mb-4">
-        <h4 class="my-4" i18n>Gráficos</h4>
-        <div class="alert alert-secondary" role="alert">
-            <span i18n>Edita los tipos de gastos para que se ajusten a tu viaje. Gasolina? alquiler skies? entradas? </span>
-          </div>
-        <div class="row g-2 align-items-center">
-        <ng-container  *ngFor="let color of settings.graph.bgColors; let i = index;trackBy:trackByIdx">
-
-            <div class="col-6">
-                <input  class="form-control" type="text" [(ngModel)]="types[i].name">
-            </div>
-            <div class="col-2">
-                <input class="colors" type="color" [(ngModel)]="settings.graph.bgColors[i]">
-            </div>
-
-
-        </ng-container>
-        <button class="input-group my-4 btn btn-primary p-2" type="submit" (click)="onSubmit()" i18n>Guardar</button>
-    </div>
+  <h4 class="my-4" i18n>Gráficos</h4>
+  <div class="alert alert-secondary" role="alert">
+    <span i18n
+      >Edita los tipos de gastos para que se ajusten a tu viaje. Gasolina?
+      alquiler skies? entradas?
+    </span>
+  </div>
+  <div class="row g-2 align-items-center">
+    <ng-container
+      *ngFor="
+        let color of settings.graph.bgColors;
+        let i = index;
+        trackBy: trackByIdx
+      "
+    >
+      <div class="col-6">
+        <input class="form-control" type="text" [(ngModel)]="types[i].name" />
+      </div>
+      <div class="col-2">
+        <input
+          class="colors"
+          type="color"
+          [(ngModel)]="settings.graph.bgColors[i]"
+        />
+      </div>
+    </ng-container>
+    <button
+      class="input-group my-4 btn btn-primary p-2"
+      type="submit"
+      (click)="onSubmit()"
+      i18n
+    >
+      Guardar
+    </button>
+  </div>
 </section>

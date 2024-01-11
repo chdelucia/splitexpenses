@@ -6,16 +6,13 @@ import { CurrencyPlugin, TraceAutoSettle } from '../../shared/models';
 @Component({
   selector: 'app-debt-tracing',
   templateUrl: './debt-tracing.component.html',
-  styleUrls: ['./debt-tracing.component.scss']
+  styleUrls: ['./debt-tracing.component.scss'],
 })
 export class DebtTracingComponent {
   @Input() debtTracing: TraceAutoSettle[] = [];
   currency: CurrencyPlugin;
 
-  constructor(
-    private currencyService: CurrencyService
-  ) {
+  constructor(private currencyService: CurrencyService) {
     this.currency = this.currencyService.getCurrencySettings();
   }
-
 }

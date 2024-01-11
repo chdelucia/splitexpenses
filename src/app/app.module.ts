@@ -14,17 +14,13 @@ import { expensesReducer } from './state/expenses/expenses.reducer';
 import { CoreModule } from './core/core.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-    WeatherComponent
-  ],
+  declarations: [AppComponent, WeatherComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot({users: userReducer, expenses: expensesReducer}),
+    StoreModule.forRoot({ users: userReducer, expenses: expensesReducer }),
     BrowserAnimationsModule,
     SharedModule,
     CoreModule,
@@ -34,11 +30,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       autoPause: true, // Pauses recording actions and state changes when the extension window is not open
       trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
-    })
+    }),
   ],
-  providers: [
-    LocalstorageService,
-  ],
-  bootstrap: [AppComponent]
+  providers: [LocalstorageService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

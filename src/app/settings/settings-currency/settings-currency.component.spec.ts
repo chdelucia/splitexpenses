@@ -11,9 +11,8 @@ describe('SettingsCurrencyComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ SettingsCurrencyComponent, ]
-    })
-    .compileComponents();
+      declarations: [SettingsCurrencyComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsCurrencyComponent);
     component = fixture.componentInstance;

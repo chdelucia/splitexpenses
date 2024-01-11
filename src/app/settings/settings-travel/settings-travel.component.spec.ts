@@ -11,10 +11,8 @@ describe('SettingsTravelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ SettingsTravelComponent,
-       ]
-    })
-    .compileComponents();
+      declarations: [SettingsTravelComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsTravelComponent);
     component = fixture.componentInstance;

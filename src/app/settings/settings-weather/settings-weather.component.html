@@ -1,28 +1,52 @@
-
 <section class="mb-4">
-    <h4 class="my-4" i18n>El Tiempo</h4>
-    <div class="alert alert-secondary" role="alert">
-      <span i18n>Añade una ciudad para ver el tiempo y la previsión. Debes crearte una cuenta en
-        https://home.openweathermap.org/api_keys
-      </span>
+  <h4 class="my-4" i18n>El Tiempo</h4>
+  <div class="alert alert-secondary" role="alert">
+    <span i18n
+      >Añade una ciudad para ver el tiempo y la previsión. Debes crearte una
+      cuenta en https://home.openweathermap.org/api_keys
+    </span>
+  </div>
+  <div class="form-check form-switch mb-2">
+    <input
+      #shweather
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      [checked]="weatherSettings.active"
+    />
+    <label class="form-check-label"> On / Off "el tiempo"</label>
+  </div>
+  <div class="row g-2">
+    <div class="col-6">
+      <input
+        #weather
+        class="form-control"
+        type="text"
+        placeholder="Nombre ciudad"
+        [(ngModel)]="weatherSettings.city"
+      />
     </div>
-    <div class="form-check form-switch mb-2">
-      <input #shweather class="form-check-input" type="checkbox" role="switch" [checked]="weatherSettings.active">
-      <label class="form-check-label">  On / Off "el tiempo"</label>
+    <div class="col-6">
+      <input
+        #apikey
+        class="form-control"
+        type="text"
+        placeholder="api key"
+        [(ngModel)]="weatherSettings.key"
+      />
     </div>
-    <div class="row g-2">
-        <div class="col-6">
-          <input #weather class="form-control" type="text" placeholder="Nombre ciudad" [(ngModel)]="weatherSettings.city"/>
-        </div>
-        <div class="col-6">
-          <input #apikey class="form-control" type="text" placeholder="api key" [(ngModel)]="weatherSettings.key"/>
-        </div>
-        <div class="col-12">
-          <button  [disabled]="weather.value === '' || apikey.value === ''" class="input-group btn my-4 btn btn-primary p-2"
-              type="button" (click)="setWeatherPlugin(weather.value, shweather.checked, apikey.value)" i18n>
-              Guardar cambios
-          </button>
-        </div>
+    <div class="col-12">
+      <button
+        [disabled]="weather.value === '' || apikey.value === ''"
+        class="input-group btn my-4 btn btn-primary p-2"
+        type="button"
+        (click)="
+          setWeatherPlugin(weather.value, shweather.checked, apikey.value)
+        "
+        i18n
+      >
+        Guardar cambios
+      </button>
     </div>
+  </div>
 </section>
-

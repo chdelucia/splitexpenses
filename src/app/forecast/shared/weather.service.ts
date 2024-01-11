@@ -7,51 +7,61 @@ import { WeatherObject, WeatherPlugin } from '../../shared/models';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { environment } from '../../../environments/environment';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WeatherService {
   private weatherSettings: WeatherPlugin;
   constructor(
     private http: HttpClient,
-    private localStorageService: LocalstorageService
-    ) {
+    private localStorageService: LocalstorageService,
+  ) {
     this.weatherSettings = this.loadWeatherPluginFromLocalStorage();
   }
 
   getWeatheritemsbyCity(cityName: string): Observable<WeatherObject> {
-
-    return this.http.get<WeatherObject>(environment.baseUrl + 'weather?q=' + cityName + '&appid=' + this.weatherSettings.key + '&units=metric&lang=es')
-        .pipe(
-          retry(3),
-          catchError(this.handleError)
-        )
+    return this.http
+      .get<WeatherObject>(
+        environment.baseUrl +
+          'weather?q=' +
+          cityName +
+          '&appid=' +
+          this.weatherSettings.key +
+          '&units=metric&lang=es',
+      )
+      .pipe(retry(3), catchError(this.handleError));
   }
 
   getForecastbyCity(cityName: string) {
-    return this.http.get<WeatherObject>(environment.baseUrl + 'forecast?q=' + cityName + '&appid=' + this.weatherSettings.key + '&units=metric&lang=es')
+    return this.http.get<WeatherObject>(
+      environment.baseUrl +
+        'forecast?q=' +
+        cityName +
+        '&appid=' +
+        this.weatherSettings.key +
+        '&units=metric&lang=es',
+    );
   }
 
-  setWeatherPluginOnLocalStorage(city: string, status: boolean, key: string){
+  setWeatherPluginOnLocalStorage(city: string, status: boolean, key: string) {
     const obj = {
-      'weather': {
-        'city': city,
-        'active': status,
-        'key': key
-      }
-    }
+      weather: {
+        city: city,
+        active: status,
+        key: key,
+      },
+    };
     this.localStorageService.saveSettings(obj);
     this.weatherSettings = obj.weather;
   }
 
   loadWeatherPluginFromLocalStorage(): WeatherPlugin {
     const data = this.localStorageService.loadSettings();
-    return data.weather
+    return data.weather;
   }
 
   getWeahterSettings() {
-    return this.weatherSettings
+    return this.weatherSettings;
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -62,10 +72,13 @@ export class WeatherService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       console.error(
-        `Backend returned code ${error.status}, body was: `, error.error);
+        `Backend returned code ${error.status}, body was: `,
+        error.error,
+      );
     }
     // Return an observable with a user-facing error message.
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+    return throwError(
+      () => new Error('Something bad happened; please try again later.'),
+    );
   }
-
 }

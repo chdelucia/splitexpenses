@@ -1,50 +1,44 @@
-.persoanlDebts{
-    border: 1px solid #1f2128;
-    border-radius: 7px;
-    background: white;
-    transition: all 1s ease;
-    .title {
-        font-size: 1.5rem;
-        padding-bottom: 0.6em;
-        margin-bottom: 0.6em;
-        border-bottom: 1px solid;
-    }
-    .text {
-        font-size: small
-    }
-    .mainExchange {
-        font-size: medium;
-    }
-    .subtitle {
-        font-size: 1rem;
-    }
-    &:hover, &:active{
-        //transform: scale(1.01);
-        border: 1px solid;
-        cursor: pointer;
-        box-shadow: 2px 2px black;
-    }
+.persoanlDebts {
+  border: 1px solid #1f2128;
+  border-radius: 7px;
+  background: white;
+  transition: all 1s ease;
+  .title {
+    font-size: 1.5rem;
+    padding-bottom: 0.6em;
+    margin-bottom: 0.6em;
+    border-bottom: 1px solid;
+  }
+  .text {
+    font-size: small;
+  }
+  .mainExchange {
+    font-size: medium;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  &:hover,
+  &:active {
+    //transform: scale(1.01);
+    border: 1px solid;
+    cursor: pointer;
+    box-shadow: 2px 2px black;
+  }
 }
 
 .totalIowe {
-  color:#d84315;
+  color: #d84315;
   font-weight: bolder;
 }
 .order-2 .totalIowe {
-  color:initial;
+  color: initial;
   font-weight: initial;
 }
 .list-group-item {
-    display: flex;
-    border: 1px solid rgba(0,0,0,.125);
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
-small{
-    display: block;
+small {
+  display: block;
 }
-
-
-
-
-
-
-

@@ -1,5 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { addExpense, updateExpense, removeExpense, addExpenses } from './expenses.actions';
+import {
+  addExpense,
+  updateExpense,
+  removeExpense,
+  addExpenses,
+} from './expenses.actions';
 import { Expense } from '../../shared/models';
 
 export interface ExpensesState {
@@ -27,8 +32,11 @@ export const expensesReducer = createReducer(
     expenses.delete(id);
     return { ...state, expenses };
   }),
-  on(addExpenses, (state, { expenses }): ExpensesState => ({
-    ...state,
-    expenses: new Map([...state.expenses, ...expenses])
-  })),
+  on(
+    addExpenses,
+    (state, { expenses }): ExpensesState => ({
+      ...state,
+      expenses: new Map([...state.expenses, ...expenses]),
+    }),
+  ),
 );

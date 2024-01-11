@@ -4,13 +4,13 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 
 const routes: Routes = [
-  { path: '',   component: AddExpenseComponent },
+  { path: '', component: AddExpenseComponent },
   { path: 'details', component: ExpensesListComponent },
   { path: ':id', component: AddExpenseComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ExpensesRoutingModule { }
+export class ExpensesRoutingModule {}

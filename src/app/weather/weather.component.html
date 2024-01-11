@@ -1,16 +1,15 @@
 <header class="mt-atuo bg-white">
-    <div *ngIf="weatherInfo" class="container flex">
-        
-        <div>{{weatherInfo.name}}, {{weatherInfo.sys.country}}:</div>
-        <div>
-            <img src="http://openweathermap.org/img/w/{{weatherInfo.weather[0]?.icon}}.png" alt="{{weatherInfo.name}}">
-            {{weatherInfo.weather[0]?.description}}
-        </div>
-        <b class="temp"> {{weatherInfo.main.temp}} °C</b>            
-    
+  <div *ngIf="weatherInfo" class="container flex">
+    <div>{{ weatherInfo.name }}, {{ weatherInfo.sys.country }}:</div>
+    <div>
+      <img
+        src="http://openweathermap.org/img/w/{{
+          weatherInfo.weather[0]?.icon
+        }}.png"
+        alt="{{ weatherInfo.name }}"
+      />
+      {{ weatherInfo.weather[0]?.description }}
     </div>
-
+    <b class="temp"> {{ weatherInfo.main.temp }} °C</b>
+  </div>
 </header>
-
-
-

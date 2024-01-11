@@ -4,11 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from '../../shared/models';
-import {
-  calcNextID,
-  convertStringToMap,
-  diffinDays,
-} from '../../shared/utils';
+import { calcNextID, convertStringToMap, diffinDays } from '../../shared/utils';
 import {
   addExpense,
   addExpenses,
@@ -22,7 +18,7 @@ import {
   selectExpensesFilterByType,
   selectIterableExpenses,
   selectExpensesGroupByDates,
-  selectExpensesOrderByDateDesc
+  selectExpensesOrderByDateDesc,
 } from '../../state/expenses/expenses.selectors';
 
 @Injectable({
@@ -35,7 +31,7 @@ export class ExpensesService {
   constructor(
     private storageService: LocalstorageService,
     private store: Store,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
     this.settings = this.storageService.getSettings();
     this.loadExpensesFromLocalStorage();
@@ -58,7 +54,7 @@ export class ExpensesService {
   updateExpenseAPI(expense: Expense): Observable<Expense> {
     return this.http.put<Expense>(
       `${this.apiUrl}/expenses/${expense.id}`,
-      expense
+      expense,
     );
   }
 
@@ -103,7 +99,7 @@ export class ExpensesService {
   }
 
   getExpensesGroupByDates(): Observable<Record<string, Expense[]>> {
-    return this.store.select(selectExpensesGroupByDates)
+    return this.store.select(selectExpensesGroupByDates);
   }
 
   getExpensesOrderByDatesDesc(): Observable<Expense[]> {
@@ -166,9 +162,9 @@ export class ExpensesService {
     let total = -expense.cost;
     const paidByme = userId === expense.paidBy;
     const Iparticipated = expense.sharedBy.includes(userId);
-    if(paidByme){
+    if (paidByme) {
       total += expense.originalCost;
-      if(!Iparticipated){
+      if (!Iparticipated) {
         total += expense.cost;
       }
     }

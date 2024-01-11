@@ -1,78 +1,108 @@
-
 <main class="container mb-5">
+  <h2 class="my-4 text-center" i18n>
+    {{ isEditing ? "Editar gasto" : "Añadir gastos" }}
+  </h2>
 
-    <h2 class="my-4 text-center" i18n>
-      {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
-    </h2>
+  <form
+    class="row g-2"
+    [formGroup]="expenseForm"
+    (ngSubmit)="onSubmit(expenseForm.value, formDirective)"
+    #formDirective="ngForm"
+  >
+    <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>Pagado por:</mat-label>
+        <mat-select formControlName="name" required>
+          <mat-option *ngFor="let user of users$ | async" [value]="user.id">{{
+            user.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-    <form class="row g-2" [formGroup]="expenseForm" (ngSubmit)="onSubmit(expenseForm.value, formDirective)" #formDirective="ngForm">
-
-      <div class="col-6">
-        <mat-form-field appearance="fill"  class="w-100">
-          <mat-label i18n>Pagado por:</mat-label>
-          <mat-select formControlName="name" required>
-            <mat-option *ngFor="let user of users$ | async" [value]="user.id">{{user.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6">
-        <mat-form-field appearance="fill"  class="w-100">
-          <mat-label i18n>Precio</mat-label>
-          <input matInput formControlName="cost" type="number" min="1" step="any" required>
-          <span matSuffix class="currency">{{currency.currencySymbol}}</span>
-          <mat-hint *ngIf="currency.active && expenseForm.controls['cost'].value" align="end" i18n>
-            Equivale a {{ expenseForm.controls['cost'].value | exchange | number:'.0-2' }} {{currency.currencyExchangeSymbol}}
-          </mat-hint>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6">
-        <mat-form-field appearance="fill" class="w-100">
-          <mat-label i18n>Descripción</mat-label>
-          <input matInput formControlName="title" type="text" placeholder="Description" required>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6">
-        <mat-form-field appearance="fill" class="w-100">
-          <mat-label i18n>Fecha</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="date" required>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12">
-        <div class="mb-2" i18n>Quien participa:</div>
-        <mat-checkbox *ngFor="let user of users$ | async; let i=index"
-          [value]="user.id"
-          (change)="onCheckboxChange($event)"
-          [checked]="!expense || expense.sharedBy.includes(user.id)"
+    <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>Precio</mat-label>
+        <input
+          matInput
+          formControlName="cost"
+          type="number"
+          min="1"
+          step="any"
+          required
+        />
+        <span matSuffix class="currency">{{ currency.currencySymbol }}</span>
+        <mat-hint
+          *ngIf="currency.active && expenseForm.controls['cost'].value"
+          align="end"
+          i18n
         >
-          {{user.name}}
-        </mat-checkbox>
-      </div>
+          Equivale a
+          {{ expenseForm.controls["cost"].value | exchange | number: ".0-2" }}
+          {{ currency.currencyExchangeSymbol }}
+        </mat-hint>
+      </mat-form-field>
+    </div>
 
-      <div class="col-12">
-        <div class="mb-2" i18n>Tipo de gasto:</div>
-        <mat-radio-group formControlName="type">
-          <div class="row">
-            <div class="col-md-3 col-xl-2" *ngFor="let type of expenseTypes;">
-              <mat-radio-button [value]="type.id">{{type.name}}</mat-radio-button>
-            </div>
+    <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>Descripción</mat-label>
+        <input
+          matInput
+          formControlName="title"
+          type="text"
+          placeholder="Description"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="col-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label i18n>Fecha</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="date"
+          required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12">
+      <div class="mb-2" i18n>Quien participa:</div>
+      <mat-checkbox
+        *ngFor="let user of users$ | async; let i = index"
+        [value]="user.id"
+        (change)="onCheckboxChange($event)"
+        [checked]="!expense || expense.sharedBy.includes(user.id)"
+      >
+        {{ user.name }}
+      </mat-checkbox>
+    </div>
+
+    <div class="col-12">
+      <div class="mb-2" i18n>Tipo de gasto:</div>
+      <mat-radio-group formControlName="type">
+        <div class="row">
+          <div class="col-md-3 col-xl-2" *ngFor="let type of expenseTypes">
+            <mat-radio-button [value]="type.id">{{
+              type.name
+            }}</mat-radio-button>
           </div>
-        </mat-radio-group>
-      </div>
+        </div>
+      </mat-radio-group>
+    </div>
 
-      <button type="submit" [disabled]="!expenseForm.valid" class="input-group btn my-4 btn btn-primary p-2" i18n>
-        {{ isEditing ? 'Editar gasto' : 'Añadir gastos' }}
-      </button>
-
-    </form>
+    <button
+      type="submit"
+      [disabled]="!expenseForm.valid"
+      class="input-group btn my-4 btn btn-primary p-2"
+      i18n
+    >
+      {{ isEditing ? "Editar gasto" : "Añadir gastos" }}
+    </button>
+  </form>
 </main>
-
-
-
-
-

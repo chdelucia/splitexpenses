@@ -4,21 +4,10 @@ import { AuthGuard } from './auth.guard';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
-  declarations: [
-    NavbarComponent
-  ],
-  imports: [
-    RouterModule,
-    CommonModule
-  ],
-  providers: [
-    AuthGuard
-  ],
-  exports:[
-    NavbarComponent
-  ]
+  declarations: [NavbarComponent],
+  imports: [RouterModule, CommonModule],
+  providers: [AuthGuard],
+  exports: [NavbarComponent],
 })
-export class CoreModule { }
+export class CoreModule {}

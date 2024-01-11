@@ -13,7 +13,6 @@ import { SettingsTravelComponent } from './settings-travel/settings-travel.compo
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
-
 @NgModule({
   declarations: [
     OptionsComponent,
@@ -24,14 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     SettingsGraphComponent,
     SettingsTravelComponent,
   ],
-  imports: [
-    CommonModule,
-    OptionsRoutingModule,
-    FormsModule,
-    SharedModule
-  ],
-  providers: [
-    CurrencyService
-  ]
+  imports: [CommonModule, OptionsRoutingModule, FormsModule, SharedModule],
+  providers: [CurrencyService],
 })
-export class OptionsModule { }
+export class OptionsModule {}

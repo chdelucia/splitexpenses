@@ -7,17 +7,14 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { UsersModule } from '../users/users.module';
 import { ExpensesModule } from '../expenses/expenses.module';
 
-
 @NgModule({
-  declarations: [
-    WelcomeComponent
-  ],
+  declarations: [WelcomeComponent],
   imports: [
     CommonModule,
     WelcomeRoutingModule,
     MatStepperModule,
     UsersModule,
-    ExpensesModule
-  ]
+    ExpensesModule,
+  ],
 })
-export class WelcomeModule { }
+export class WelcomeModule {}

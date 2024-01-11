@@ -3,21 +3,25 @@ import { LocalstorageService } from './localstorage.service';
 import { CurrencyPlugin } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CurrencyService {
   currency: CurrencyPlugin;
 
   constructor(private storageService: LocalstorageService) {
-   this.currency = this.loadCurrencyFromLocalStorage()
-   }
+    this.currency = this.loadCurrencyFromLocalStorage();
+  }
 
   loadCurrencyFromLocalStorage(): CurrencyPlugin {
     return this.storageService.getData().currency;
   }
 
   saveCurrencyIntoLocalStorage(currency: CurrencyPlugin): void {
-    this.storageService.saveDataToLocalStorage(undefined, undefined, this.currency);
+    this.storageService.saveDataToLocalStorage(
+      undefined,
+      undefined,
+      this.currency,
+    );
     this.currency = currency;
   }
 
@@ -25,7 +29,7 @@ export class CurrencyService {
     return this.currency;
   }
 
-  reset(){
+  reset() {
     this.currency = this.loadCurrencyFromLocalStorage();
   }
 }

@@ -10,14 +10,14 @@ describe('DebtsComponent sin testbed', () => {
   let debtsServiceStub: Partial<DebtsService>;
   let userServiceStub: Partial<UsersService>;
   let currencyServiceStub: Partial<CurrencyService>;
-  let loggerServiceStub: Partial<LoggerService>
+  let loggerServiceStub: Partial<LoggerService>;
 
   beforeEach(() => {
     debtsServiceStub = {
       getDebts: jest.fn(),
       initialize: jest.fn(),
       getDebtTracing: jest.fn(),
-      debtList$: of(true) as any
+      debtList$: of(true) as any,
     };
     userServiceStub = { getIterableUsers: jest.fn() };
     currencyServiceStub = { getCurrencySettings: jest.fn() };
@@ -27,8 +27,8 @@ describe('DebtsComponent sin testbed', () => {
       debtsServiceStub as DebtsService,
       userServiceStub as UsersService,
       currencyServiceStub as CurrencyService,
-      loggerServiceStub as LoggerService
-      );
+      loggerServiceStub as LoggerService,
+    );
   });
 
   it('should create', () => {
@@ -45,27 +45,26 @@ describe('DebtsComponent sin testbed', () => {
   });
 
   it('should init debts and subrcripbe to changes', () => {
-    const spyDebtInit = jest.spyOn(debtsServiceStub,'initialize');
-    const spyDebttracing = jest.spyOn(debtsServiceStub,'getDebtTracing').mockReturnValue('test' as any);
+    const spyDebtInit = jest.spyOn(debtsServiceStub, 'initialize');
+    const spyDebttracing = jest
+      .spyOn(debtsServiceStub, 'getDebtTracing')
+      .mockReturnValue('test' as any);
 
-    component.ngOnInit()
+    component.ngOnInit();
 
     expect(spyDebtInit).toHaveBeenCalled();
     expect(spyDebttracing).toHaveBeenCalled();
     expect(component.debts).toBeTruthy();
-    expect(component.debtTracing).toBe('test')
+    expect(component.debtTracing).toBe('test');
   });
 
-
   it('should get currency settings from service', () => {
-    const spyCurrency = jest.spyOn(currencyServiceStub,'getCurrencySettings');
-    const spyUser = jest.spyOn(userServiceStub,'getIterableUsers');
-    const spyDebts = jest.spyOn(debtsServiceStub,'getDebts');
+    const spyCurrency = jest.spyOn(currencyServiceStub, 'getCurrencySettings');
+    const spyUser = jest.spyOn(userServiceStub, 'getIterableUsers');
+    const spyDebts = jest.spyOn(debtsServiceStub, 'getDebts');
 
     expect(spyCurrency).toHaveBeenCalled();
     expect(spyUser).toHaveBeenCalled();
     expect(spyDebts).toHaveBeenCalled();
   });
-
-
 });

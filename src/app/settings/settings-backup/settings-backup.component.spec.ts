@@ -9,10 +9,8 @@ describe('SettingsBackupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsBackupComponent,
-       ]
-    })
-    .compileComponents();
+      declarations: [SettingsBackupComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsBackupComponent);
     component = fixture.componentInstance;

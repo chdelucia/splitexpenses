@@ -10,12 +10,13 @@ Es una aplicación para compartir gastos de viajes
 - Calcula como saldar las deudas entre los participantes.
 
 ## DEMO LIVE
+
 - ES: https://chdelucia.github.io/splitexpenses/es/
 - EN: https://chdelucia.github.io/splitexpenses/en/
 
 ## Documentation
 
-Run `npm run compodoc` 
+Run `npm run compodoc`
 
 ## Development server
 

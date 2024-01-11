@@ -6,7 +6,7 @@ import { Settings } from '../../shared/models';
 @Component({
   selector: 'app-settings-travel',
   templateUrl: './settings-travel.component.html',
-  styleUrls: ['./settings-travel.component.scss']
+  styleUrls: ['./settings-travel.component.scss'],
 })
 export class SettingsTravelComponent {
   settings: Settings;
@@ -17,11 +17,11 @@ export class SettingsTravelComponent {
   constructor(
     private localStorageService: LocalstorageService,
     private expensesService: ExpensesService,
-    ) {
+  ) {
     this.settings = this.localStorageService.getSettings();
   }
 
-  changeTravel(name: string){
+  changeTravel(name: string) {
     this.localStorageService.changeTravel(name);
     this.updateSettings();
     this.resetAll();
@@ -32,7 +32,7 @@ export class SettingsTravelComponent {
     this.expensesService.init();
   }
 
-  addNewTravel(name: string){
+  addNewTravel(name: string) {
     this.localStorageService.addNewTravel(name);
     this.updateSettings();
     this.resetAll();
@@ -43,8 +43,7 @@ export class SettingsTravelComponent {
     this.settings = this.localStorageService.getSettings();
   }
 
-  close(){
+  close() {
     this.showAlert = false;
   }
-
 }

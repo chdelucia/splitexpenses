@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 
-import { Log } from  'ng2-logger/browser';
+import { Log } from 'ng2-logger/browser';
 import { environment } from 'src/environments/environment';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoggerService {
   log = Log.create('');
-  constructor() { }
+  constructor() {}
 
-  info(componentName: string, functionName: string, message: unknown, color?: string) {
+  info(
+    componentName: string,
+    functionName: string,
+    message: unknown,
+    color?: string,
+  ) {
     this.log['name'] = componentName;
     if (color) {
       this.log.color = color;
@@ -27,7 +31,7 @@ export class LoggerService {
 
   propio(name: string, message: unknown) {
     if (environment.production) {
-      console.info(name, message)
+      console.info(name, message);
     }
   }
 }

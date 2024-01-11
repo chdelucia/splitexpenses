@@ -13,12 +13,12 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 @Component({
   selector: 'app-expenses-list',
   templateUrl: './expenses-list.component.html',
-  styleUrls: ['./expenses-list.component.scss']
+  styleUrls: ['./expenses-list.component.scss'],
 })
 export class ExpensesListComponent implements OnInit, OnChanges {
   @Input() filter: string = '';
 
-  term = ''
+  term = '';
 
   expenses$: Observable<Array<Expense>>;
   currency: CurrencyPlugin;
@@ -26,10 +26,10 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   dates$: Observable<Array<string>>;
   test$ = this.expensesService.getExpensesOrderByDatesDesc();
 
-  private toastmsg =  {
-    OK : $localize`Gasto eliminado correctamente`,
-    KO : $localize`Error fatal`,
-  }
+  private toastmsg = {
+    OK: $localize`Gasto eliminado correctamente`,
+    KO: $localize`Error fatal`,
+  };
 
   constructor(
     private expensesService: ExpensesService,
@@ -37,8 +37,8 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     private usersService: UsersService,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private loggerService: LoggerService
-    ) {
+    private loggerService: LoggerService,
+  ) {
     this.expenses$ = this.expensesService.getIterableExpenses();
     this.currency = this.currencyService.getCurrencySettings();
     this.dates$ = this.expensesService.getExpensesDates();
@@ -46,15 +46,20 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.loggerService.info('ExpensesListComponent', 'onInit', this.currency, 'olive')
-    if(this.filter){
+    this.loggerService.info(
+      'ExpensesListComponent',
+      'onInit',
+      this.currency,
+      'olive',
+    );
+    if (this.filter) {
       this.createArrayofExpenses();
     }
   }
 
-  ngOnChanges(){
-    if(this.filter){
-     this.createArrayofExpenses();
+  ngOnChanges() {
+    if (this.filter) {
+      this.createArrayofExpenses();
     }
   }
 
@@ -68,13 +73,14 @@ export class ExpensesListComponent implements OnInit, OnChanges {
   }
 
   createArrayofExpenses(): void {
-    if(this.filter){
-      this.expenses$ = this.expensesService.getExpensesFilterByType(this.filter);
+    if (this.filter) {
+      this.expenses$ = this.expensesService.getExpensesFilterByType(
+        this.filter,
+      );
     }
   }
 
   handlePageEvent(e: PageEvent) {
     console.log(e.pageSize, e.pageIndex);
   }
-
 }

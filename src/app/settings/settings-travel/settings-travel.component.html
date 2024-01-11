@@ -1,28 +1,47 @@
-
 <section class="mb-4" id="travels">
-    <h4 class="my-4" i18n>Tus viajes</h4>
+  <h4 class="my-4" i18n>Tus viajes</h4>
 
-    <button type="button" class="btn btn-primary mb-2 me-2"
-            *ngFor="let travel of settings.travels.names"
-            [class.btn-secondary]="travel !== settings.travels.active"
-            (click)="changeTravel(travel)">
-      <span contenteditable>{{travel}}</span>
-      <span class="ms-2 badge bg-danger" *ngIf="travel === settings.travels.active">Active</span>
-    </button>
+  <button
+    type="button"
+    class="btn btn-primary mb-2 me-2"
+    *ngFor="let travel of settings.travels.names"
+    [class.btn-secondary]="travel !== settings.travels.active"
+    (click)="changeTravel(travel)"
+  >
+    <span contenteditable>{{ travel }}</span>
+    <span
+      class="ms-2 badge bg-danger"
+      *ngIf="travel === settings.travels.active"
+      >Active</span
+    >
+  </button>
 
-    <div class="alert alert-secondary" role="alert">
-      <span i18n>Añade un nombre y crea una hoja de gastos nueva (sin perder la actual).</span>
-    </div>
-    <div class="row g-2">
-      <div class="col-6">
-        <input #expensename class="form-control" type="text" placeholder="Nombre" [(ngModel)]="expenseNameInput"/>
-      </div>
-      <div class="col-6">
-        <button  [disabled]="expensename.value === ''" class="input-group btn btn-success"
-            type="button" (click)="addNewTravel(expensename.value)" i18n>
-            Crear nuevo viaje
-        </button>
-      </div>
+  <div class="alert alert-secondary" role="alert">
+    <span i18n
+      >Añade un nombre y crea una hoja de gastos nueva (sin perder la
+      actual).</span
+    >
   </div>
-
+  <div class="row g-2">
+    <div class="col-6">
+      <input
+        #expensename
+        class="form-control"
+        type="text"
+        placeholder="Nombre"
+        [(ngModel)]="expenseNameInput"
+      />
+    </div>
+    <div class="col-6">
+      <button
+        [disabled]="expensename.value === ''"
+        class="input-group btn btn-success"
+        type="button"
+        (click)="addNewTravel(expensename.value)"
+        i18n
+      >
+        Crear nuevo viaje
+      </button>
+    </div>
+  </div>
 </section>

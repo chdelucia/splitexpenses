@@ -6,18 +6,9 @@ import { ForecastComponent } from './forecast.component';
 import { WeatherService } from './shared/weather.service';
 import { SharedModule } from '../shared/shared.module';
 
-
 @NgModule({
-  declarations: [
-    ForecastComponent,
-  ],
-  imports: [
-    CommonModule,
-    ForecastRoutingModule,
-    SharedModule,
-  ],
-  providers: [
-    WeatherService,
-  ]
+  declarations: [ForecastComponent],
+  imports: [CommonModule, ForecastRoutingModule, SharedModule],
+  providers: [WeatherService],
 })
-export class ForecastModule { }
+export class ForecastModule {}

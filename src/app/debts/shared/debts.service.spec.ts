@@ -3,10 +3,7 @@ import { of } from 'rxjs';
 import { DebtsService } from './debts.service';
 import { UsersService } from '../../users/shared/users.service';
 import { ExpensesService } from '../../expenses/shared/expenses.service';
-import {  Expense, User } from '../../shared/models';
-
-
-
+import { Expense, User } from '../../shared/models';
 
 describe('DebtsService', () => {
   let debtsService: DebtsService;
@@ -27,14 +24,18 @@ describe('DebtsService', () => {
     sharedBy: ['1', '2'],
     originalCost: 23,
     settleBy: [],
-    typeId: '7'
+    typeId: '7',
   };
 
   beforeEach(() => {
     const usersServiceSpy = jasmine.createSpyObj('UsersService', ['getUsers']);
-    usersServiceSpy.getUsers.and.returnValue(of(new Map([[mockUser.id, mockUser]])));
+    usersServiceSpy.getUsers.and.returnValue(
+      of(new Map([[mockUser.id, mockUser]])),
+    );
 
-    let expensesServiceSpy = jasmine.createSpyObj('ExpensesService', ['getIterableExpenses']);
+    let expensesServiceSpy = jasmine.createSpyObj('ExpensesService', [
+      'getIterableExpenses',
+    ]);
     expensesServiceSpy.getIterableExpenses.and.returnValue(of([mockExpense]));
 
     TestBed.configureTestingModule({
@@ -45,8 +46,12 @@ describe('DebtsService', () => {
     });
 
     debtsService = TestBed.inject(DebtsService);
-    userServiceSpy = TestBed.inject(UsersService) as jasmine.SpyObj<UsersService>;
-    expensesServiceSpy = TestBed.inject(ExpensesService) as jasmine.SpyObj<ExpensesService>;
+    userServiceSpy = TestBed.inject(
+      UsersService,
+    ) as jasmine.SpyObj<UsersService>;
+    expensesServiceSpy = TestBed.inject(
+      ExpensesService,
+    ) as jasmine.SpyObj<ExpensesService>;
   });
 
   it('should initialize debts and debtTracing', () => {
@@ -83,7 +88,4 @@ describe('DebtsService', () => {
     const debts = debtsService.getDebts();
     expect(debts).toEqual(new Map());
   });
-
-
-
 });

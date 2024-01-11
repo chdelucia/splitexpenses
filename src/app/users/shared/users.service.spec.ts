@@ -11,7 +11,10 @@ describe('UsersService', () => {
   let storeSpy: jasmine.SpyObj<Store>;
 
   beforeEach(() => {
-    const storageSpy = jasmine.createSpyObj('LocalstorageService', ['getData', 'saveDataToLocalStorage']);
+    const storageSpy = jasmine.createSpyObj('LocalstorageService', [
+      'getData',
+      'saveDataToLocalStorage',
+    ]);
     let storeSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
 
     TestBed.configureTestingModule({
@@ -19,11 +22,13 @@ describe('UsersService', () => {
         UsersService,
         { provide: LocalstorageService, useValue: storageSpy },
         { provide: Store, useValue: storeSpy },
-      ]
+      ],
     });
 
     service = TestBed.inject(UsersService);
-    storageServiceSpy = TestBed.inject(LocalstorageService) as jasmine.SpyObj<LocalstorageService>;
+    storageServiceSpy = TestBed.inject(
+      LocalstorageService,
+    ) as jasmine.SpyObj<LocalstorageService>;
     storeSpy = TestBed.inject(Store) as jasmine.SpyObj<Store>;
   });
 
@@ -33,10 +38,12 @@ describe('UsersService', () => {
 
   describe('getUsers', () => {
     it('should return an observable of users map', (done: DoneFn) => {
-      const expectedMap = new Map<string, User>([['id1', { id: 'id1', name: 'Alice' }]]);
+      const expectedMap = new Map<string, User>([
+        ['id1', { id: 'id1', name: 'Alice' }],
+      ]);
       storeSpy.select.and.returnValue(of(expectedMap));
 
-      service.getUsers().subscribe(map => {
+      service.getUsers().subscribe((map) => {
         expect(map).toEqual(expectedMap);
         done();
       });
@@ -48,7 +55,7 @@ describe('UsersService', () => {
       const expectedUser = { id: 'id1', name: 'Alice' };
       storeSpy.select.and.returnValue(of(expectedUser));
 
-      service.getUserByID('id1').subscribe(user => {
+      service.getUserByID('id1').subscribe((user) => {
         expect(user).toEqual(expectedUser);
         done();
       });
@@ -60,7 +67,7 @@ describe('UsersService', () => {
       const expectedIterableUsers = [{ id: 'id1', name: 'Alice' }];
       storeSpy.select.and.returnValue(of(expectedIterableUsers));
 
-      service.getIterableUsers().subscribe(iterableUsers => {
+      service.getIterableUsers().subscribe((iterableUsers) => {
         expect(iterableUsers).toEqual(expectedIterableUsers);
         done();
       });
@@ -82,7 +89,9 @@ describe('UsersService', () => {
   describe('addUser', () => {
     it('should dispatch an addUser action and save users into local storage', async () => {
       const user = { id: 'id1', name: 'Alice' };
-      const users = new Map<string, User>([['id0', { id: 'id0', name: 'Bob' }]]);
+      const users = new Map<string, User>([
+        ['id0', { id: 'id0', name: 'Bob' }],
+      ]);
       storeSpy.select.and.returnValue(of(users));
       storeSpy.dispatch.and.stub();
 
@@ -92,5 +101,4 @@ describe('UsersService', () => {
       expect(storeSpy.dispatch).toHaveBeenCalledWith(addUser({ user }));
     });
   });
-
 });

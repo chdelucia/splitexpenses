@@ -3,7 +3,6 @@
  * https://jestjs.io/docs/configuration
  */
 
-
 module.exports = {
   // All imported modules in your tests should be mocked automatically
   //automock: false,
@@ -43,14 +42,14 @@ module.exports = {
   // ],
 
   // An object that configures minimum threshold enforcement for coverage results
-    coverageThreshold: {
-      global: {
-        branches: 85,
-        functions: 85,
-        lines: 85,
-        statements: 85
-      }
+  coverageThreshold: {
+    global: {
+      branches: 85,
+      functions: 85,
+      lines: 85,
+      statements: 85,
     },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -143,7 +142,7 @@ module.exports = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-    setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -201,4 +200,3 @@ module.exports = {
   // Whether to use watchman for file crawling
   // watchman: true,
 };
-

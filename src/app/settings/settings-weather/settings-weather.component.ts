@@ -6,7 +6,7 @@ import { Settings, WeatherPlugin } from '../../shared/models';
 @Component({
   selector: 'app-settings-weather',
   templateUrl: './settings-weather.component.html',
-  styleUrls: ['./settings-weather.component.scss']
+  styleUrls: ['./settings-weather.component.scss'],
 })
 export class SettingsWeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;
@@ -17,20 +17,19 @@ export class SettingsWeatherComponent implements OnInit {
   constructor(
     private weatherService: WeatherService,
     private localStorageService: LocalstorageService,
-    ) {
+  ) {
     this.settings = this.localStorageService.getSettings();
     this.weatherSettings = this.settings.weather;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  setWeatherPlugin(city:string, status: boolean, key: string){
+  setWeatherPlugin(city: string, status: boolean, key: string) {
     this.weatherService.setWeatherPluginOnLocalStorage(city, status, key);
     this.showAlert = true;
   }
 
-  close(){
+  close() {
     this.showAlert = false;
   }
 }

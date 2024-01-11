@@ -1,19 +1,18 @@
+<div class="mb-3">
+  <canvas
+    baseChart
+    [data]="barChartData"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [type]="barChartType"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)"
+  >
+  </canvas>
+</div>
 
-
-  <div class="mb-3">
-      <canvas baseChart
-        [data]="barChartData"
-        [options]="barChartOptions"
-        [plugins]="barChartPlugins"
-        [type]="barChartType"
-        (chartHover)="chartHovered($event)"
-        (chartClick)="chartClicked($event)">
-      </canvas>
-  </div>
-
- <!-- TODO ver si esto aplica
+<!-- TODO ver si esto aplica
   <ng-container *ngIf="bytype && filter">
     <app-expenses-list [filter]="filter"></app-expenses-list>
   </ng-container>
   -->
-

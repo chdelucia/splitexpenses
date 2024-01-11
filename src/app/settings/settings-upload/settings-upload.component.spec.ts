@@ -11,9 +11,8 @@ describe('SettingsUploadComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [ SettingsUploadComponent,]
-    })
-    .compileComponents();
+      declarations: [SettingsUploadComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsUploadComponent);
     component = fixture.componentInstance;

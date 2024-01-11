@@ -14,12 +14,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FilterPipe } from '../shared/pipes/filter.pipe';
 
-
 @NgModule({
-  declarations: [
-    AddExpenseComponent,
-    ExpensesListComponent
-  ],
+  declarations: [AddExpenseComponent, ExpensesListComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -31,11 +27,9 @@ import { FilterPipe } from '../shared/pipes/filter.pipe';
     MatCheckboxModule,
     MatRadioModule,
     MatNativeDateModule,
-    FilterPipe
+    FilterPipe,
   ],
-  providers: [
-    ExpensesService,
-  ],
-  exports: [AddExpenseComponent, ExpensesListComponent]
+  providers: [ExpensesService],
+  exports: [AddExpenseComponent, ExpensesListComponent],
 })
-export class ExpensesModule { }
+export class ExpensesModule {}

@@ -2,8 +2,19 @@ import { TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { firstValueFrom, from, fromEvent, Observable, of } from 'rxjs';
 import { ExpensesService } from './expenses.service';
-import { addExpense, addExpenses, removeExpense, updateExpense } from '../../state/expenses/expenses.actions';
-import { selectExpenses, selectIterableExpenses, selectExpensesFilterByType, selectExpensesDates, selectExpenseByID } from '../../state/expenses/expenses.selectors';
+import {
+  addExpense,
+  addExpenses,
+  removeExpense,
+  updateExpense,
+} from '../../state/expenses/expenses.actions';
+import {
+  selectExpenses,
+  selectIterableExpenses,
+  selectExpensesFilterByType,
+  selectExpensesDates,
+  selectExpenseByID,
+} from '../../state/expenses/expenses.selectors';
 import { LocalstorageService } from '../../shared/localstorage.service';
 import { Expense, Settings } from '../../shared/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,24 +23,24 @@ const expense1: Expense = {
   id: '1',
   title: 'Expense 1',
   cost: 10,
-  sharedBy: ['1','2'],
+  sharedBy: ['1', '2'],
   typeId: '1',
   paidBy: '1',
   date: '2022-01-01',
   originalCost: 100,
-  settleBy: []
+  settleBy: [],
 };
 
 const expense2: Expense = {
   id: '2',
   title: 'Expense 2',
   cost: 5,
-  sharedBy: ['1','2'],
+  sharedBy: ['1', '2'],
   typeId: '2',
   paidBy: '1',
   date: '2022-01-01',
   originalCost: 50,
-  settleBy: []
+  settleBy: [],
 };
 
 const expensesMap = new Map<string, Expense>();
@@ -41,7 +52,9 @@ const expensesList = [expense1, expense2];
 const mockLocalStorageService = {
   getData: jasmine.createSpy('getData'),
   saveDataToLocalStorage: jasmine.createSpy('saveDataToLocalStorage'),
-  getSettings: jasmine.createSpy('getSettings').and.returnValue({ graph: { types: new Map() } }),
+  getSettings: jasmine
+    .createSpy('getSettings')
+    .and.returnValue({ graph: { types: new Map() } }),
 };
 
 const mockStore = {
@@ -65,7 +78,7 @@ const mockStore = {
 };
 
 const expensesMock = new Map([
-  ['1',expense1],
+  ['1', expense1],
   ['2', expense2],
 ]);
 
@@ -130,10 +143,10 @@ describe('ExpensesService', () => {
   });
 
   describe('addExpense', () => {
-    it('should dispatch addExpense action', async() => {
+    it('should dispatch addExpense action', async () => {
       spyOn(mockStore, 'dispatch').and.callThrough();
       spyOn(service, 'saveExpensesIntoLocalStorage').and.returnValue(
-        Promise.resolve()
+        Promise.resolve(),
       );
       const expense = {
         id: '1',
@@ -144,30 +157,33 @@ describe('ExpensesService', () => {
         paidBy: 'user1',
         sharedBy: ['user1', 'user2'],
         typeId: '1',
-        settleBy: []
+        settleBy: [],
       };
       service.addExpense(expense);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(addExpense({ expense }));
       expect(service.saveExpensesIntoLocalStorage).toHaveBeenCalled();
     });
-
   });
 
   describe('deleteExpense', () => {
     it('should dispatch removeExpense action', () => {
       spyOn(mockStore, 'dispatch').and.callThrough();
-      spyOn(service, 'saveExpensesIntoLocalStorage').and.returnValue(Promise.resolve());
+      spyOn(service, 'saveExpensesIntoLocalStorage').and.returnValue(
+        Promise.resolve(),
+      );
 
       service.deleteExpense('1');
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(removeExpense({ id: '1' }));
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        removeExpense({ id: '1' }),
+      );
       expect(service.saveExpensesIntoLocalStorage).toHaveBeenCalled();
     });
   });
 
-  describe('getExpenses', async() => {
-    it('should return expenses$', async() => {
+  describe('getExpenses', async () => {
+    it('should return expenses$', async () => {
       const expense = new Map<string, Expense>();
       expense.set('1', expense1);
       //spyOnProperty(service, 'expenses$').and.returnValue(expense1);
@@ -179,17 +195,19 @@ describe('ExpensesService', () => {
 
   describe('editExpense', () => {
     it('should dispatch an updateExpense action and save expenses to local storage', () => {
-      const expense = expense1
+      const expense = expense1;
       spyOn(mockStore, 'dispatch');
       spyOn(service, 'saveExpensesIntoLocalStorage');
       service.editExpense(expense1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(updateExpense({ expense }));
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        updateExpense({ expense }),
+      );
       expect(service.saveExpensesIntoLocalStorage).toHaveBeenCalled();
     });
   });
 
   describe('getExpenseByID', () => {
-    it('should return an observable of Expense or undefined', async() => {
+    it('should return an observable of Expense or undefined', async () => {
       spyOn(mockStore, 'select').and.returnValue(of(expense1));
       const resutl = await firstValueFrom(service.getExpenseByID('1'));
       expect(resutl).toEqual(expense1);
@@ -197,7 +215,6 @@ describe('ExpensesService', () => {
   });
 
   describe('getTotalPaidByUserToOthers', () => {
-
     it('should return 0 if the user has not paid for any expenses', () => {
       expect(service.getTotalPaidByUserToOthers('1')).toBe(0);
     });
@@ -209,13 +226,4 @@ describe('ExpensesService', () => {
       expect(service.getTotalPaidByUserToOthers('1')).toBe(150);
     });
   });
-
-
-
-
-
-
-
 });
-
-

@@ -15,7 +15,7 @@
   font-size: 1.5rem;
 }
 
-.element{
+.element {
   position: relative;
   width: 100%;
   border-radius: 0;
@@ -39,11 +39,11 @@
   transform: translateY(-50%);
 }
 
-.current-debt{
+.current-debt {
   font-size: 1.4rem;
   margin-top: -8px;
 }
-.old-debt{
+.old-debt {
   font-size: 0.8rem;
   text-decoration: line-through;
 }
@@ -57,7 +57,6 @@
   overflow: hidden;
   padding: 16px;
 }
-
 
 .card-title {
   color: #333;

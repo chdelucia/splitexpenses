@@ -1,59 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 @include mat.core();
 
 $md-mcgpalette1: (
-    50 : #e5f4f3,
-    100 : #bee4e1,
-    200 : #93d3cd,
-    300 : #67c1b8,
-    400 : #47b3a9,
-    500 : #26a69a,
-    600 : #229e92,
-    700 : #1c9588,
-    800 : #178b7e,
-    900 : #0d7b6c,
-    A100 : #adfff3,
-    A200 : #7affec,
-    A400 : #47ffe4,
-    A700 : #2dffe0,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50: #e5f4f3,
+  100: #bee4e1,
+  200: #93d3cd,
+  300: #67c1b8,
+  400: #47b3a9,
+  500: #26a69a,
+  600: #229e92,
+  700: #1c9588,
+  800: #178b7e,
+  900: #0d7b6c,
+  A100: #adfff3,
+  A200: #7affec,
+  A400: #47ffe4,
+  A700: #2dffe0,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
 );
 
-
-
-$my-primary: mat.define-palette(mat.$teal-palette,700);
-$my-accent: mat.define-palette(mat.$teal-palette,600);
+$my-primary: mat.define-palette(mat.$teal-palette, 700);
+$my-accent: mat.define-palette(mat.$teal-palette, 600);
 $my-warn: mat.define-palette(mat.$deep-orange-palette, 800);
 
-$my-theme: mat.define-light-theme((
- color: (
-   primary: $my-primary,
-   accent: $my-accent,
-   warn: $my-warn,
- ),
- typography: mat.define-typography-config(),
- density: 0,
-));
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
 
 @include mat.all-component-themes($my-theme);
-
 
 $primary-color: #2e4f4f;
 $accent-color: #0e8388;
@@ -61,37 +60,42 @@ $secondary-color: #cbe4de;
 $background-color: #2c3333;
 
 section {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
-.mb-6{
-    margin-bottom: 2rem;
+.mb-6 {
+  margin-bottom: 2rem;
 }
-.mb-8{
-    margin-bottom: 3rem;
-}
-
-h1,h2,h3,h4,h5,h6 {
-  font-family: 'Poppins', sans-serif;
+.mb-8 {
+  margin-bottom: 3rem;
 }
 
-main.container, main.container-fluid {
-    padding-top: 0.4em;
-    background: #fff;
-    box-sizing: border-box;
-    margin-top: 2.5em;
-    border-radius: 6px;
-    min-height: 70vh;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
 }
 
-
-button.btn-primary{
-    background: linear-gradient(-45deg, #2e4f4f, #0e8388);
-    border-color: #2c3333;
-    color: #fff;
-    box-shadow: 0 10px 30px 0 rgb(0 0 0 / 15%);
+main.container,
+main.container-fluid {
+  padding-top: 0.4em;
+  background: #fff;
+  box-sizing: border-box;
+  margin-top: 2.5em;
+  border-radius: 6px;
+  min-height: 70vh;
 }
-.btn-primary:disabled{
+
+button.btn-primary {
+  background: linear-gradient(-45deg, #2e4f4f, #0e8388);
+  border-color: #2c3333;
+  color: #fff;
+  box-shadow: 0 10px 30px 0 rgb(0 0 0 / 15%);
+}
+.btn-primary:disabled {
   border-color: #2c3333;
 }
 
@@ -105,35 +109,35 @@ button.btn-primary{
 
 .mat-mdc-snack-bar-container {
   &.OK-snackbar {
-  --mdc-snackbar-container-color: #4caf50;
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
-  background: linear-gradient(to right, #4caf50, #66bb6a);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
+    --mdc-snackbar-container-color: #4caf50;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    background: linear-gradient(to right, #4caf50, #66bb6a);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
   }
 }
 
 .mat-mdc-snack-bar-container {
   &.KO-snackbar {
-  --mdc-snackbar-container-color: #f44336;
-  --mat-mdc-snack-bar-button-color: #fff;
-  --mdc-snackbar-supporting-text-color: #fff;
-  background: linear-gradient(to right, #f44336, #ef5350);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
+    --mdc-snackbar-container-color: #f44336;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    background: linear-gradient(to right, #f44336, #ef5350);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
   }
 }
 
 .mat-mdc-snack-bar-container {
   &.EXIST-snackbar {
-  --mdc-snackbar-container-color: #ffeb3b;
-  --mat-mdc-snack-bar-button-color: #333;
-  --mdc-snackbar-supporting-text-color: #333;
-  background-color: #fff9c4;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
-  border: 1px solid #ffd54f;
+    --mdc-snackbar-container-color: #ffeb3b;
+    --mat-mdc-snack-bar-button-color: #333;
+    --mdc-snackbar-supporting-text-color: #333;
+    background-color: #fff9c4;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    border: 1px solid #ffd54f;
   }
 }
 
@@ -141,11 +145,10 @@ button.btn-primary{
   display: none;
 }
 
-
 body {
   min-height: 100vh;
-  margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
   background: linear-gradient(316deg, #0e838899 0%, #cbe4de 100%);
   background: linear-gradient(316deg, #0e838880 0%, #cbe4de8c 100%);
 }
-

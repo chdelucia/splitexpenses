@@ -2,7 +2,8 @@
   text-decoration: line-through;
 }
 
-:host ::ng-deep app-add-user, :host ::ng-deep app-add-expense{
+:host ::ng-deep app-add-user,
+:host ::ng-deep app-add-expense {
   h2 {
     display: none;
   }
@@ -26,13 +27,11 @@ mat-stepper {
 ::ng-deep .mat-step-header[aria-selected="true"] {
   background-color: #2e4f4f;
   color: white;
-  .mat-step-label-active{
+  .mat-step-label-active {
     color: white;
   }
-  .mat-step-icon-selected{
-    color:white;
+  .mat-step-icon-selected {
+    color: white;
     background-color: #0e8388;
   }
 }
-
-

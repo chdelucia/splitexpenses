@@ -5,7 +5,7 @@ import { WeatherObject, WeatherPlugin } from '../shared/models';
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
-  styleUrls: ['./weather.component.scss']
+  styleUrls: ['./weather.component.scss'],
 })
 export class WeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;
@@ -16,18 +16,17 @@ export class WeatherComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.weatherSettings.active){
+    if (this.weatherSettings.active) {
       this.getWeathers();
     }
   }
 
-  getWeathers():void {
-      this.weatherService.getWeatheritemsbyCity(this.weatherSettings.city).subscribe(
-        (result: WeatherObject) => {
-          result.main.temp = Math.round(result.main.temp);
-          this.weatherInfo = result
-      })
+  getWeathers(): void {
+    this.weatherService
+      .getWeatheritemsbyCity(this.weatherSettings.city)
+      .subscribe((result: WeatherObject) => {
+        result.main.temp = Math.round(result.main.temp);
+        this.weatherInfo = result;
+      });
   }
-
-
 }

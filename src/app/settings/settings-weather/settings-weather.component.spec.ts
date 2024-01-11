@@ -11,13 +11,9 @@ describe('SettingsWeatherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        FormsModule
-      ],
-      declarations: [ SettingsWeatherComponent,]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule, FormsModule],
+      declarations: [SettingsWeatherComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsWeatherComponent);
     component = fixture.componentInstance;

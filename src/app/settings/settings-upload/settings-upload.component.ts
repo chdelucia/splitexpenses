@@ -5,18 +5,15 @@ import { Settings } from '../../shared/models';
 @Component({
   selector: 'app-settings-upload',
   templateUrl: './settings-upload.component.html',
-  styleUrls: ['./settings-upload.component.scss']
+  styleUrls: ['./settings-upload.component.scss'],
 })
 export class SettingsUploadComponent {
-
   showAlert = false;
   isError = false;
   inputLoadData = '';
   settings: Settings;
 
-  constructor(
-    private localStorageService: LocalstorageService,
-    ) {
+  constructor(private localStorageService: LocalstorageService) {
     this.settings = this.localStorageService.getSettings();
   }
 
@@ -27,13 +24,13 @@ export class SettingsUploadComponent {
     location.reload();
   }
 
-  deleteAll(){
+  deleteAll() {
     localStorage.clear();
     this.showAlert = true;
     location.reload();
   }
 
-  close(){
+  close() {
     this.showAlert = false;
   }
 }

@@ -1,12 +1,11 @@
 import expenses from '../../fixtures/expenses.json';
 
 describe('template spec', () => {
-
   beforeEach(() => {
     cy.visit('/', {
       onBeforeLoad: (window) => {
         window.localStorage.setItem('Expenses', JSON.stringify(expenses));
-      }
+      },
     });
   });
 
@@ -18,5 +17,5 @@ describe('template spec', () => {
     cy.get('@userDebt').should('have.length', 4);
     cy.get('@userDebt').first().click();
     cy.contains('Balance de cuentas');
-  })
-})
+  });
+});

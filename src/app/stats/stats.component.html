@@ -1,38 +1,53 @@
-
 <main class="container py-2 mb-8 flex">
   <div class="d-flex flex-row align-items-center justify-content-center">
-      <div class="me-2">
-          <h2 class="my-4 text-center" i18n>Estadisticas</h2>
-      </div>
-      <div>
-          <select name="name" #user class="form-select" (change)="change(user.value)">
-              <option value="0" selected i18n>Grupo</option>
-              <option *ngFor="let user of usersHTML | async" [value]="user.id">{{user.name}}</option>
-          </select>
-      </div>
+    <div class="me-2">
+      <h2 class="my-4 text-center" i18n>Estadisticas</h2>
+    </div>
+    <div>
+      <select
+        name="name"
+        #user
+        class="form-select"
+        (change)="change(user.value)"
+      >
+        <option value="0" selected i18n>Grupo</option>
+        <option *ngFor="let user of usersHTML | async" [value]="user.id">
+          {{ user.name }}
+        </option>
+      </select>
+    </div>
   </div>
 
-
   <section class="mb-3 mt-2">
-      <h6 i18n>Gasto Total: {{todayCost | number:'.0-2'}} {{currency.currencySymbol}}
-        <span *ngIf="currency.active" class="mainExchange">
-          ( {{ todayCost | exchange | number:'.0-2' }} {{currency.currencyExchangeSymbol}} )
-        </span>
-      </h6>
+    <h6 i18n>
+      Gasto Total: {{ todayCost | number: ".0-2" }}
+      {{ currency.currencySymbol }}
+      <span *ngIf="currency.active" class="mainExchange">
+        ( {{ todayCost | exchange | number: ".0-2" }}
+        {{ currency.currencyExchangeSymbol }} )
+      </span>
+    </h6>
 
-      <div i18n>Gasto por dia: {{meanCost | number:'.0-2' }} {{currency.currencySymbol}}
-        <span *ngIf="currency.active" class="mainExchange">
-          ( {{ meanCost | exchange | number:'.0-2' }} {{currency.currencyExchangeSymbol}} )
-        </span>
-      </div>
-
+    <div i18n>
+      Gasto por dia: {{ meanCost | number: ".0-2" }}
+      {{ currency.currencySymbol }}
+      <span *ngIf="currency.active" class="mainExchange">
+        ( {{ meanCost | exchange | number: ".0-2" }}
+        {{ currency.currencyExchangeSymbol }} )
+      </span>
+    </div>
   </section>
 
   <section class="d-flex flex-wrap g-4">
-    <app-summarygraph bytype="ByDay" [data]="dailyData" class="col-11 col-xxl-6"></app-summarygraph>
-    <app-summarygraph bytype="ByType" [data]="typeData" class="col-11 col-xxl-6"></app-summarygraph>
+    <app-summarygraph
+      bytype="ByDay"
+      [data]="dailyData"
+      class="col-11 col-xxl-6"
+    ></app-summarygraph>
+    <app-summarygraph
+      bytype="ByType"
+      [data]="typeData"
+      class="col-11 col-xxl-6"
+    ></app-summarygraph>
   </section>
-
-
 </main>
-

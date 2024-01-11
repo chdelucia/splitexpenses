@@ -8,13 +8,11 @@ describe('DebtsDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DebtsDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [DebtsDetailComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DebtsDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
 });

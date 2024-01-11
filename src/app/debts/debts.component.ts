@@ -9,17 +9,16 @@ import { LoggerService } from '../core/services/logger.service';
 @Component({
   selector: 'app-debts',
   templateUrl: './debts.component.html',
-  styleUrls: ['./debts.component.scss']
+  styleUrls: ['./debts.component.scss'],
 })
 export class DebtsComponent implements OnInit, OnDestroy {
-
   debts: Map<string, Debt> = this.debtsService.getDebts();
 
   users$: Observable<Array<User>> = this.userService.getIterableUsers();
 
   currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
 
-  debtTracing: TraceAutoSettle[] = []
+  debtTracing: TraceAutoSettle[] = [];
 
   private debtsSubscription: Subscription | undefined;
 
@@ -27,20 +26,21 @@ export class DebtsComponent implements OnInit, OnDestroy {
     private debtsService: DebtsService,
     private userService: UsersService,
     private currencyService: CurrencyService,
-    private loggerService: LoggerService
+    private loggerService: LoggerService,
   ) {}
 
   ngOnInit(): void {
     this.debtsService.initialize();
-    this.debtsSubscription = this.debtsService.debtList$.subscribe(newValue => {
-      this.debts = newValue;
-      this.loggerService.info('DebtsComponent', 'ngInit', newValue, 'red')
-      this.debtTracing = this.debtsService.getDebtTracing();
-    });
+    this.debtsSubscription = this.debtsService.debtList$.subscribe(
+      (newValue) => {
+        this.debts = newValue;
+        this.loggerService.info('DebtsComponent', 'ngInit', newValue, 'red');
+        this.debtTracing = this.debtsService.getDebtTracing();
+      },
+    );
   }
 
   ngOnDestroy(): void {
     this.debtsSubscription?.unsubscribe();
   }
-
 }

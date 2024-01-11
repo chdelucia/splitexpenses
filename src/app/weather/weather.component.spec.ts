@@ -9,12 +9,9 @@ describe('WeatherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
-      declarations: [ WeatherComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule],
+      declarations: [WeatherComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WeatherComponent);
     component = fixture.componentInstance;
