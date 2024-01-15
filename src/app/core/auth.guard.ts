@@ -6,9 +6,9 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable, map, zip } from 'rxjs';
-import { UsersService } from '../users/shared/users.service';
-import { ExpensesService } from '../expenses/shared/expenses.service';
-import { Expense, User } from '../shared/models';
+import { UsersService } from '@users/shared/users.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { Expense, User } from '@shared/models/models';
 
 @Injectable({
   providedIn: 'root',

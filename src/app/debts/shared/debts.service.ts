@@ -6,7 +6,7 @@ import {
   IndividualDebt,
   TraceAutoSettle,
   User,
-} from '@shared/models';
+} from '@shared/models/models';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 

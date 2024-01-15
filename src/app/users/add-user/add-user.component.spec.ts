@@ -4,9 +4,9 @@ import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import { AddUserComponent } from './add-user.component';
-import { UsersService } from '../shared/users.service';
-import { User } from '../../shared/models';
-import { UserState, userReducer } from '../../state/user/user.reducer';
+import { UsersService } from '@users/shared/users.service';
+import { User } from '@shared/models';
+import { UserState, userReducer } from '@state/user/user.reducer';
 
 describe('AddUserComponent', () => {
   let component: AddUserComponent;

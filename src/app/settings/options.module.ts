@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { OptionsRoutingModule } from './options-routing.module';
 import { OptionsComponent } from './options.component';
-import { CurrencyService } from '../shared/currency.service';
+import { CurrencyService } from '../shared/services/currency.service';
 import { SettingsBackupComponent } from './settings-backup/settings-backup.component';
 import { SettingsWeatherComponent } from './settings-weather/settings-weather.component';
 import { SettingsUploadComponent } from './settings-upload/settings-upload.component';

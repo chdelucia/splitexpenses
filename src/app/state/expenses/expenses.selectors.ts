@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ExpensesState } from './expenses.reducer';
-import { Expense } from '../../shared/models';
+import { Expense } from '@shared/models/models';
 
 const selectExpensesState = createFeatureSelector<ExpensesState>('expenses');
 

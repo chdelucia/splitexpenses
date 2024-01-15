@@ -4,12 +4,19 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@users/*": ["src/app/users/*"],
+      "@core/*": ["src/app/core/*"],
       "@debts/*": ["src/app/debts/*"],
       "@expenses/*": ["src/app/expenses/*"],
+      "@forecast/*": ["src/app/forecast/*"],
+      "@settings/*": ["src/app/settings/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@core/*": ["src/app/core/*"],
+      "@state/*": ["src/app/state/*"],
+      "@stats/*": ["src/app/stats/*"],
+      "@users/*": ["src/app/users/*"],
+      "@weather/*": ["src/app/weather/*"],
+      "@welcome/*": ["src/app/welcome/*"],
       "@env/*": ["src/environments/*"]
+
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

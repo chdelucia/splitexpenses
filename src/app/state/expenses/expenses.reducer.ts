@@ -5,7 +5,7 @@ import {
   removeExpense,
   addExpenses,
 } from './expenses.actions';
-import { Expense } from '../../shared/models';
+import { Expense } from '@shared/models/models';
 
 export interface ExpensesState {
   expenses: Map<string, Expense>;

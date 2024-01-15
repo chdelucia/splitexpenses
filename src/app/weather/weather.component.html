@@ -4,11 +4,11 @@
     <div>
       <img
         src="http://openweathermap.org/img/w/{{
-          weatherInfo.weather[0]?.icon
+          weatherInfo.weather[0].icon
         }}.png"
         alt="{{ weatherInfo.name }}"
       />
-      {{ weatherInfo.weather[0]?.description }}
+      {{ weatherInfo.weather[0].description }}
     </div>
     <b class="temp"> {{ weatherInfo.main.temp }} °C</b>
   </div>

@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { CurrencyPlugin, Expense, Settings, StorageData, User } from './models';
-import * as utils from './utils';
+import { environment } from '@env/environment';
+import {
+  CurrencyPlugin,
+  Expense,
+  Settings,
+  StorageData,
+  User,
+} from '@shared/models';
+import * as utils from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -62,7 +68,7 @@ export class LocalstorageService {
     return answers;
   }
 
-  saveSettings(data?: Object) {
+  saveSettings(data?: object) {
     this.settings = { ...this.settings, ...data };
 
     //TODO create a deep clone

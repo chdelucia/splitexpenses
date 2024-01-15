@@ -1,5 +1,5 @@
 import { DebtsComponent } from './debts.component';
-import { CurrencyService } from '@shared/currency.service';
+import { CurrencyService } from '@shared/services/currency.service';
 import { UsersService } from '@users/shared/users.service';
 import { DebtsService } from './shared/debts.service';
 import { of } from 'rxjs';

@@ -1,15 +1,8 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { environment } from 'src/environments/environment';
-import { LocalstorageService } from '../../shared/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage.service';
 
 @Component({
   selector: 'app-summarygraph',
@@ -30,7 +23,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     this.settings = this.storageService.getSettings();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.bytype === 'ByType') {
       this.calcByType();
     } else if (this.bytype === 'weather') {
@@ -91,7 +84,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     ],
   };
 
-  // events
+  // eventsdata
   chartClicked({ event, active }: { event?: ChartEvent; active?: {}[] }): void {
     if (this.bytype === 'true') {
       const data: any = active?.pop();
@@ -105,11 +98,7 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     }
   }
 
-  chartHovered({ event, active }: { event?: ChartEvent; active?: {}[] }): void {
-    //console.log(event, active);
-  }
-
-  calcByType(userId?: string) {
+  calcByType() {
     this.barChartData.datasets[0].label = '';
     if (this.barChartOptions?.plugins?.title) {
       this.barChartOptions.plugins.title.text = $localize`Gasto acumulado por tipo`;

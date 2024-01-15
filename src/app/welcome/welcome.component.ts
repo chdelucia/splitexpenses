@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatStepper } from '@angular/material/stepper';
-import { ExpensesService } from '../expenses/shared/expenses.service';
-import { UsersService } from '../users/shared/users.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { UsersService } from '@users/shared/users.service';
 import { Subscription, combineLatest, map } from 'rxjs';
 
 @Component({

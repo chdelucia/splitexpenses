@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { calcNextID, convertStringToMap } from '../../shared/utils';
+import { calcNextID, convertStringToMap } from '@shared/utils';
 import { Store } from '@ngrx/store';
 import {
   selectUsers,
@@ -7,16 +7,16 @@ import {
   selectIterableUsers,
   selectUserByName,
   selectUserCount,
-} from '../../state/user/user.selectors';
+} from '@state/user/user.selectors';
 import { firstValueFrom, Observable } from 'rxjs';
 import {
   addUser,
   addUsers,
   removeUser,
   updateUser,
-} from '../../state/user/user.actions';
-import { LocalstorageService } from '../../shared/localstorage.service';
-import { User } from '../../shared/models';
+} from '@state/user/user.actions';
+import { LocalstorageService } from '@shared/services/localstorage.service';
+import { User } from '@shared/models/models';
 
 @Injectable({
   providedIn: 'root',

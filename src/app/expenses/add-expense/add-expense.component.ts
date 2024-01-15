@@ -11,16 +11,11 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { first, Observable } from 'rxjs';
-import { CurrencyService } from '../../shared/currency.service';
-import { ExpensesService } from '../../expenses/shared/expenses.service';
-import {
-  CurrencyPlugin,
-  Expense,
-  ExpenseTypes,
-  User,
-} from '../../shared/models';
-import { globalToast, openSnackBar } from '../../shared/utils';
-import { UsersService } from '../../users/shared/users.service';
+import { CurrencyService } from '@shared/services/currency.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
+import { globalToast, openSnackBar } from '@shared/utils';
+import { UsersService } from '@users/shared/users.service';
 
 @Component({
   selector: 'app-add-expense',

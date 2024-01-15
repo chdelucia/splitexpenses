@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { User } from '../../shared/models';
-import { UsersService } from '../shared/users.service';
+import { UsersService } from '@users/shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { globalToast, openSnackBar } from '../../shared/utils';
-import { FormBuilder, Validators } from '@angular/forms';
+import { globalToast, openSnackBar } from '@shared/utils';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '@shared/models';
 
 @Component({
   selector: 'app-add-user',
@@ -12,9 +12,9 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent {
-  userForm = this.fb.group({
-    user: ['', [Validators.required]],
-    phone: [''],
+  userForm = new FormGroup({
+    user: new FormControl('', [Validators.required]),
+    phone: new FormControl(''),
   });
 
   private toastmsg = {
@@ -26,28 +26,29 @@ export class AddUserComponent {
   constructor(
     private userService: UsersService,
     private _snackBar: MatSnackBar,
-    private fb: FormBuilder,
   ) {}
 
-  async onSubmit(userForm: any) {
-    const { user, phone } = userForm;
-    const nameExist = await firstValueFrom(
-      this.userService.checkIfNameExist(user),
-    );
-    if (nameExist) {
-      openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
-      return;
+  async onSubmit() {
+    if (this.userForm.value.user) {
+      const { user, phone } = this.userForm.value;
+      const nameExist = await firstValueFrom(
+        this.userService.checkIfNameExist(user),
+      );
+      if (nameExist) {
+        openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
+        return;
+      }
+
+      const userObj: User = {
+        id: '',
+        name: user,
+        phone: phone || undefined,
+      };
+
+      this.userService.addUser(userObj);
+      openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
+      this.resetForm();
     }
-
-    const userObj: User = {
-      id: '',
-      name: user,
-      phone: phone,
-    };
-
-    this.userService.addUser(userObj);
-    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
-    this.resetForm();
   }
 
   private resetForm(): void {

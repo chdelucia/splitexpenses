@@ -6,7 +6,7 @@ import {
   resetUsers,
   updateUser,
 } from './user.actions';
-import { User } from '../../shared/models';
+import { User } from '@shared/models/models';
 
 export interface UserState {
   users: Map<string, User>;

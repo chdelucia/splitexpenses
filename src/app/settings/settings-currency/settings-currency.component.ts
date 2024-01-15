@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyService } from '../../shared/currency.service';
-import { CurrencyPlugin } from '../../shared/models';
+import { CurrencyService } from '../../shared/services/currency.service';
+import { CurrencyPlugin } from '../../shared/models/models';
 
 @Component({
   selector: 'app-settings-currency',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { WeatherService } from '../forecast/shared/weather.service';
-import { WeatherObject, WeatherPlugin } from '../shared/models';
+import { WeatherService } from '@forecast/shared/weather.service';
+import { WeatherObject, WeatherPlugin } from '@shared/models/models';
 
 @Component({
   selector: 'app-weather',
@@ -9,7 +9,7 @@ import { WeatherObject, WeatherPlugin } from '../shared/models';
 })
 export class WeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;
-  weatherInfo: any;
+  weatherInfo!: WeatherObject;
 
   constructor(private weatherService: WeatherService) {
     this.weatherSettings = this.weatherService.getWeahterSettings();

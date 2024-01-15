@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WeatherService } from '../../forecast/shared/weather.service';
+import { WeatherService } from '@forecast/shared/weather.service';
 
 @Component({
   selector: 'app-navbar',

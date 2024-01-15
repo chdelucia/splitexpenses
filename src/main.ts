@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /// <reference types="@angular/localize" />
 
 import { enableProdMode } from '@angular/core';

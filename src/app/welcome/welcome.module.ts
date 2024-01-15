@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 import { WelcomeRoutingModule } from './welcome-routing.module';
 import { WelcomeComponent } from './welcome.component';
 import { MatStepperModule } from '@angular/material/stepper';
-import { UsersModule } from '../users/users.module';
-import { ExpensesModule } from '../expenses/expenses.module';
+import { UsersModule } from '@users/users.module';
+import { ExpensesModule } from '@expenses/expenses.module';
 
 @NgModule({
   declarations: [WelcomeComponent],
