@@ -1,37 +1,27 @@
 import { Injectable } from '@angular/core';
 
-import { Log } from 'ng2-logger/browser';
-import { environment } from 'src/environments/environment';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoggerService {
-  log = Log.create('');
   constructor() {}
 
   info(
     componentName: string,
     functionName: string,
     message: unknown,
-    color?: string,
+    bgColor = '#18864b',
   ) {
-    this.log['name'] = componentName;
-    if (color) {
-      this.log.color = color;
-    }
-    this.log.i(functionName, message);
-  }
-
-  error(componentName: string, functionName: string, message: unknown) {
-    this.log['name'] = componentName;
-    this.log.color = 'red';
-    this.log.er(functionName, message);
-  }
-
-  propio(name: string, message: unknown) {
-    if (environment.production) {
-      console.info(name, message);
+    if (!environment.production) {
+      // eslint-disable-next-line no-console
+      console.log(
+        `%c ${componentName} %c ${functionName} `,
+        `background: ${bgColor}; color: #fff; border:1px solid #000`,
+        'background: #fff; color: #000; border:1px solid #000',
+        message,
+      );
     }
   }
 }

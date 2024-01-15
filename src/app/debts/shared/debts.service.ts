@@ -6,9 +6,9 @@ import {
   IndividualDebt,
   TraceAutoSettle,
   User,
-} from '../../shared/models';
-import { UsersService } from '../../users/shared/users.service';
-import { ExpensesService } from '../../expenses/shared/expenses.service';
+} from '@shared/models';
+import { UsersService } from '@users/shared/users.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
 
 @Injectable({
   providedIn: 'root',

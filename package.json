@@ -1,6 +1,6 @@
 {
   "name": "splitexpenses",
-  "version": "1.0.0",
+  "version": "1.5.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -23,7 +23,7 @@
     "compodoc:build": "compodoc -p tsconfig.doc.json",
     "compodoc:build-and-serve": "compodoc -p tsconfig.doc.json -s",
     "compodoc:serve": "compodoc -s",
-    "prettier": "npx prettier --write ."
+    "prettier:write": "npx prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -42,7 +42,6 @@
     "@ngrx/store-devtools": "^17.0.1",
     "chart.js": "^4.4.1",
     "ng2-charts": "^5.0.4",
-    "ng2-logger": "^16.5.5",
     "ngx-skeleton-loader": "^8.1.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",

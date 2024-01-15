@@ -12,6 +12,13 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "no-console": "error",
+        "no-restricted-imports": [
+          "warn",
+          {
+            "patterns": ["..*"]
+          }
+        ],
         "@angular-eslint/directive-selector": [
           "error",
           {
