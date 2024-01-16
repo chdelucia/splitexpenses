@@ -16,6 +16,8 @@ import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
 import { globalToast, openSnackBar } from '@shared/utils';
 import { UsersService } from '@users/shared/users.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { ExpenseForm } from '@expenses/models';
 
 @Component({
   selector: 'app-add-expense',
@@ -96,24 +98,17 @@ export class AddExpenseComponent implements OnInit {
     return this.fb.control(controlValue);
   }
 
-  onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
+  onSubmit(expenseForm: ExpenseForm, formDirective: FormGroupDirective) {
     const sharedBy = expenseForm.sharedBy.join('').split('');
-    const originalCost = parseFloat(expenseForm.cost);
+    const originalCost = expenseForm.cost;
     const costPerPerson = originalCost / sharedBy.length;
-
-    /** Necessary cause date format from edit page is not in isoFormat
-     * Why you do that?
-     * idk even why, some cloudy day I thought it was a brillant idea, now is a legacy code
-     * TODO  - all dates should be storage as ms
-     */
-    if (this.isEditing) expenseForm.date = new Date(expenseForm.date);
 
     const expense: Expense = {
       id: this.isEditing ? this.expense!.id : '',
       title: expenseForm.title,
       originalCost: originalCost,
       cost: costPerPerson,
-      date: expenseForm.date.toISOString().split('T')[0],
+      date: expenseForm.date.toDateString(),
       paidBy: expenseForm.name,
       typeId: expenseForm.type,
       sharedBy: sharedBy,
@@ -131,12 +126,12 @@ export class AddExpenseComponent implements OnInit {
       name: this.expense?.paidBy,
       cost: this.expense?.originalCost,
       title: this.expense?.title,
-      date: this.expense?.date,
+      date: this.expense?.date ? new Date(this.expense?.date) : new Date(),
       type: this.expense?.typeId,
     });
   }
 
-  onCheckboxChange(e: any) {
+  onCheckboxChange(e: MatCheckboxChange) {
     const interests: FormArray = this.expenseForm.get('sharedBy') as FormArray;
     if (e.checked) {
       interests.push(new FormControl(e.source.value));

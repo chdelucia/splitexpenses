@@ -16,6 +16,18 @@ export interface Expense {
   settleBy: Array<string>;
 }
 
+export interface ExpenseEntity {
+  id: string;
+  title: string;
+  date: string;
+  cost: number;
+  originalCost: number;
+  paidBy: string;
+  typeId: string;
+  sharedBy: Array<string>;
+  settleBy: Array<string>;
+}
+
 export interface IndividualDebt {
   newDebt: number;
   individualtotalIveBeenPaid: number;

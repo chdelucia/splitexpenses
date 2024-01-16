@@ -39,7 +39,12 @@ export class DebtsComponent implements OnInit, OnDestroy {
     this.debtsSubscription = this.debtsService.debtList$.subscribe(
       (newValue) => {
         this.debts = newValue;
-        this.loggerService.info('DebtsComponent', 'ngInit', newValue, 'red');
+        this.loggerService.info(
+          this.constructor.name,
+          this.ngOnInit.name,
+          newValue,
+          'red',
+        );
         this.debtTracing = this.debtsService.getDebtTracing();
       },
     );

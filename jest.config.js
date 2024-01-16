@@ -96,12 +96,18 @@ module.exports = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    "^@users/(.*)$": "<rootDir>/src/app/users/$1",
+    "^@core/(.*)$": "<rootDir>/src/app/core/$1",
     "^@debts/(.*)$": "<rootDir>/src/app/debts/$1",
     "^@expenses/(.*)$": "<rootDir>/src/app/expenses/$1",
+    "^@forecast/(.*)$": "<rootDir>/src/app/forecast/$1",
+    "^@settings/(.*)$": "<rootDir>/src/app/settings/$1",
     "^@shared/(.*)$": "<rootDir>/src/app/shared/$1",
-    "^@core/(.*)$": "<rootDir>/src/app/core/$1",
-    "^ng2-logger/(.*)$": "<rootDir>/node_modules/ng2-logger/browser/$1",
+    "^@state/(.*)$": "<rootDir>/src/app/state/$1",
+    "^@stats/(.*)$": "<rootDir>/src/app/stats/$1",
+    "^@users/(.*)$": "<rootDir>/src/app/users/$1",
+    "^@weather/(.*)$": "<rootDir>/src/app/weather/$1",
+    "^@welcome/(.*)$": "<rootDir>/src/app/welcome/$1",
+    "^@env/(.*)$": "<rootDir>/src/environments/$1"
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

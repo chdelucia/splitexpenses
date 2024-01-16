@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from '@shared/models';
 import { calcNextID, convertStringToMap, diffinDays } from '@shared/utils';
@@ -20,19 +20,23 @@ import {
   selectExpensesGroupByDates,
   selectExpensesOrderByDateDesc,
 } from '@state/expenses/expenses.selectors';
+import { ExpensesMapper } from '@expenses/shared/expense.mapper';
+import { ExpenseRepository } from './expense.repository';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ExpensesService {
+export class ExpensesService extends ExpenseRepository {
   private settings: Settings;
   private expenses: Map<string, Expense> = new Map();
+  mapper = new ExpensesMapper();
 
   constructor(
     private storageService: LocalstorageService,
     private store: Store,
     private http: HttpClient,
   ) {
+    super();
     this.settings = this.storageService.getSettings();
     this.loadExpensesFromLocalStorage();
     this.init();
@@ -40,7 +44,9 @@ export class ExpensesService {
 
   private apiUrl = 'http://localhost:3000'; // Reemplazar con la URL de tu API
   getExpensesAPI(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(`${this.apiUrl}/expenses`);
+    return this.http
+      .get<Expense[]>(`${this.apiUrl}/expenses`)
+      .pipe(map((expenses) => this.mapper.mapFromList(expenses)));
   }
 
   getExpenseAPI(id: string): Observable<Expense> {
@@ -74,7 +80,7 @@ export class ExpensesService {
     this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 
-  async saveExpensesIntoLocalStorage(): Promise<void> {
+  saveExpensesIntoLocalStorage(): void {
     this.storageService.saveDataToLocalStorage(undefined, this.expenses);
   }
 

@@ -49,13 +49,14 @@ describe('DebtsComponent sin testbed', () => {
     const spyDebttracing = jest
       .spyOn(debtsServiceStub, 'getDebtTracing')
       .mockReturnValue('test' as any);
-
+    const spyLoggerSerbice = jest.spyOn(loggerServiceStub, 'info');
     component.ngOnInit();
 
     expect(spyDebtInit).toHaveBeenCalled();
     expect(spyDebttracing).toHaveBeenCalled();
     expect(component.debts).toBeTruthy();
     expect(component.debtTracing).toBe('test');
+    expect(spyLoggerSerbice).toHaveBeenCalled();
   });
 
   it('should get currency settings from service', () => {
