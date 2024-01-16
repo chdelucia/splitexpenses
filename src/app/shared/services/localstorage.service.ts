@@ -3,28 +3,31 @@ import { environment } from '@env/environment';
 import {
   CurrencyPlugin,
   Expense,
+  ExpenseTypes,
   Settings,
   StorageData,
   User,
 } from '@shared/models';
 import * as utils from '@shared/utils';
+import { StorageService } from './storage';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocalstorageService {
+export class LocalstorageService extends StorageService {
   data: StorageData;
   settings: Settings;
 
   constructor() {
+    super(window.localStorage);
     this.settings = this.loadSettings();
     this.data = this.loadDataFromLocalStorage();
   }
 
   loadDataFromLocalStorage(): StorageData {
     const travelName = this.getActiveTravelName();
-    const ans = localStorage.getItem(travelName);
-    const answers = ans ? JSON.parse(ans) : this.createDataStructure();
+    const ans = this.getItem<StorageData>(travelName);
+    const answers = ans ?? this.createDataStructure();
     return answers;
   }
 
@@ -39,21 +42,23 @@ export class LocalstorageService {
     this.data.expenses = expenses
       ? utils.convertMaptoString(expenses)
       : this.data.expenses;
-    this.data.currency = currency ? currency : this.data.currency;
+    this.data.currency = currency ?? this.data.currency;
 
-    localStorage.setItem(travelName, JSON.stringify(this.data));
+    this.setItem(travelName, this.data);
   }
 
-  createDataStructure() {
+  createDataStructure(): StorageData {
     const obj = {
-      users: '',
-      expenses: '',
+      users: {},
+      expenses: {},
       name: environment.localStorageExpenses,
       currency: {
         currencySymbol: environment.defaultCurrency,
+        active: false,
+        exchangeValue: 0,
       },
     };
-    localStorage.setItem(environment.localStorageExpenses, JSON.stringify(obj));
+    this.setItem(environment.localStorageExpenses, obj);
     return obj;
   }
 
@@ -61,10 +66,12 @@ export class LocalstorageService {
     return this.data;
   }
 
-  loadSettings(): Settings {
-    const ans = localStorage.getItem(environment.localStorageSettings);
-    const answers = ans ? JSON.parse(ans) : this.createSettingsStructure();
-    answers.graph.types = utils.convertStringToMap(answers.graph.types);
+  loadSettings(): any {
+    const ans = this.getItem<Settings>(environment.localStorageSettings);
+    const answers = ans ?? this.createSettingsStructure();
+    answers.graph.types = utils.convertStringToMap<ExpenseTypes>(
+      answers.graph.types as Record<string, ExpenseTypes>,
+    );
     return answers;
   }
 
@@ -75,10 +82,7 @@ export class LocalstorageService {
     this.settings.graph.types = utils.convertMaptoString(
       this.settings.graph.types,
     ) as any;
-    localStorage.setItem(
-      environment.localStorageSettings,
-      JSON.stringify(this.settings),
-    );
+    this.setItem(environment.localStorageSettings, this.settings);
 
     this.settings.graph.types = utils.convertStringToMap(
       this.settings.graph.types as any,
@@ -91,7 +95,7 @@ export class LocalstorageService {
       types.set(i, { id: i, name: type, active: true });
     });
     const obj = {
-      weather: {},
+      weather: { active: false, city: '', key: '' },
       travels: {
         names: [environment.localStorageExpenses],
         active: environment.localStorageExpenses,
@@ -101,7 +105,7 @@ export class LocalstorageService {
         types: utils.convertMaptoString(types),
       },
     };
-    localStorage.setItem(environment.localStorageSettings, JSON.stringify(obj));
+    this.setItem(environment.localStorageSettings, obj);
     return obj;
   }
 
@@ -114,11 +118,8 @@ export class LocalstorageService {
     this.settings.travels.names.push(name);
 
     const data = { users: '', expenses: '', name: name, currency: '' };
-    localStorage.setItem(name, JSON.stringify(data));
-    localStorage.setItem(
-      environment.localStorageSettings,
-      JSON.stringify(this.settings),
-    );
+    this.setItem(name, data);
+    this.setItem(environment.localStorageSettings, this.settings);
     this.reset();
   }
 

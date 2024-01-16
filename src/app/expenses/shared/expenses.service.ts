@@ -2,15 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { LocalstorageService } from '../../shared/services/localstorage.service';
-import { Expense, ExpenseTypes, Settings } from '../../shared/models/models';
-import { calcNextID, convertStringToMap, diffinDays } from '../../shared/utils';
+import { LocalstorageService } from '@shared/services/localstorage.service';
+import { Expense, ExpenseTypes, Settings } from '@shared/models';
+import { calcNextID, convertStringToMap, diffinDays } from '@shared/utils';
 import {
   addExpense,
   addExpenses,
   removeExpense,
   updateExpense,
-} from '../../state/expenses/expenses.actions';
+} from '@state/expenses/expenses.actions';
 import {
   selectExpenseByID,
   selectExpenses,
@@ -19,7 +19,7 @@ import {
   selectIterableExpenses,
   selectExpensesGroupByDates,
   selectExpensesOrderByDateDesc,
-} from '../../state/expenses/expenses.selectors';
+} from '@state/expenses/expenses.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -70,7 +70,7 @@ export class ExpensesService {
 
   loadExpensesFromLocalStorage(): void {
     const ans = this.storageService.getData().expenses;
-    const expenses = ans ? convertStringToMap(ans) : new Map();
+    const expenses = ans ? convertStringToMap<Expense>(ans) : new Map();
     this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 

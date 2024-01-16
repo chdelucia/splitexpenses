@@ -31,8 +31,8 @@ export interface Debt {
 }
 
 export interface StorageData {
-  users: string;
-  expenses: string;
+  users: Record<string, User>;
+  expenses: Record<string, Expense>;
   name: string;
   currency: CurrencyPlugin;
 }

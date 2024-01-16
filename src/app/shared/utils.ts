@@ -1,16 +1,14 @@
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-export function convertStringToMap(data: string): Map<string, any> {
-  const obj = JSON.parse(data);
-  const map = new Map(Object.entries(obj));
+export function convertStringToMap<T>(data: Record<string, T>): Map<string, T> {
+  const map = new Map(Object.entries(data));
   return map;
 }
 
-export function convertMaptoString(map: Map<string, unknown>): string {
+export function convertMaptoString<T>(map: Map<string, T>): Record<string, T> {
   const obj = Object.fromEntries(map);
-  const jsonString = JSON.stringify(obj);
 
-  return jsonString;
+  return obj;
 }
 
 export function calcNextID(data: Map<string, unknown>): string {
