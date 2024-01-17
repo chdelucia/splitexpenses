@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
@@ -44,8 +44,9 @@ export class ExpensesService extends ExpenseRepository {
 
   private apiUrl = 'http://localhost:3000'; // Reemplazar con la URL de tu API
   getExpensesAPI(): Observable<Expense[]> {
+    const headers = new HttpHeaders().set('skip-interceptor', 'true');
     return this.http
-      .get<Expense[]>(`${this.apiUrl}/expenses`)
+      .get<Expense[]>(`${this.apiUrl}/expenses`, { headers })
       .pipe(map((expenses) => this.mapper.mapFromList(expenses)));
   }
 
