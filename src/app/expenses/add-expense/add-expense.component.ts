@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, numberAttribute } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -25,6 +25,7 @@ import { ExpenseForm } from '@expenses/models';
   styleUrls: ['./add-expense.component.scss'],
 })
 export class AddExpenseComponent implements OnInit {
+  @Input({ transform: numberAttribute }) id = '';
   expenseForm: FormGroup;
   currency: CurrencyPlugin;
   users$: Observable<Array<User>>;

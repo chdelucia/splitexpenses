@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ExpensesRoutingModule } from './expenses-routing.module';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
 import { ExpensesListComponent } from './expenses-list/expenses-list.component';
 import { ExpensesService } from './shared/expenses.service';
@@ -12,7 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
-import { FilterPipe } from '../shared/pipes/filter.pipe';
+import { FilterPipe } from '@shared/pipes/filter.pipe';
 
 @NgModule({
   declarations: [AddExpenseComponent, ExpensesListComponent],
