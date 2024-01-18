@@ -77,16 +77,11 @@ export class LocalstorageService extends StorageService {
 
   saveSettings(data?: object) {
     this.settings = { ...this.settings, ...data };
+    const newObj = structuredClone(this.settings);
 
     //TODO create a deep clone
-    this.settings.graph.types = utils.convertMaptoString(
-      this.settings.graph.types,
-    ) as any;
+    newObj.graph.types = utils.convertMaptoString(newObj.graph.types) as any;
     this.setItem(environment.localStorageSettings, this.settings);
-
-    this.settings.graph.types = utils.convertStringToMap(
-      this.settings.graph.types as any,
-    );
   }
 
   createSettingsStructure() {
