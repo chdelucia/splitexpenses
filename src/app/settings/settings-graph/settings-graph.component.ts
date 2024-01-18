@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LocalstorageService } from '../../shared/services/localstorage.service';
-import { ExpenseTypes, Settings } from '../../shared/models/models';
+import { LocalstorageService } from '@shared/services/localstorage.service';
+import { ExpenseTypes, Settings } from '@shared/models/models';
 
 @Component({
   selector: 'app-settings-graph',

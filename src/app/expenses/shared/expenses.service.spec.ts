@@ -7,16 +7,16 @@ import {
   addExpenses,
   removeExpense,
   updateExpense,
-} from '../../state/expenses/expenses.actions';
+} from '@state/expenses/expenses.actions';
 import {
   selectExpenses,
   selectIterableExpenses,
   selectExpensesFilterByType,
   selectExpensesDates,
   selectExpenseByID,
-} from '../../state/expenses/expenses.selectors';
-import { LocalstorageService } from '../../shared/services/localstorage.service';
-import { Expense, Settings } from '../../shared/models/models';
+} from '@state/expenses/expenses.selectors';
+import { LocalstorageService } from '@shared/services/localstorage.service';
+import { Expense, Settings } from '@shared/models/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 const expense1: Expense = {

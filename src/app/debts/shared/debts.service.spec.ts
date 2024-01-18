@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DebtsService } from './debts.service';
-import { UsersService } from '../../users/shared/users.service';
-import { ExpensesService } from '../../expenses/shared/expenses.service';
-import { Expense, User } from '../../shared/models/models';
+import { UsersService } from '@users/shared/users.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { Expense, User } from '@shared/models/models';
 
 describe('DebtsService', () => {
   let debtsService: DebtsService;
@@ -68,7 +68,7 @@ describe('DebtsService', () => {
 
   describe('getdebtTracing', () => {
     it('should return the debtTracing array', () => {
-      const debtTracing = debtsService.getdebtTracing();
+      const debtTracing = debtsService.getDebtTracing();
       expect(debtTracing).toEqual(debtsService['debtTracing']);
     });
   });
@@ -80,7 +80,7 @@ describe('DebtsService', () => {
   });
 
   it('should get trace debts', () => {
-    const debtTracing = debtsService.getdebtTracing();
+    const debtTracing = debtsService.getDebtTracing();
     expect(debtTracing).toEqual([]);
   });
 

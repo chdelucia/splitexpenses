@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 
 import { UsersComponent } from './users.component';
 import { UsersService } from './shared/users.service';
-import { User } from '../shared/models/models';
-import { userReducer, UserState } from '../state/user/user.reducer';
+import { User } from '@shared/models/models';
+import { userReducer, UserState } from '@state/user/user.reducer';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;

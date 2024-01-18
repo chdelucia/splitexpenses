@@ -3,9 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { WeatherObject, WeatherPlugin } from '../../shared/models/models';
-import { LocalstorageService } from '../../shared/services/localstorage.service';
-import { environment } from '../../../environments/environment';
+import { WeatherObject, WeatherPlugin } from '@shared/models/models';
+import { LocalstorageService } from '@shared/services/localstorage.service';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',

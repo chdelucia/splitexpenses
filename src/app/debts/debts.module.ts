@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { DebtsService } from './shared/debts.service';
 import { MatTableModule } from '@angular/material/table';
 import { DebtTracingComponent } from './debt-tracing/debt-tracing.component';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [DebtsComponent, DebtsDetailComponent, DebtTracingComponent],

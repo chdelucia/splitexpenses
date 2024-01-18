@@ -1,5 +1,5 @@
 import { NavbarComponent } from './navbar.component';
-import { WeatherService } from '../../forecast/shared/weather.service';
+import { WeatherService } from '@forecast/shared/weather.service';
 
 describe('NavbarComponent sin tesbed', () => {
   let component: NavbarComponent;

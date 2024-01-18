@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { environment } from 'src/environments/environment';
 import { LocalstorageService } from '@shared/services/localstorage.service';
 
 @Component({
@@ -83,20 +82,6 @@ export class SummarygraphComponent implements OnInit, OnChanges {
       },
     ],
   };
-
-  // eventsdata
-  chartClicked({ event, active }: { event?: ChartEvent; active?: {}[] }): void {
-    if (this.bytype === 'true') {
-      const data: any = active?.pop();
-      console.log(data);
-      if (data) {
-        const label = environment.expensesTypes[data.index];
-        this.filter = label;
-      } else {
-        this.filter = '';
-      }
-    }
-  }
 
   calcByType() {
     this.barChartData.datasets[0].label = '';

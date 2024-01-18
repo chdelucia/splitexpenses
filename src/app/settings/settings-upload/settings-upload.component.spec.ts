@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MockComponent } from 'ng-mocks';
 
 import { SettingsUploadComponent } from './settings-upload.component';
 

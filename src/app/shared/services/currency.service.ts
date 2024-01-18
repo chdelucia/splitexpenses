@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalstorageService } from './localstorage.service';
-import { CurrencyPlugin } from '../models/models';
+import { CurrencyPlugin } from '@shared/models/models';
 
 @Injectable({
   providedIn: 'root',

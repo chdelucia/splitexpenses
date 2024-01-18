@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockComponent } from 'ng-mocks';
 
 import { SettingsBackupComponent } from './settings-backup.component';
 
