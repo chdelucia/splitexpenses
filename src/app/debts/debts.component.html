@@ -1,6 +1,6 @@
 <main class="container-md mb-5">
   <h2 class="my-4 text-center" i18n>Deudas</h2>
-  <section class="row g-4">
+  <section class="row g-4" *ngIf="debts$ | async as debts">
     <ng-container *ngIf="debts.size">
       <div
         class="col-sm-12 col-lg-6 col-xxl-4"
@@ -51,7 +51,7 @@
     </ng-container>
   </section>
 
-  <div class="item persoanlDebts">
+  <!-- <div class="item persoanlDebts">
     <ngx-skeleton-loader
       animation="progress-dark"
       count="5"
@@ -61,7 +61,7 @@
     <ngx-skeleton-loader animation="progress"></ngx-skeleton-loader>
     <ngx-skeleton-loader></ngx-skeleton-loader>
     <ngx-skeleton-loader animation="pulse"></ngx-skeleton-loader>
-  </div>
+  </div> -->
 
   <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
 </main>

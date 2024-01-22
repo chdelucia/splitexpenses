@@ -2,7 +2,6 @@ import { DebtsComponent } from './debts.component';
 import { CurrencyService } from '@shared/services/currency.service';
 import { UsersService } from '@users/shared/users.service';
 import { DebtsService } from './shared/debts.service';
-import { of } from 'rxjs';
 import { LoggerService } from '@core/services/logger.service';
 
 describe('DebtsComponent sin testbed', () => {
@@ -17,7 +16,6 @@ describe('DebtsComponent sin testbed', () => {
       getDebts: jest.fn(),
       initialize: jest.fn(),
       getDebtTracing: jest.fn(),
-      debtList$: of(true) as any,
     };
     userServiceStub = { getIterableUsers: jest.fn() };
     currencyServiceStub = { getCurrencySettings: jest.fn() };
@@ -27,7 +25,6 @@ describe('DebtsComponent sin testbed', () => {
       debtsServiceStub as DebtsService,
       userServiceStub as UsersService,
       currencyServiceStub as CurrencyService,
-      loggerServiceStub as LoggerService,
     );
   });
 
@@ -35,28 +32,12 @@ describe('DebtsComponent sin testbed', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should destroy subscriptions', () => {
-    const mockSubscription: any = { unsubscribe: jest.fn() };
-    component['debtsSubscription'] = mockSubscription;
-
-    component.ngOnDestroy();
-
-    expect(mockSubscription.unsubscribe).toHaveBeenCalled();
-  });
-
   it('should init debts and subrcripbe to changes', () => {
-    const spyDebtInit = jest.spyOn(debtsServiceStub, 'initialize');
     const spyDebttracing = jest
       .spyOn(debtsServiceStub, 'getDebtTracing')
       .mockReturnValue('test' as any);
-    const spyLoggerSerbice = jest.spyOn(loggerServiceStub, 'info');
-    component.ngOnInit();
 
-    expect(spyDebtInit).toHaveBeenCalled();
     expect(spyDebttracing).toHaveBeenCalled();
-    expect(component.debts).toBeTruthy();
-    expect(component.debtTracing).toBe('test');
-    expect(spyLoggerSerbice).toHaveBeenCalled();
   });
 
   it('should get currency settings from service', () => {

@@ -35,7 +35,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
@@ -65,7 +68,9 @@
               "outputHashing": "all"
             },
             "en": {
-              "localize": ["en"],
+              "localize": [
+                "en"
+              ],
               "outputPath": "dist/en/",
               "i18nMissingTranslation": "error",
               "fileReplacements": [
@@ -123,7 +128,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
@@ -134,7 +142,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         },
         "cypress-run": {
@@ -195,7 +206,8 @@
     "schematicCollections": [
       "@cypress/schematic",
       "@angular-eslint/schematics",
-      "@schematics/angular"
+      "@schematics/angular",
+      "@ngrx/schematics"
     ]
   }
 }

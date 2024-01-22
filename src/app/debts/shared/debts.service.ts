@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import {
   Debt,
   Expense,
@@ -7,49 +7,62 @@ import {
   TraceAutoSettle,
   User,
 } from '@shared/models/models';
-import { UsersService } from '@users/shared/users.service';
-import { ExpensesService } from '@expenses/shared/expenses.service';
+import {
+  selectDebts,
+  selectDebtsByID,
+  selectIterableDebts,
+} from '@state/debt/debt.selectors';
+import { UpdateDebts } from '@state/debt/debt.actions';
+import { Store } from '@ngrx/store';
+import { selectUsers } from '@state/user/user.selectors';
+import { selectIterableExpenses } from '@state/expenses/expenses.selectors';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DebtsService {
   private debts: Map<string, Debt> = new Map();
-  private users$: Observable<Map<string, User>>;
-  private expenses$: Observable<Expense[]>;
   private debtTracing: TraceAutoSettle[] = [];
 
-  private myPropertySubject = new BehaviorSubject<Map<string, Debt>>(new Map());
-  debtList$ = this.myPropertySubject.asObservable();
-
-  constructor(
-    private userService: UsersService,
-    private expensesService: ExpensesService,
-  ) {
-    this.users$ = this.userService.getUsers();
-    this.expenses$ = this.expensesService.getIterableExpenses();
+  constructor(private store: Store) {
+    combineLatest([
+      this.store.select(selectUsers),
+      this.store.select(selectIterableExpenses),
+    ]).subscribe(([users, expenses]) => {
+      if (users.size && expenses.length) {
+        this.initialize(users, expenses);
+      }
+    });
   }
 
-  async initialize(): Promise<void> {
-    const users = await firstValueFrom(this.users$);
-    if (!users) {
-      throw new Error('No users found');
-    }
-    await this.createStructure(users);
-    await this.calcDebt();
+  updateDebts(debts: Map<string, Debt>) {
+    this.store.dispatch(UpdateDebts({ debts }));
+  }
+
+  getDebts(): Observable<Map<string, Debt>> {
+    return this.store.select(selectDebts);
+  }
+
+  getUserByID(id: string): Observable<Debt | undefined> {
+    return this.store.select(selectDebtsByID(id));
+  }
+
+  getIterableDebts(): Observable<Array<Debt>> {
+    return this.store.select(selectIterableDebts);
+  }
+
+  initialize(users: Map<string, User>, expenses: Expense[]): void {
+    this.createStructure(users);
+    this.calcDebt(expenses);
     this.settleCrossAccountDebts(users);
-    this.myPropertySubject.next(this.debts);
+    this.updateDebts(this.debts);
   }
 
   getDebtTracing(): TraceAutoSettle[] {
     return this.debtTracing;
   }
 
-  getDebts(): Map<string, Debt> {
-    return this.debts;
-  }
-
-  async createStructure(users: Map<string, User>): Promise<void> {
+  createStructure(users: Map<string, User>): void {
     const newMap = new Map<string, Debt>();
     users.forEach((parentUser) => {
       const userDebts = this.createDebtObj();
@@ -81,8 +94,7 @@ export class DebtsService {
     };
   }
 
-  async calcDebt(): Promise<void> {
-    const expenses = await firstValueFrom(this.expenses$);
+  calcDebt(expenses: Expense[]): void {
     for (const expense of expenses) {
       this.updateExpenseDebt(expense);
     }
