@@ -2,14 +2,12 @@ import { DebtsComponent } from './debts.component';
 import { CurrencyService } from '@shared/services/currency.service';
 import { UsersService } from '@users/shared/users.service';
 import { DebtsService } from './shared/debts.service';
-import { LoggerService } from '@core/services/logger.service';
 
 describe('DebtsComponent sin testbed', () => {
   let component: DebtsComponent;
   let debtsServiceStub: Partial<DebtsService>;
   let userServiceStub: Partial<UsersService>;
   let currencyServiceStub: Partial<CurrencyService>;
-  let loggerServiceStub: Partial<LoggerService>;
 
   beforeEach(() => {
     debtsServiceStub = {
@@ -19,7 +17,6 @@ describe('DebtsComponent sin testbed', () => {
     };
     userServiceStub = { getIterableUsers: jest.fn() };
     currencyServiceStub = { getCurrencySettings: jest.fn() };
-    loggerServiceStub = { info: jest.fn() };
 
     component = new DebtsComponent(
       debtsServiceStub as DebtsService,

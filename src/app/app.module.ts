@@ -13,7 +13,6 @@ import { SharedModule } from '@shared/shared.module';
 import { expensesReducer } from './state/expenses/expenses.reducer';
 import { CoreModule } from './core/core.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import * as fromDebt from './state/debt/debt.reducer';
 
 @NgModule({
   declarations: [AppComponent, WeatherComponent],
@@ -28,11 +27,10 @@ import * as fromDebt from './state/debt/debt.reducer';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),
-      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
-      trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
+      autoPause: false, // Pauses recording actions and state changes when the extension window is not open
+      trace: true, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
-    StoreModule.forFeature(fromDebt.debtsFeatureKey, fromDebt.reducer),
   ],
   providers: [LocalstorageService],
   bootstrap: [AppComponent],

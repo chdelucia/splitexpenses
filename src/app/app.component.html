@@ -7,9 +7,7 @@
     <div
       class="offset-md-1 offset-lg-2 col d-flex flex-column h-sm-100 order-0 order-md-2"
     >
-      <ng-container *ngIf="weatherActive">
-        <app-weather></app-weather>
-      </ng-container>
+      <app-weather *ngIf="weatherActive"></app-weather>
       <router-outlet></router-outlet>
     </div>
   </div>
