@@ -6,6 +6,8 @@
     "start": "ng serve",
     "start:en": "ng serve --configuration=en",
     "build": "ng build",
+    "build:translation": "ng build --configuration production --base-href='https://chdelucia.github.io/splitexpenses/' --localize",
+    "deploy:pro": "npx angular-cli-ghpages --dir=dist",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test:watch": "ng test --watch",

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '@forecast/shared/weather.service';
-import { LocalstorageService } from '@shared/services/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings, WeatherPlugin } from '@shared/models';
 
 @Component({

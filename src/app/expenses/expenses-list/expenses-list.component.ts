@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { openSnackBar, globalToast } from '@shared/utils';
-import { CurrencyService } from '@shared/services/currency.service';
+import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyService } from '@shared/services/currency.service';
+import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin } from '@shared/models';
 
 @Component({

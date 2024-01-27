@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { WeatherObject, WeatherPlugin } from '@shared/models';
-import { LocalstorageService } from '@shared/services/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { environment } from '@env/environment';
 
 @Injectable({

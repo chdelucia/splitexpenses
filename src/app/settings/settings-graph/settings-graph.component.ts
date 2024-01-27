@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LocalstorageService } from '@shared/services/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { ExpenseTypes, Settings } from '@shared/models';
 
 @Component({

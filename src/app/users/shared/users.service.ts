@@ -15,7 +15,7 @@ import {
   removeUser,
   updateUser,
 } from '@state/user/user.actions';
-import { LocalstorageService } from '@shared/services/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { User } from '@shared/models';
 
 @Injectable({

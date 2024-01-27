@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LocalstorageService } from './shared/services/localstorage.service';
+import { LocalstorageService } from './shared/services/localstorage/localstorage.service';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from '@state/user/user.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

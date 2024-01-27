@@ -52,7 +52,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled',
-      useHash: false,
+      useHash: true,
       bindToComponentInputs: true,
     }),
   ],

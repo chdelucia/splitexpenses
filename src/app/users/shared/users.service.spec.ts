@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { UsersService } from './users.service';
-import { LocalstorageService } from '@shared/services/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Store } from '@ngrx/store';
 import { User } from '@shared/models';
 import { addUser, updateUser } from '@state/user/user.actions';
