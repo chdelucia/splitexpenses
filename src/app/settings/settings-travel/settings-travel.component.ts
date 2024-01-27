@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { LocalstorageService } from '@shared/services/localstorage.service';
-import { Settings } from '@shared/models/models';
+import { Settings } from '@shared/models';
 
 @Component({
   selector: 'app-settings-travel',

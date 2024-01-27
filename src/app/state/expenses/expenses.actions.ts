@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Expense } from '@shared/models/models';
+import { Expense } from '@shared/models';
 
 export const addExpense = createAction(
   '[Expense] Add Expense',

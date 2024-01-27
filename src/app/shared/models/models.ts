@@ -1,21 +1,3 @@
-export interface User {
-  id: string;
-  name: string;
-  phone?: string;
-}
-
-export interface Expense {
-  id: string;
-  title: string;
-  date: string;
-  cost: number;
-  originalCost: number;
-  paidBy: string;
-  typeId: string;
-  sharedBy: Array<string>;
-  settleBy: Array<string>;
-}
-
 export interface ExpenseEntity {
   id: string;
   title: string;
@@ -26,27 +8,6 @@ export interface ExpenseEntity {
   typeId: string;
   sharedBy: Array<string>;
   settleBy: Array<string>;
-}
-
-export interface IndividualDebt {
-  newDebt: number;
-  individualtotalIveBeenPaid: number;
-  RefDebtsIds: Array<Expense>;
-  individualtotalIPaid?: number;
-}
-
-export interface Debt {
-  totalIveBeenPaid: number;
-  totalIPaid: number;
-  totalIowe: number;
-  debts: Map<string, IndividualDebt>;
-}
-
-export interface StorageData {
-  users: Record<string, User>;
-  expenses: Record<string, Expense>;
-  name: string;
-  currency: CurrencyPlugin;
 }
 
 export interface Travel {
@@ -123,13 +84,6 @@ export interface GraphPlugin {
 export interface ExpenseTypes {
   id: string;
   name: string;
-  active: boolean;
-}
-
-export interface CurrencyPlugin {
-  currencySymbol: string;
-  currencyExchangeSymbol?: string;
-  exchangeValue: number;
   active: boolean;
 }
 

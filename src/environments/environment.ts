@@ -26,4 +26,5 @@ export const environment = {
     '#ff4040',
   ],
   baseUrl: 'https://api.openweathermap.org/data/2.5/',
+  googleAnalytics: '',
 };

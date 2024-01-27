@@ -8,7 +8,7 @@ import {
 import { Observable, map, zip } from 'rxjs';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { Expense, User } from '@shared/models/models';
+import { Expense, User } from '@shared/models';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { DebtState } from './debt.model';
 import { UpdateDebts } from './debt.actions';
-import { Debt } from '@shared/models/models';
+import { Debt } from '@shared/models';
 
 export const debtsFeatureKey = 'debts';
 

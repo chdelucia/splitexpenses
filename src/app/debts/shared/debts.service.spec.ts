@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { DebtsService } from './debts.service';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { Expense, User } from '@shared/models/models';
+import { Expense, User } from '@shared/models';
 
 describe('DebtsService', () => {
   let debtsService: DebtsService;

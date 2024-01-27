@@ -6,7 +6,7 @@ import {
   IndividualDebt,
   TraceAutoSettle,
   User,
-} from '@shared/models/models';
+} from '@shared/models';
 import {
   selectDebts,
   selectDebtsByID,

@@ -16,7 +16,7 @@ import {
   selectExpenseByID,
 } from '@state/expenses/expenses.selectors';
 import { LocalstorageService } from '@shared/services/localstorage.service';
-import { Expense, Settings } from '@shared/models/models';
+import { Expense, Settings } from '@shared/models';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 const expense1: Expense = {

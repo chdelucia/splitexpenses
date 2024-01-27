@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '@shared/models/models';
+import { User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalToast, openSnackBar } from '@shared/utils';
