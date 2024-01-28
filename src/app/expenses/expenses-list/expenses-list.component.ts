@@ -1,30 +1,34 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { openSnackBar, globalToast } from '@shared/utils';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { CurrencyPlugin, Expense, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { PageEvent } from '@angular/material/paginator';
 import { LoggerService } from 'src/app/core/services/logger.service';
+import { Expense } from '@shared/models';
 
 @Component({
   selector: 'app-expenses-list',
   templateUrl: './expenses-list.component.html',
   styleUrls: ['./expenses-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesListComponent implements OnInit, OnChanges {
+export class ExpensesListComponent implements OnInit {
   @Input() filter: string = '';
 
   term = '';
-
-  expenses$: Observable<Array<Expense>>;
-  currency: CurrencyPlugin;
-  users$: Observable<Map<string, User>>;
-  dates$: Observable<Array<string>>;
-  test$ = this.expensesService.getExpensesOrderByDatesDesc();
+  currency = this.currencyService.getCurrencySettings();
+  users$ = this.usersService.getUsers();
+  expenses$ = this.expensesService.getExpensesOrderByDatesDesc();
+  pageSize = 5;
+  pageIndex = 0;
 
   private toastmsg = {
     OK: $localize`Gasto eliminado correctamente`,
@@ -38,12 +42,7 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     private _snackBar: MatSnackBar,
     private router: Router,
     private loggerService: LoggerService,
-  ) {
-    this.expenses$ = this.expensesService.getIterableExpenses();
-    this.currency = this.currencyService.getCurrencySettings();
-    this.dates$ = this.expensesService.getExpensesDates();
-    this.users$ = this.usersService.getUsers();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loggerService.info(
@@ -52,15 +51,6 @@ export class ExpensesListComponent implements OnInit, OnChanges {
       this.currency,
       'olive',
     );
-    if (this.filter) {
-      this.createArrayofExpenses();
-    }
-  }
-
-  ngOnChanges() {
-    if (this.filter) {
-      this.createArrayofExpenses();
-    }
   }
 
   deleteExpense(key: string) {
@@ -72,15 +62,15 @@ export class ExpensesListComponent implements OnInit, OnChanges {
     this.router.navigate(['/expense', expenseId]);
   }
 
-  createArrayofExpenses(): void {
-    if (this.filter) {
-      this.expenses$ = this.expensesService.getExpensesFilterByType(
-        this.filter,
-      );
-    }
+  handlePageEvent(e: PageEvent) {
+    this.pageSize = e.pageSize;
+    this.pageIndex = e.pageIndex;
   }
 
-  handlePageEvent(e: PageEvent) {
-    console.log(e.pageSize, e.pageIndex);
+  pageSizeOptions(expenses: Expense[]): Array<number> {
+    return Array.from(
+      { length: Math.ceil(expenses.length / 5) },
+      (_, index) => (index + 1) * 5,
+    );
   }
 }

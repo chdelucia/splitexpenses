@@ -44,7 +44,7 @@ export class GoogleAnaliticsService implements OnDestroy {
        window.dataLayer = window.dataLayer || [];
        function gtag(){dataLayer.push(arguments);}
        gtag('js', new Date());
-       gtag(['config', '${environment.googleAnalytics}', { send_page_view: false }])`);
+       gtag('config', '${environment.googleAnalytics}')`);
   }
 
   onRouteChange(): void {
@@ -54,6 +54,7 @@ export class GoogleAnaliticsService implements OnDestroy {
           page_path: event.urlAfterRedirects,
           page_location: document.location.href,
           page_referrer: document.referrer,
+          send_page_view: true,
         });
       }
     });

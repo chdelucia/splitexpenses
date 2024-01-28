@@ -1,7 +1,7 @@
 <main class="mb-5 container">
   <h2 class="my-4 text-center" i18n>Historial</h2>
 
-  <ng-container *ngIf="test$ | async as expenses; else noExpenses">
+  <ng-container *ngIf="expenses$ | async as expenses; else noExpenses">
     <section class="filters row">
       <div class="col-12 col-md-5 col-xl-6">
         <mat-form-field appearance="fill" class="w-100">
@@ -15,8 +15,8 @@
         <mat-paginator
           (page)="handlePageEvent($event)"
           [length]="expenses.length"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10, 25, 100]"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions | wrapFn: expenses"
           aria-label="Select page"
         >
         </mat-paginator>
@@ -24,7 +24,13 @@
     </section>
 
     <ng-container
-      *ngFor="let expense of expenses | filter: term; let i = index"
+      *ngFor="
+        let expense of expenses.slice(
+          pageIndex * pageSize,
+          (pageIndex + 1) * pageSize
+        ) | filter: term;
+        let i = index
+      "
     >
       <div
         *ngIf="i === 0 || expenses[i - 1].date !== expense.date"
