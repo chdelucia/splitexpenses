@@ -43,7 +43,7 @@ describe('DebtsComponent sin testbed', () => {
     const spyDebts = jest.spyOn(debtsServiceStub, 'getDebts');
 
     expect(spyCurrency).toHaveBeenCalled();
-    expect(spyUser).not.toHaveBeenCalled();
+    expect(spyUser).toHaveBeenCalled();
     expect(spyDebts).toHaveBeenCalled();
   });
 });
