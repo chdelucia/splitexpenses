@@ -91,7 +91,7 @@
       "eslint --fix"
     ],
     "*spec.ts": [
-      "test"
+      "jest"
     ],
     "*.scss": [
       "prettier --write"
