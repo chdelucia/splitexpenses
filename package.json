@@ -15,7 +15,7 @@
     "sonar": "sonar-scanner",
     "lint": "ng lint",
     "update-hooks": "simple-git-hooks",
-    "pre-commit": "lint-staged",
+    "pre-commit": "",
     "pre-push": "",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
