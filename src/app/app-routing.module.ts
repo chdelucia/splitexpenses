@@ -46,6 +46,13 @@ const routes: Routes = [
       import('./welcome/welcome.module').then((m) => m.WelcomeModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'test',
+    loadComponent: () =>
+      import('./testcomponent/testcomponent.component').then(
+        (mod) => mod.TestcomponentComponent,
+      ),
+  },
 ];
 
 @NgModule({

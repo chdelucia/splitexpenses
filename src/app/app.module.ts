@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { WeatherComponent } from './weather/weather.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LocalstorageService } from './shared/services/localstorage/localstorage.service';
 import { StoreModule } from '@ngrx/store';
 import { userReducer } from '@state/user/user.reducer';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,7 +31,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
   ],
-  providers: [LocalstorageService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

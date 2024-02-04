@@ -124,6 +124,7 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
+            "codeCoverage": true,
             "configPath": "jest.config.ts",
             "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.spec.json",
