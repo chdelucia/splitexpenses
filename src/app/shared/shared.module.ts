@@ -10,13 +10,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ExchangePipe } from './pipes/exchange.pipe';
 import { WrapFnPipe } from './pipes/wrap-fn.pipe';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import {
-  LucideAngularModule,
-  File,
-  Home,
-  Menu,
-  UserCheck,
-} from 'lucide-angular';
 
 @NgModule({
   declarations: [SummarygraphComponent, ExchangePipe, WrapFnPipe],
@@ -29,7 +22,6 @@ import {
     MatButtonModule,
     MatPaginatorModule,
     NgxSkeletonLoaderModule,
-    LucideAngularModule.pick({ File, Home, Menu, UserCheck }),
   ],
   exports: [
     SummarygraphComponent,
@@ -41,7 +33,6 @@ import {
     ExchangePipe,
     WrapFnPipe,
     NgxSkeletonLoaderModule,
-    LucideAngularModule,
   ],
 })
 export class SharedModule {}

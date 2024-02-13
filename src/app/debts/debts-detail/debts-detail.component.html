@@ -1,12 +1,6 @@
 <section class="mt-4 mb-5 container-fluid">
   <h2 class="my-4 text-center" i18n>Balance de cuentas</h2>
 
-  <lucide-angular name="file" class="my-icon"></lucide-angular>
-  <lucide-icon name="home" class="my-icon"></lucide-icon>
-  <i-lucide name="menu" class="my-icon"></i-lucide>
-  <span-lucide name="user-check" class="my-icon"></span-lucide>
-  <i-lucide name="home" [size]="48" color="red" [strokeWidth]="3"></i-lucide>
-
   <div class="mat-elevation-z8 mat-table-responsive">
     <table mat-table [dataSource]="expenses$">
       <ng-container matColumnDef="title">
@@ -43,6 +37,7 @@
             </span>
           </ng-container>
         </td>
+        <!--  | wrapFn: user.id : expenses$ -->
         <td mat-footer-cell *matFooterCellDef>
           <ng-container
             *ngIf="
@@ -66,3 +61,4 @@
 </section>
 
 <br /><br /><br /><br />
+<div (click)="descargar()">{{ holatest }}</div>

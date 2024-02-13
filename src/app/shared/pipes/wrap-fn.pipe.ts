@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'wrapFn',
 })
 export class WrapFnPipe implements PipeTransform {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform<R, F extends (...args: any[]) => R>(
     func: F,
     ...args: Parameters<F>
