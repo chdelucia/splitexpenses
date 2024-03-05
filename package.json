@@ -65,7 +65,7 @@
     "@cypress/schematic": "2.5.1",
     "@ngrx/schematics": "^17.1.1",
     "@types/jest": "^29.5.12",
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.11.24",
     "@typescript-eslint/eslint-plugin": "7.1.1",
     "@typescript-eslint/parser": "7.0.1",
     "cypress": "^13.6.6",
