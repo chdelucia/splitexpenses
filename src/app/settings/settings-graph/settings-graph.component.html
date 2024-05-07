@@ -7,13 +7,9 @@
     </span>
   </div>
   <div class="row g-2 align-items-center">
-    <ng-container
-      *ngFor="
-        let color of settings.graph.bgColors;
-        let i = index;
-        trackBy: trackByIdx
-      "
-    >
+    @for (
+      color of settings.graph.bgColors; track trackByIdx(i,
+      color); let i = $index) {
       <div class="col-6">
         <input class="form-control" type="text" [(ngModel)]="types[i].name" />
       </div>
@@ -22,16 +18,16 @@
           class="colors"
           type="color"
           [(ngModel)]="settings.graph.bgColors[i]"
-        />
-      </div>
-    </ng-container>
-    <button
-      class="input-group my-4 btn btn-primary p-2"
-      type="submit"
-      (click)="onSubmit()"
-      i18n
-    >
+          />
+        </div>
+      }
+      <button
+        class="input-group my-4 btn btn-primary p-2"
+        type="submit"
+        (click)="onSubmit()"
+        i18n
+        >
       Guardar
     </button>
-  </div>
-</section>
+    </div>
+  </section>

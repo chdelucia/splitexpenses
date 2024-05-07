@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { input } from '@angular/core';
 import { Component } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin, TraceAutoSettle } from '@shared/models';
@@ -9,7 +9,8 @@ import { CurrencyPlugin, TraceAutoSettle } from '@shared/models';
   styleUrls: ['./debt-tracing.component.scss'],
 })
 export class DebtTracingComponent {
-  @Input() debtTracing: TraceAutoSettle[] = [];
+  debtTracing = input.required<TraceAutoSettle[]>();
+
   currency: CurrencyPlugin;
 
   constructor(private currencyService: CurrencyService) {

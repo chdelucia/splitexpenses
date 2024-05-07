@@ -9,9 +9,11 @@
   <div class="row g-2">
     <div class="col-6">
       <select name="name" #travel class="form-select mb-2" required>
-        <option *ngFor="let travel of travels; let i = index" [value]="travel">
-          {{ travel }}
-        </option>
+        @for (travel of travels; track travel; let i = $index) {
+          <option [value]="travel">
+            {{ travel }}
+          </option>
+        }
       </select>
     </div>
     <div class="col-6">
@@ -20,7 +22,7 @@
         type="button"
         (click)="download(travel.value)"
         i18n
-      >
+        >
         Descargar viaje
       </button>
     </div>
@@ -36,7 +38,7 @@
     type="button"
     (click)="copyData()"
     i18n
-  >
+    >
     Copiar datos al portapapeles
   </button>
 </section>

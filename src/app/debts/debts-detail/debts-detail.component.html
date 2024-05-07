@@ -19,39 +19,39 @@
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
-      <ng-container *ngFor="let user of users$" [matColumnDef]="user.name">
-        <th mat-header-cell *matHeaderCellDef data-label="id">
-          {{ user.name }}
-        </th>
-        <td mat-cell *matCellDef="let expense">
-          <ng-container *ngIf="expense.sharedBy.includes(user.id)">
-            <span
-              class="expense-cost"
-              [class.debt]="!expense.paidBy.includes(user.id)"
-            >
-              {{
+      @for (user of users$; track user) {
+        <ng-container [matColumnDef]="user.name">
+          <th mat-header-cell *matHeaderCellDef data-label="id">
+            {{ user.name }}
+          </th>
+          <td mat-cell *matCellDef="let expense">
+            @if (expense.sharedBy.includes(user.id)) {
+              <span
+                class="expense-cost"
+                [class.debt]="!expense.paidBy.includes(user.id)"
+                >
+                {{
                 calculateExpenseBalance
-                  | wrapFn: expense : user.id
-                  | number: ".0-2"
-              }}
-            </span>
-          </ng-container>
-        </td>
-        <!--  | wrapFn: user.id : expenses$ -->
-        <td mat-footer-cell *matFooterCellDef>
-          <ng-container
-            *ngIf="
+                | wrapFn: expense : user.id
+                | number: ".0-2"
+                }}
+              </span>
+            }
+          </td>
+          <!--  | wrapFn: user.id : expenses$ -->
+          <td mat-footer-cell *matFooterCellDef>
+            @if (
               calcUserTotalBalance
-                | wrapFn: user.id : expenses$
-                | number: '.0-2' as totalBalance
-            "
-          >
-            <span class="expense-cost" [class.debt]="totalBalance < '0'">
-              {{ totalBalance }}
-            </span>
-          </ng-container>
-        </td>
-      </ng-container>
+              | wrapFn: user.id : expenses$
+              | number: '.0-2'; as totalBalance
+              ) {
+              <span class="expense-cost" [class.debt]="totalBalance < '0'">
+                {{ totalBalance }}
+              </span>
+            }
+          </td>
+        </ng-container>
+      }
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let expense; columns: displayedColumns"></tr>
