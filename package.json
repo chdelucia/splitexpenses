@@ -60,7 +60,7 @@
     "@angular/cli": "^17.3.5",
     "@angular/compiler-cli": "^17.3.5",
     "@angular/localize": "^17.3.7",
-    "@compodoc/compodoc": "1.1.23",
+    "@compodoc/compodoc": "1.1.24",
     "@cypress/schematic": "2.5.1",
     "@ngrx/schematics": "^17.2.0",
     "@types/jest": "^29.5.12",
