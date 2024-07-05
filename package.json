@@ -62,7 +62,7 @@
     "@angular/localize": "^18.0.3",
     "@compodoc/compodoc": "1.1.25",
     "@cypress/schematic": "2.5.1",
-    "@ngrx/schematics": "^17.2.0",
+    "@ngrx/schematics": "^18.0.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.2",
     "@typescript-eslint/eslint-plugin": "^7.13.0",
