@@ -1,7 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WeatherComponent } from './weather.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('WeatherComponent', () => {
   let component: WeatherComponent;
@@ -9,9 +10,10 @@ describe('WeatherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations: [WeatherComponent],
-    }).compileComponents();
+    declarations: [WeatherComponent],
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
 
     fixture = TestBed.createComponent(WeatherComponent);
     component = fixture.componentInstance;
