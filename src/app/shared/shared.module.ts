@@ -9,6 +9,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ExchangePipe } from './pipes/exchange.pipe';
 import { WrapFnPipe } from './pipes/wrap-fn.pipe';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { BaseChartDirective } from 'ng2-charts';
 
 @NgModule({
   declarations: [SummarygraphComponent, ExchangePipe, WrapFnPipe],
@@ -20,6 +21,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatButtonModule,
     MatPaginatorModule,
     NgxSkeletonLoaderModule,
+    BaseChartDirective,
   ],
   exports: [
     SummarygraphComponent,

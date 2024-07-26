@@ -1,16 +1,17 @@
-@if (debtTracing.length) {
+@let debts = debtTracing();
+@if (debts.length) {
   <h2 class="my-5 text-center" i18n>
   Como se han calculado las deudas
 </h2>
 }
 
-@for (trace of debtTracing; track trace; let i = $index) {
+@for (trace of debts; track trace; let i = $index) {
   <section
     class="g-4 row mt-4 card"
     >
     <div class="card-title">
       <h3 class="card-title" i18n>
-      Paso {{ i + 1 }} de {{ debtTracing.length }}
+      Paso {{ i + 1 }} de {{ debts.length }}
     </h3>
       <div class="card-description" i18n>
       {{ trace.intermediaryId }} asume las deudas de {{ trace.debtorId }} porque

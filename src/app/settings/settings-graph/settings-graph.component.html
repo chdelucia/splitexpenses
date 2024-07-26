@@ -8,8 +8,7 @@
   </div>
   <div class="row g-2 align-items-center">
     @for (
-      color of settings.graph.bgColors; track trackByIdx(i,
-      color); let i = $index) {
+      color of settings.graph.bgColors; track color; let i = $index) {
       <div class="col-6">
         <input class="form-control" type="text" [(ngModel)]="types[i].name" />
       </div>
