@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SummarygraphComponent } from './components';
-import { NgChartsModule } from 'ng2-charts';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +14,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   declarations: [SummarygraphComponent, ExchangePipe, WrapFnPipe],
   imports: [
     CommonModule,
-    NgChartsModule,
     MatSnackBarModule,
     MatInputModule,
     MatIconModule,
