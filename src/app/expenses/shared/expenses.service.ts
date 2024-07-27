@@ -201,10 +201,15 @@ export class ExpensesService extends ExpenseRepository {
 
   getTotalDays(): number {
     const expenses = Array.from(this.expenses.values());
-    const data1 = expenses.shift()?.date || '';
-    const date2 = expenses.pop()?.date || '';
 
-    return diffinDays(data1, date2) + 1;
+    if (expenses.length > 1) {
+      const data1 = expenses.shift()?.date || '';
+      const date2 = expenses.pop()?.date || '';
+
+      return diffinDays(data1, date2) + 1;
+    } else {
+      return 1
+    }
   }
 
   getExpensesByType(userId?: string): {

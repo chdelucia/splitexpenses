@@ -23,7 +23,12 @@ import { SharedModule } from '@shared/shared.module';
     SettingsGraphComponent,
     SettingsTravelComponent,
   ],
-  imports: [CommonModule, OptionsRoutingModule, FormsModule, SharedModule],
+  imports: [
+    CommonModule,
+    OptionsRoutingModule,
+    FormsModule,
+    SharedModule
+  ],
   providers: [CurrencyService],
 })
 export class OptionsModule {}

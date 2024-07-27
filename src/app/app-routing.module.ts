@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+  { path: '', redirectTo: '/expense', pathMatch: 'full' },
   {
     path: 'users',
     loadChildren: () =>
@@ -39,19 +39,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./debts/debts.module').then((m) => m.DebtsModule),
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'welcome',
-    loadChildren: () =>
-      import('./welcome/welcome.module').then((m) => m.WelcomeModule),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'test',
-    loadComponent: () =>
-      import('./testcomponent/testcomponent.component').then(
-        (mod) => mod.TestcomponentComponent,
-      ),
   },
 ];
 

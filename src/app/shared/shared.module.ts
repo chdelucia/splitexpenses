@@ -4,7 +4,7 @@ import { SummarygraphComponent } from './components';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ExchangePipe } from './pipes/exchange.pipe';
 import { WrapFnPipe } from './pipes/wrap-fn.pipe';
@@ -22,6 +22,7 @@ import { BaseChartDirective } from 'ng2-charts';
     MatPaginatorModule,
     NgxSkeletonLoaderModule,
     BaseChartDirective,
+    MatButton,
   ],
   exports: [
     SummarygraphComponent,
