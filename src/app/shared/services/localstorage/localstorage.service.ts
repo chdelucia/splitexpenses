@@ -63,8 +63,8 @@ export class LocalstorageService extends StorageService {
         1: {
             id: "1",
             title: "Example expense",
-            originalCost: 40,
-            cost: 20,
+            originalCost: 0,
+            cost: 0,
             date: new Date().toDateString(),
             paidBy: "1",
             typeId: "6",

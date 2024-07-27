@@ -106,7 +106,6 @@ module.exports = {
     "^@stats/(.*)$": "<rootDir>/src/app/stats/$1",
     "^@users/(.*)$": "<rootDir>/src/app/users/$1",
     "^@weather/(.*)$": "<rootDir>/src/app/weather/$1",
-    "^@welcome/(.*)$": "<rootDir>/src/app/welcome/$1",
     "^@env/(.*)$": "<rootDir>/src/environments/$1"
   },
 

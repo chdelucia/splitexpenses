@@ -120,7 +120,6 @@ export interface TraceAutoSettle {
 }
 
 export enum globalRoutes {
-  welcome = 'welcome',
   debts = 'debts',
   users = 'users',
   forecast = 'forecast',

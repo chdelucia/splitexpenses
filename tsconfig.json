@@ -14,7 +14,6 @@
       "@stats/*": ["src/app/stats/*"],
       "@users/*": ["src/app/users/*"],
       "@weather/*": ["src/app/weather/*"],
-      "@welcome/*": ["src/app/welcome/*"],
       "@env/*": ["src/environments/*"]
 
     },

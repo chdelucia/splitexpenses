@@ -1,9 +1,13 @@
+
+@let users = users$ | async;
+@let usersLenght = users?.length;
+
 <main class="container-md mb-5">
   <h2 class="my-4 text-center" i18n>Deudas</h2>
   @if (debts$ | async; as debts) {
     <section class="row g-4">
       @if (debts.size) {
-        @for (user of users$ | async; track user) {
+        @for (user of users; track user.id) {
           <div
             class="col-sm-12 col-lg-6 col-xxl-4"
             [class.order-2]="debts.get(user.id)!.totalIowe <= 0"
@@ -13,7 +17,10 @@
               routerLink="/debts/details"
               data-cy="user-debt"
             >
-              <div class="d-flex flex-row justify-content-between title">
+              <div
+                class="d-flex flex-row justify-content-between title"
+                [class.border-bottom]="usersLenght && usersLenght > 2"
+              >
                 <div>{{ user.name }}</div>
                 <div class="totalIowe">
                   {{ debts.get(user.id)?.totalIowe | number: ".0-2" }}
@@ -30,8 +37,8 @@
                   }
                 </div>
               </div>
-              @for (person of users$ | async; track person) {
-                @if (user.id !== person.id) {
+              @for (person of users; track person.id) {
+                @if (user.id !== person.id && usersLenght && usersLenght > 2 ) {
                   <div
                     class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
                   >
@@ -62,18 +69,6 @@
       }
     </section>
   }
-
-  <!-- <div class="item persoanlDebts">
-  <ngx-skeleton-loader
-    animation="progress-dark"
-    count="5"
-    appearance="circle"
-  ></ngx-skeleton-loader>
-  <ngx-skeleton-loader [theme]="{ height: '50px' }"></ngx-skeleton-loader>
-  <ngx-skeleton-loader animation="progress"></ngx-skeleton-loader>
-  <ngx-skeleton-loader></ngx-skeleton-loader>
-  <ngx-skeleton-loader animation="pulse"></ngx-skeleton-loader>
-</div> -->
 
   <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
 </main>
