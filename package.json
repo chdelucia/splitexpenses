@@ -55,7 +55,7 @@
     "@angular-eslint/template-parser": "18.1.0",
     "@angular/cli": "^18.1.2",
     "@angular/compiler-cli": "^18.1.2",
-    "@angular/localize": "^18.1.2",
+    "@angular/localize": "^18.2.2",
     "@compodoc/compodoc": "1.1.25",
     "@cypress/schematic": "2.5.1",
     "@ngrx/schematics": "^18.0.1",
