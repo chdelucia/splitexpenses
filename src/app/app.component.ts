@@ -8,9 +8,10 @@ import { WeatherService } from './forecast/shared/weather.service';
 import { GoogleAnaliticsService, ScriptService } from '@shared/services';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnInit, AfterContentChecked {
   title = 'splity';

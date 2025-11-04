@@ -4,9 +4,10 @@ import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin, TraceAutoSettle } from '@shared/models';
 
 @Component({
-  selector: 'app-debt-tracing',
-  templateUrl: './debt-tracing.component.html',
-  styleUrls: ['./debt-tracing.component.scss'],
+    selector: 'app-debt-tracing',
+    templateUrl: './debt-tracing.component.html',
+    styleUrls: ['./debt-tracing.component.scss'],
+    standalone: false
 })
 export class DebtTracingComponent {
   debtTracing = input.required<TraceAutoSettle[]>();

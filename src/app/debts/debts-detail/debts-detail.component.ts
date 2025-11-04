@@ -5,10 +5,11 @@ import { CurrencyPlugin, Expense, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 
 @Component({
-  selector: 'app-debts-detail',
-  templateUrl: './debts-detail.component.html',
-  styleUrls: ['./debts-detail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-debts-detail',
+    templateUrl: './debts-detail.component.html',
+    styleUrls: ['./debts-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DebtsDetailComponent implements OnInit {
   users$!: Array<User>;

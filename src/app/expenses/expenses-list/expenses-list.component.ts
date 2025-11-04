@@ -15,10 +15,11 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 import { Expense } from '@shared/models';
 
 @Component({
-  selector: 'app-expenses-list',
-  templateUrl: './expenses-list.component.html',
-  styleUrls: ['./expenses-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-expenses-list',
+    templateUrl: './expenses-list.component.html',
+    styleUrls: ['./expenses-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ExpensesListComponent implements OnInit {
   @Input() filter: string = '';

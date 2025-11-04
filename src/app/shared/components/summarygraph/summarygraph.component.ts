@@ -4,9 +4,10 @@ import { BaseChartDirective } from 'ng2-charts';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 
 @Component({
-  selector: 'app-summarygraph',
-  templateUrl: './summarygraph.component.html',
-  styleUrls: ['./summarygraph.component.scss'],
+    selector: 'app-summarygraph',
+    templateUrl: './summarygraph.component.html',
+    styleUrls: ['./summarygraph.component.scss'],
+    standalone: false
 })
 export class SummarygraphComponent implements OnInit, OnChanges {
   @Input() bytype: string = 'false';

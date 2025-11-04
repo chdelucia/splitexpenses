@@ -3,9 +3,10 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { ExpenseTypes, Settings } from '@shared/models';
 
 @Component({
-  selector: 'app-settings-graph',
-  templateUrl: './settings-graph.component.html',
-  styleUrls: ['./settings-graph.component.scss'],
+    selector: 'app-settings-graph',
+    templateUrl: './settings-graph.component.html',
+    styleUrls: ['./settings-graph.component.scss'],
+    standalone: false
 })
 export class SettingsGraphComponent {
   showAlert = false;

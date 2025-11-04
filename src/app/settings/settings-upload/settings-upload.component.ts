@@ -3,9 +3,10 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { Settings } from '@shared/models';
 
 @Component({
-  selector: 'app-settings-upload',
-  templateUrl: './settings-upload.component.html',
-  styleUrls: ['./settings-upload.component.scss'],
+    selector: 'app-settings-upload',
+    templateUrl: './settings-upload.component.html',
+    styleUrls: ['./settings-upload.component.scss'],
+    standalone: false
 })
 export class SettingsUploadComponent {
   showAlert = false;

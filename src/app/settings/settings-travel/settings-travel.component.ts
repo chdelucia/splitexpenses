@@ -4,9 +4,10 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { Settings } from '@shared/models';
 
 @Component({
-  selector: 'app-settings-travel',
-  templateUrl: './settings-travel.component.html',
-  styleUrls: ['./settings-travel.component.scss'],
+    selector: 'app-settings-travel',
+    templateUrl: './settings-travel.component.html',
+    styleUrls: ['./settings-travel.component.scss'],
+    standalone: false
 })
 export class SettingsTravelComponent {
   settings: Settings;

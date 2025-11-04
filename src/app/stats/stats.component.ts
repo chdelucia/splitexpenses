@@ -6,9 +6,10 @@ import { CurrencyPlugin, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 
 @Component({
-  selector: 'app-stats',
-  templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.scss'],
+    selector: 'app-stats',
+    templateUrl: './stats.component.html',
+    styleUrls: ['./stats.component.scss'],
+    standalone: false
 })
 export class StatsComponent {
   usersHTML: Observable<Array<User>>;

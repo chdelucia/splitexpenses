@@ -3,9 +3,10 @@ import { WeatherService } from '@forecast/shared/weather.service';
 import { WeatherObject, WeatherPlugin } from '@shared/models';
 
 @Component({
-  selector: 'app-weather',
-  templateUrl: './weather.component.html',
-  styleUrls: ['./weather.component.scss'],
+    selector: 'app-weather',
+    templateUrl: './weather.component.html',
+    styleUrls: ['./weather.component.scss'],
+    standalone: false
 })
 export class WeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;

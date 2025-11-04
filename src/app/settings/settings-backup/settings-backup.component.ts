@@ -3,9 +3,10 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { Settings } from '@shared/models';
 
 @Component({
-  selector: 'app-settings-backup',
-  templateUrl: './settings-backup.component.html',
-  styleUrls: ['./settings-backup.component.scss'],
+    selector: 'app-settings-backup',
+    templateUrl: './settings-backup.component.html',
+    styleUrls: ['./settings-backup.component.scss'],
+    standalone: false
 })
 export class SettingsBackupComponent {
   showAlert = false;

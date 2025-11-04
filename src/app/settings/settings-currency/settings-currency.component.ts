@@ -3,9 +3,10 @@ import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin } from '@shared/models';
 
 @Component({
-  selector: 'app-settings-currency',
-  templateUrl: './settings-currency.component.html',
-  styleUrls: ['./settings-currency.component.scss'],
+    selector: 'app-settings-currency',
+    templateUrl: './settings-currency.component.html',
+    styleUrls: ['./settings-currency.component.scss'],
+    standalone: false
 })
 export class SettingsCurrencyComponent implements OnInit {
   currencySettings: CurrencyPlugin;

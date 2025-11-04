@@ -6,9 +6,10 @@ import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 
 @Component({
-  selector: 'app-debts',
-  templateUrl: './debts.component.html',
-  styleUrls: ['./debts.component.scss'],
+    selector: 'app-debts',
+    templateUrl: './debts.component.html',
+    styleUrls: ['./debts.component.scss'],
+    standalone: false
 })
 export class DebtsComponent {
   debts$: Observable<Map<string, Debt>> = this.debtsService.getDebts();

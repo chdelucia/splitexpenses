@@ -7,9 +7,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@shared/models';
 
 @Component({
-  selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss'],
+    selector: 'app-add-user',
+    templateUrl: './add-user.component.html',
+    styleUrls: ['./add-user.component.scss'],
+    standalone: false
 })
 export class AddUserComponent {
   userForm = new FormGroup({
