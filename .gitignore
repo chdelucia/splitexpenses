@@ -7,6 +7,7 @@
 /bazel-out
 /envrionments
 /documentation
+package-lock.json
 
 # Node
 /node_modules
