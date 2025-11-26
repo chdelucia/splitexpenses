@@ -50,7 +50,7 @@
     "@angular-eslint/eslint-plugin": "20.6.0",
     "@angular-eslint/eslint-plugin-template": "21.0.1",
     "@angular-eslint/schematics": "20.5.1",
-    "@angular-eslint/template-parser": "20.5.1",
+    "@angular-eslint/template-parser": "21.0.1",
     "@angular/cli": "20.3.8",
     "@angular/compiler-cli": "20.3.9",
     "@angular/localize": "20.3.9",
