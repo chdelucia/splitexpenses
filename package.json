@@ -57,7 +57,7 @@
     "@compodoc/compodoc": "1.1.32",
     "@cypress/schematic": "4.3.0",
     "@ngrx/eslint-plugin": "21.0.1",
-    "@ngrx/schematics": "20.1.0",
+    "@ngrx/schematics": "21.0.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "@typescript-eslint/eslint-plugin": "^8.49.0",
