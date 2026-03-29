@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, User } from '@shared/models';
@@ -12,7 +12,11 @@ import { UsersService } from '@users/shared/users.service';
     standalone: false
 })
 export class StatsComponent {
-  usersHTML: Observable<Array<User>>;
+  private expensesService = inject(ExpensesService);
+  private currencyService = inject(CurrencyService);
+  private userService = inject(UsersService);
+
+  usersHTML = toSignal(this.userService.getIterableUsers());
 
   meanCost: number = 0;
   todayCost: number = 0;
@@ -20,12 +24,7 @@ export class StatsComponent {
   dailyData;
   typeData;
 
-  constructor(
-    private expensesService: ExpensesService,
-    private currencyService: CurrencyService,
-    private userService: UsersService,
-  ) {
-    this.usersHTML = this.userService.getIterableUsers();
+  constructor() {
     this.currency = this.currencyService.getCurrencySettings();
 
     this.todayCost = this.expensesService.getTotalCost();

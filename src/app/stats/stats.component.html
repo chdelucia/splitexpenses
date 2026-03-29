@@ -11,7 +11,7 @@
         (change)="change(user.value)"
         >
         <option value="0" selected i18n>Grupo</option>
-        @for (user of usersHTML | async; track user) {
+        @for (user of usersHTML(); track user) {
           <option [value]="user.id">
             {{ user.name }}
           </option>

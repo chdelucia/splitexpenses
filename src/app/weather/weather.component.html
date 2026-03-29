@@ -1,17 +1,18 @@
 <header class="mt-atuo bg-white">
-  @if (weatherInfo) {
-    <div class="container flex">
-      <div>{{ weatherInfo.name }}, {{ weatherInfo.sys.country }}:</div>
-      <div>
-        <img
-        src="http://openweathermap.org/img/w/{{
-          weatherInfo.weather[0].icon
-        }}.png"
-          alt="{{ weatherInfo.name }}"
+  @if (showWeather()) {
+    @let info = weatherInfo();
+    @if (info) {
+      <div class="container flex">
+        <div>{{ info.name }}, {{ info.sys.country }}:</div>
+        <div>
+          <img
+            src="http://openweathermap.org/img/w/{{ info.weather[0].icon }}.png"
+            alt="{{ info.name }}"
           />
-          {{ weatherInfo.weather[0].description }}
+          {{ info.weather[0].description }}
         </div>
-        <b class="temp"> {{ weatherInfo.main.temp }} °C</b>
+        <b class="temp"> {{ info.main.temp }} °C</b>
       </div>
     }
-  </header>
+  }
+</header>

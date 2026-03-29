@@ -1,7 +1,7 @@
 import {
   Component,
   inject,
-  Input,
+  input,
   OnInit,
   numberAttribute,
 } from '@angular/core';
@@ -18,6 +18,7 @@ import {
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { first, Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
@@ -35,6 +36,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { SharedModule } from '@shared/shared.module';
 
 @Component({
   selector: 'app-add-expense',
@@ -51,10 +54,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
+    MatRadioModule,
+    SharedModule,
   ],
 })
 export class AddExpenseComponent implements OnInit {
-  @Input({ transform: numberAttribute }) id = '';
+  id = input<string | number, number>('', { transform: numberAttribute });
 
   private route = inject(ActivatedRoute);
   private expensesService = inject(ExpensesService);
@@ -65,7 +70,7 @@ export class AddExpenseComponent implements OnInit {
 
   expenseForm: FormGroup;
   currency: CurrencyPlugin;
-  users$: Observable<Array<User>>;
+  users = toSignal(this.usersService.getIterableUsers(), { initialValue: [] });
   expenseTypes: ExpenseTypes[];
   expense?: Expense;
 
@@ -80,7 +85,6 @@ export class AddExpenseComponent implements OnInit {
 
   constructor() {
     this.expenseTypes = this.expensesService.getExpensesTypes();
-    this.users$ = this.usersService.getIterableUsers();
     this.currency = this.currencyService.getCurrencySettings();
 
     this.expenseForm = this.fb.group({
@@ -113,11 +117,9 @@ export class AddExpenseComponent implements OnInit {
 
   private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
-    this.users$.forEach((users) => {
-      users.forEach((user) => {
-        const control = this.createFormControl(user.id);
-        sharedBy.push(control);
-      });
+    this.users().forEach((user) => {
+      const control = this.createFormControl(user.id);
+      sharedBy.push(control);
     });
   }
 
