@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, numberAttribute } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnInit,
+  numberAttribute,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -7,6 +13,7 @@ import {
   FormGroup,
   Validators,
   FormGroupDirective,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -16,17 +23,46 @@ import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
 import { globalToast, openSnackBar } from '@shared/utils';
 import { UsersService } from '@users/shared/users.service';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import {
+  MatCheckboxChange,
+  MatCheckboxModule,
+} from '@angular/material/checkbox';
 import { ExpenseForm } from '@expenses/models';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-add-expense',
-    templateUrl: './add-expense.component.html',
-    styleUrls: ['./add-expense.component.scss'],
-    standalone: false
+  selector: 'app-add-expense',
+  templateUrl: './add-expense.component.html',
+  styleUrls: ['./add-expense.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
 export class AddExpenseComponent implements OnInit {
   @Input({ transform: numberAttribute }) id = '';
+
+  private route = inject(ActivatedRoute);
+  private expensesService = inject(ExpensesService);
+  private usersService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
+  private _snackBar = inject(MatSnackBar);
+  private fb = inject(FormBuilder);
+
   expenseForm: FormGroup;
   currency: CurrencyPlugin;
   users$: Observable<Array<User>>;
@@ -42,14 +78,7 @@ export class AddExpenseComponent implements OnInit {
     KO: $localize`Error fatal`,
   };
 
-  constructor(
-    private route: ActivatedRoute,
-    private expensesService: ExpensesService,
-    private usersService: UsersService,
-    private currencyService: CurrencyService,
-    private _snackBar: MatSnackBar,
-    private fb: FormBuilder,
-  ) {
+  constructor() {
     this.expenseTypes = this.expensesService.getExpensesTypes();
     this.users$ = this.usersService.getIterableUsers();
     this.currency = this.currencyService.getCurrencySettings();

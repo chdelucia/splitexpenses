@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
@@ -11,13 +11,12 @@ import { environment } from '@env/environment';
   providedIn: 'root',
 })
 export class WeatherService {
-  private weatherSettings: WeatherPlugin;
-  constructor(
-    private http: HttpClient,
-    private localStorageService: LocalstorageService,
-  ) {
-    this.weatherSettings = this.loadWeatherPluginFromLocalStorage();
-  }
+  private localStorageService = inject(LocalstorageService);
+  private http = inject(HttpClient);
+
+  public weatherSettings = signal<WeatherPlugin>(
+    this.loadWeatherPluginFromLocalStorage(),
+  );
 
   getWeatheritemsbyCity(cityName: string): Observable<WeatherObject> {
     return this.http
@@ -26,7 +25,7 @@ export class WeatherService {
           'weather?q=' +
           cityName +
           '&appid=' +
-          this.weatherSettings.key +
+          this.weatherSettings().key +
           '&units=metric&lang=es',
       )
       .pipe(retry(3), catchError(this.handleError));
@@ -38,7 +37,7 @@ export class WeatherService {
         'forecast?q=' +
         cityName +
         '&appid=' +
-        this.weatherSettings.key +
+        this.weatherSettings().key +
         '&units=metric&lang=es',
     );
   }
@@ -52,7 +51,7 @@ export class WeatherService {
       },
     };
     this.localStorageService.saveSettings(obj);
-    this.weatherSettings = obj.weather;
+    this.weatherSettings.set(obj.weather);
   }
 
   loadWeatherPluginFromLocalStorage(): WeatherPlugin {
@@ -61,7 +60,7 @@ export class WeatherService {
   }
 
   getWeahterSettings() {
-    return this.weatherSettings;
+    return this.weatherSettings();
   }
 
   private handleError(error: HttpErrorResponse) {

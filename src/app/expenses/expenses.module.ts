@@ -15,7 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FilterPipe } from '@shared/pipes/filter.pipe';
 
 @NgModule({
-  declarations: [AddExpenseComponent, ExpensesListComponent],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +28,8 @@ import { FilterPipe } from '@shared/pipes/filter.pipe';
     MatRadioModule,
     MatNativeDateModule,
     FilterPipe,
+    ExpensesListComponent,
+    AddExpenseComponent,
   ],
   providers: [ExpensesService],
   exports: [AddExpenseComponent, ExpensesListComponent],
