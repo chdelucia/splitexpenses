@@ -1,31 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalToast, openSnackBar } from '@shared/utils';
+import { AsyncPipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-users-list',
-    templateUrl: './users-list.component.html',
-    styleUrls: ['./users-list.component.scss'],
-    standalone: false
+  selector: 'app-users-list',
+  templateUrl: './users-list.component.html',
+  styleUrls: ['./users-list.component.scss'],
+  standalone: true,
+  imports: [AsyncPipe, MatButtonModule, MatIconModule],
 })
 export class UsersListComponent {
+  private userService = inject(UsersService);
+  private _snackBar = inject(MatSnackBar);
+
   private toastmsg = {
     OK: $localize`Guardado correctamente`,
     KO: $localize`Error fatal`,
     EXIST: $localize`Usuario ya existe`,
   };
 
-  users$: Observable<User[]>;
-
-  constructor(
-    private userService: UsersService,
-    private _snackBar: MatSnackBar,
-  ) {
-    this.users$ = this.userService.getIterableUsers();
-  }
+  users$: Observable<User[]> = this.userService.getIterableUsers();
 
   edit(data: HTMLTableCellElement, user: User, fieldToEdit: 'phone' | 'name') {
     const oldValue = user[fieldToEdit];

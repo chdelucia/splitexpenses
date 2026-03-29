@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@core/guards/auth.guard';
+import { authGuard } from '@core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/expense', pathMatch: 'full' },
@@ -8,37 +8,37 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () =>
       import('./users/users.module').then((m) => m.UsersModule),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'forecast',
     loadChildren: () =>
       import('./forecast/forecast.module').then((m) => m.ForecastModule),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'stats',
     loadChildren: () =>
       import('./stats/stats.module').then((m) => m.StatsModule),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'settings',
     loadChildren: () =>
       import('./settings/options.module').then((m) => m.OptionsModule),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'expense',
     loadChildren: () =>
       import('./expenses/expenses.module').then((m) => m.ExpensesModule),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'debts',
     loadChildren: () =>
       import('./debts/debts.module').then((m) => m.DebtsModule),
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
   },
 ];
 

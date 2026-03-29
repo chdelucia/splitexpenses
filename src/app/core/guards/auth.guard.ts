@@ -1,42 +1,19 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { Observable, map, zip } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn } from '@angular/router';
+import { map, zip } from 'rxjs';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { Expense, User } from '@shared/models';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard {
-  constructor(
-    private userService: UsersService,
-    private expenseService: ExpensesService,
-    private router: Router,
-  ) {}
+export const authGuard: CanActivateFn = (route, state) => {
+  const userService = inject(UsersService);
+  const expenseService = inject(ExpensesService);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    const currentUser$: Observable<Map<string, User>> =
-      this.userService.getUsers();
-    const currentExpense$: Observable<Map<string, Expense>> =
-      this.expenseService.getExpenses();
+  const currentUser$ = userService.getUsers();
+  const currentExpense$ = expenseService.getExpenses();
 
-    return zip([currentUser$, currentExpense$]).pipe(
-      map(([currentUser, currentExpense]) => {
-          return true;
-      }),
-    );
-  }
-}
+  return zip([currentUser$, currentExpense$]).pipe(
+    map(() => {
+      return true;
+    }),
+  );
+};

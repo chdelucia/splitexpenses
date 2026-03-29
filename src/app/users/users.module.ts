@@ -12,7 +12,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [UsersComponent, UsersListComponent, AddUserComponent],
+  declarations: [UsersComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -20,6 +20,8 @@ import { SharedModule } from '@shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    UsersListComponent,
+    AddUserComponent,
   ],
   providers: [UsersService],
   exports: [AddUserComponent],

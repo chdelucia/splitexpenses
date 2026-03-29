@@ -14,8 +14,10 @@ import { CoreModule } from './core/core.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
-@NgModule({ declarations: [AppComponent, WeatherComponent],
+@NgModule({ declarations: [],
     bootstrap: [AppComponent], imports: [BrowserModule,
+        AppComponent,
+        WeatherComponent,
         AppRoutingModule,
         StoreModule.forRoot({ users: userReducer, expenses: expensesReducer }),
         BrowserAnimationsModule,

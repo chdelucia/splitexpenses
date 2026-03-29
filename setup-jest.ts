@@ -1,4 +1,4 @@
-import 'jest-preset-angular/setup-jest';
+import 'jest-preset-angular/setup-env/zone';
 
 // Opcional: si usas global mocks o configuraciones extra
 // (por ejemplo para localStorage, ResizeObserver, etc.)

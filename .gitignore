@@ -33,6 +33,7 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+/.jest-cache
 /cypress/e2e/2-advanced-examples
 /cypress/screenshots
 .sass-cache/
