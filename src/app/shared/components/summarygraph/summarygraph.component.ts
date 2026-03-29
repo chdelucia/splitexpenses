@@ -1,50 +1,59 @@
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 
 @Component({
-    selector: 'app-summarygraph',
-    templateUrl: './summarygraph.component.html',
-    styleUrls: ['./summarygraph.component.scss'],
-    standalone: false
+  selector: 'app-summarygraph',
+  templateUrl: './summarygraph.component.html',
+  styleUrls: ['./summarygraph.component.scss'],
+  standalone: true,
+  imports: [BaseChartDirective],
 })
-export class SummarygraphComponent implements OnInit, OnChanges {
-  @Input() bytype: string = 'false';
-  @Input() data: { labels: Array<string>; data: Array<any> } = {
+export class SummarygraphComponent implements OnInit {
+  bytype = input<string>('false');
+  data = input<{ labels: Array<string>; data: Array<any> }>({
     labels: [''],
     data: [],
-  };
+  });
 
   filter: string = '';
   settings;
 
-  constructor(private storageService: LocalstorageService) {
-    this.settings = this.storageService.getSettings();
-  }
+  private storageService = inject(LocalstorageService);
 
-  ngOnChanges(): void {
-    if (this.bytype === 'ByType') {
-      this.calcByType();
-    } else if (this.bytype === 'weather') {
-      this.weatherChart();
-    } else {
-      this.calcByDay();
-    }
-    this.chart?.update();
+  constructor() {
+    this.settings = this.storageService.getSettings();
+    effect(() => {
+      if (this.bytype() === 'ByType') {
+        this.calcByType();
+      } else if (this.bytype() === 'weather') {
+        this.weatherChart();
+      } else {
+        this.calcByDay();
+      }
+      this.chart()?.update();
+    });
   }
 
   ngOnInit(): void {
-    if (this.bytype === 'ByType') {
+    if (this.bytype() === 'ByType') {
       this.calcByType();
-    } else if (this.bytype === 'weather') {
+    } else if (this.bytype() === 'weather') {
       this.weatherChart();
     } else {
       this.calcByDay();
     }
   }
 
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  chart = viewChild(BaseChartDirective);
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -92,8 +101,8 @@ export class SummarygraphComponent implements OnInit, OnChanges {
     this.barChartData.datasets[0].backgroundColor =
       this.settings.graph.bgColors;
 
-    this.barChartData.datasets[0].data = this.data.data;
-    this.barChartData.labels = this.data.labels;
+    this.barChartData.datasets[0].data = this.data().data;
+    this.barChartData.labels = this.data().labels;
   }
 
   calcByDay() {
@@ -101,21 +110,21 @@ export class SummarygraphComponent implements OnInit, OnChanges {
       this.barChartOptions.plugins.title.text = $localize`Gasto diario`;
     }
 
-    this.barChartData.datasets = this.data.data;
+    this.barChartData.datasets = this.data().data;
     //this.barChartData.datasets[0].data = this.expensesService.getTotalCostEachDay().x;
 
     //change Y-axis to the lang
-    this.barChartData.labels = this.data.labels.map((date) => {
+    this.barChartData.labels = this.data().labels.map((date) => {
       const d = new Date(date);
       return d.toLocaleDateString('ES', { weekday: 'short', day: 'numeric' });
     });
   }
 
   weatherChart() {
-    this.barChartData.labels = this.data.labels;
+    this.barChartData.labels = this.data().labels;
     this.barChartType = 'line';
 
-    this.barChartData.datasets[0].data = this.data.data;
+    this.barChartData.datasets[0].data = this.data().data;
     this.barChartData.datasets[0].fill = true;
     if (this.barChartOptions?.scales && this.barChartOptions.scales['y']) {
       //this.barChartOptions.scales['y'].min = 10

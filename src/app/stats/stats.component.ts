@@ -1,18 +1,26 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { CurrencyPlugin, User } from '@shared/models';
+import { CurrencyPlugin } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 
+import { SummarygraphComponent } from '@shared/components/summarygraph/summarygraph.component';
+import { DecimalPipe } from '@angular/common';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+
 @Component({
-    selector: 'app-stats',
-    templateUrl: './stats.component.html',
-    styleUrls: ['./stats.component.scss'],
-    standalone: false
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.scss'],
+  standalone: true,
+  imports: [SummarygraphComponent, DecimalPipe, ExchangePipe],
 })
 export class StatsComponent {
-  usersHTML: Observable<Array<User>>;
+  private expensesService = inject(ExpensesService);
+  private currencyService = inject(CurrencyService);
+  private userService = inject(UsersService);
+
+  usersHTML = this.userService.iterableUsers;
 
   meanCost: number = 0;
   todayCost: number = 0;
@@ -20,12 +28,7 @@ export class StatsComponent {
   dailyData;
   typeData;
 
-  constructor(
-    private expensesService: ExpensesService,
-    private currencyService: CurrencyService,
-    private userService: UsersService,
-  ) {
-    this.usersHTML = this.userService.getIterableUsers();
+  constructor() {
     this.currency = this.currencyService.getCurrencySettings();
 
     this.todayCost = this.expensesService.getTotalCost();

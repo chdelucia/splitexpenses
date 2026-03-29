@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
@@ -30,6 +30,12 @@ export class ExpensesService extends ExpenseRepository {
   private settings: Settings;
   private expenses: Record<string, Expense> = {};
   mapper = new ExpensesMapper();
+
+  expensesSignal: Signal<Record<string, Expense>> =
+    this.store.selectSignal(selectExpenses);
+  expensesOrderByDateDescSignal: Signal<Expense[]> = this.store.selectSignal(
+    selectExpensesOrderByDateDesc,
+  );
 
   constructor(
     private storageService: LocalstorageService,

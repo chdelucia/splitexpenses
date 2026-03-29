@@ -1,49 +1,44 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebtsComponent } from './debts.component';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { UsersService } from '@users/shared/users.service';
 import { DebtsService } from './shared/debts.service';
+import { signal } from '@angular/core';
 
-describe('DebtsComponent sin testbed', () => {
+describe('DebtsComponent', () => {
   let component: DebtsComponent;
-  let debtsServiceStub: Partial<DebtsService>;
-  let userServiceStub: Partial<UsersService>;
-  let currencyServiceStub: Partial<CurrencyService>;
+  let fixture: ComponentFixture<DebtsComponent>;
+  let debtsServiceStub: any;
+  let userServiceStub: any;
+  let currencyServiceStub: any;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     debtsServiceStub = {
-      getDebts: jest.fn(),
-      initialize: jest.fn(),
-      getDebtTracing: jest.fn(),
+      debtsSignal: signal({}),
+      getDebtTracing: jest.fn().mockReturnValue([]),
     };
-    userServiceStub = { getIterableUsers: jest.fn() };
-    currencyServiceStub = { getCurrencySettings: jest.fn() };
+    userServiceStub = { iterableUsers: signal([]) };
+    currencyServiceStub = { getCurrencySettings: jest.fn().mockReturnValue({}) };
 
-    component = new DebtsComponent(
-      debtsServiceStub as DebtsService,
-      userServiceStub as UsersService,
-      currencyServiceStub as CurrencyService,
-    );
+    await TestBed.configureTestingModule({
+      imports: [DebtsComponent],
+      providers: [
+        { provide: DebtsService, useValue: debtsServiceStub },
+        { provide: UsersService, useValue: userServiceStub },
+        { provide: CurrencyService, useValue: currencyServiceStub },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DebtsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init debts and subrcripbe to changes', () => {
-    const spyDebttracing = jest
-      .spyOn(debtsServiceStub, 'getDebtTracing')
-      .mockReturnValue('test' as any);
-
-    expect(spyDebttracing).toHaveBeenCalled();
-  });
-
   it('should get currency settings from service', () => {
-    const spyCurrency = jest.spyOn(currencyServiceStub, 'getCurrencySettings');
-    const spyUser = jest.spyOn(userServiceStub, 'getIterableUsers');
-    const spyDebts = jest.spyOn(debtsServiceStub, 'getDebts');
-
-    expect(spyCurrency).toHaveBeenCalled();
-    expect(spyUser).toHaveBeenCalled();
-    expect(spyDebts).toHaveBeenCalled();
+    expect(currencyServiceStub.getCurrencySettings).toHaveBeenCalled();
   });
 });

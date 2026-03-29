@@ -1,8 +1,8 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { WeatherService } from '@forecast/shared/weather.service';
 import { WeatherObject } from '@shared/models';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-weather',
@@ -15,7 +15,7 @@ export class WeatherComponent implements OnInit {
   private weatherService = inject(WeatherService);
   private destroyRef = inject(DestroyRef);
   weatherSettings = this.weatherService.weatherSettings;
-  weatherInfo!: WeatherObject;
+  weatherInfo = signal<WeatherObject | undefined>(undefined);
 
   ngOnInit() {
     if (this.weatherSettings().active) {
@@ -29,7 +29,7 @@ export class WeatherComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result: WeatherObject) => {
         result.main.temp = Math.round(result.main.temp);
-        this.weatherInfo = result;
+        this.weatherInfo.set(result);
       });
   }
 }

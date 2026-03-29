@@ -1,28 +1,33 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { DebtsService } from './shared/debts.service';
-import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '@shared/models';
+import { CurrencyPlugin, TraceAutoSettle } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
+import { KeyValuePipe, DecimalPipe } from '@angular/common';
+import { DebtTracingComponent } from './debt-tracing/debt-tracing.component';
+import { RouterModule } from '@angular/router';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
-    selector: 'app-debts',
-    templateUrl: './debts.component.html',
-    styleUrls: ['./debts.component.scss'],
-    standalone: false
+  selector: 'app-debts',
+  templateUrl: './debts.component.html',
+  styleUrls: ['./debts.component.scss'],
+  standalone: true,
+  imports: [
+    KeyValuePipe,
+    DecimalPipe,
+    DebtTracingComponent,
+    RouterModule,
+    ExchangePipe,
+  ],
 })
 export class DebtsComponent {
-  debts$: Observable<Record<string, Debt>> = this.debtsService.getDebts();
+  private debtsService = inject(DebtsService);
+  private userService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
 
-  users$: Observable<Array<User>> = this.userService.getIterableUsers();
-
+  debts = this.debtsService.debtsSignal;
+  users = this.userService.iterableUsers;
   currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
-
   debtTracing: TraceAutoSettle[] = this.debtsService.getDebtTracing();
-
-  constructor(
-    private debtsService: DebtsService,
-    private userService: UsersService,
-    private currencyService: CurrencyService,
-  ) {}
 }

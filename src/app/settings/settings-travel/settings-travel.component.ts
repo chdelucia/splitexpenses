@@ -1,24 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
 
+import { FormsModule } from '@angular/forms';
+
 @Component({
-    selector: 'app-settings-travel',
-    templateUrl: './settings-travel.component.html',
-    styleUrls: ['./settings-travel.component.scss'],
-    standalone: false
+  selector: 'app-settings-travel',
+  templateUrl: './settings-travel.component.html',
+  styleUrls: ['./settings-travel.component.scss'],
+  standalone: true,
+  imports: [FormsModule],
 })
 export class SettingsTravelComponent {
-  settings: Settings;
-  expenseNameInput = '';
-  showAlert = false;
-  isError = false;
+  private localStorageService = inject(LocalstorageService);
+  private expensesService = inject(ExpensesService);
 
-  constructor(
-    private localStorageService: LocalstorageService,
-    private expensesService: ExpensesService,
-  ) {
+  settings: Settings;
+  expenseNameInput = signal('');
+  showAlert = signal(false);
+  isError = signal(false);
+
+  constructor() {
     this.settings = this.localStorageService.getSettings();
   }
 
@@ -26,7 +29,7 @@ export class SettingsTravelComponent {
     this.localStorageService.changeTravel(name);
     this.updateSettings();
     this.resetAll();
-    this.showAlert = true;
+    this.showAlert.set(true);
   }
 
   resetAll() {
@@ -37,7 +40,7 @@ export class SettingsTravelComponent {
     this.localStorageService.addNewTravel(name);
     this.updateSettings();
     this.resetAll();
-    this.showAlert = true;
+    this.showAlert.set(true);
   }
 
   updateSettings() {
@@ -45,6 +48,6 @@ export class SettingsTravelComponent {
   }
 
   close() {
-    this.showAlert = false;
+    this.showAlert.set(false);
   }
 }

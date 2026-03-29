@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import {
   Debt,
@@ -23,6 +23,10 @@ import { selectIterableExpenses } from '@state/expenses/expenses.selectors';
 export class DebtsService {
   private debts: Record<string, Debt> = {};
   private debtTracing: TraceAutoSettle[] = [];
+
+  debtsSignal: Signal<Record<string, Debt>> = this.store.selectSignal(selectDebts);
+  iterableDebtsSignal: Signal<Array<Debt>> =
+    this.store.selectSignal(selectIterableDebts);
 
   constructor(private store: Store) {
     combineLatest([

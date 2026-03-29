@@ -1,16 +1,16 @@
 
-@let users = users$ | async;
-@let usersLenght = users?.length;
+@let usersList = users();
+@let usersLenght = usersList?.length;
 
 <main class="container-md mb-5">
   <h2 class="my-4 text-center" i18n>Deudas</h2>
-  @if (debts$ | async; as debts) {
+  @if (debts(); as debtsMap) {
     <section class="row g-4">
-      @if ((debts | keyvalue).length) {
-        @for (user of users; track user.id) {
+      @if ((debtsMap | keyvalue).length) {
+        @for (user of usersList; track user.id) {
           <div
             class="col-sm-12 col-lg-6 col-xxl-4"
-            [class.order-2]="debts[user.id]!.totalIowe <= 0"
+            [class.order-2]="debtsMap[user.id]!.totalIowe <= 0"
           >
             <div
               class="persoanlDebts p-md-3 p-2"
@@ -23,12 +23,12 @@
               >
                 <div>{{ user.name }}</div>
                 <div class="totalIowe">
-                  {{ debts[user.id]?.totalIowe | number: ".0-2" }}
+                  {{ debtsMap[user.id]?.totalIowe | number: ".0-2" }}
                   {{ currency.currencySymbol }}
                   @if (currency.active) {
                     <div class="text-end mainExchange">
                       {{
-                        debts[user.id]?.totalIowe
+                        debtsMap[user.id]?.totalIowe
                           | exchange
                           | number: ".0-2"
                       }}
@@ -37,7 +37,7 @@
                   }
                 </div>
               </div>
-              @for (person of users; track person.id) {
+              @for (person of usersList; track person.id) {
                 @if (user.id !== person.id && usersLenght && usersLenght > 2 ) {
                   <div
                     class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
@@ -45,14 +45,14 @@
                     <div>{{ person.name }}</div>
                     <div>
                       {{
-                        debts[user.id]?.debts[person.id]?.newDebt
+                        debtsMap[user.id]?.debts?.[person.id]?.newDebt
                           | number: ".0-2"
                       }}
                       {{ currency.currencySymbol }}
                       @if (currency.active) {
                         <small class="text-end">
                           {{
-                            debts[user.id]?.debts[person.id]?.newDebt
+                            debtsMap[user.id]?.debts?.[person.id]?.newDebt
                               | exchange
                               | number: ".0-2"
                           }}

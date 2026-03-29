@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { signal } from '@angular/core';
 
 import { UsersComponent } from './users.component';
 import { UsersService } from './shared/users.service';
@@ -19,25 +21,28 @@ describe('UsersComponent', () => {
   ];
 
   beforeEach(async () => {
-    const usersService = jasmine.createSpyObj('UsersService', [
-      'getIterableUsers',
-      'checkIfNameExist',
-      'addUser',
-      'getUserByID',
-      'editUser',
-      'removeUser',
-    ]);
-    usersService.getIterableUsers.and.returnValue(of(mockUsers));
-    usersService.checkIfNameExist.and.returnValue(false);
+    const usersService = {
+      getIterableUsers: jest.fn().mockReturnValue(of(mockUsers)),
+      checkIfNameExist: jest.fn().mockReturnValue(of(false)),
+      addUser: jest.fn(),
+      getUserByID: jest.fn(),
+      editUser: jest.fn(),
+      removeUser: jest.fn(),
+      iterableUsers: signal(mockUsers),
+    };
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, StoreModule.forRoot({ userState: userReducer })],
-      declarations: [UsersComponent],
+      imports: [
+        FormsModule,
+        StoreModule.forRoot({ userState: userReducer }),
+        UsersComponent,
+      ],
       providers: [{ provide: UsersService, useValue: usersService }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
 
 @Component({
-    selector: 'app-settings-backup',
-    templateUrl: './settings-backup.component.html',
-    styleUrls: ['./settings-backup.component.scss'],
-    standalone: false
+  selector: 'app-settings-backup',
+  templateUrl: './settings-backup.component.html',
+  styleUrls: ['./settings-backup.component.scss'],
+  standalone: true,
 })
 export class SettingsBackupComponent {
-  showAlert = false;
-  isError = false;
+  private localStorageService = inject(LocalstorageService);
+
+  showAlert = signal(false);
+  isError = signal(false);
   settings: Settings;
   travels: string[] = [];
 
-  constructor(private localStorageService: LocalstorageService) {
+  constructor() {
     this.settings = this.localStorageService.getSettings();
     this.travels = this.settings.travels.names;
   }
@@ -23,7 +25,7 @@ export class SettingsBackupComponent {
     const name = this.localStorageService.getActiveTravelName();
     const data = localStorage.getItem(name) || '';
     navigator.clipboard.writeText(data);
-    this.showAlert = true;
+    this.showAlert.set(true);
   }
 
   download(text: string) {
@@ -41,6 +43,6 @@ export class SettingsBackupComponent {
   }
 
   close() {
-    this.showAlert = false;
+    this.showAlert.set(false);
   }
 }

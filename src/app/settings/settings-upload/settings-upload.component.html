@@ -19,7 +19,8 @@
     <textarea
       #answer
       class="form-control"
-      [(ngModel)]="inputLoadData"
+      [ngModel]="inputLoadData()"
+      (ngModelChange)="inputLoadData.set($event)"
       placeholder="Leave a comment here"
       id="floatingTextarea2"
       style="height: 150px"

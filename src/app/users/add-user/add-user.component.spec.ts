@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -12,7 +12,7 @@ describe('AddUserComponent', () => {
   let component: AddUserComponent;
   let fixture: ComponentFixture<AddUserComponent>;
   let store: Store<UserState>;
-  let usersServiceSpy: jasmine.SpyObj<UsersService>;
+  let usersServiceSpy: any;
 
   const mockUsers: User[] = [
     { id: '1', name: 'John', phone: '1234567890' },
@@ -20,48 +20,48 @@ describe('AddUserComponent', () => {
   ];
 
   beforeEach(async () => {
-    const usersService = jasmine.createSpyObj('UsersService', [
-      'getIterableUsers',
-      'checkIfNameExist',
-      'addUser',
-      'getUserByID',
-      'editUser',
-      'removeUser',
-    ]);
-    usersService.getIterableUsers.and.returnValue(of(mockUsers));
-    usersService.checkIfNameExist.and.returnValue(false);
+    const usersService = {
+      getIterableUsers: jest.fn(),
+      checkIfNameExist: jest.fn(),
+      addUser: jest.fn(),
+      getUserByID: jest.fn(),
+      editUser: jest.fn(),
+      removeUser: jest.fn(),
+    };
+    usersService.getIterableUsers.mockReturnValue(of(mockUsers));
+    usersService.checkIfNameExist.mockReturnValue(of(false));
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, StoreModule.forRoot({ userState: userReducer })],
-      declarations: [AddUserComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({ userState: userReducer }),
+        AddUserComponent,
+      ],
       providers: [{ provide: UsersService, useValue: usersService }],
     }).compileComponents();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    usersServiceSpy = TestBed.inject(
-      UsersService,
-    ) as jasmine.SpyObj<UsersService>;
+    usersServiceSpy = TestBed.inject(UsersService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call addUser method on UsersService when add method is called', () => {
-    component.onSubmit({ user: 'John Doe', phone: '1112223333' });
+  it('should call addUser method on UsersService when add method is called', async () => {
+    component.userForm.setValue({ user: 'John Doe', phone: '1112223333' });
+    await component.onSubmit();
     expect(usersServiceSpy.addUser).toHaveBeenCalled();
   });
 
-  it('should call reset method on when add method is called', () => {
-    component.onSubmit({ user: 'John Doe', phone: '1112223333' });
-  });
-
-  it('should call checkIfNameExist method on UsersService when add method is called', () => {
-    component.onSubmit({ user: 'John Doe', phone: '1112223333' });
+  it('should call checkIfNameExist method on UsersService when add method is called', async () => {
+    component.userForm.setValue({ user: 'John Doe', phone: '1112223333' });
+    await component.onSubmit();
     expect(usersServiceSpy.checkIfNameExist).toHaveBeenCalled();
   });
 });

@@ -1,14 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SettingsBackupComponent } from './settings-backup.component';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 
 describe('SettingsBackupComponent', () => {
   let component: SettingsBackupComponent;
   let fixture: ComponentFixture<SettingsBackupComponent>;
 
   beforeEach(async () => {
+    const mockLocalStorageService = {
+      getSettings: jest.fn().mockReturnValue({ travels: { names: [] } }),
+      getActiveTravelName: jest.fn().mockReturnValue(''),
+    };
     await TestBed.configureTestingModule({
-      declarations: [SettingsBackupComponent],
+      imports: [SettingsBackupComponent],
+      providers: [
+        { provide: LocalstorageService, useValue: mockLocalStorageService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsBackupComponent);

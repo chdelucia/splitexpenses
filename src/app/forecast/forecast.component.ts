@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { WeatherObject, WeatherPlugin } from '@shared/models';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { WeatherObject } from '@shared/models';
 import { WeatherService } from './shared/weather.service';
 
+import { SummarygraphComponent } from '@shared/components/summarygraph/summarygraph.component';
+
 @Component({
-    selector: 'app-forecast',
-    templateUrl: './forecast.component.html',
-    styleUrls: ['./forecast.component.scss'],
-    standalone: false
+  selector: 'app-forecast',
+  templateUrl: './forecast.component.html',
+  styleUrls: ['./forecast.component.scss'],
+  standalone: true,
+  imports: [SummarygraphComponent],
 })
 export class ForecastComponent implements OnInit {
-  weatherInfo: any;
-  weatherSettings: WeatherPlugin;
-  mymap: any = [];
-  datagraph: any = [];
+  private weatherService = inject(WeatherService);
 
-  constructor(private weatherService: WeatherService) {
-    this.weatherSettings = this.weatherService.getWeahterSettings();
-  }
+  weatherInfo: any;
+  weatherSettings = this.weatherService.weatherSettings();
+  mymap = signal<any[]>([]);
+  datagraph = signal<any>([]);
 
   ngOnInit() {
     this.getForecast();
@@ -26,7 +27,6 @@ export class ForecastComponent implements OnInit {
     this.weatherService
       .getForecastbyCity(this.weatherSettings.city)
       .subscribe((result: WeatherObject) => {
-        console.log(result);
         this.weatherInfo = result;
         this.filteringHours();
       });
@@ -77,13 +77,12 @@ export class ForecastComponent implements OnInit {
       }
     }
 
-    console.log(mymap);
-    this.mymap = mymap;
-    this.datagraph = mymap[0];
+    this.mymap.set(mymap);
+    this.datagraph.set(mymap[0]);
   }
 
   changeDate(i: number): void {
-    this.datagraph = this.mymap[i];
+    this.datagraph.set(this.mymap()[i]);
   }
 
   mode(arr: Array<string>) {

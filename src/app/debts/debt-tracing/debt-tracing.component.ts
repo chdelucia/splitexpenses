@@ -2,12 +2,14 @@ import { input } from '@angular/core';
 import { Component } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin, TraceAutoSettle } from '@shared/models';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-debt-tracing',
-    templateUrl: './debt-tracing.component.html',
-    styleUrls: ['./debt-tracing.component.scss'],
-    standalone: false
+  selector: 'app-debt-tracing',
+  templateUrl: './debt-tracing.component.html',
+  styleUrls: ['./debt-tracing.component.scss'],
+  standalone: true,
+  imports: [DecimalPipe],
 })
 export class DebtTracingComponent {
   debtTracing = input.required<TraceAutoSettle[]>();

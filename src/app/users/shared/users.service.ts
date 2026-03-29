@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { calcNextID } from '@shared/utils';
 import { Store } from '@ngrx/store';
 import {
@@ -25,6 +25,11 @@ export class UsersService {
   users$: Observable<Record<string, User>> = this.store.select(selectUsers);
   iterableUsers$: Observable<Array<User>> =
     this.store.select(selectIterableUsers);
+
+  users: Signal<Record<string, User>> = this.store.selectSignal(selectUsers);
+  iterableUsers: Signal<Array<User>> = this.store.selectSignal(
+    selectIterableUsers,
+  );
 
   constructor(
     private storageService: LocalstorageService,

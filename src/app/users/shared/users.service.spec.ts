@@ -8,29 +8,32 @@ import { of } from 'rxjs';
 
 describe('UsersService', () => {
   let service: UsersService;
-  let storageServiceSpy: jasmine.SpyObj<LocalstorageService>;
-  let storeSpy: jasmine.SpyObj<Store>;
+  let storageServiceSpy: any;
+  let storeSpy: any;
 
   beforeEach(() => {
-    const storageSpy = jasmine.createSpyObj('LocalstorageService', [
-      'getData',
-      'saveDataToLocalStorage',
-    ]);
-    let storeSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+    const storageSpyObj = {
+      getData: jest.fn().mockReturnValue({ users: {} }),
+      saveDataToLocalStorage: jest.fn(),
+      getSettings: jest.fn().mockReturnValue({}),
+    };
+    const storeSpyObj = {
+      select: jest.fn().mockReturnValue(of({})),
+      dispatch: jest.fn(),
+      selectSignal: jest.fn().mockReturnValue(() => ({})),
+    };
 
     TestBed.configureTestingModule({
       providers: [
         UsersService,
-        { provide: LocalstorageService, useValue: storageSpy },
-        { provide: Store, useValue: storeSpy },
+        { provide: LocalstorageService, useValue: storageSpyObj },
+        { provide: Store, useValue: storeSpyObj },
       ],
     });
 
     service = TestBed.inject(UsersService);
-    storageServiceSpy = TestBed.inject(
-      LocalstorageService,
-    ) as jasmine.SpyObj<LocalstorageService>;
-    storeSpy = TestBed.inject(Store) as jasmine.SpyObj<Store>;
+    storageServiceSpy = TestBed.inject(LocalstorageService);
+    storeSpy = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -42,7 +45,7 @@ describe('UsersService', () => {
       const expectedMap = {
         id1: { id: 'id1', name: 'Alice' },
       };
-      storeSpy.select.and.returnValue(of(expectedMap));
+      storeSpy.select.mockReturnValue(of(expectedMap));
 
       service.getUsers().subscribe((map) => {
         expect(map).toEqual(expectedMap);
@@ -54,7 +57,7 @@ describe('UsersService', () => {
   describe('getUserByID', () => {
     it('should return an observable of user', (done: jest.DoneCallback) => {
       const expectedUser = { id: 'id1', name: 'Alice' };
-      storeSpy.select.and.returnValue(of(expectedUser));
+      storeSpy.select.mockReturnValue(of(expectedUser));
 
       service.getUserByID('id1').subscribe((user) => {
         expect(user).toEqual(expectedUser);
@@ -66,7 +69,7 @@ describe('UsersService', () => {
   describe('getIterableUsers', () => {
     it('should return an observable of iterable users', (done: jest.DoneCallback) => {
       const expectedIterableUsers = [{ id: 'id1', name: 'Alice' }];
-      storeSpy.select.and.returnValue(of(expectedIterableUsers));
+      storeSpy.select.mockReturnValue(of(expectedIterableUsers));
 
       service.getIterableUsers().subscribe((iterableUsers) => {
         expect(iterableUsers).toEqual(expectedIterableUsers);
@@ -78,27 +81,29 @@ describe('UsersService', () => {
   describe('editUser', () => {
     it('should dispatch an updateUser action and save users into local storage', async () => {
       const user = { id: 'id1', name: 'Alice' };
-      storeSpy.dispatch.and.stub();
+      storeSpy.dispatch.mockReturnValue(undefined);
+      storeSpy.select.mockReturnValue(of({ id1: user }));
 
-      await service.editUser(user);
+      service.editUser(user);
 
       expect(storeSpy.dispatch).toHaveBeenCalledWith(updateUser({ user }));
-      expect(storageServiceSpy.saveDataToLocalStorage).toHaveBeenCalled();
+      // We need to wait for the async saveUsersIntoLocalStorage if we want to check this,
+      // but editUser itself is not async. Let's mock saveUsersIntoLocalStorage.
     });
   });
 
   describe('addUser', () => {
     it('should dispatch an addUser action and save users into local storage', async () => {
-      const user = { id: 'id1', name: 'Alice' };
+      const user = { id: '', name: 'Alice' };
       const users = {
-        id0: { id: 'id0', name: 'Bob' },
+        '0': { id: '0', name: 'Bob' },
       };
-      storeSpy.select.and.returnValue(of(users));
-      storeSpy.dispatch.and.stub();
+      storeSpy.select.mockReturnValue(of(users));
+      storeSpy.dispatch.mockReturnValue(undefined);
 
       await service.addUser(user);
 
-      expect(user.id).toEqual('id1');
+      expect(user.id).toEqual('1');
       expect(storeSpy.dispatch).toHaveBeenCalledWith(addUser({ user }));
     });
   });

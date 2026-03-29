@@ -1,7 +1,7 @@
 import {
   Component,
   inject,
-  Input,
+  input,
   OnInit,
   numberAttribute,
 } from '@angular/core';
@@ -35,6 +35,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
   selector: 'app-add-expense',
@@ -51,10 +53,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatButtonModule,
     MatIconModule,
+    MatRadioModule,
+    ExchangePipe,
   ],
 })
 export class AddExpenseComponent implements OnInit {
-  @Input({ transform: numberAttribute }) id = '';
+  id = input<string | number, any>('', { transform: numberAttribute });
 
   private route = inject(ActivatedRoute);
   private expensesService = inject(ExpensesService);

@@ -1,27 +1,29 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CurrencyService } from '@shared/services';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
+import { DecimalPipe } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 
 @Component({
-    selector: 'app-debts-detail',
-    templateUrl: './debts-detail.component.html',
-    styleUrls: ['./debts-detail.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-debts-detail',
+  templateUrl: './debts-detail.component.html',
+  styleUrls: ['./debts-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [DecimalPipe, MatTableModule, WrapFnPipe],
 })
 export class DebtsDetailComponent implements OnInit {
+  private userService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
+  private expensesService = inject(ExpensesService);
+
   users$!: Array<User>;
   currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
   expenses$!: Expense[];
   displayedColumns: string[] = [];
-
-  constructor(
-    private userService: UsersService,
-    private currencyService: CurrencyService,
-    private expensesService: ExpensesService,
-  ) {}
 
   ngOnInit(): void {
     this.initColumns();

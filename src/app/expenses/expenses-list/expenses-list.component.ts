@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
+  input,
   OnInit,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,11 +14,15 @@ import { UsersService } from '@users/shared/users.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { LoggerService } from 'src/app/core/services/logger.service';
 import { Expense } from '@shared/models';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe, KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SharedModule } from '@shared/shared.module';
+import { FilterPipe } from '@shared/pipes/filter.pipe';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 
 @Component({
   selector: 'app-expenses-list',
@@ -32,11 +36,18 @@ import { SharedModule } from '@shared/shared.module';
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
-    SharedModule,
+    FilterPipe,
+    MatInputModule,
+    MatFormFieldModule,
+    ExchangePipe,
+    WrapFnPipe,
+    DatePipe,
+    DecimalPipe,
+    KeyValuePipe,
   ],
 })
 export class ExpensesListComponent implements OnInit {
-  @Input() filter: string = '';
+  filter = input<string>('');
 
   private expensesService = inject(ExpensesService);
   private currencyService = inject(CurrencyService);
@@ -47,8 +58,8 @@ export class ExpensesListComponent implements OnInit {
 
   term = '';
   currency = this.currencyService.getCurrencySettings();
-  users$ = this.usersService.getUsers();
-  expenses$ = this.expensesService.getExpensesOrderByDatesDesc();
+  users = this.usersService.users;
+  expenses = this.expensesService.expensesOrderByDateDescSignal;
   pageSize = 5;
   pageIndex = 0;
 

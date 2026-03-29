@@ -1,36 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { WeatherService } from '@forecast/shared/weather.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings, WeatherPlugin } from '@shared/models';
 
+import { FormsModule } from '@angular/forms';
+
 @Component({
-    selector: 'app-settings-weather',
-    templateUrl: './settings-weather.component.html',
-    styleUrls: ['./settings-weather.component.scss'],
-    standalone: false
+  selector: 'app-settings-weather',
+  templateUrl: './settings-weather.component.html',
+  styleUrls: ['./settings-weather.component.scss'],
+  standalone: true,
+  imports: [FormsModule],
 })
-export class SettingsWeatherComponent implements OnInit {
+export class SettingsWeatherComponent {
+  private weatherService = inject(WeatherService);
+  private localStorageService = inject(LocalstorageService);
+
   weatherSettings: WeatherPlugin;
   settings: Settings;
-  showAlert = false;
-  isError = false;
+  showAlert = signal(false);
+  isError = signal(false);
 
-  constructor(
-    private weatherService: WeatherService,
-    private localStorageService: LocalstorageService,
-  ) {
+  constructor() {
     this.settings = this.localStorageService.getSettings();
     this.weatherSettings = this.settings.weather;
   }
 
-  ngOnInit(): void {}
-
   setWeatherPlugin(city: string, status: boolean, key: string) {
     this.weatherService.setWeatherPluginOnLocalStorage(city, status, key);
-    this.showAlert = true;
+    this.showAlert.set(true);
   }
 
   close() {
-    this.showAlert = false;
+    this.showAlert.set(false);
   }
 }

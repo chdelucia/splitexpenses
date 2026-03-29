@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin } from '@shared/models';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-settings-currency',
-    templateUrl: './settings-currency.component.html',
-    styleUrls: ['./settings-currency.component.scss'],
-    standalone: false
+  selector: 'app-settings-currency',
+  templateUrl: './settings-currency.component.html',
+  styleUrls: ['./settings-currency.component.scss'],
+  standalone: true,
+  imports: [FormsModule],
 })
-export class SettingsCurrencyComponent implements OnInit {
-  currencySettings: CurrencyPlugin;
-  showAlert = false;
-  isError = false;
+export class SettingsCurrencyComponent {
+  private currencyService = inject(CurrencyService);
 
-  constructor(private currencyService: CurrencyService) {
-    this.currencySettings = this.currencyService.getCurrencySettings();
-  }
-
-  ngOnInit(): void {}
+  currencySettings: CurrencyPlugin = this.currencyService.getCurrencySettings();
+  showAlert = signal(false);
+  isError = signal(false);
 
   close() {
-    this.showAlert = false;
+    this.showAlert.set(false);
   }
 
   setCurrency(
@@ -38,6 +36,6 @@ export class SettingsCurrencyComponent implements OnInit {
       active: exchange,
     };
     this.currencyService.saveCurrencyIntoLocalStorage(obj);
-    this.showAlert = true;
+    this.showAlert.set(true);
   }
 }
