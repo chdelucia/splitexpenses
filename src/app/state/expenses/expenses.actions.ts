@@ -15,5 +15,5 @@ export const removeExpense = createAction(
 );
 export const addExpenses = createAction(
   '[Expenses] Add Expenses',
-  props<{ expenses: Map<string, Expense> }>(),
+  props<{ expenses: Record<string, Expense> }>(),
 );

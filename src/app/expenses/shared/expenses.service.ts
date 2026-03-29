@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from '@shared/models';
-import { calcNextID, convertStringToMap, diffinDays } from '@shared/utils';
+import { calcNextID, diffinDays } from '@shared/utils';
 import {
   addExpense,
   addExpenses,
@@ -28,7 +28,7 @@ import { ExpenseRepository } from './expense.repository';
 })
 export class ExpensesService extends ExpenseRepository {
   private settings: Settings;
-  private expenses: Map<string, Expense> = new Map();
+  private expenses: Record<string, Expense> = {};
   mapper = new ExpensesMapper();
 
   constructor(
@@ -77,7 +77,7 @@ export class ExpensesService extends ExpenseRepository {
 
   loadExpensesFromLocalStorage(): void {
     const ans = this.storageService.getData().expenses;
-    const expenses = ans ? convertStringToMap<Expense>(ans) : new Map();
+    const expenses = ans || {};
     this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 
@@ -85,7 +85,7 @@ export class ExpensesService extends ExpenseRepository {
     this.storageService.saveDataToLocalStorage(undefined, this.expenses);
   }
 
-  getExpenses(): Observable<Map<string, Expense>> {
+  getExpenses(): Observable<Record<string, Expense>> {
     return this.store.select(selectExpenses);
   }
 
@@ -114,7 +114,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {
-    return Array.from(this.settings.graph.types.values());
+    return Object.values(this.settings.graph.types);
   }
 
   editExpense(expense: Expense): void {
@@ -136,7 +136,7 @@ export class ExpensesService extends ExpenseRepository {
 
   getTotalPaidByUserToOthers(userId: string): number {
     let total = 0;
-    this.expenses.forEach((expense) => {
+    Object.values(this.expenses).forEach((expense) => {
       const paidByme = userId === expense.paidBy;
       const Iparticipated = expense.sharedBy.includes(userId);
       if (paidByme) {
@@ -152,7 +152,7 @@ export class ExpensesService extends ExpenseRepository {
   calcUserTotalBalance(userId: string): number {
     let total = 0;
 
-    this.expenses.forEach((expense) => {
+    Object.values(this.expenses).forEach((expense) => {
       const paidByme = userId === expense.paidBy;
       const Iparticipated = expense.sharedBy.includes(userId);
       if (paidByme) {
@@ -182,7 +182,7 @@ export class ExpensesService extends ExpenseRepository {
   /* Calculate by group if user not given */
   getTotalCost(userId?: string): number {
     let total = 0;
-    this.expenses.forEach((expense) => {
+    Object.values(this.expenses).forEach((expense) => {
       if (!userId) {
         total += expense.originalCost;
       }
@@ -200,7 +200,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getTotalDays(): number {
-    const expenses = Array.from(this.expenses.values());
+    const expenses = Object.values(this.expenses);
 
     if (expenses.length > 1) {
       const data1 = expenses.shift()?.date || '';
@@ -216,13 +216,13 @@ export class ExpensesService extends ExpenseRepository {
     labels: Array<string>;
     data: Array<number>;
   } {
-    const data = Array(this.settings.graph.types.size).fill(0);
+    const data = Array(Object.keys(this.settings.graph.types).length).fill(0);
     const labels: string[] = [];
-    this.settings.graph.types.forEach((item) => {
+    Object.values(this.settings.graph.types).forEach((item) => {
       labels.push(item.name);
     });
 
-    this.expenses.forEach((item) => {
+    Object.values(this.expenses).forEach((item) => {
       const index = parseInt(item.typeId);
       if (userId && item.sharedBy.includes(userId)) {
         data[index] = data[index] + item.cost;
@@ -238,7 +238,7 @@ export class ExpensesService extends ExpenseRepository {
     data: Array<number>;
   } {
     const dates: Array<string> = [];
-    const expenses = Array.from(this.expenses.values());
+    const expenses = Object.values(this.expenses);
     expenses.forEach((expense) => {
       if (!dates.includes(expense.date)) {
         dates.push(expense.date);
@@ -267,7 +267,7 @@ export class ExpensesService extends ExpenseRepository {
     labels: Array<string>;
     data: Array<any>;
   } {
-    const expensesArray = Array.from(this.expenses.values());
+    const expensesArray = Object.values(this.expenses);
     // Create Object of expenses group by Day
     const result = expensesArray.reduce((r, a) => {
       r[a.date] = r[a.date] || [];
@@ -283,9 +283,10 @@ export class ExpensesService extends ExpenseRepository {
       data: Array<number>;
       backgroundColor: string;
     }> = [];
-    for (let i = 0; i < this.settings.graph.types.size; i++) {
+    const typesCount = Object.keys(this.settings.graph.types).length;
+    for (let i = 0; i < typesCount; i++) {
       stackedxAxis[i] = {
-        label: this.settings.graph.types.get(i.toString())?.name || '',
+        label: this.settings.graph.types[i.toString()]?.name || '',
         data: Array(yAxis.length).fill(0),
         backgroundColor: this.settings.graph.bgColors[i],
       };

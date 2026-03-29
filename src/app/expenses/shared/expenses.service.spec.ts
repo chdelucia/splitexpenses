@@ -43,9 +43,10 @@ const expense2: Expense = {
   settleBy: [],
 };
 
-const expensesMap = new Map<string, Expense>();
-expensesMap.set(expense1.id, expense1);
-expensesMap.set(expense2.id, expense2);
+const expensesMap = {
+  [expense1.id]: expense1,
+  [expense2.id]: expense2,
+};
 
 const expensesList = [expense1, expense2];
 
@@ -54,7 +55,7 @@ const mockLocalStorageService = {
   saveDataToLocalStorage: jasmine.createSpy('saveDataToLocalStorage'),
   getSettings: jasmine
     .createSpy('getSettings')
-    .and.returnValue({ graph: { types: new Map() } }),
+    .and.returnValue({ graph: { types: {} } }),
 };
 
 const mockStore = {
@@ -77,10 +78,10 @@ const mockStore = {
   },
 };
 
-const expensesMock = new Map([
-  ['1', expense1],
-  ['2', expense2],
-]);
+const expensesMock = {
+  '1': expense1,
+  '2': expense2,
+};
 
 describe('ExpensesService', () => {
   let service: ExpensesService;
@@ -137,8 +138,8 @@ describe('ExpensesService', () => {
     const result = service.loadExpensesFromLocalStorage();
     expect(result).toBeDefined();
     service.getExpenses().subscribe((expenses) => {
-      expect(expenses.size).toBe(1);
-      expect(expenses.get('1')?.title).toBe('Expense 1');
+      expect(Object.keys(expenses).length).toBe(1);
+      expect(expenses['1']?.title).toBe('Expense 1');
     });
   });
 
@@ -184,8 +185,9 @@ describe('ExpensesService', () => {
 
   describe('getExpenses', async () => {
     it('should return expenses$', async () => {
-      const expense = new Map<string, Expense>();
-      expense.set('1', expense1);
+      const expense = {
+        '1': expense1,
+      };
       //spyOnProperty(service, 'expenses$').and.returnValue(expense1);
       spyOn(mockStore, 'select').and.returnValue(of(expense));
       const result = await firstValueFrom(service.getExpenses());

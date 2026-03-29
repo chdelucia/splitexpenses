@@ -10,10 +10,10 @@ export const selectUsers = createSelector(
 );
 
 export const selectUserByID = (id: string) =>
-  createSelector(selectUsers, (users) => users.get(id));
+  createSelector(selectUsers, (users) => users[id]);
 
 export const selectIterableUsers = createSelector(selectUsers, (users) =>
-  Array.from(users.values()),
+  Object.values(users),
 );
 
 export const selectUserCount = createSelector(

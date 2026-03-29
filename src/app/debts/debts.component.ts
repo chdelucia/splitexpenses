@@ -12,7 +12,7 @@ import { UsersService } from '@users/shared/users.service';
     standalone: false
 })
 export class DebtsComponent {
-  debts$: Observable<Map<string, Debt>> = this.debtsService.getDebts();
+  debts$: Observable<Record<string, Debt>> = this.debtsService.getDebts();
 
   users$: Observable<Array<User>> = this.userService.getIterableUsers();
 

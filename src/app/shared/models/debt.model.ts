@@ -4,5 +4,5 @@ export interface Debt {
   totalIveBeenPaid: number;
   totalIPaid: number;
   totalIowe: number;
-  debts: Map<string, IndividualDebt>;
+  debts: Record<string, IndividualDebt>;
 }

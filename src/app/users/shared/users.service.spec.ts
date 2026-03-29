@@ -4,6 +4,7 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { Store } from '@ngrx/store';
 import { User } from '@shared/models';
 import { addUser, updateUser } from '@state/user/user.actions';
+import { of } from 'rxjs';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -37,10 +38,10 @@ describe('UsersService', () => {
   });
 
   describe('getUsers', () => {
-    it('should return an observable of users map', (done: DoneFn) => {
-      const expectedMap = new Map<string, User>([
-        ['id1', { id: 'id1', name: 'Alice' }],
-      ]);
+    it('should return an observable of users map', (done: jest.DoneCallback) => {
+      const expectedMap = {
+        id1: { id: 'id1', name: 'Alice' },
+      };
       storeSpy.select.and.returnValue(of(expectedMap));
 
       service.getUsers().subscribe((map) => {
@@ -51,7 +52,7 @@ describe('UsersService', () => {
   });
 
   describe('getUserByID', () => {
-    it('should return an observable of user', (done: DoneFn) => {
+    it('should return an observable of user', (done: jest.DoneCallback) => {
       const expectedUser = { id: 'id1', name: 'Alice' };
       storeSpy.select.and.returnValue(of(expectedUser));
 
@@ -63,7 +64,7 @@ describe('UsersService', () => {
   });
 
   describe('getIterableUsers', () => {
-    it('should return an observable of iterable users', (done: DoneFn) => {
+    it('should return an observable of iterable users', (done: jest.DoneCallback) => {
       const expectedIterableUsers = [{ id: 'id1', name: 'Alice' }];
       storeSpy.select.and.returnValue(of(expectedIterableUsers));
 
@@ -89,9 +90,9 @@ describe('UsersService', () => {
   describe('addUser', () => {
     it('should dispatch an addUser action and save users into local storage', async () => {
       const user = { id: 'id1', name: 'Alice' };
-      const users = new Map<string, User>([
-        ['id0', { id: 'id0', name: 'Bob' }],
-      ]);
+      const users = {
+        id0: { id: 'id0', name: 'Bob' },
+      };
       storeSpy.select.and.returnValue(of(users));
       storeSpy.dispatch.and.stub();
 

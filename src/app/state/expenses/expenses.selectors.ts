@@ -10,11 +10,11 @@ export const selectExpenses = createSelector(
 );
 
 export const selectExpenseByID = (id: string) =>
-  createSelector(selectExpenses, (expense) => expense.get(id));
+  createSelector(selectExpenses, (expense) => expense[id]);
 
 export const selectIterableExpenses = createSelector(
   selectExpenses,
-  (expenses) => Array.from(expenses.values()),
+  (expenses) => Object.values(expenses),
 );
 
 export const selectExpensesFilterByType = (filter: string) =>

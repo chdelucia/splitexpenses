@@ -17,5 +17,5 @@ export const resetUsers = createAction('[Users] Reset Users');
 
 export const addUsers = createAction(
   '[Users] Add Users',
-  props<{ users: Map<string, User> }>(),
+  props<{ users: Record<string, User> }>(),
 );
