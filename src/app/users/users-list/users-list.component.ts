@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
 })
 export class UsersListComponent {
   private userService = inject(UsersService);
@@ -25,7 +25,7 @@ export class UsersListComponent {
     EXIST: $localize`Usuario ya existe`,
   };
 
-  users$: Observable<User[]> = this.userService.getIterableUsers();
+  users = toSignal(this.userService.getIterableUsers());
 
   edit(data: HTMLTableCellElement, user: User, fieldToEdit: 'phone' | 'name') {
     const oldValue = user[fieldToEdit];

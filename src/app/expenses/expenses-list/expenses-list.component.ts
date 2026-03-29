@@ -2,9 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Input,
+  input,
   OnInit,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { openSnackBar, globalToast } from '@shared/utils';
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '@shared/shared.module';
+import { FilterPipe } from '@shared/pipes/filter.pipe';
 
 @Component({
   selector: 'app-expenses-list',
@@ -33,10 +35,11 @@ import { SharedModule } from '@shared/shared.module';
     MatIconModule,
     MatButtonModule,
     SharedModule,
+    FilterPipe,
   ],
 })
 export class ExpensesListComponent implements OnInit {
-  @Input() filter: string = '';
+  filter = input<string>('');
 
   private expensesService = inject(ExpensesService);
   private currencyService = inject(CurrencyService);
@@ -47,8 +50,8 @@ export class ExpensesListComponent implements OnInit {
 
   term = '';
   currency = this.currencyService.getCurrencySettings();
-  users$ = this.usersService.getUsers();
-  expenses$ = this.expensesService.getExpensesOrderByDatesDesc();
+  users = toSignal(this.usersService.getUsers());
+  expenses = toSignal(this.expensesService.getExpensesOrderByDatesDesc());
   pageSize = 5;
   pageIndex = 0;
 

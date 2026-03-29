@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { DebtsService } from './shared/debts.service';
 import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '@shared/models';
@@ -12,17 +12,15 @@ import { UsersService } from '@users/shared/users.service';
     standalone: false
 })
 export class DebtsComponent {
-  debts$: Observable<Record<string, Debt>> = this.debtsService.getDebts();
+  private debtsService = inject(DebtsService);
+  private userService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
 
-  users$: Observable<Array<User>> = this.userService.getIterableUsers();
+  debts = toSignal(this.debtsService.getDebts());
+
+  users = toSignal(this.userService.getIterableUsers());
 
   currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
 
   debtTracing: TraceAutoSettle[] = this.debtsService.getDebtTracing();
-
-  constructor(
-    private debtsService: DebtsService,
-    private userService: UsersService,
-    private currencyService: CurrencyService,
-  ) {}
 }

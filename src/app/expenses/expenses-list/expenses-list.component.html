@@ -1,6 +1,6 @@
 <main class="mb-5 container">
   <h2 class="my-4 text-center" i18n>Historial</h2>
-  @if (expenses$ | async; as expenses) {
+  @if (expenses(); as expenses) {
     <section class="filters row">
       <div class="col-12 col-md-5 col-xl-6">
         <mat-form-field appearance="fill" class="w-100">
@@ -41,7 +41,7 @@
           <div class="d-md-flex col-2 col-md-3">
             {{ expense.originalCost }} {{ currency.currencySymbol }}
           </div>
-          @if (!filter) {
+          @if (!filter()) {
             <div class="col-5 col-md-4 action-icons">
               <button
                 mat-mini-fab
@@ -66,11 +66,11 @@
         <div class="row g-2 align-items-center text-secondary">
           <div class="col-sm-7 col-md-5 paidBy">
             <span i18n>Pagado por:</span>
-            {{ (users$ | async)?.[expense.paidBy]?.name }}
+            {{ users()?.[expense.paidBy]?.name }}
             <br />
             <span i18n>Participan: </span>
             @if (
-              expense.sharedBy.length === ((users$ | async) | keyvalue)?.length) {
+              expense.sharedBy.length === (users() | keyvalue)?.length) {
               <span
                 i18n
                 >Todos</span
@@ -78,7 +78,7 @@
               } @else {
                 @for (userId of expense.sharedBy; track userId) {
                   <span>
-                    {{ (users$ | async)?.[userId]?.name }}
+                    {{ users()?.[userId]?.name }}
                   </span>
                 }
               }

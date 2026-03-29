@@ -13,7 +13,7 @@
       <mat-form-field appearance="fill" class="w-100">
         <mat-label i18n>Pagado por:</mat-label>
         <mat-select formControlName="name" required>
-          @for (user of users$ | async; track user) {
+          @for (user of users(); track user) {
             <mat-option [value]="user.id">{{
               user.name
             }}</mat-option>
@@ -76,7 +76,7 @@
 
           <div class="col-12">
             <div class="mb-2" i18n>Quien participa:</div>
-            @for (user of users$ | async; track user; let i = $index) {
+            @for (user of users(); track user; let i = $index) {
               <mat-checkbox
                 [value]="user.id"
                 (change)="onCheckboxChange($event)"
