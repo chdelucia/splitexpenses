@@ -32,16 +32,14 @@ export class LocalstorageService extends StorageService {
   }
 
   saveDataToLocalStorage(
-    users?: Map<string, User>,
-    expenses?: Map<string, Expense>,
+    users?: Record<string, User>,
+    expenses?: Record<string, Expense>,
     currency?: CurrencyPlugin,
   ) {
     const travelName = this.getActiveTravelName();
 
-    this.data.users = users ? utils.convertMaptoString(users) : this.data.users;
-    this.data.expenses = expenses
-      ? utils.convertMaptoString(expenses)
-      : this.data.expenses;
+    this.data.users = users ? users : this.data.users;
+    this.data.expenses = expenses ? expenses : this.data.expenses;
     this.data.currency = currency ?? this.data.currency;
 
     this.setItem(travelName, this.data);
@@ -87,30 +85,23 @@ export class LocalstorageService extends StorageService {
     return this.data;
   }
 
-  loadSettings(): any {
+  loadSettings(): Settings {
     const ans = this.getItem<Settings>(environment.localStorageSettings);
     const answers = ans ?? this.createSettingsStructure();
-    answers.graph.types = utils.convertStringToMap<ExpenseTypes>(
-      answers.graph.types as Record<string, ExpenseTypes>,
-    );
     return answers;
   }
 
   saveSettings(data?: object) {
     this.settings = { ...this.settings, ...data };
-    const newObj = structuredClone(this.settings);
-
-    //TODO create a deep clone
-    newObj.graph.types = utils.convertMaptoString(newObj.graph.types) as any;
     this.setItem(environment.localStorageSettings, this.settings);
   }
 
-  createSettingsStructure() {
-    const types = new Map();
+  createSettingsStructure(): Settings {
+    const types: Record<string, ExpenseTypes> = {};
     environment.expensesTypes.forEach((type, i) => {
-      types.set(i, { id: i, name: type, active: true });
+      types[i] = { id: i.toString(), name: type, active: true };
     });
-    const obj = {
+    const obj: Settings = {
       weather: { active: false, city: '', key: '' },
       travels: {
         names: [environment.localStorageExpenses],
@@ -118,7 +109,7 @@ export class LocalstorageService extends StorageService {
       },
       graph: {
         bgColors: environment.bgColors,
-        types: utils.convertMaptoString(types),
+        types: types,
       },
     };
     this.setItem(environment.localStorageSettings, obj);

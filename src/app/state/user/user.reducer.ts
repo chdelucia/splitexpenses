@@ -9,11 +9,11 @@ import {
 import { User } from '@shared/models';
 
 export interface UserState {
-  users: Map<string, User>;
+  users: Record<string, User>;
 }
 
 const initialState: UserState = {
-  users: new Map<string, User>(),
+  users: {},
 };
 
 export const userReducer = createReducer(
@@ -22,30 +22,27 @@ export const userReducer = createReducer(
     addUser,
     (state, { user }): UserState => ({
       ...state,
-      users: new Map<string, User>([...state.users, [user.id, user]]),
+      users: { ...state.users, [user.id]: user },
     }),
   ),
   on(removeUser, (state, { id }) => {
-    const newUsers = new Map<string, User>([...state.users]);
-    newUsers.delete(id);
+    const { [id]: _, ...newUsers } = state.users;
     return {
       ...state,
       users: newUsers,
     };
   }),
   on(updateUser, (state, { user }) => {
-    const newUsers = new Map<string, User>([...state.users]);
-    newUsers.set(user.id, user);
     return {
       ...state,
-      users: newUsers,
+      users: { ...state.users, [user.id]: user },
     };
   }),
   on(
     addUsers,
     (state, { users }): UserState => ({
       ...state,
-      users: new Map([...state.users, ...users]),
+      users: { ...state.users, ...users },
     }),
   ),
   on(resetUsers, (): UserState => {

@@ -6,11 +6,11 @@
   <h2 class="my-4 text-center" i18n>Deudas</h2>
   @if (debts$ | async; as debts) {
     <section class="row g-4">
-      @if (debts.size) {
+      @if ((debts | keyvalue).length) {
         @for (user of users; track user.id) {
           <div
             class="col-sm-12 col-lg-6 col-xxl-4"
-            [class.order-2]="debts.get(user.id)!.totalIowe <= 0"
+            [class.order-2]="debts[user.id]!.totalIowe <= 0"
           >
             <div
               class="persoanlDebts p-md-3 p-2"
@@ -23,12 +23,12 @@
               >
                 <div>{{ user.name }}</div>
                 <div class="totalIowe">
-                  {{ debts.get(user.id)?.totalIowe | number: ".0-2" }}
+                  {{ debts[user.id]?.totalIowe | number: ".0-2" }}
                   {{ currency.currencySymbol }}
                   @if (currency.active) {
                     <div class="text-end mainExchange">
                       {{
-                        debts.get(user.id)?.totalIowe
+                        debts[user.id]?.totalIowe
                           | exchange
                           | number: ".0-2"
                       }}
@@ -45,14 +45,14 @@
                     <div>{{ person.name }}</div>
                     <div>
                       {{
-                        debts.get(user.id)?.debts?.get(person.id)?.newDebt
+                        debts[user.id]?.debts[person.id]?.newDebt
                           | number: ".0-2"
                       }}
                       {{ currency.currencySymbol }}
                       @if (currency.active) {
                         <small class="text-end">
                           {{
-                            debts.get(user.id)?.debts?.get(person.id)?.newDebt
+                            debts[user.id]?.debts[person.id]?.newDebt
                               | exchange
                               | number: ".0-2"
                           }}

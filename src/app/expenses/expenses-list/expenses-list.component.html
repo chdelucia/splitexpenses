@@ -66,11 +66,11 @@
         <div class="row g-2 align-items-center text-secondary">
           <div class="col-sm-7 col-md-5 paidBy">
             <span i18n>Pagado por:</span>
-            {{ (users$ | async)?.get(expense.paidBy)?.name }}
+            {{ (users$ | async)?.[expense.paidBy]?.name }}
             <br />
             <span i18n>Participan: </span>
             @if (
-              expense.sharedBy.length === (users$ | async)?.size) {
+              expense.sharedBy.length === ((users$ | async) | keyvalue)?.length) {
               <span
                 i18n
                 >Todos</span
@@ -78,7 +78,7 @@
               } @else {
                 @for (userId of expense.sharedBy; track userId) {
                   <span>
-                    {{ (users$ | async)?.get(userId)?.name }}
+                    {{ (users$ | async)?.[userId]?.name }}
                   </span>
                 }
               }

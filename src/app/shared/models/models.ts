@@ -77,7 +77,7 @@ export interface Settings {
 }
 
 export interface GraphPlugin {
-  types: Map<string, ExpenseTypes>;
+  types: Record<string, ExpenseTypes>;
   bgColors: Array<string>;
 }
 

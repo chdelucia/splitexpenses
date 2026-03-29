@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { calcNextID, convertStringToMap } from '@shared/utils';
+import { calcNextID } from '@shared/utils';
 import { Store } from '@ngrx/store';
 import {
   selectUsers,
@@ -22,7 +22,7 @@ import { User } from '@shared/models';
   providedIn: 'root',
 })
 export class UsersService {
-  users$: Observable<Map<string, User>> = this.store.select(selectUsers);
+  users$: Observable<Record<string, User>> = this.store.select(selectUsers);
   iterableUsers$: Observable<Array<User>> =
     this.store.select(selectIterableUsers);
 
@@ -34,7 +34,7 @@ export class UsersService {
     this.store.dispatch(addUsers({ users: users }));
   }
 
-  getUsers(): Observable<Map<string, User>> {
+  getUsers(): Observable<Record<string, User>> {
     return this.store.select(selectUsers);
   }
 
@@ -67,10 +67,9 @@ export class UsersService {
     this.saveUsersIntoLocalStorage();
   }
 
-  loadUsersFromLocalStorage(): Map<string, User> {
+  loadUsersFromLocalStorage(): Record<string, User> {
     const ans = this.storageService.getData().users;
-    const users = ans ? convertStringToMap<User>(ans) : new Map();
-    return users;
+    return ans || {};
   }
 
   //TODO import module to auto sync store and localstore

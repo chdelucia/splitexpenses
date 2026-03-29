@@ -10,8 +10,8 @@ export const selectDebts = createSelector(
 );
 
 export const selectDebtsByID = (id: string) =>
-  createSelector(selectDebts, (debts) => debts.get(id));
+  createSelector(selectDebts, (debts) => debts[id]);
 
 export const selectIterableDebts = createSelector(selectDebts, (debt) =>
-  Array.from(debt.values()),
+  Object.values(debt),
 );

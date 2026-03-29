@@ -6,7 +6,7 @@ import { Debt } from '@shared/models';
 export const debtsFeatureKey = 'debts';
 
 export const initialState: DebtState = {
-  debts: new Map<string, Debt>(),
+  debts: {},
 };
 
 export const reducer = createReducer(
@@ -15,7 +15,7 @@ export const reducer = createReducer(
     UpdateDebts,
     (state, { debts }): DebtState => ({
       ...state,
-      debts: new Map([...state.debts, ...debts]),
+      debts: { ...state.debts, ...debts },
     }),
   ),
 );

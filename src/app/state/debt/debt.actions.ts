@@ -4,5 +4,5 @@ import { Debt } from '@shared/models';
 
 export const UpdateDebts = createAction(
   '[Debts] Update debts',
-  props<{ debts: Map<string, Debt> }>(),
+  props<{ debts: Record<string, Debt> }>(),
 );

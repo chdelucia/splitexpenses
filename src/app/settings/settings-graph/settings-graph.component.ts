@@ -15,7 +15,7 @@ export class SettingsGraphComponent {
   types: ExpenseTypes[];
   constructor(private localStorageService: LocalstorageService) {
     this.settings = this.localStorageService.getSettings();
-    this.types = Array.from(this.settings.graph.types.values());
+    this.types = Object.values(this.settings.graph.types);
   }
 
   trackByIdx(index: number): number {
@@ -23,9 +23,9 @@ export class SettingsGraphComponent {
   }
 
   onSubmit() {
-    const types = new Map();
+    const types: Record<string, ExpenseTypes> = {};
     this.types.forEach((type, i) => {
-      types.set(i, { id: i, name: type.name, active: true });
+      types[i] = { id: i.toString(), name: type.name, active: true };
     });
 
     //TODO ugly way to dont touch original object

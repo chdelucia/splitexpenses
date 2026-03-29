@@ -30,7 +30,7 @@ describe('DebtsService', () => {
   beforeEach(() => {
     const usersServiceSpy = jasmine.createSpyObj('UsersService', ['getUsers']);
     usersServiceSpy.getUsers.and.returnValue(
-      of(new Map([[mockUser.id, mockUser]])),
+      of({ [mockUser.id]: mockUser }),
     );
 
     let expensesServiceSpy = jasmine.createSpyObj('ExpensesService', [
@@ -55,7 +55,7 @@ describe('DebtsService', () => {
   });
 
   it('should initialize debts and debtTracing', () => {
-    expect(debtsService['debts']).toEqual(new Map());
+    expect(debtsService['debts']).toEqual({});
     expect(debtsService['debtTracing']).toEqual([]);
   });
 
@@ -74,9 +74,9 @@ describe('DebtsService', () => {
   });
 
   it('should create structure', async () => {
-    await debtsService.createStructure(new Map([[mockUser.id, mockUser]]));
-    expect(debtsService['debts'].size).toBe(1);
-    expect(debtsService['debts'].get(mockUser.id)).toBeDefined();
+    await debtsService.createStructure({ [mockUser.id]: mockUser });
+    expect(Object.keys(debtsService['debts']).length).toBe(1);
+    expect(debtsService['debts'][mockUser.id]).toBeDefined();
   });
 
   it('should get trace debts', () => {
@@ -86,6 +86,6 @@ describe('DebtsService', () => {
 
   it('should get debts', () => {
     const debts = debtsService.getDebts();
-    expect(debts).toEqual(new Map());
+    expect(debts).toEqual({});
   });
 });
