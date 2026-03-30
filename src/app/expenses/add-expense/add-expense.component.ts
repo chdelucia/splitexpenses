@@ -37,7 +37,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { SharedModule } from '@shared/shared.module';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
   selector: 'app-add-expense',
@@ -55,7 +55,7 @@ import { SharedModule } from '@shared/shared.module';
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
-    SharedModule,
+    ExchangePipe,
   ],
 })
 export class AddExpenseComponent implements OnInit {
