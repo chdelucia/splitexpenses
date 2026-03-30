@@ -13,7 +13,7 @@ import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { UsersService } from '@users/shared/users.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { LoggerService } from 'src/app/core/services/logger.service';
+import { LoggerService } from '@core/services/logger.service';
 import { Expense } from '@shared/models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -50,8 +50,10 @@ export class ExpensesListComponent implements OnInit {
 
   term = '';
   currency = this.currencyService.getCurrencySettings();
-  users = toSignal(this.usersService.getUsers());
-  expenses = toSignal(this.expensesService.getExpensesOrderByDatesDesc());
+  expenses = toSignal(
+    this.expensesService.getEnrichedExpensesOrderByDatesDesc(),
+  );
+  userCount = toSignal(this.usersService.getNumberOfUser());
   pageSize = 5;
   pageIndex = 0;
 

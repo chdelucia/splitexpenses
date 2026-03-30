@@ -8,4 +8,6 @@ export interface Expense {
   typeId: string;
   sharedBy: Array<string>;
   settleBy: Array<string>;
+  paidByUserName?: string;
+  sharedByNames?: Array<string>;
 }

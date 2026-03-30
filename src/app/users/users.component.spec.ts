@@ -19,16 +19,14 @@ describe('UsersComponent', () => {
   ];
 
   beforeEach(async () => {
-    const usersService = jasmine.createSpyObj('UsersService', [
-      'getIterableUsers',
-      'checkIfNameExist',
-      'addUser',
-      'getUserByID',
-      'editUser',
-      'removeUser',
-    ]);
-    usersService.getIterableUsers.and.returnValue(of(mockUsers));
-    usersService.checkIfNameExist.and.returnValue(false);
+    const usersService = {
+      getIterableUsers: jest.fn().mockReturnValue(of(mockUsers)),
+      checkIfNameExist: jest.fn().mockReturnValue(false),
+      addUser: jest.fn(),
+      getUserByID: jest.fn(),
+      editUser: jest.fn(),
+      removeUser: jest.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [FormsModule, StoreModule.forRoot({ userState: userReducer })],
@@ -37,7 +35,7 @@ describe('UsersComponent', () => {
     }).compileComponents();
 
     store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
+    jest.spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

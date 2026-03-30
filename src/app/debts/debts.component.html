@@ -1,16 +1,17 @@
 
 @let appUsers = users();
-@let usersLenght = appUsers?.length;
+@let usersLength = appUsers?.length;
 
 <main class="container-md mb-5">
   <h2 class="my-4 text-center" i18n>Deudas</h2>
-  @if (debts(); as debts) {
+  @if (debts(); as currentDebts) {
     <section class="row g-4">
-      @if ((debts | keyvalue).length) {
+      @if ((currentDebts | keyvalue).length) {
         @for (user of appUsers; track user.id) {
+          @let userDebt = currentDebts[user.id];
           <div
             class="col-sm-12 col-lg-6 col-xxl-4"
-            [class.order-2]="debts[user.id]!.totalIowe <= 0"
+            [class.order-2]="userDebt!.totalIowe <= 0"
           >
             <div
               class="persoanlDebts p-md-3 p-2"
@@ -19,16 +20,16 @@
             >
               <div
                 class="d-flex flex-row justify-content-between title"
-                [class.border-bottom]="usersLenght && usersLenght > 2"
+                [class.border-bottom]="usersLength && usersLength > 2"
               >
-                <div>{{ user.name }}</div>
+                <div>{{ userDebt?.userName }}</div>
                 <div class="totalIowe">
-                  {{ debts[user.id]?.totalIowe | number: ".0-2" }}
+                  {{ userDebt?.totalIowe | number: ".0-2" }}
                   {{ currency.currencySymbol }}
                   @if (currency.active) {
                     <div class="text-end mainExchange">
                       {{
-                        debts[user.id]?.totalIowe
+                        userDebt?.totalIowe
                           | exchange
                           | number: ".0-2"
                       }}
@@ -38,12 +39,12 @@
                 </div>
               </div>
               @for (person of appUsers; track person.id) {
-                @let debt = debts[user.id]?.debts?.[person.id];
-                @if (user.id !== person.id && usersLenght && usersLenght > 2 && debt) {
+                @let debt = userDebt?.debts?.[person.id];
+                @if (user.id !== person.id && usersLength && usersLength > 2 && debt) {
                   <div
                     class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
                   >
-                    <div>{{ person.name }}</div>
+                    <div>{{ debt.userName }}</div>
                     <div>
                       {{ debt.newDebt | number: ".0-2" }}
                       {{ currency.currencySymbol }}

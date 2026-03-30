@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ExpensesState } from './expenses.reducer';
 import { Expense } from '@shared/models';
+import { selectUsers } from '@state/user/user.selectors';
 
 const selectExpensesState = createFeatureSelector<ExpensesState>('expenses');
 
@@ -49,6 +50,26 @@ export const selectExpensesGroupByDates = createSelector(
 
 export const selectExpensesOrderByDateDesc = createSelector(
   selectIterableExpenses,
+  (expenses) =>
+    expenses
+      .slice()
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+);
+
+export const selectEnrichedExpenses = createSelector(
+  selectIterableExpenses,
+  selectUsers,
+  (expenses, users) => {
+    return expenses.map((expense) => ({
+      ...expense,
+      paidByUserName: users[expense.paidBy]?.name || expense.paidBy,
+      sharedByNames: expense.sharedBy.map((id) => users[id]?.name || id),
+    }));
+  },
+);
+
+export const selectEnrichedExpensesOrderByDateDesc = createSelector(
+  selectEnrichedExpenses,
   (expenses) =>
     expenses
       .slice()

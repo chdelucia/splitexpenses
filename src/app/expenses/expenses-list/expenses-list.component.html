@@ -66,22 +66,18 @@
         <div class="row g-2 align-items-center text-secondary">
           <div class="col-sm-7 col-md-5 paidBy">
             <span i18n>Pagado por:</span>
-            {{ users()?.[expense.paidBy]?.name }}
+            {{ expense.paidByUserName }}
             <br />
             <span i18n>Participan: </span>
-            @if (
-              expense.sharedBy.length === (users() | keyvalue)?.length) {
-              <span
-                i18n
-                >Todos</span
-                >
-              } @else {
-                @for (userId of expense.sharedBy; track userId) {
-                  <span>
-                    {{ users()?.[userId]?.name }}
-                  </span>
-                }
+            @if (expense.sharedByNames?.length === userCount()) {
+              <span i18n>Todos</span>
+            } @else {
+              @for (name of expense.sharedByNames; track name) {
+                <span>
+                  {{ name }}
+                </span>
               }
+            }
             </div>
             @if (currency.active) {
               <div class="col-4 paidBy d-none d-md-inline">
