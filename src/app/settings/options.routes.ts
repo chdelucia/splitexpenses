@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { OptionsComponent } from './options.component';
 import { SettingsBackupComponent } from './settings-backup/settings-backup.component';
 import { SettingsCurrencyComponent } from './settings-currency/settings-currency.component';
@@ -8,7 +7,7 @@ import { SettingsTravelComponent } from './settings-travel/settings-travel.compo
 import { SettingsUploadComponent } from './settings-upload/settings-upload.component';
 import { SettingsWeatherComponent } from './settings-weather/settings-weather.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: OptionsComponent,
@@ -23,9 +22,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class OptionsRoutingModule {}

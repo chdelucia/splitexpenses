@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-settings-currency',
-    templateUrl: './settings-currency.component.html',
-    styleUrls: ['./settings-currency.component.scss'],
-    standalone: false
+  selector: 'app-settings-currency',
+  templateUrl: './settings-currency.component.html',
+  styleUrls: ['./settings-currency.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
 export class SettingsCurrencyComponent implements OnInit {
   currencySettings: CurrencyPlugin;

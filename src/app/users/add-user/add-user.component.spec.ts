@@ -32,8 +32,11 @@ describe('AddUserComponent', () => {
     usersService.checkIfNameExist.and.returnValue(false);
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, StoreModule.forRoot({ userState: userReducer })],
-      declarations: [AddUserComponent],
+      imports: [
+        FormsModule,
+        StoreModule.forRoot({ userState: userReducer }),
+        AddUserComponent,
+      ],
       providers: [{ provide: UsersService, useValue: usersService }],
     }).compileComponents();
 

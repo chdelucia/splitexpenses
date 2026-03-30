@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { WeatherService } from '@forecast/shared/weather.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings, WeatherPlugin } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-settings-weather',
-    templateUrl: './settings-weather.component.html',
-    styleUrls: ['./settings-weather.component.scss'],
-    standalone: false
+  selector: 'app-settings-weather',
+  templateUrl: './settings-weather.component.html',
+  styleUrls: ['./settings-weather.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
 export class SettingsWeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;

@@ -29,8 +29,11 @@ describe('UsersComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, StoreModule.forRoot({ userState: userReducer })],
-      declarations: [UsersComponent],
+      imports: [
+        FormsModule,
+        StoreModule.forRoot({ userState: userReducer }),
+        UsersComponent,
+      ],
       providers: [{ provide: UsersService, useValue: usersService }],
     }).compileComponents();
 

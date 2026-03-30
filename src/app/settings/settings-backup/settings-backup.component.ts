@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-settings-backup',
-    templateUrl: './settings-backup.component.html',
-    styleUrls: ['./settings-backup.component.scss'],
-    standalone: false
+  selector: 'app-settings-backup',
+  templateUrl: './settings-backup.component.html',
+  styleUrls: ['./settings-backup.component.scss'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class SettingsBackupComponent {
   showAlert = false;

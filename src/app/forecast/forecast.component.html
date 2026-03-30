@@ -1,12 +1,14 @@
-@if (weatherInfo) {
+@if (weatherInfo(); as weather) {
   <main class="container py-2 mb-8">
     <h2 class="my-4 text-center" i18n>Previsión 5 dias</h2>
-    <div class="text-center title">
-      <small>{{ datagraph.title }}</small>
-    </div>
-    <app-summarygraph [bytype]="'weather'" [data]="datagraph"></app-summarygraph>
+    @if (datagraph(); as data) {
+      <div class="text-center title">
+        <small>{{ data.title }}</small>
+      </div>
+      <app-summarygraph [bytype]="'weather'" [data]="data"></app-summarygraph>
+    }
     <section class="forecast g-2 mb-4">
-      @for (day of mymap; track day; let i = $index) {
+      @for (day of mymap(); track day; let i = $index) {
         <div
           class=""
           (click)="changeDate(i)"
@@ -15,7 +17,7 @@
           <br />
           <img
             src="http://openweathermap.org/img/w/{{ day.icon }}.png"
-            alt="{{ weatherInfo.name }}"
+            alt="{{ weather.city.name }}"
             />
             <br />
             {{ day.max }}° {{ day.min }}°

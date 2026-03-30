@@ -22,7 +22,7 @@ describe('DebtsDetailComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [DebtsDetailComponent],
+      imports: [DebtsDetailComponent],
       providers: [
         { provide: UsersService, useValue: usersServiceSpy },
         { provide: CurrencyService, useValue: currencyServiceSpy },

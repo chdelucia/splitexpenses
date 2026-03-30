@@ -68,6 +68,10 @@ export interface WeatherObject {
   name: string;
   cod: number;
   dt_txt: string;
+  list: any[];
+  city: {
+    name: string;
+  };
 }
 
 export interface Settings {

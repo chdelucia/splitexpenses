@@ -15,8 +15,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [AppComponent],
-    imports: [RouterTestingModule],
+    imports: [AppComponent, RouterTestingModule],
     providers: [{ provide: WeatherService, useValue: weatherServiceStub }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
   });

@@ -1,15 +1,19 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
+import { CommonModule } from '@angular/common';
+import { SummarygraphComponent } from '@shared/components';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
-    selector: 'app-stats',
-    templateUrl: './stats.component.html',
-    styleUrls: ['./stats.component.scss'],
-    standalone: false
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SummarygraphComponent, ExchangePipe],
 })
 export class StatsComponent {
   private expensesService = inject(ExpensesService);
@@ -18,19 +22,16 @@ export class StatsComponent {
 
   usersHTML = toSignal(this.userService.getIterableUsers());
 
-  meanCost: number = 0;
-  todayCost: number = 0;
+  meanCost = signal<number>(0);
+  todayCost = signal<number>(0);
   currency: CurrencyPlugin;
-  dailyData;
-  typeData;
+  dailyData = signal<any>(null);
+  typeData = signal<any>(null);
 
   constructor() {
     this.currency = this.currencyService.getCurrencySettings();
 
-    this.todayCost = this.expensesService.getTotalCost();
-    this.meanCost = this.expensesService.getAverageCostPerDay();
-    this.dailyData = this.expensesService.gettotalCostEachDayPerType();
-    this.typeData = this.expensesService.getExpensesByType();
+    this.init();
   }
 
   change(id: string): void {
@@ -42,9 +43,9 @@ export class StatsComponent {
   }
 
   init(userId?: string) {
-    this.todayCost = this.expensesService.getTotalCost(userId);
-    this.meanCost = this.expensesService.getAverageCostPerDay(userId);
-    this.dailyData = this.expensesService.gettotalCostEachDayPerType(userId);
-    this.typeData = this.expensesService.getExpensesByType(userId);
+    this.todayCost.set(this.expensesService.getTotalCost(userId));
+    this.meanCost.set(this.expensesService.getAverageCostPerDay(userId));
+    this.dailyData.set(this.expensesService.gettotalCostEachDayPerType(userId));
+    this.typeData.set(this.expensesService.getExpensesByType(userId));
   }
 }

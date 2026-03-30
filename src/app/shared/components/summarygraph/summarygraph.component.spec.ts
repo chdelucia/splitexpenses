@@ -9,7 +9,7 @@ describe('SummarygraphComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SummarygraphComponent],
+      imports: [SummarygraphComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });

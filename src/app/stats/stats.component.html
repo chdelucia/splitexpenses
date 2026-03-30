@@ -22,22 +22,22 @@
 
   <section class="mb-3 mt-2">
     <h6 i18n>
-      Gasto Total: {{ todayCost | number: ".0-2" }}
+      Gasto Total: {{ todayCost() | number: ".0-2" }}
       {{ currency.currencySymbol }}
       @if (currency.active) {
 <span class="mainExchange">
-        ( {{ todayCost | exchange | number: ".0-2" }}
+        ( {{ todayCost() | exchange | number: ".0-2" }}
         {{ currency.currencyExchangeSymbol }} )
       </span>
 }
     </h6>
 
     <div i18n>
-      Gasto por dia: {{ meanCost | number: ".0-2" }}
+      Gasto por dia: {{ meanCost() | number: ".0-2" }}
       {{ currency.currencySymbol }}
       @if (currency.active) {
 <span class="mainExchange">
-        ( {{ meanCost | exchange | number: ".0-2" }}
+        ( {{ meanCost() | exchange | number: ".0-2" }}
         {{ currency.currencyExchangeSymbol }} )
       </span>
 }
@@ -45,15 +45,19 @@
   </section>
 
   <section class="d-flex flex-wrap g-4">
-    <app-summarygraph
-      bytype="ByDay"
-      [data]="dailyData"
-      class="col-11 col-xxl-6"
-    ></app-summarygraph>
-    <app-summarygraph
-      bytype="ByType"
-      [data]="typeData"
-      class="col-11 col-xxl-6"
-    ></app-summarygraph>
+    @if (dailyData(); as daily) {
+      <app-summarygraph
+        bytype="ByDay"
+        [data]="daily"
+        class="col-11 col-xxl-6"
+      ></app-summarygraph>
+    }
+    @if (typeData(); as type) {
+      <app-summarygraph
+        bytype="ByType"
+        [data]="type"
+        class="col-11 col-xxl-6"
+      ></app-summarygraph>
+    }
   </section>
 </main>
