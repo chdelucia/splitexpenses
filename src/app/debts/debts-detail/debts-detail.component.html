@@ -2,7 +2,7 @@
   <h2 class="my-4 text-center" i18n>Balance de cuentas</h2>
 
   <div class="mat-elevation-z8 mat-table-responsive">
-    <table mat-table [dataSource]="expenses$">
+    <table mat-table [dataSource]="expenses">
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef data-label="id" i18n>
           Descripción
@@ -19,7 +19,7 @@
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
 
-      @for (user of users$; track user) {
+      @for (user of users; track user) {
         <ng-container [matColumnDef]="user.name">
           <th mat-header-cell *matHeaderCellDef data-label="id">
             {{ user.name }}
@@ -42,7 +42,7 @@
           <td mat-footer-cell *matFooterCellDef>
             @if (
               calcUserTotalBalance
-              | wrapFn: user.id : expenses$
+              | wrapFn: user.id : expenses
               | number: '.0-2'; as totalBalance
               ) {
               <span class="expense-cost" [class.debt]="totalBalance < '0'">

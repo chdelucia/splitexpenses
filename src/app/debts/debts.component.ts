@@ -6,17 +6,17 @@ import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 
 @Component({
-    selector: 'app-debts',
-    templateUrl: './debts.component.html',
-    styleUrls: ['./debts.component.scss'],
-    standalone: false
+  selector: 'app-debts',
+  templateUrl: './debts.component.html',
+  styleUrls: ['./debts.component.scss'],
+  standalone: false,
 })
 export class DebtsComponent {
   private debtsService = inject(DebtsService);
   private userService = inject(UsersService);
   private currencyService = inject(CurrencyService);
 
-  debts = toSignal(this.debtsService.getDebts());
+  debts = toSignal(this.debtsService.getEnrichedDebts());
 
   users = toSignal(this.userService.getIterableUsers());
 

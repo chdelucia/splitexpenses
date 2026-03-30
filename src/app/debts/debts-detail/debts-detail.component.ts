@@ -12,9 +12,9 @@ import { UsersService } from '@users/shared/users.service';
     standalone: false
 })
 export class DebtsDetailComponent implements OnInit {
-  users$!: Array<User>;
+  users!: Array<User>;
   currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
-  expenses$!: Expense[];
+  expenses!: Expense[];
   displayedColumns: string[] = [];
 
   constructor(
@@ -29,14 +29,14 @@ export class DebtsDetailComponent implements OnInit {
   }
 
   initExpenses(): void {
-    this.expensesService.getIterableExpenses().subscribe((expenses) => {
-      this.expenses$ = expenses;
+    this.expensesService.getEnrichedExpenses().subscribe((expenses) => {
+      this.expenses = expenses;
     });
   }
 
   initColumns(): void {
     this.userService.getIterableUsers().subscribe((users) => {
-      this.users$ = users;
+      this.users = users;
       const userNames = users.map((user) => user.name);
       this.displayedColumns = ['title', 'originalCost', ...userNames];
     });

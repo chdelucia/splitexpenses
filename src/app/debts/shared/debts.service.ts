@@ -11,6 +11,7 @@ import {
   selectDebts,
   selectDebtsByID,
   selectIterableDebts,
+  selectEnrichedDebts,
 } from '@state/debt/debt.selectors';
 import { UpdateDebts } from '@state/debt/debt.actions';
 import { Store } from '@ngrx/store';
@@ -41,6 +42,10 @@ export class DebtsService {
 
   getDebts(): Observable<Record<string, Debt>> {
     return this.store.select(selectDebts);
+  }
+
+  getEnrichedDebts(): Observable<Record<string, Debt>> {
+    return this.store.select(selectEnrichedDebts);
   }
 
   getUserByID(id: string): Observable<Debt | undefined> {

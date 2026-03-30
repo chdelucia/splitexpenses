@@ -19,6 +19,8 @@ import {
   selectIterableExpenses,
   selectExpensesGroupByDates,
   selectExpensesOrderByDateDesc,
+  selectEnrichedExpenses,
+  selectEnrichedExpensesOrderByDateDesc,
 } from '@state/expenses/expenses.selectors';
 import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
@@ -111,6 +113,14 @@ export class ExpensesService extends ExpenseRepository {
 
   getExpensesOrderByDatesDesc(): Observable<Expense[]> {
     return this.store.select(selectExpensesOrderByDateDesc);
+  }
+
+  getEnrichedExpenses(): Observable<Expense[]> {
+    return this.store.select(selectEnrichedExpenses);
+  }
+
+  getEnrichedExpensesOrderByDatesDesc(): Observable<Expense[]> {
+    return this.store.select(selectEnrichedExpensesOrderByDateDesc);
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {
