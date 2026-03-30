@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-settings-upload',
-    templateUrl: './settings-upload.component.html',
-    styleUrls: ['./settings-upload.component.scss'],
-    standalone: false
+  selector: 'app-settings-upload',
+  templateUrl: './settings-upload.component.html',
+  styleUrls: ['./settings-upload.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
 export class SettingsUploadComponent {
   showAlert = false;

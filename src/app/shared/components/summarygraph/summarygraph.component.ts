@@ -2,12 +2,14 @@ import { Component, effect, inject, input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-summarygraph',
   templateUrl: './summarygraph.component.html',
   styleUrls: ['./summarygraph.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, BaseChartDirective],
 })
 export class SummarygraphComponent {
   private storageService = inject(LocalstorageService);

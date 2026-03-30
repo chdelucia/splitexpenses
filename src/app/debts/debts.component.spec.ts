@@ -32,7 +32,7 @@ describe('DebtsComponent', () => {
     } as any;
 
     await TestBed.configureTestingModule({
-      declarations: [DebtsComponent],
+      imports: [DebtsComponent],
       providers: [
         { provide: DebtsService, useValue: debtsServiceSpy },
         { provide: UsersService, useValue: usersServiceSpy },

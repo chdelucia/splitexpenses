@@ -8,7 +8,7 @@ describe('SettingsBackupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SettingsBackupComponent],
+      imports: [SettingsBackupComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsBackupComponent);

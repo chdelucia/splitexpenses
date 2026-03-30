@@ -13,7 +13,7 @@ describe('DebtTracingComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [DebtTracingComponent],
+      imports: [DebtTracingComponent],
       providers: [{ provide: CurrencyService, useValue: currencyServiceSpy }],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();

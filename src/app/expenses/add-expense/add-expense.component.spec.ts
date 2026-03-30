@@ -17,8 +17,7 @@ describe('AddExpenseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [AddExpenseComponent],
+      imports: [FormsModule, AddExpenseComponent],
       providers: [provideMockStore({ initialState })],
     }).compileComponents();
   });

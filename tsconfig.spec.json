@@ -4,7 +4,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "module": "CommonJs",
+    "module": "esnext",
     "outDir": "./out-tsc/spec",
     "types": ["jest", "node"]
   },

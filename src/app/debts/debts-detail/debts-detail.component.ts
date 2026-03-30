@@ -3,13 +3,17 @@ import { CurrencyService } from '@shared/services';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 
 @Component({
-    selector: 'app-debts-detail',
-    templateUrl: './debts-detail.component.html',
-    styleUrls: ['./debts-detail.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-debts-detail',
+  templateUrl: './debts-detail.component.html',
+  styleUrls: ['./debts-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, MatTableModule, WrapFnPipe],
 })
 export class DebtsDetailComponent implements OnInit {
   users!: Array<User>;

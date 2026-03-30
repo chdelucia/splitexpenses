@@ -9,8 +9,7 @@ describe('SettingsGraphComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [SettingsGraphComponent],
+      imports: [FormsModule, SettingsGraphComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsGraphComponent);

@@ -4,12 +4,17 @@ import { CurrencyService } from '@shared/services/currency/currency.service';
 import { DebtsService } from './shared/debts.service';
 import { CurrencyPlugin, Debt, TraceAutoSettle, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+import { DebtTracingComponent } from './debt-tracing/debt-tracing.component';
 
 @Component({
   selector: 'app-debts',
   templateUrl: './debts.component.html',
   styleUrls: ['./debts.component.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [CommonModule, RouterModule, ExchangePipe, DebtTracingComponent],
 })
 export class DebtsComponent {
   private debtsService = inject(DebtsService);

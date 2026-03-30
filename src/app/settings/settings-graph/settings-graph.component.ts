@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { ExpenseTypes, Settings } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-settings-graph',
-    templateUrl: './settings-graph.component.html',
-    styleUrls: ['./settings-graph.component.scss'],
-    standalone: false
+  selector: 'app-settings-graph',
+  templateUrl: './settings-graph.component.html',
+  styleUrls: ['./settings-graph.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
 export class SettingsGraphComponent {
   showAlert = false;

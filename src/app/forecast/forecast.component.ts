@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { WeatherObject, WeatherPlugin } from '@shared/models';
 import { WeatherService } from './shared/weather.service';
+import { CommonModule } from '@angular/common';
+import { SummarygraphComponent } from '@shared/components';
 
 @Component({
-    selector: 'app-forecast',
-    templateUrl: './forecast.component.html',
-    styleUrls: ['./forecast.component.scss'],
-    standalone: false
+  selector: 'app-forecast',
+  templateUrl: './forecast.component.html',
+  styleUrls: ['./forecast.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SummarygraphComponent],
 })
 export class ForecastComponent implements OnInit {
-  weatherInfo: any;
-  weatherSettings: WeatherPlugin;
-  mymap: any = [];
-  datagraph: any = [];
+  private weatherService = inject(WeatherService);
 
-  constructor(private weatherService: WeatherService) {
+  weatherInfo = signal<WeatherObject | null>(null);
+  weatherSettings: WeatherPlugin;
+  mymap = signal<any[]>([]);
+  datagraph = signal<any>(null);
+
+  constructor() {
     this.weatherSettings = this.weatherService.getWeahterSettings();
   }
 
@@ -27,7 +32,7 @@ export class ForecastComponent implements OnInit {
       .getForecastbyCity(this.weatherSettings.city)
       .subscribe((result: WeatherObject) => {
         console.log(result);
-        this.weatherInfo = result;
+        this.weatherInfo.set(result);
         this.filteringHours();
       });
   }
@@ -49,9 +54,12 @@ export class ForecastComponent implements OnInit {
   }
 
   filteringHours(): void {
-    const mymap = [];
+    const mymap: any[] = [];
     let obj = this.resetObj();
-    const item: Array<WeatherObject> = this.weatherInfo.list;
+    const weatherData = this.weatherInfo();
+    if (!weatherData) return;
+
+    const item: Array<WeatherObject> = weatherData.list;
 
     let stopAt = item[0].dt_txt.split(' ')[0];
     for (let i = 0; i < item.length; i++) {
@@ -78,12 +86,12 @@ export class ForecastComponent implements OnInit {
     }
 
     console.log(mymap);
-    this.mymap = mymap;
-    this.datagraph = mymap[0];
+    this.mymap.set(mymap);
+    this.datagraph.set(mymap[0]);
   }
 
   changeDate(i: number): void {
-    this.datagraph = this.mymap[i];
+    this.datagraph.set(this.mymap()[i]);
   }
 
   mode(arr: Array<string>) {

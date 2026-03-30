@@ -11,8 +11,7 @@ describe('SettingsWeatherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [SettingsWeatherComponent],
-    imports: [FormsModule],
+    imports: [FormsModule, SettingsWeatherComponent],
     providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 

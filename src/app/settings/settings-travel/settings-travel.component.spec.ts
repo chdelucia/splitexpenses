@@ -9,8 +9,7 @@ describe('SettingsTravelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [SettingsTravelComponent],
+      imports: [FormsModule, SettingsTravelComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsTravelComponent);
