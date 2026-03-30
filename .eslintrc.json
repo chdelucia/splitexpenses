@@ -81,7 +81,7 @@
     },
     {
       "files": ["*.actions.ts", "*.reducer.ts", "*.selectors.ts"],
-      "extends": ["plugin:@ngrx/recommended"],
+      "extends": ["plugin:@ngrx/store"],
       "rules": {
         "@ngrx/good-action-hygiene": "error"
       }

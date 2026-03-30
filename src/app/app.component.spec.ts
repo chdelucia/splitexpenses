@@ -3,7 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { WeatherService } from './forecast/shared/weather.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 const weatherServiceStub = {
   getWeahterSettings: jest.fn().mockReturnValue({ active: true }),
@@ -15,10 +18,14 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    declarations: [AppComponent],
-    imports: [RouterTestingModule],
-    providers: [{ provide: WeatherService, useValue: weatherServiceStub }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-}).compileComponents();
+      declarations: [AppComponent],
+      imports: [RouterTestingModule],
+      providers: [
+        { provide: WeatherService, useValue: weatherServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

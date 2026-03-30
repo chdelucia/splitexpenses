@@ -1,4 +1,3 @@
-
 @let appUsers = users();
 @let usersLenght = appUsers?.length;
 
@@ -28,9 +27,7 @@
                   @if (currency.active) {
                     <div class="text-end mainExchange">
                       {{
-                        debts[user.id]?.totalIowe
-                          | exchange
-                          | number: ".0-2"
+                        debts[user.id]?.totalIowe | exchange | number: ".0-2"
                       }}
                       {{ currency.currencyExchangeSymbol }}
                     </div>
@@ -39,7 +36,12 @@
               </div>
               @for (person of appUsers; track person.id) {
                 @let debt = debts[user.id]?.debts?.[person.id];
-                @if (user.id !== person.id && usersLenght && usersLenght > 2 && debt) {
+                @if (
+                  user.id !== person.id &&
+                  usersLenght &&
+                  usersLenght > 2 &&
+                  debt
+                ) {
                   <div
                     class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
                   >

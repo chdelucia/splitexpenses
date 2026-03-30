@@ -4,10 +4,10 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { Settings, WeatherPlugin } from '@shared/models';
 
 @Component({
-    selector: 'app-settings-weather',
-    templateUrl: './settings-weather.component.html',
-    styleUrls: ['./settings-weather.component.scss'],
-    standalone: false
+  selector: 'app-settings-weather',
+  templateUrl: './settings-weather.component.html',
+  styleUrls: ['./settings-weather.component.scss'],
+  standalone: false,
 })
 export class SettingsWeatherComponent implements OnInit {
   weatherSettings: WeatherPlugin;

@@ -9,14 +9,16 @@ describe('NavbarComponent sin tesbed', () => {
 
   beforeEach(() => {
     weatherServiceStub = {
-      weatherSettings: signal({ active: true, city: 'Madrid', key: '123' } as any),
+      weatherSettings: signal({
+        active: true,
+        city: 'Madrid',
+        key: '123',
+      } as any),
       getWeahterSettings: jest.fn().mockReturnValue({ active: true }),
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        { provide: WeatherService, useValue: weatherServiceStub }
-      ]
+      providers: [{ provide: WeatherService, useValue: weatherServiceStub }],
     });
 
     component = TestBed.createComponent(NavbarComponent).componentInstance;

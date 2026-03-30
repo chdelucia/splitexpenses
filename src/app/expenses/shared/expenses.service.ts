@@ -208,7 +208,7 @@ export class ExpensesService extends ExpenseRepository {
 
       return diffinDays(data1, date2) + 1;
     } else {
-      return 1
+      return 1;
     }
   }
 

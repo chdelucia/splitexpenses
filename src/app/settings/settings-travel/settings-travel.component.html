@@ -7,43 +7,40 @@
       class="btn btn-primary mb-2 me-2"
       [class.btn-secondary]="travel !== settings.travels.active"
       (click)="changeTravel(travel)"
-      >
+    >
       <span contenteditable>{{ travel }}</span>
       @if (travel === settings.travels.active) {
-        <span
-          class="ms-2 badge bg-danger"
-          >Active</span
-          >
-        }
-      </button>
-    }
+        <span class="ms-2 badge bg-danger">Active</span>
+      }
+    </button>
+  }
 
-    <div class="alert alert-secondary" role="alert">
-      <span i18n
-        >Añade un nombre y crea una hoja de gastos nueva (sin perder la
+  <div class="alert alert-secondary" role="alert">
+    <span i18n
+      >Añade un nombre y crea una hoja de gastos nueva (sin perder la
       actual).</span
-        >
-      </div>
-      <div class="row g-2">
-        <div class="col-6">
-          <input
-            #expensename
-            class="form-control"
-            type="text"
-            placeholder="Nombre"
-            [(ngModel)]="expenseNameInput"
-            />
-          </div>
-          <div class="col-6">
-            <button
-              [disabled]="expensename.value === ''"
-              class="input-group btn btn-success"
-              type="button"
-              (click)="addNewTravel(expensename.value)"
-              i18n
-              >
+    >
+  </div>
+  <div class="row g-2">
+    <div class="col-6">
+      <input
+        #expensename
+        class="form-control"
+        type="text"
+        placeholder="Nombre"
+        [(ngModel)]="expenseNameInput"
+      />
+    </div>
+    <div class="col-6">
+      <button
+        [disabled]="expensename.value === ''"
+        class="input-group btn btn-success"
+        type="button"
+        (click)="addNewTravel(expensename.value)"
+        i18n
+      >
         Crear nuevo viaje
       </button>
-          </div>
-        </div>
-      </section>
+    </div>
+  </div>
+</section>

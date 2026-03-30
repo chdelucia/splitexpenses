@@ -29,9 +29,7 @@ describe('DebtsService', () => {
 
   beforeEach(() => {
     const usersServiceSpy = jasmine.createSpyObj('UsersService', ['getUsers']);
-    usersServiceSpy.getUsers.and.returnValue(
-      of({ [mockUser.id]: mockUser }),
-    );
+    usersServiceSpy.getUsers.and.returnValue(of({ [mockUser.id]: mockUser }));
 
     let expensesServiceSpy = jasmine.createSpyObj('ExpensesService', [
       'getIterableExpenses',

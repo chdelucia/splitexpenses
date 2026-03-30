@@ -7,8 +7,7 @@
     </span>
   </div>
   <div class="row g-2 align-items-center">
-    @for (
-      color of settings.graph.bgColors; track color; let i = $index) {
+    @for (color of settings.graph.bgColors; track color; let i = $index) {
       <div class="col-6">
         <input class="form-control" type="text" [(ngModel)]="types[i].name" />
       </div>
@@ -17,16 +16,16 @@
           class="colors"
           type="color"
           [(ngModel)]="settings.graph.bgColors[i]"
-          />
-        </div>
-      }
-      <button
-        class="input-group my-4 btn btn-primary p-2"
-        type="submit"
-        (click)="onSubmit()"
-        i18n
-        >
+        />
+      </div>
+    }
+    <button
+      class="input-group my-4 btn btn-primary p-2"
+      type="submit"
+      (click)="onSubmit()"
+      i18n
+    >
       Guardar
     </button>
-    </div>
-  </section>
+  </div>
+</section>

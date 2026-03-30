@@ -16,20 +16,20 @@
           [pageSize]="pageSize"
           [pageSizeOptions]="pageSizeOptions | wrapFn: expenses"
           aria-label="Select page"
-          >
+        >
         </mat-paginator>
       </div>
     </section>
     @for (
       expense of expenses.slice(
-      pageIndex * pageSize,
-      (pageIndex + 1) * pageSize
-      ) | filter: term; track
-      expense; let i = $index) {
+        pageIndex * pageSize,
+        (pageIndex + 1) * pageSize
+      ) | filter: term;
+      track expense;
+      let i = $index
+    ) {
       @if (i === 0 || expenses[i - 1].date !== expense.date) {
-        <div
-          class="date-title p-2"
-          >
+        <div class="date-title p-2">
           {{ expense.date | date: "fullDate" }}
         </div>
       }
@@ -48,7 +48,7 @@
                 color="primary"
                 (click)="editExpense(expense.id)"
                 aria-label="Example icon button with a filter list icon"
-                >
+              >
                 <span class="material-icons">edit</span>
               </button>
               <span> </span>
@@ -57,7 +57,7 @@
                 color="warn"
                 (click)="deleteExpense(expense.id)"
                 aria-label="Example icon button with a filter list icon"
-                >
+              >
                 <span class="material-icons">delete_forever</span>
               </button>
             </div>
@@ -69,31 +69,26 @@
             {{ users()?.[expense.paidBy]?.name }}
             <br />
             <span i18n>Participan: </span>
-            @if (
-              expense.sharedBy.length === (users() | keyvalue)?.length) {
-              <span
-                i18n
-                >Todos</span
-                >
-              } @else {
-                @for (userId of expense.sharedBy; track userId) {
-                  <span>
-                    {{ users()?.[userId]?.name }}
-                  </span>
-                }
+            @if (expense.sharedBy.length === (users() | keyvalue)?.length) {
+              <span i18n>Todos</span>
+            } @else {
+              @for (userId of expense.sharedBy; track userId) {
+                <span>
+                  {{ users()?.[userId]?.name }}
+                </span>
               }
-            </div>
-            @if (currency.active) {
-              <div class="col-4 paidBy d-none d-md-inline">
-                {{ expense.originalCost | exchange | number: ".0-2" }}
-                {{ currency.currencyExchangeSymbol }}
-              </div>
             }
           </div>
+          @if (currency.active) {
+            <div class="col-4 paidBy d-none d-md-inline">
+              {{ expense.originalCost | exchange | number: ".0-2" }}
+              {{ currency.currencyExchangeSymbol }}
+            </div>
+          }
         </div>
-      }
-    } @else {
-      No tienes gastos aun
+      </div>
     }
-
-  </main>
+  } @else {
+    No tienes gastos aun
+  }
+</main>

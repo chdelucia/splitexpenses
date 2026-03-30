@@ -4,23 +4,23 @@
     <div class="text-center title">
       <small>{{ datagraph.title }}</small>
     </div>
-    <app-summarygraph [bytype]="'weather'" [data]="datagraph"></app-summarygraph>
+    <app-summarygraph
+      [bytype]="'weather'"
+      [data]="datagraph"
+    ></app-summarygraph>
     <section class="forecast g-2 mb-4">
       @for (day of mymap; track day; let i = $index) {
-        <div
-          class=""
-          (click)="changeDate(i)"
-          >
+        <div class="" (click)="changeDate(i)">
           {{ day.title }}
           <br />
           <img
             src="http://openweathermap.org/img/w/{{ day.icon }}.png"
             alt="{{ weatherInfo.name }}"
-            />
-            <br />
-            {{ day.max }}° {{ day.min }}°
-          </div>
-        }
-      </section>
-    </main>
-  }
+          />
+          <br />
+          {{ day.max }}° {{ day.min }}°
+        </div>
+      }
+    </section>
+  </main>
+}
