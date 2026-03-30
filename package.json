@@ -55,7 +55,7 @@
     "@angular/compiler-cli": "^21.2.4",
     "@angular/localize": "21.2.6",
     "@compodoc/compodoc": "1.2.1",
-    "@cypress/schematic": "4.3.0",
+    "@cypress/schematic": "5.0.0",
     "@ngrx/eslint-plugin": "21.0.1",
     "@ngrx/schematics": "21.0.1",
     "@types/jest": "^30.0.0",
