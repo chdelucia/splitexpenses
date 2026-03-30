@@ -19,8 +19,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SharedModule } from '@shared/shared.module';
 import { FilterPipe } from '@shared/pipes/filter.pipe';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 
 @Component({
   selector: 'app-expenses-list',
@@ -34,8 +37,11 @@ import { FilterPipe } from '@shared/pipes/filter.pipe';
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
-    SharedModule,
     FilterPipe,
+    MatFormFieldModule,
+    MatInputModule,
+    ExchangePipe,
+    WrapFnPipe,
   ],
 })
 export class ExpensesListComponent implements OnInit {

@@ -6,7 +6,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
 import { environment } from '@env/environment';
-import { provideRouter, withHashLocation, withComponentInputBinding, withScrollPositionRestoration } from '@angular/router';
+import { provideRouter, withHashLocation, withComponentInputBinding, withInMemoryScrolling, Routes } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { userReducer } from '@state/user/user.reducer';
@@ -15,8 +15,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
+import { authGuard } from './app/core/guards/auth.guard';
 
-const routes = [
+const routes: Routes = [
   { path: '', redirectTo: '/expense', pathMatch: 'full' },
   {
     path: 'users',
@@ -62,7 +63,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes, withHashLocation(), withComponentInputBinding(), withScrollPositionRestoration('enabled')),
+    provideRouter(routes, withHashLocation(), withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
