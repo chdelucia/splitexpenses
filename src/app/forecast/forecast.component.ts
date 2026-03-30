@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { WeatherObject, WeatherPlugin } from '@shared/models';
 import { WeatherService } from './shared/weather.service';
+import { CommonModule } from '@angular/common';
+import { SummarygraphComponent } from '@shared/components';
 
 @Component({
-    selector: 'app-forecast',
-    templateUrl: './forecast.component.html',
-    styleUrls: ['./forecast.component.scss'],
-    standalone: false
+  selector: 'app-forecast',
+  templateUrl: './forecast.component.html',
+  styleUrls: ['./forecast.component.scss'],
+  standalone: true,
+  imports: [CommonModule, SummarygraphComponent],
 })
 export class ForecastComponent implements OnInit {
   weatherInfo: any;
@@ -14,7 +17,9 @@ export class ForecastComponent implements OnInit {
   mymap: any = [];
   datagraph: any = [];
 
-  constructor(private weatherService: WeatherService) {
+  private weatherService = inject(WeatherService);
+
+  constructor() {
     this.weatherSettings = this.weatherService.getWeahterSettings();
   }
 

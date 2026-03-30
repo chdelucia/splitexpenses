@@ -1,51 +1,73 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CurrencyService } from '@shared/services/currency/currency.service';
+import { Component, inject, signal, computed } from '@angular/core';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
+import { switchMap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { openSnackBar, globalToast } from '@shared/utils';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { CurrencyPlugin, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
+import { CurrencyService } from '@shared/services/currency/currency.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SummarygraphComponent } from '@shared/components';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
-    selector: 'app-stats',
-    templateUrl: './stats.component.html',
-    styleUrls: ['./stats.component.scss'],
-    standalone: false
+  selector: 'app-stats',
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    SummarygraphComponent,
+    ExchangePipe
+  ],
 })
 export class StatsComponent {
-  usersHTML: Observable<Array<User>>;
+  private expensesService = inject(ExpensesService);
+  private usersService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private _snackBar = inject(MatSnackBar);
 
-  meanCost: number = 0;
-  todayCost: number = 0;
-  currency: CurrencyPlugin;
-  dailyData;
-  typeData;
+  currency = this.currencyService.getCurrencySettings();
+  usersHTML = toSignal(this.usersService.getIterableUsers(), { initialValue: [] });
 
-  constructor(
-    private expensesService: ExpensesService,
-    private currencyService: CurrencyService,
-    private userService: UsersService,
-  ) {
-    this.usersHTML = this.userService.getIterableUsers();
-    this.currency = this.currencyService.getCurrencySettings();
+  private idParam = toSignal(this.route.params);
 
-    this.todayCost = this.expensesService.getTotalCost();
-    this.meanCost = this.expensesService.getAverageCostPerDay();
-    this.dailyData = this.expensesService.gettotalCostEachDayPerType();
-    this.typeData = this.expensesService.getExpensesByType();
-  }
+  userId = computed(() => this.idParam()?.['id'] as string | undefined);
 
-  change(id: string): void {
+  todayCost = toSignal(
+    toObservable(this.userId).pipe(switchMap(id => this.expensesService.getTotalCost(id))),
+    { initialValue: 0 }
+  );
+
+  meanCost = toSignal(
+    toObservable(this.userId).pipe(switchMap(id => this.expensesService.getAverageCostPerDay(id))),
+    { initialValue: 0 }
+  );
+
+  dailyData = toSignal(
+    toObservable(this.userId).pipe(switchMap(id => this.expensesService.gettotalCostEachDayPerType(id))),
+    { initialValue: { labels: [], data: [] } }
+  );
+
+  typeData = toSignal(
+    toObservable(this.userId).pipe(switchMap(id => this.expensesService.getExpensesByType(id))),
+    { initialValue: { labels: [], data: [] } }
+  );
+
+  change(id: string) {
     if (id !== '0') {
-      this.init(id);
+      this.router.navigate(['/stats', id]);
     } else {
-      this.init();
+      this.router.navigate(['/stats']);
     }
   }
 
-  init(userId?: string) {
-    this.todayCost = this.expensesService.getTotalCost(userId);
-    this.meanCost = this.expensesService.getAverageCostPerDay(userId);
-    this.dailyData = this.expensesService.gettotalCostEachDayPerType(userId);
-    this.typeData = this.expensesService.getExpensesByType(userId);
+  updateStats() {
+    openSnackBar(this._snackBar, globalToast.OK, $localize`Estadísticas actualizadas`);
   }
 }

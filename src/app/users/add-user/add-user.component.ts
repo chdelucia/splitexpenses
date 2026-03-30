@@ -1,18 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { UsersService } from '@users/shared/users.service';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { globalToast, openSnackBar } from '@shared/utils';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { User } from '@shared/models';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { UsersService } from '@users/shared/users.service';
+import { openSnackBar, globalToast } from '@shared/utils';
 
 @Component({
   selector: 'app-add-user',
@@ -20,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./add-user.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -27,43 +22,37 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class AddUserComponent {
-  private userService = inject(UsersService);
+  private usersService = inject(UsersService);
   private _snackBar = inject(MatSnackBar);
-  userForm = new FormGroup({
-    user: new FormControl('', [Validators.required]),
-    phone: new FormControl(''),
+  private fb = inject(FormBuilder);
+
+  userForm: FormGroup = this.fb.group({
+    user: ['', Validators.required],
+    phone: [''],
   });
 
   private toastmsg = {
-    OK: $localize`Guardado correctamente`,
+    OK: $localize`Usuario añadido correctamente`,
     KO: $localize`Error fatal`,
-    EXIST: $localize`Usuario ya existe`,
+    EXIST: $localize`El usuario ya existe`,
   };
 
-  async onSubmit() {
-    if (this.userForm.value.user) {
-      const { user, phone } = this.userForm.value;
-      const nameExist = await firstValueFrom(
-        this.userService.checkIfNameExist(user),
-      );
-      if (nameExist) {
-        openSnackBar(this._snackBar, globalToast.EXIST, this.toastmsg.EXIST);
-        return;
-      }
+  onSubmit() {
+    if (this.userForm.invalid) return;
 
-      const userObj: User = {
-        id: '',
-        name: user,
-        phone: phone || undefined,
-      };
-
-      this.userService.addUser(userObj);
-      openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
-      this.resetForm();
-    }
-  }
-
-  private resetForm(): void {
-    this.userForm.reset();
+    const userName = this.userForm.value.user;
+    this.usersService.addUser(userName).subscribe({
+      next: (success: boolean) => {
+        if (success) {
+          openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
+          this.userForm.reset();
+        } else {
+          openSnackBar(this._snackBar, globalToast.KO, this.toastmsg.EXIST);
+        }
+      },
+      error: () => {
+        openSnackBar(this._snackBar, globalToast.KO, this.toastmsg.KO);
+      },
+    });
   }
 }

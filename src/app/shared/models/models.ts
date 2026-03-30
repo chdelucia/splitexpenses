@@ -1,15 +1,3 @@
-export interface ExpenseEntity {
-  id: string;
-  title: string;
-  date: string;
-  cost: number;
-  originalCost: number;
-  paidBy: string;
-  typeId: string;
-  sharedBy: Array<string>;
-  settleBy: Array<string>;
-}
-
 export interface Travel {
   names: Array<string>;
   active: string;

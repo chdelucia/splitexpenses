@@ -9,7 +9,6 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
   FormGroupDirective,
@@ -17,16 +16,18 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
-import { first, Observable } from 'rxjs';
+import { take } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
+import { Expense, ExpenseTypes } from '@shared/models';
 import { globalToast, openSnackBar } from '@shared/utils';
 import { UsersService } from '@users/shared/users.service';
 import {
   MatCheckboxChange,
   MatCheckboxModule,
 } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { ExpenseForm } from '@expenses/models';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
   selector: 'app-add-expense',
@@ -49,8 +51,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatDatepickerModule,
     MatCheckboxModule,
+    MatRadioModule,
     MatButtonModule,
     MatIconModule,
+    ExchangePipe
   ],
 })
 export class AddExpenseComponent implements OnInit {
@@ -64,8 +68,8 @@ export class AddExpenseComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   expenseForm: FormGroup;
-  currency: CurrencyPlugin;
-  users$: Observable<Array<User>>;
+  currency = this.currencyService.getCurrencySettings();
+  users = toSignal(this.usersService.getIterableUsers(), { initialValue: [] });
   expenseTypes: ExpenseTypes[];
   expense?: Expense;
 
@@ -80,8 +84,6 @@ export class AddExpenseComponent implements OnInit {
 
   constructor() {
     this.expenseTypes = this.expensesService.getExpensesTypes();
-    this.users$ = this.usersService.getIterableUsers();
-    this.currency = this.currencyService.getCurrencySettings();
 
     this.expenseForm = this.fb.group({
       name: ['', Validators.required],
@@ -103,7 +105,7 @@ export class AddExpenseComponent implements OnInit {
     if (id) {
       this.expensesService
         .getExpenseByID(id)
-        .pipe(first())
+        .pipe(take(1))
         .subscribe((expense) => {
           this.expense = expense;
           this.updateForm();
@@ -113,11 +115,12 @@ export class AddExpenseComponent implements OnInit {
 
   private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
-    this.users$.forEach((users) => {
-      users.forEach((user) => {
-        const control = this.createFormControl(user.id);
-        sharedBy.push(control);
-      });
+    // We wait for users to be available
+    this.usersService.getIterableUsers().pipe(take(1)).subscribe(users => {
+        users.forEach((user) => {
+            const control = this.createFormControl(user.id);
+            sharedBy.push(control);
+        });
     });
   }
 
@@ -130,7 +133,15 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onSubmit(expenseForm: ExpenseForm, formDirective: FormGroupDirective) {
-    const sharedBy = expenseForm.sharedBy.join('').split('');
+    const sharedBy = expenseForm.sharedBy.filter((id) => !!id);
+    if (sharedBy.length === 0) {
+      openSnackBar(
+        this._snackBar,
+        globalToast.KO,
+        $localize`Debes seleccionar al menos un usuario`
+      );
+      return;
+    }
     const originalCost = expenseForm.cost;
     const costPerPerson = originalCost / sharedBy.length;
 
@@ -160,15 +171,29 @@ export class AddExpenseComponent implements OnInit {
       date: this.expense?.date ? new Date(this.expense?.date) : new Date(),
       type: this.expense?.typeId,
     });
+
+    // Update sharedBy FormArray if editing
+    if (this.isEditing && this.expense) {
+        const sharedByArray = this.expenseForm.get('sharedBy') as FormArray;
+        sharedByArray.clear();
+        this.users().forEach(user => {
+            const isShared = this.expense?.sharedBy.includes(user.id);
+            sharedByArray.push(this.fb.control(isShared ? user.id : ''));
+        });
+    }
   }
 
   onCheckboxChange(e: MatCheckboxChange) {
     const interests: FormArray = this.expenseForm.get('sharedBy') as FormArray;
-    if (e.checked) {
-      interests.push(new FormControl(e.source.value));
-    } else {
-      const i = interests.controls.findIndex((x) => x.value === e.source.value);
-      interests.removeAt(i);
+    const usersList = this.users();
+    const index = usersList.findIndex(u => u.id === e.source.value);
+
+    if (index !== -1) {
+        if (e.checked) {
+            interests.at(index).setValue(e.source.value);
+        } else {
+            interests.at(index).setValue('');
+        }
     }
   }
 
@@ -181,6 +206,11 @@ export class AddExpenseComponent implements OnInit {
   }
 
   private resetForm(): void {
-    if (!this.isEditing) this.expenseForm.reset();
+    if (!this.isEditing) {
+        this.expenseForm.reset({
+            date: new Date(),
+            sharedBy: this.users().map(u => u.id)
+        });
+    }
   }
 }

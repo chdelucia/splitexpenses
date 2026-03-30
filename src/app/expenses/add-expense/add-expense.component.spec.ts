@@ -1,25 +1,50 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-
 import { AddExpenseComponent } from './add-expense.component';
-
 import { provideMockStore } from '@ngrx/store/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 describe('AddExpenseComponent', () => {
   let component: AddExpenseComponent;
   let fixture: ComponentFixture<AddExpenseComponent>;
   const initialState = {
-    expenses: [
-      { id: '1', title: 'Expense 1', cost: 10 },
-      { id: '2', title: 'Expense 2', cost: 20 },
-    ],
+    expenses: {
+      expenses: {}
+    },
+    users: {
+        users: {}
+    }
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [AddExpenseComponent],
-      providers: [provideMockStore({ initialState })],
+      imports: [
+        AddExpenseComponent,
+        NoopAnimationsModule,
+        HttpClientTestingModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatDatepickerModule
+      ],
+      providers: [
+        provideMockStore({ initialState }),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { paramMap: { get: () => null } }
+          }
+        }
+      ],
     }).compileComponents();
   });
 

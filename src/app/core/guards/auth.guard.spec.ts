@@ -1,16 +1,23 @@
 import { TestBed } from '@angular/core/testing';
+import { authGuard } from './auth.guard';
+import { UsersService } from '@users/shared/users.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { of } from 'rxjs';
 
-import { AuthGuard } from './auth.guard';
-
-describe('AuthGuard', () => {
-  let guard: AuthGuard;
-
+describe('authGuard', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    guard = TestBed.inject(AuthGuard);
+    const usersServiceMock = { getUsers: jest.fn().mockReturnValue(of({})) };
+    const expensesServiceMock = { getExpenses: jest.fn().mockReturnValue(of({})) };
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: UsersService, useValue: usersServiceMock },
+        { provide: ExpensesService, useValue: expensesServiceMock },
+      ]
+    });
   });
 
   it('should be created', () => {
-    expect(guard).toBeTruthy();
+    expect(authGuard).toBeTruthy();
   });
 });

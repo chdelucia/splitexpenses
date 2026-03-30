@@ -1,22 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
-import { ExpenseTypes, Settings } from '@shared/models';
+import { ExpenseTypes } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-settings-graph',
-    templateUrl: './settings-graph.component.html',
-    styleUrls: ['./settings-graph.component.scss'],
-    standalone: false
+  selector: 'app-settings-graph',
+  templateUrl: './settings-graph.component.html',
+  styleUrls: ['./settings-graph.component.scss'],
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule],
 })
 export class SettingsGraphComponent {
+  private localStorageService = inject(LocalstorageService);
+
   showAlert = false;
   isError = false;
-  settings: Settings;
-  types: ExpenseTypes[];
-  constructor(private localStorageService: LocalstorageService) {
-    this.settings = this.localStorageService.getSettings();
-    this.types = Object.values(this.settings.graph.types);
-  }
+  settings = this.localStorageService.getSettings();
+  types = Object.values(this.settings.graph.types);
 
   trackByIdx(index: number): number {
     return index;

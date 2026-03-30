@@ -1,23 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
-import { Settings } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-settings-backup',
-    templateUrl: './settings-backup.component.html',
-    styleUrls: ['./settings-backup.component.scss'],
-    standalone: false
+  selector: 'app-settings-backup',
+  templateUrl: './settings-backup.component.html',
+  styleUrls: ['./settings-backup.component.scss'],
+  standalone: true,
+  imports: [CommonModule, MatButtonModule],
 })
 export class SettingsBackupComponent {
+  private localStorageService = inject(LocalstorageService);
+
   showAlert = false;
   isError = false;
-  settings: Settings;
-  travels: string[] = [];
-
-  constructor(private localStorageService: LocalstorageService) {
-    this.settings = this.localStorageService.getSettings();
-    this.travels = this.settings.travels.names;
-  }
+  settings = this.localStorageService.getSettings();
+  travels = this.settings.travels.names;
 
   copyData() {
     const name = this.localStorageService.getActiveTravelName();

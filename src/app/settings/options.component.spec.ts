@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { OptionsComponent } from './options.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('OptionsComponent', () => {
   let component: OptionsComponent;
@@ -8,7 +8,7 @@ describe('OptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OptionsComponent],
+      imports: [OptionsComponent, RouterTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OptionsComponent);

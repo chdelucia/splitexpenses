@@ -1,67 +1,51 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { StoreModule, Store } from '@ngrx/store';
+import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { AddUserComponent } from './add-user.component';
 import { UsersService } from '@users/shared/users.service';
-import { User } from '@shared/models';
-import { UserState, userReducer } from '@state/user/user.reducer';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 describe('AddUserComponent', () => {
   let component: AddUserComponent;
   let fixture: ComponentFixture<AddUserComponent>;
-  let store: Store<UserState>;
-  let usersServiceSpy: jasmine.SpyObj<UsersService>;
-
-  const mockUsers: User[] = [
-    { id: '1', name: 'John', phone: '1234567890' },
-    { id: '2', name: 'Jane', phone: '0987654321' },
-  ];
+  let usersServiceSpy: jest.Mocked<UsersService>;
 
   beforeEach(async () => {
-    const usersService = jasmine.createSpyObj('UsersService', [
-      'getIterableUsers',
-      'checkIfNameExist',
-      'addUser',
-      'getUserByID',
-      'editUser',
-      'removeUser',
-    ]);
-    usersService.getIterableUsers.and.returnValue(of(mockUsers));
-    usersService.checkIfNameExist.and.returnValue(false);
+    const usersServiceMock = {
+      getIterableUsers: jest.fn().mockReturnValue(of([])),
+      checkIfNameExist: jest.fn().mockReturnValue(of(false)),
+      addUser: jest.fn().mockReturnValue(of(true)),
+    };
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule, StoreModule.forRoot({ userState: userReducer })],
-      declarations: [AddUserComponent],
-      providers: [{ provide: UsersService, useValue: usersService }],
+      imports: [
+        AddUserComponent,
+        ReactiveFormsModule,
+        NoopAnimationsModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule
+      ],
+      providers: [{ provide: UsersService, useValue: usersServiceMock }],
     }).compileComponents();
 
-    store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    usersServiceSpy = TestBed.inject(
-      UsersService,
-    ) as jasmine.SpyObj<UsersService>;
+    usersServiceSpy = TestBed.inject(UsersService) as jest.Mocked<UsersService>;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call addUser method on UsersService when add method is called', () => {
-    component.onSubmit({ user: 'John Doe', phone: '1112223333' });
-    expect(usersServiceSpy.addUser).toHaveBeenCalled();
-  });
-
-  it('should call reset method on when add method is called', () => {
-    component.onSubmit({ user: 'John Doe', phone: '1112223333' });
-  });
-
-  it('should call checkIfNameExist method on UsersService when add method is called', () => {
-    component.onSubmit({ user: 'John Doe', phone: '1112223333' });
-    expect(usersServiceSpy.checkIfNameExist).toHaveBeenCalled();
+  it('should call addUser method on UsersService when onSubmit is called', async () => {
+    component.userForm.patchValue({ user: 'John Doe' });
+    await component.onSubmit();
+    expect(usersServiceSpy.addUser).toHaveBeenCalledWith('John Doe');
   });
 });

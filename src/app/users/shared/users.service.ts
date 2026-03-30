@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { calcNextID } from '@shared/utils';
 import { Store } from '@ngrx/store';
 import {
@@ -8,7 +8,7 @@ import {
   selectUserByName,
   selectUserCount,
 } from '@state/user/user.selectors';
-import { firstValueFrom, Observable } from 'rxjs';
+import { map, Observable, switchMap, take, of } from 'rxjs';
 import {
   addUser,
   addUsers,
@@ -22,14 +22,14 @@ import { User } from '@shared/models';
   providedIn: 'root',
 })
 export class UsersService {
+  private storageService = inject(LocalstorageService);
+  private store = inject(Store);
+
   users$: Observable<Record<string, User>> = this.store.select(selectUsers);
   iterableUsers$: Observable<Array<User>> =
     this.store.select(selectIterableUsers);
 
-  constructor(
-    private storageService: LocalstorageService,
-    private store: Store,
-  ) {
+  constructor() {
     const users = this.loadUsersFromLocalStorage();
     this.store.dispatch(addUsers({ users: users }));
   }
@@ -55,14 +55,27 @@ export class UsersService {
     this.saveUsersIntoLocalStorage();
   }
 
-  async addUser(user: User): Promise<void> {
-    const users = await firstValueFrom(this.users$);
-    user.id = calcNextID(users);
-    this.store.dispatch(addUser({ user }));
-    this.saveUsersIntoLocalStorage();
+  addUser(userName: string): Observable<boolean> {
+    return this.checkIfNameExist(userName).pipe(
+        take(1),
+        switchMap(exists => {
+            if (exists) return of(false);
+
+            return this.users$.pipe(
+                take(1),
+                map(users => {
+                    const id = calcNextID(users);
+                    const user: User = { id, name: userName };
+                    this.store.dispatch(addUser({ user }));
+                    this.saveUsersIntoLocalStorage();
+                    return true;
+                })
+            );
+        })
+    );
   }
 
-  removeUser(id: string): void {
+  deleteUser(id: string): void {
     this.store.dispatch(removeUser({ id }));
     this.saveUsersIntoLocalStorage();
   }
@@ -72,10 +85,10 @@ export class UsersService {
     return ans || {};
   }
 
-  //TODO import module to auto sync store and localstore
-  async saveUsersIntoLocalStorage(): Promise<void> {
-    const users = await firstValueFrom(this.users$);
-    this.storageService.saveDataToLocalStorage(users);
+  private saveUsersIntoLocalStorage(): void {
+    this.users$.pipe(take(1)).subscribe(users => {
+        this.storageService.saveDataToLocalStorage(users);
+    });
   }
 
   checkIfNameExist(name: string): Observable<boolean> {

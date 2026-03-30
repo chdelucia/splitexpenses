@@ -1,32 +1,32 @@
 <main class="mb-5 container">
   <h2 class="my-4 text-center" i18n>Historial</h2>
-  @if (expenses$ | async; as expenses) {
+  @if (expenses(); as expensesList) {
     <section class="filters row">
       <div class="col-12 col-md-5 col-xl-6">
         <mat-form-field appearance="fill" class="w-100">
           <mat-label i18n>Buscador</mat-label>
-          <input matInput [(ngModel)]="term" type="text" />
+          <input matInput [ngModel]="term()" (ngModelChange)="term.set($event)" type="text" />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </div>
       <div class="col-12 col-md-7 col-xl-6">
         <mat-paginator
           (page)="handlePageEvent($event)"
-          [length]="expenses.length"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions | wrapFn: expenses"
+          [length]="expensesList.length"
+          [pageSize]="pageSize()"
+          [pageSizeOptions]="pageSizeOptions | wrapFn: expensesList"
           aria-label="Select page"
           >
         </mat-paginator>
       </div>
     </section>
     @for (
-      expense of expenses.slice(
-      pageIndex * pageSize,
-      (pageIndex + 1) * pageSize
-      ) | filter: term; track
-      expense; let i = $index) {
-      @if (i === 0 || expenses[i - 1].date !== expense.date) {
+      expense of expensesList.slice(
+      pageIndex() * pageSize(),
+      (pageIndex() + 1) * pageSize()
+      ) | filter: term(); track
+      expense.id; let i = $index) {
+      @if (i === 0 || expensesList[pageIndex() * pageSize() + i - 1]?.date !== expense.date) {
         <div
           class="date-title p-2"
           >
@@ -66,11 +66,11 @@
         <div class="row g-2 align-items-center text-secondary">
           <div class="col-sm-7 col-md-5 paidBy">
             <span i18n>Pagado por:</span>
-            {{ (users$ | async)?.[expense.paidBy]?.name }}
+            {{ getUserName(users(), expense.paidBy) }}
             <br />
             <span i18n>Participan: </span>
             @if (
-              expense.sharedBy.length === ((users$ | async) | keyvalue)?.length) {
+              expense.sharedBy.length === (users() | keyvalue)?.length) {
               <span
                 i18n
                 >Todos</span
@@ -78,7 +78,7 @@
               } @else {
                 @for (userId of expense.sharedBy; track userId) {
                   <span>
-                    {{ (users$ | async)?.[userId]?.name }}
+                    {{ getUserName(users(), userId) }}
                   </span>
                 }
               }

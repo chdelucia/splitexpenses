@@ -4,7 +4,9 @@ import {
   inject,
   Input,
   OnInit,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { openSnackBar, globalToast } from '@shared/utils';
@@ -12,13 +14,17 @@ import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { UsersService } from '@users/shared/users.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { LoggerService } from 'src/app/core/services/logger.service';
-import { Expense } from '@shared/models';
+import { LoggerService } from '@core/services/logger.service';
+import { Expense, User } from '@shared/models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { SharedModule } from '@shared/shared.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FilterPipe } from '@shared/pipes/filter.pipe';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 
 @Component({
   selector: 'app-expenses-list',
@@ -32,7 +38,11 @@ import { SharedModule } from '@shared/shared.module';
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
-    SharedModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FilterPipe,
+    ExchangePipe,
+    WrapFnPipe
   ],
 })
 export class ExpensesListComponent implements OnInit {
@@ -45,12 +55,13 @@ export class ExpensesListComponent implements OnInit {
   private router = inject(Router);
   private loggerService = inject(LoggerService);
 
-  term = '';
+  term = signal('');
   currency = this.currencyService.getCurrencySettings();
-  users$ = this.usersService.getUsers();
-  expenses$ = this.expensesService.getExpensesOrderByDatesDesc();
-  pageSize = 5;
-  pageIndex = 0;
+  users = toSignal(this.usersService.getUsers(), { initialValue: {} as Record<string, User> });
+  expenses = toSignal(this.expensesService.getExpensesOrderByDatesDesc(), { initialValue: [] });
+
+  pageSize = signal(5);
+  pageIndex = signal(0);
 
   private toastmsg = {
     OK: $localize`Gasto eliminado correctamente`,
@@ -76,8 +87,8 @@ export class ExpensesListComponent implements OnInit {
   }
 
   handlePageEvent(e: PageEvent) {
-    this.pageSize = e.pageSize;
-    this.pageIndex = e.pageIndex;
+    this.pageSize.set(e.pageSize);
+    this.pageIndex.set(e.pageIndex);
   }
 
   pageSizeOptions(expenses: Expense[]): Array<number> {
@@ -85,5 +96,9 @@ export class ExpensesListComponent implements OnInit {
       { length: Math.ceil(expenses.length / 5) },
       (_, index) => (index + 1) * 5,
     );
+  }
+
+  getUserName(users: Record<string, User>, userId: string): string {
+    return users[userId]?.name || '';
   }
 }

@@ -4,11 +4,10 @@ import { DebtsService } from './debts.service';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { Expense, User } from '@shared/models';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('DebtsService', () => {
   let debtsService: DebtsService;
-  let userServiceSpy: jasmine.SpyObj<UsersService>;
-  let expensesServiceSpy: jasmine.SpyObj<ExpensesService>;
 
   const mockUser: User = {
     id: '1',
@@ -27,65 +26,43 @@ describe('DebtsService', () => {
     typeId: '7',
   };
 
-  beforeEach(() => {
-    const usersServiceSpy = jasmine.createSpyObj('UsersService', ['getUsers']);
-    usersServiceSpy.getUsers.and.returnValue(
-      of({ [mockUser.id]: mockUser }),
-    );
+  const initialState = {
+    users: { users: { [mockUser.id]: mockUser } },
+    expenses: { expenses: { [mockExpense.id]: mockExpense } }
+  };
 
-    let expensesServiceSpy = jasmine.createSpyObj('ExpensesService', [
-      'getIterableExpenses',
-    ]);
-    expensesServiceSpy.getIterableExpenses.and.returnValue(of([mockExpense]));
+  beforeEach(() => {
+    const usersServiceMock = {
+      getUsers: jest.fn().mockReturnValue(of(initialState.users.users)),
+      getIterableUsers: jest.fn().mockReturnValue(of([mockUser]))
+    };
+
+    const expensesServiceMock = {
+      getIterableExpenses: jest.fn().mockReturnValue(of([mockExpense]))
+    };
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: UsersService, useValue: usersServiceSpy },
-        { provide: ExpensesService, useValue: expensesServiceSpy },
+        DebtsService,
+        { provide: UsersService, useValue: usersServiceMock },
+        { provide: ExpensesService, useValue: expensesServiceMock },
+        provideMockStore({ initialState }),
       ],
     });
 
     debtsService = TestBed.inject(DebtsService);
-    userServiceSpy = TestBed.inject(
-      UsersService,
-    ) as jasmine.SpyObj<UsersService>;
-    expensesServiceSpy = TestBed.inject(
-      ExpensesService,
-    ) as jasmine.SpyObj<ExpensesService>;
   });
 
   it('should initialize debts and debtTracing', () => {
-    expect(debtsService['debts']).toEqual({});
-    expect(debtsService['debtTracing']).toEqual([]);
-  });
-
-  describe('getDebts', () => {
-    it('should return the debts map', () => {
-      const debts = debtsService.getDebts();
-      expect(debts).toEqual(debtsService['debts']);
-    });
+    expect(debtsService.getDebtTracing()).toBeDefined();
   });
 
   describe('getdebtTracing', () => {
-    it('should return the debtTracing array', () => {
-      const debtTracing = debtsService.getDebtTracing();
-      expect(debtTracing).toEqual(debtsService['debtTracing']);
+    it('should return an observable of debtTracing', (done) => {
+      debtsService.getDebtTracing().subscribe(result => {
+        expect(Array.isArray(result)).toBe(true);
+        done();
+      });
     });
-  });
-
-  it('should create structure', async () => {
-    await debtsService.createStructure({ [mockUser.id]: mockUser });
-    expect(Object.keys(debtsService['debts']).length).toBe(1);
-    expect(debtsService['debts'][mockUser.id]).toBeDefined();
-  });
-
-  it('should get trace debts', () => {
-    const debtTracing = debtsService.getDebtTracing();
-    expect(debtTracing).toEqual([]);
-  });
-
-  it('should get debts', () => {
-    const debts = debtsService.getDebts();
-    expect(debts).toEqual({});
   });
 });

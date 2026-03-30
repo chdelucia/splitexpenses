@@ -1,9 +1,8 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-
 import { SettingsWeatherComponent } from './settings-weather.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SettingsWeatherComponent', () => {
   let component: SettingsWeatherComponent;
@@ -11,8 +10,7 @@ describe('SettingsWeatherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [SettingsWeatherComponent],
-    imports: [FormsModule],
+    imports: [SettingsWeatherComponent, NoopAnimationsModule],
     providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 }).compileComponents();
 

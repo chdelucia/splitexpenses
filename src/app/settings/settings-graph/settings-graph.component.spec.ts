@@ -1,18 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-
 import { SettingsGraphComponent } from './settings-graph.component';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SettingsGraphComponent', () => {
   let component: SettingsGraphComponent;
   let fixture: ComponentFixture<SettingsGraphComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [SettingsGraphComponent],
-    }).compileComponents();
+    const localStorageServiceMock = {
+      getSettings: jest.fn().mockReturnValue({ graph: { types: {} } }),
+      saveSettings: jest.fn(),
+    };
 
+    await TestBed.configureTestingModule({
+      imports: [SettingsGraphComponent, NoopAnimationsModule],
+      providers: [
+        { provide: LocalstorageService, useValue: localStorageServiceMock }
+      ]
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(SettingsGraphComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

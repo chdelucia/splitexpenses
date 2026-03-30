@@ -11,7 +11,7 @@
         (change)="change(user.value)"
         >
         <option value="0" selected i18n>Grupo</option>
-        @for (user of usersHTML | async; track user) {
+        @for (user of usersHTML(); track user.id) {
           <option [value]="user.id">
             {{ user.name }}
           </option>
@@ -22,22 +22,22 @@
 
   <section class="mb-3 mt-2">
     <h6 i18n>
-      Gasto Total: {{ todayCost | number: ".0-2" }}
+      Gasto Total: {{ todayCost() | number: ".0-2" }}
       {{ currency.currencySymbol }}
       @if (currency.active) {
 <span class="mainExchange">
-        ( {{ todayCost | exchange | number: ".0-2" }}
+        ( {{ todayCost() | exchange | number: ".0-2" }}
         {{ currency.currencyExchangeSymbol }} )
       </span>
 }
     </h6>
 
     <div i18n>
-      Gasto por dia: {{ meanCost | number: ".0-2" }}
+      Gasto por dia: {{ meanCost() | number: ".0-2" }}
       {{ currency.currencySymbol }}
       @if (currency.active) {
 <span class="mainExchange">
-        ( {{ meanCost | exchange | number: ".0-2" }}
+        ( {{ meanCost() | exchange | number: ".0-2" }}
         {{ currency.currencyExchangeSymbol }} )
       </span>
 }
@@ -47,12 +47,12 @@
   <section class="d-flex flex-wrap g-4">
     <app-summarygraph
       bytype="ByDay"
-      [data]="dailyData"
+      [data]="dailyData()"
       class="col-11 col-xxl-6"
     ></app-summarygraph>
     <app-summarygraph
       bytype="ByType"
-      [data]="typeData"
+      [data]="typeData()"
       class="col-11 col-xxl-6"
     ></app-summarygraph>
   </section>

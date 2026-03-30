@@ -1,26 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
-import { Settings } from '@shared/models';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-settings-travel',
-    templateUrl: './settings-travel.component.html',
-    styleUrls: ['./settings-travel.component.scss'],
-    standalone: false
+  selector: 'app-settings-travel',
+  templateUrl: './settings-travel.component.html',
+  styleUrls: ['./settings-travel.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class SettingsTravelComponent {
-  settings: Settings;
+  private localStorageService = inject(LocalstorageService);
+  private expensesService = inject(ExpensesService);
+
+  settings = this.localStorageService.getSettings();
   expenseNameInput = '';
   showAlert = false;
   isError = false;
-
-  constructor(
-    private localStorageService: LocalstorageService,
-    private expensesService: ExpensesService,
-  ) {
-    this.settings = this.localStorageService.getSettings();
-  }
 
   changeTravel(name: string) {
     this.localStorageService.changeTravel(name);
@@ -30,7 +37,7 @@ export class SettingsTravelComponent {
   }
 
   resetAll() {
-    this.expensesService.init();
+    this.expensesService.loadExpensesFromLocalStorage();
   }
 
   addNewTravel(name: string) {

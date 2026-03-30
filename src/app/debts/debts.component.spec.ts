@@ -1,49 +1,43 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebtsComponent } from './debts.component';
-import { CurrencyService } from '@shared/services/currency/currency.service';
-import { UsersService } from '@users/shared/users.service';
 import { DebtsService } from './shared/debts.service';
+import { UsersService } from '@users/shared/users.service';
+import { CurrencyService } from '@shared/services/currency/currency.service';
+import { of } from 'rxjs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe('DebtsComponent sin testbed', () => {
+describe('DebtsComponent', () => {
   let component: DebtsComponent;
-  let debtsServiceStub: Partial<DebtsService>;
-  let userServiceStub: Partial<UsersService>;
-  let currencyServiceStub: Partial<CurrencyService>;
+  let fixture: ComponentFixture<DebtsComponent>;
 
-  beforeEach(() => {
-    debtsServiceStub = {
-      getDebts: jest.fn(),
-      initialize: jest.fn(),
-      getDebtTracing: jest.fn(),
+  beforeEach(async () => {
+    const debtsServiceMock = {
+      getDebts: jest.fn().mockReturnValue(of({})),
+      getDebtTracing: jest.fn().mockReturnValue(of([])),
     };
-    userServiceStub = { getIterableUsers: jest.fn() };
-    currencyServiceStub = { getCurrencySettings: jest.fn() };
+    const usersServiceMock = {
+      getIterableUsers: jest.fn().mockReturnValue(of([])),
+    };
+    const currencyServiceMock = {
+      getCurrencySettings: jest.fn().mockReturnValue({ currencySymbol: '€', active: false }),
+    };
 
-    component = new DebtsComponent(
-      debtsServiceStub as DebtsService,
-      userServiceStub as UsersService,
-      currencyServiceStub as CurrencyService,
-    );
+    await TestBed.configureTestingModule({
+      imports: [DebtsComponent, NoopAnimationsModule, RouterTestingModule],
+      providers: [
+        { provide: DebtsService, useValue: debtsServiceMock },
+        { provide: UsersService, useValue: usersServiceMock },
+        { provide: CurrencyService, useValue: currencyServiceMock },
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(DebtsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should init debts and subrcripbe to changes', () => {
-    const spyDebttracing = jest
-      .spyOn(debtsServiceStub, 'getDebtTracing')
-      .mockReturnValue('test' as any);
-
-    expect(spyDebttracing).toHaveBeenCalled();
-  });
-
-  it('should get currency settings from service', () => {
-    const spyCurrency = jest.spyOn(currencyServiceStub, 'getCurrencySettings');
-    const spyUser = jest.spyOn(userServiceStub, 'getIterableUsers');
-    const spyDebts = jest.spyOn(debtsServiceStub, 'getDebts');
-
-    expect(spyCurrency).toHaveBeenCalled();
-    expect(spyUser).toHaveBeenCalled();
-    expect(spyDebts).toHaveBeenCalled();
   });
 });

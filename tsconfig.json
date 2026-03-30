@@ -15,7 +15,6 @@
       "@users/*": ["src/app/users/*"],
       "@weather/*": ["src/app/weather/*"],
       "@env/*": ["src/environments/*"]
-
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -28,13 +27,14 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
-    "lib": ["es2020", "dom"],
+    "module": "es2022",
+    "lib": ["es2022", "dom"],
     "useDefineForClassFields": false,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -43,5 +43,5 @@
     "strictTemplates": true,
     "AOT": true
   },
-  "include": ["cypress/**/*.ts", "src/**/*.ts"]
+  "include": ["src/**/*.ts"]
 }

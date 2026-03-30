@@ -1,47 +1,43 @@
-import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '@shared/models';
-import { UsersService } from '@users/shared/users.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { globalToast, openSnackBar } from '@shared/utils';
-import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { UsersService } from '../shared/users.service';
+import { openSnackBar, globalToast } from '@shared/utils';
+import { User } from '@shared/models';
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [AsyncPipe, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule],
 })
 export class UsersListComponent {
-  private userService = inject(UsersService);
+  private usersService = inject(UsersService);
   private _snackBar = inject(MatSnackBar);
 
+  users = toSignal(this.usersService.getIterableUsers(), { initialValue: [] });
+
   private toastmsg = {
-    OK: $localize`Guardado correctamente`,
+    OK: $localize`Usuario eliminado correctamente`,
     KO: $localize`Error fatal`,
-    EXIST: $localize`Usuario ya existe`,
   };
 
-  users$: Observable<User[]> = this.userService.getIterableUsers();
-
-  edit(data: HTMLTableCellElement, user: User, fieldToEdit: 'phone' | 'name') {
-    const oldValue = user[fieldToEdit];
-    const newValue = data.innerText.trim();
-
-    if (newValue && oldValue != newValue) {
-      user[fieldToEdit] = newValue;
-      this.userService.editUser(user);
-      openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
-    } else {
-      data.innerText = oldValue ?? '';
-    }
+  delete(userId: string) {
+    this.usersService.deleteUser(userId);
+    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
   }
 
-  delete(userId: string) {
-    this.userService.removeUser(userId);
-    openSnackBar(this._snackBar, globalToast.OK, 'Usuario borrado');
+  edit(cell: HTMLElement, user: User, field: 'name' | 'phone') {
+    const newValue = cell.innerText.trim();
+    if (field === 'name') {
+      this.usersService.editUser({ ...user, name: newValue });
+    } else if (field === 'phone') {
+      this.usersService.editUser({ ...user, phone: newValue });
+    }
   }
 }

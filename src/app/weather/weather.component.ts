@@ -28,8 +28,10 @@ export class WeatherComponent implements OnInit {
       .getWeatheritemsbyCity(this.weatherSettings().city)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result: WeatherObject) => {
-        result.main.temp = Math.round(result.main.temp);
-        this.weatherInfo = result;
+        if (result && result.main) {
+          result.main.temp = Math.round(result.main.temp);
+          this.weatherInfo = result;
+        }
       });
   }
 }

@@ -1,18 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-
 import { SettingsUploadComponent } from './settings-upload.component';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SettingsUploadComponent', () => {
   let component: SettingsUploadComponent;
   let fixture: ComponentFixture<SettingsUploadComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [SettingsUploadComponent],
-    }).compileComponents();
+    const localStorageServiceMock = {
+      getSettings: jest.fn().mockReturnValue({}),
+      getActiveTravelName: jest.fn().mockReturnValue('test'),
+    };
 
+    await TestBed.configureTestingModule({
+      imports: [SettingsUploadComponent, NoopAnimationsModule],
+      providers: [
+        { provide: LocalstorageService, useValue: localStorageServiceMock }
+      ]
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(SettingsUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

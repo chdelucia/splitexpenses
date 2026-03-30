@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
-import { Expense, ExpenseTypes, Settings } from '@shared/models';
-import { calcNextID, diffinDays } from '@shared/utils';
+import { Expense, ExpenseTypes } from '@shared/models';
+import { calcNextID } from '@shared/utils';
 import {
   addExpense,
   addExpenses,
@@ -19,6 +19,10 @@ import {
   selectIterableExpenses,
   selectExpensesGroupByDates,
   selectExpensesOrderByDateDesc,
+  selectTotalCost,
+  selectAverageCostPerDay,
+  selectExpensesByType,
+  selectTotalCostEachDayPerType,
 } from '@state/expenses/expenses.selectors';
 import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
@@ -27,19 +31,15 @@ import { ExpenseRepository } from './expense.repository';
   providedIn: 'root',
 })
 export class ExpensesService extends ExpenseRepository {
-  private settings: Settings;
-  private expenses: Record<string, Expense> = {};
+  private storageService = inject(LocalstorageService);
+  private store = inject(Store);
+  private http = inject(HttpClient);
+
   mapper = new ExpensesMapper();
 
-  constructor(
-    private storageService: LocalstorageService,
-    private store: Store,
-    private http: HttpClient,
-  ) {
+  constructor() {
     super();
-    this.settings = this.storageService.getSettings();
     this.loadExpensesFromLocalStorage();
-    this.init();
   }
 
   private apiUrl = 'http://localhost:3000'; // Reemplazar con la URL de tu API
@@ -69,20 +69,16 @@ export class ExpensesService extends ExpenseRepository {
     return this.http.delete<void>(`${this.apiUrl}/expenses/${id}`);
   }
 
-  init(): void {
-    this.store.select(selectExpenses).subscribe((data) => {
-      this.expenses = data;
-    });
-  }
-
   loadExpensesFromLocalStorage(): void {
     const ans = this.storageService.getData().expenses;
     const expenses = ans || {};
     this.store.dispatch(addExpenses({ expenses: expenses }));
   }
 
-  saveExpensesIntoLocalStorage(): void {
-    this.storageService.saveDataToLocalStorage(undefined, this.expenses);
+  private saveExpensesIntoLocalStorage(): void {
+    this.store.select(selectExpenses).pipe(take(1)).subscribe(expenses => {
+        this.storageService.saveDataToLocalStorage(undefined, expenses);
+    });
   }
 
   getExpenses(): Observable<Record<string, Expense>> {
@@ -114,7 +110,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {
-    return Object.values(this.settings.graph.types);
+    return Object.values(this.storageService.getSettings().graph.types);
   }
 
   editExpense(expense: Expense): void {
@@ -123,188 +119,41 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   addExpense(expense: Expense): void {
-    expense.id = calcNextID(this.expenses);
-    this.store.dispatch(addExpense({ expense }));
-    this.saveExpensesIntoLocalStorage();
-    this.addExpenseAPI(expense).subscribe((x) => console.log(x));
+    this.store.select(selectExpenses).pipe(take(1)).subscribe(expenses => {
+        expense.id = calcNextID(expenses);
+        this.store.dispatch(addExpense({ expense }));
+        this.saveExpensesIntoLocalStorage();
+        this.addExpenseAPI(expense).subscribe((x) => console.log(x));
+    });
   }
 
-  deleteExpense(id: string) {
+  deleteExpense(id: string): void {
     this.store.dispatch(removeExpense({ id }));
     this.saveExpensesIntoLocalStorage();
   }
 
-  getTotalPaidByUserToOthers(userId: string): number {
-    let total = 0;
-    Object.values(this.expenses).forEach((expense) => {
-      const paidByme = userId === expense.paidBy;
-      const Iparticipated = expense.sharedBy.includes(userId);
-      if (paidByme) {
-        total += expense.originalCost;
-        if (Iparticipated) {
-          total -= expense.cost;
-        }
-      }
-    });
-    return total;
+  getTotalCost(userId?: string): Observable<number> {
+    return this.store.select(selectTotalCost(userId));
   }
 
-  calcUserTotalBalance(userId: string): number {
-    let total = 0;
-
-    Object.values(this.expenses).forEach((expense) => {
-      const paidByme = userId === expense.paidBy;
-      const Iparticipated = expense.sharedBy.includes(userId);
-      if (paidByme) {
-        total += expense.originalCost;
-      }
-      if (Iparticipated) {
-        total -= expense.cost;
-      }
-    });
-    return total;
+  getAverageCostPerDay(userId?: string): Observable<number> {
+    return this.store.select(selectAverageCostPerDay(userId));
   }
 
-  calculateExpenseBalanceByUser(expense: Expense, userId: string): number {
-    let total = -expense.cost;
-    const paidByme = userId === expense.paidBy;
-    const Iparticipated = expense.sharedBy.includes(userId);
-    if (paidByme) {
-      total += expense.originalCost;
-      if (!Iparticipated) {
-        total += expense.cost;
-      }
-    }
-    return total;
-  }
-
-  /** Move all below functions to stats service */
-  /* Calculate by group if user not given */
-  getTotalCost(userId?: string): number {
-    let total = 0;
-    Object.values(this.expenses).forEach((expense) => {
-      if (!userId) {
-        total += expense.originalCost;
-      }
-      if (userId && expense.sharedBy.includes(userId)) {
-        total += expense.cost;
-      }
-    });
-    return total;
-  }
-
-  getAverageCostPerDay(userId?: string): number {
-    const totalCost = this.getTotalCost(userId);
-    const totalDays = this.getTotalDays();
-    return totalCost / totalDays;
-  }
-
-  getTotalDays(): number {
-    const expenses = Object.values(this.expenses);
-
-    if (expenses.length > 1) {
-      const data1 = expenses.shift()?.date || '';
-      const date2 = expenses.pop()?.date || '';
-
-      return diffinDays(data1, date2) + 1;
-    } else {
-      return 1
-    }
-  }
-
-  getExpensesByType(userId?: string): {
+  getExpensesByType(userId?: string): Observable<{
     labels: Array<string>;
     data: Array<number>;
-  } {
-    const data = Array(Object.keys(this.settings.graph.types).length).fill(0);
-    const labels: string[] = [];
-    Object.values(this.settings.graph.types).forEach((item) => {
-      labels.push(item.name);
-    });
-
-    Object.values(this.expenses).forEach((item) => {
-      const index = parseInt(item.typeId);
-      if (userId && item.sharedBy.includes(userId)) {
-        data[index] = data[index] + item.cost;
-      } else if (!userId) {
-        data[index] = data[index] + item.originalCost;
-      }
-    });
-    return { labels: labels, data: data };
+  }> {
+    const settings = this.storageService.getSettings();
+    const labels = Object.values(settings.graph.types).map(t => t.name);
+    return this.store.select(selectExpensesByType(userId, labels));
   }
 
-  getTotalCostEachDay(userId?: string): {
-    labels: Array<string>;
-    data: Array<number>;
-  } {
-    const dates: Array<string> = [];
-    const expenses = Object.values(this.expenses);
-    expenses.forEach((expense) => {
-      if (!dates.includes(expense.date)) {
-        dates.push(expense.date);
-      }
-    });
-
-    const xAxis: Array<number> = Array(dates.length).fill(0);
-    dates.forEach((date, i) => {
-      expenses.forEach((expense) => {
-        if (
-          userId &&
-          expense.sharedBy.includes(userId) &&
-          expense.date === date
-        ) {
-          xAxis[i] += expense.cost;
-        } else if (!userId && expense.date === date) {
-          xAxis[i] += expense.originalCost;
-        }
-      });
-    });
-
-    return { labels: dates, data: xAxis };
-  }
-
-  gettotalCostEachDayPerType(userId?: string): {
+  gettotalCostEachDayPerType(userId?: string): Observable<{
     labels: Array<string>;
     data: Array<any>;
-  } {
-    const expensesArray = Object.values(this.expenses);
-    // Create Object of expenses group by Day
-    const result = expensesArray.reduce((r, a) => {
-      r[a.date] = r[a.date] || [];
-      r[a.date].push(a);
-      return r;
-    }, Object.create(null));
-
-    const yAxis = Object.keys(result);
-
-    // Create stacked xAxis
-    const stackedxAxis: Array<{
-      label: string;
-      data: Array<number>;
-      backgroundColor: string;
-    }> = [];
-    const typesCount = Object.keys(this.settings.graph.types).length;
-    for (let i = 0; i < typesCount; i++) {
-      stackedxAxis[i] = {
-        label: this.settings.graph.types[i.toString()]?.name || '',
-        data: Array(yAxis.length).fill(0),
-        backgroundColor: this.settings.graph.bgColors[i],
-      };
-    }
-
-    for (let i = 0; i < yAxis.length; i++) {
-      const name = yAxis[i];
-      const expenses: Array<Expense> = result[name];
-
-      expenses.forEach((expense) => {
-        const typeIndex = parseInt(expense.typeId);
-        if (userId && expense.sharedBy.includes(userId)) {
-          stackedxAxis[typeIndex].data[i] += expense.cost;
-        } else if (!userId) {
-          stackedxAxis[typeIndex].data[i] += expense.originalCost;
-        }
-      });
-    }
-    return { labels: yAxis, data: stackedxAxis };
+  }> {
+    const settings = this.storageService.getSettings();
+    return this.store.select(selectTotalCostEachDayPerType(userId, settings.graph.types, settings.graph.bgColors));
   }
 }

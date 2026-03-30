@@ -1,20 +1,18 @@
-import { input } from '@angular/core';
-import { Component } from '@angular/core';
+import { input, Component, inject } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin, TraceAutoSettle } from '@shared/models';
+import { CommonModule, DecimalPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-debt-tracing',
-    templateUrl: './debt-tracing.component.html',
-    styleUrls: ['./debt-tracing.component.scss'],
-    standalone: false
+  selector: 'app-debt-tracing',
+  templateUrl: './debt-tracing.component.html',
+  styleUrls: ['./debt-tracing.component.scss'],
+  standalone: true,
+  imports: [CommonModule, DecimalPipe],
 })
 export class DebtTracingComponent {
   debtTracing = input.required<TraceAutoSettle[]>();
 
-  currency: CurrencyPlugin;
-
-  constructor(private currencyService: CurrencyService) {
-    this.currency = this.currencyService.getCurrencySettings();
-  }
+  private currencyService = inject(CurrencyService);
+  currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
 }

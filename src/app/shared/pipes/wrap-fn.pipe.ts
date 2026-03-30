@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'wrapFn',
-    standalone: false
+  name: 'wrapFn',
+  standalone: true,
 })
 export class WrapFnPipe implements PipeTransform {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -2,22 +2,24 @@ import { NavbarComponent } from './navbar.component';
 import { WeatherService } from '@forecast/shared/weather.service';
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe('NavbarComponent sin tesbed', () => {
+describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let weatherServiceStub: Partial<WeatherService>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     weatherServiceStub = {
       weatherSettings: signal({ active: true, city: 'Madrid', key: '123' } as any),
       getWeahterSettings: jest.fn().mockReturnValue({ active: true }),
     };
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
+      imports: [NavbarComponent, RouterTestingModule],
       providers: [
         { provide: WeatherService, useValue: weatherServiceStub }
       ]
-    });
+    }).compileComponents();
 
     component = TestBed.createComponent(NavbarComponent).componentInstance;
   });
