@@ -1,12 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { WeatherService } from './forecast/shared/weather.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import { signal } from '@angular/core';
+import { of } from 'rxjs';
 
 const weatherServiceStub = {
   getWeahterSettings: jest.fn().mockReturnValue({ active: true }),
+  weatherSettings: signal({ active: true, city: 'Madrid', key: '123' }),
+  getWeatheritemsbyCity: jest.fn().mockReturnValue(
+    of({
+      main: { temp: 20 },
+      sys: { country: 'ES' },
+      weather: [{ icon: '01d' }],
+    }),
+  ),
 };
 
 describe('AppComponent', () => {
@@ -15,9 +28,14 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [AppComponent, RouterTestingModule],
-    providers: [{ provide: WeatherService, useValue: weatherServiceStub }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-}).compileComponents();
+      imports: [AppComponent],
+      providers: [
+        { provide: WeatherService, useValue: weatherServiceStub },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        provideRouter([]),
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

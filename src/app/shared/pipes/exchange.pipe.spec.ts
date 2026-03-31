@@ -1,5 +1,5 @@
 import { ExchangePipe } from './exchange.pipe';
-import { CurrencyService } from '../services/currency/currency.service';
+import { CurrencyService } from '@shared/services';
 
 describe('ExchangePipe', () => {
   it('create an instance', () => {

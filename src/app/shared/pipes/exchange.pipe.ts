@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CurrencyService } from '../services/currency/currency.service';
+import { CurrencyService } from '@shared/services';
 
 @Pipe({
-    name: 'exchange',
-    standalone: true
+  name: 'exchange',
+  standalone: true,
 })
 export class ExchangePipe implements PipeTransform {
   constructor(private currencyService: CurrencyService) {}

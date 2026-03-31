@@ -10,14 +10,18 @@
     <tbody>
       @for (user of users(); track user) {
         <tr>
-          <td #nameCell contentEditable (focusout)="edit(nameCell, user, 'name')">
+          <td
+            #nameCell
+            contentEditable
+            (focusout)="edit(nameCell, user, 'name')"
+          >
             {{ user.name }}
           </td>
           <td
             #phoneCell
             contentEditable
             (focusout)="edit(phoneCell, user, 'phone')"
-            >
+          >
             {{ user.phone }}
           </td>
           <td (click)="delete(user.id)">

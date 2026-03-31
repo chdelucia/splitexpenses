@@ -32,9 +32,12 @@ describe('authGuard', () => {
   });
 
   it('should allow activation', (done) => {
-    const result = executeGuard({} as ActivatedRouteSnapshot, {
-      url: 'test',
-    } as RouterStateSnapshot);
+    const result = executeGuard(
+      {} as ActivatedRouteSnapshot,
+      {
+        url: 'test',
+      } as RouterStateSnapshot,
+    );
     if (typeof result === 'boolean') {
       expect(result).toBe(true);
       done();
