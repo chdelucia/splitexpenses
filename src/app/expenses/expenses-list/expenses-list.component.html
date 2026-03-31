@@ -12,9 +12,9 @@
       <div class="col-12 col-md-6">
         <mat-paginator
           (page)="handlePageEvent($event)"
-          [length]="expenses.length"
+          [length]="currentExpenses.length"
           [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions | wrapFn: expenses"
+          [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
           aria-label="Select page"
         >
         </mat-paginator>

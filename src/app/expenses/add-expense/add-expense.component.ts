@@ -4,6 +4,7 @@ import {
   input,
   OnInit,
   numberAttribute,
+  effect,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import {
@@ -70,10 +71,18 @@ export class AddExpenseComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
   private fb = inject(FormBuilder);
 
-  expenseForm: FormGroup;
-  currency: CurrencyPlugin;
-  users = toSignal(this.usersService.getIterableUsers(), { initialValue: [] });
-  expenseTypes: ExpenseTypes[];
+  expenseForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    cost: ['', [Validators.required, Validators.min(1)]],
+    title: ['', Validators.required],
+    sharedBy: this.fb.array([]),
+    type: ['', Validators.required],
+    date: [new Date(), Validators.required],
+  });
+
+  currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
+  users = this.usersService.iterableUsers;
+  expenseTypes: ExpenseTypes[] = this.expensesService.getExpensesTypes();
   expense?: Expense;
 
   get isEditing(): boolean {
@@ -86,29 +95,21 @@ export class AddExpenseComponent implements OnInit {
   };
 
   constructor() {
-    this.expenseTypes = this.expensesService.getExpensesTypes();
-    this.currency = this.currencyService.getCurrencySettings();
-
-    this.expenseForm = this.fb.group({
-      name: ['', Validators.required],
-      cost: ['', [Validators.required, Validators.min(1)]],
-      title: ['', Validators.required],
-      sharedBy: this.fb.array([]),
-      type: ['', Validators.required],
-      date: [new Date(), Validators.required],
+    effect(() => {
+      this.initializeExpense();
+      this.initializeCheckboxControls();
     });
   }
 
   ngOnInit(): void {
-    this.initializeExpense();
-    this.initializeCheckboxControls();
+    // Already handled by effect
   }
 
   private initializeExpense(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.id();
     if (id) {
       this.expensesService
-        .getExpenseByID(id)
+        .getExpenseByID(id.toString())
         .pipe(first())
         .subscribe((expense) => {
           this.expense = expense;
@@ -119,6 +120,8 @@ export class AddExpenseComponent implements OnInit {
 
   private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
+    if (sharedBy.length === this.users().length) return;
+    sharedBy.clear();
     this.users().forEach((user) => {
       const control = this.createFormControl(user.id);
       sharedBy.push(control);

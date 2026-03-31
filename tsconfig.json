@@ -15,7 +15,6 @@
       "@users/*": ["src/app/users/*"],
       "@weather/*": ["src/app/weather/*"],
       "@env/*": ["src/environments/*"]
-
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

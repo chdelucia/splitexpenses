@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
@@ -21,6 +21,9 @@ import {
   selectExpensesOrderByDateDesc,
   selectEnrichedExpenses,
   selectEnrichedExpensesOrderByDateDesc,
+  selectTotalPaidByUserToOthers,
+  selectUserTotalBalance,
+  selectTotalCost,
 } from '@state/expenses/expenses.selectors';
 import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
@@ -29,19 +32,18 @@ import { ExpenseRepository } from './expense.repository';
   providedIn: 'root',
 })
 export class ExpensesService extends ExpenseRepository {
+  private storageService = inject(LocalstorageService);
+  private store = inject(Store);
+  private http = inject(HttpClient);
+
   private settings: Settings;
-  private expenses: Record<string, Expense> = {};
+  expenses = this.store.selectSignal(selectExpenses);
   mapper = new ExpensesMapper();
 
-  constructor(
-    private storageService: LocalstorageService,
-    private store: Store,
-    private http: HttpClient,
-  ) {
+  constructor() {
     super();
     this.settings = this.storageService.getSettings();
     this.loadExpensesFromLocalStorage();
-    this.init();
   }
 
   private apiUrl = 'http://localhost:3000'; // Reemplazar con la URL de tu API
@@ -72,9 +74,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   init(): void {
-    this.store.select(selectExpenses).subscribe((data) => {
-      this.expenses = data;
-    });
+    this.loadExpensesFromLocalStorage();
   }
 
   loadExpensesFromLocalStorage(): void {
@@ -84,7 +84,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   saveExpensesIntoLocalStorage(): void {
-    this.storageService.saveDataToLocalStorage(undefined, this.expenses);
+    this.storageService.saveDataToLocalStorage(undefined, this.expenses());
   }
 
   getExpenses(): Observable<Record<string, Expense>> {
@@ -133,7 +133,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   addExpense(expense: Expense): void {
-    expense.id = calcNextID(this.expenses);
+    expense.id = calcNextID(this.expenses());
     this.store.dispatch(addExpense({ expense }));
     this.saveExpensesIntoLocalStorage();
     this.addExpenseAPI(expense).subscribe((x) => console.log(x));
@@ -145,34 +145,11 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getTotalPaidByUserToOthers(userId: string): number {
-    let total = 0;
-    Object.values(this.expenses).forEach((expense) => {
-      const paidByme = userId === expense.paidBy;
-      const Iparticipated = expense.sharedBy.includes(userId);
-      if (paidByme) {
-        total += expense.originalCost;
-        if (Iparticipated) {
-          total -= expense.cost;
-        }
-      }
-    });
-    return total;
+    return this.store.selectSignal(selectTotalPaidByUserToOthers(userId))();
   }
 
   calcUserTotalBalance(userId: string): number {
-    let total = 0;
-
-    Object.values(this.expenses).forEach((expense) => {
-      const paidByme = userId === expense.paidBy;
-      const Iparticipated = expense.sharedBy.includes(userId);
-      if (paidByme) {
-        total += expense.originalCost;
-      }
-      if (Iparticipated) {
-        total -= expense.cost;
-      }
-    });
-    return total;
+    return this.store.selectSignal(selectUserTotalBalance(userId))();
   }
 
   calculateExpenseBalanceByUser(expense: Expense, userId: string): number {
@@ -191,16 +168,7 @@ export class ExpensesService extends ExpenseRepository {
   /** Move all below functions to stats service */
   /* Calculate by group if user not given */
   getTotalCost(userId?: string): number {
-    let total = 0;
-    Object.values(this.expenses).forEach((expense) => {
-      if (!userId) {
-        total += expense.originalCost;
-      }
-      if (userId && expense.sharedBy.includes(userId)) {
-        total += expense.cost;
-      }
-    });
-    return total;
+    return this.store.selectSignal(selectTotalCost(userId))();
   }
 
   getAverageCostPerDay(userId?: string): number {
@@ -210,7 +178,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getTotalDays(): number {
-    const expenses = Object.values(this.expenses);
+    const expenses = Object.values(this.expenses());
 
     if (expenses.length > 1) {
       const data1 = expenses.shift()?.date || '';
@@ -232,7 +200,7 @@ export class ExpensesService extends ExpenseRepository {
       labels.push(item.name);
     });
 
-    Object.values(this.expenses).forEach((item) => {
+    Object.values(this.expenses()).forEach((item) => {
       const index = parseInt(item.typeId);
       if (userId && item.sharedBy.includes(userId)) {
         data[index] = data[index] + item.cost;
@@ -248,7 +216,7 @@ export class ExpensesService extends ExpenseRepository {
     data: Array<number>;
   } {
     const dates: Array<string> = [];
-    const expenses = Object.values(this.expenses);
+    const expenses = Object.values(this.expenses());
     expenses.forEach((expense) => {
       if (!dates.includes(expense.date)) {
         dates.push(expense.date);
@@ -277,7 +245,7 @@ export class ExpensesService extends ExpenseRepository {
     labels: Array<string>;
     data: Array<any>;
   } {
-    const expensesArray = Object.values(this.expenses);
+    const expensesArray = Object.values(this.expenses());
     // Create Object of expenses group by Day
     const result = expensesArray.reduce((r, a) => {
       r[a.date] = r[a.date] || [];
