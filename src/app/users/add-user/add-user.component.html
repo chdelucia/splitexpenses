@@ -1,51 +1,58 @@
 <div class="row justify-content-center">
   <div class="col-12 col-xl-10">
-    <div class="app-card p-4 p-md-5">
+    <div class="app-card p-4 p-md-5 bg-white shadow-sm border-0">
       <div class="text-center mb-5">
-        <h2 class="m-0" i18n>👤 Gestión de Usuarios</h2>
-        <p class="text-muted mt-2 small" i18n>
-          Añade a las personas con las que compartes gastos.
+        <h2 class="text-navy m-0" i18n>👤 Gestión de Miembros</h2>
+        <p class="text-muted small mt-1" i18n>
+          Añade nuevos participantes al grupo de gastos
         </p>
       </div>
 
       <form
         [formGroup]="userForm"
         (ngSubmit)="onSubmit()"
-        class="row g-4 align-items-end"
+        class="row g-3 align-items-center justify-content-center"
       >
-        <div class="col-12 col-md-5">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label i18n>Nombre del usuario</mat-label>
+        <div class="col-12 col-md-4">
+          <label
+            class="smaller text-muted text-uppercase fw-bold mb-2 d-block"
+            i18n
+            >Nombre completo</label
+          >
+          <mat-form-field appearance="outline" class="w-100 no-subscript">
             <input
               matInput
               formControlName="user"
               placeholder="Ej: Juan Pérez"
               required
             />
-            <mat-icon matPrefix class="me-2 text-primary">person_add</mat-icon>
+            <mat-icon matPrefix class="me-2 text-muted">person_add</mat-icon>
           </mat-form-field>
         </div>
 
         <div class="col-12 col-md-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label i18n>WhatsApp (opcional)</mat-label>
+          <label
+            class="smaller text-muted text-uppercase fw-bold mb-2 d-block"
+            i18n
+            >WhatsApp (opcional)</label
+          >
+          <mat-form-field appearance="outline" class="w-100 no-subscript">
             <input
               matInput
               formControlName="phone"
               type="number"
               placeholder="Ej: 34600000000"
             />
-            <mat-icon matPrefix class="me-2 text-primary">whatsapp</mat-icon>
+            <mat-icon matPrefix class="me-2 text-muted">whatsapp</mat-icon>
           </mat-form-field>
         </div>
 
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-2 align-self-end mb-1">
           <button
             [disabled]="!userForm.valid"
-            class="w-100 btn btn-primary py-3 d-flex align-items-center justify-content-center gap-2"
+            class="btn btn-primary w-100 py-3"
             type="submit"
           >
-            <mat-icon>person_add_alt</mat-icon>
             <span class="fw-bold" i18n>Añadir</span>
           </button>
         </div>

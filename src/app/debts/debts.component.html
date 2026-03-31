@@ -2,44 +2,56 @@
 @let usersLength = appUsers?.length;
 
 <main class="container-fluid mb-5">
-  <div class="d-flex justify-content-between align-items-center my-4">
-    <h2 class="m-0" i18n>Estado de Deudas</h2>
+  <div class="d-flex justify-content-between align-items-center mb-5 mt-3">
+    <div>
+      <h2 class="mb-1 text-navy" i18n>Estado de Deudas</h2>
+      <p class="text-muted small m-0" i18n>
+        Resumen de balances y deudas entre usuarios
+      </p>
+    </div>
+    @if (debts(); as currentDebts) {
+      <div class="badge-sky">
+        {{ (currentDebts | keyvalue).length }} <span i18n>activos</span>
+      </div>
+    }
   </div>
 
   @if (debts(); as currentDebts) {
-    <div class="badge rounded-pill bg-accent px-3 py-2 mb-4">
-      {{ (currentDebts | keyvalue).length }} <span i18n>usuarios activos</span>
-    </div>
     <section class="row g-4">
       @if (currentDebts && (currentDebts | keyvalue).length) {
         @for (user of appUsers; track user.id) {
           @let userDebt = currentDebts[user.id];
           @let isOwing = userDebt!.totalIowe > 0;
 
-          <div class="col-12 col-md-6 col-xl-4" [class.order-2]="!isOwing">
+          <div class="col-12 col-md-6 col-xxl-4" [class.order-2]="!isOwing">
             <div
-              class="app-card debt-card"
+              class="app-card debt-card h-100 d-flex flex-column"
               [class.owing]="isOwing"
               [class.balanced]="!isOwing"
               routerLink="/debts/details"
               data-cy="user-debt"
             >
-              <div class="d-flex align-items-center mb-3">
-                <div class="user-avatar-small me-3">
-                  {{ user.name.charAt(0).toUpperCase() }}
-                </div>
-                <div class="flex-grow-1">
-                  <div class="user-name">{{ userDebt?.userName }}</div>
-                  <div
-                    class="status-badge"
-                    [class]="isOwing ? 'bg-danger-soft' : 'bg-success-soft'"
-                  >
-                    {{ isOwing ? "Debe dinero" : "Al día" }}
+              <div
+                class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom border-light-2"
+              >
+                <div class="d-flex align-items-center">
+                  <div class="avatar-mini me-2">
+                    {{ user.name.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <h5 class="m-0 fs-6">{{ userDebt?.userName }}</h5>
+                    <span
+                      class="status-indicator"
+                      [class.text-danger]="isOwing"
+                      [class.text-success]="!isOwing"
+                    >
+                      {{ isOwing ? "Debe" : "Al día" }}
+                    </span>
                   </div>
                 </div>
                 <div class="text-end">
                   <div
-                    class="total-amount"
+                    class="font-bold fs-4"
                     [class.text-danger]="isOwing"
                     [class.text-success]="!isOwing"
                   >
@@ -47,7 +59,7 @@
                     {{ currency.currencySymbol }}
                   </div>
                   @if (currency.active) {
-                    <div class="amount-exchange small text-muted">
+                    <div class="text-muted smaller">
                       {{ userDebt?.totalIowe | exchange | number: ".0-2" }}
                       {{ currency.currencyExchangeSymbol }}
                     </div>
@@ -56,23 +68,23 @@
               </div>
 
               @if (usersLength && usersLength > 2) {
-                <div class="detailed-debts mt-3 pt-3 border-top">
-                  <div class="small text-muted mb-2" i18n>
-                    Desglose por persona:
-                  </div>
+                <div class="breakdown flex-grow-1">
                   @for (person of appUsers; track person.id) {
                     @let debt = userDebt?.debts?.[person.id];
                     @if (user.id !== person.id && debt && debt.newDebt !== 0) {
                       <div
-                        class="d-flex justify-content-between align-items-center py-1 debt-row"
+                        class="d-flex justify-content-between align-items-center py-2 border-bottom border-light-dash last-no-border"
                       >
-                        <span class="small">{{ debt.userName }}</span>
+                        <span class="small text-muted">{{
+                          debt.userName
+                        }}</span>
                         <span
-                          class="small font-monospace"
+                          class="small font-monospace font-semibold"
                           [class.text-danger]="debt.newDebt > 0"
                           [class.text-success]="debt.newDebt < 0"
                         >
-                          {{ debt.newDebt | number: ".0-2" }}
+                          {{ debt.newDebt > 0 ? "+" : ""
+                          }}{{ debt.newDebt | number: ".0-2" }}
                           {{ currency.currencySymbol }}
                         </span>
                       </div>
@@ -80,20 +92,19 @@
                   }
                 </div>
               }
+              <div class="mt-3 text-end">
+                <button mat-icon-button class="btn-icon-tiny">
+                  <mat-icon>chevron_right</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
         }
       }
     </section>
-  } @else {
-    <div class="text-center py-5">
-      <mat-icon class="large-icon mb-3">account_balance</mat-icon>
-      <h3 i18n>No hay deudas registradas</h3>
-      <p class="text-muted" i18n>Todo está en orden por ahora.</p>
-    </div>
   }
 
-  <div class="mt-5">
+  <div class="mt-5 pt-4">
     <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
   </div>
 </main>

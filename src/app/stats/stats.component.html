@@ -1,47 +1,55 @@
-<main class="container-fluid py-3 mb-5">
+<main class="container-fluid mb-5 py-4">
   <div
-    class="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3"
+    class="d-flex flex-wrap justify-content-between align-items-end mb-5 gap-4"
   >
-    <div class="d-flex align-items-center gap-3">
-      <h2 class="m-0" i18n>Panel de Estadísticas</h2>
-      <div class="vr mx-2"></div>
-      <div class="user-selector-wrapper">
-        <select
-          name="name"
-          #user
-          class="form-select border-0 shadow-sm rounded-pill px-4 py-2"
-          (change)="change(user.value)"
-        >
-          <option value="0" selected i18n>📊 Todos los usuarios</option>
-          @for (user of usersHTML(); track user.id) {
-            <option [value]="user.id">👤 {{ user.name }}</option>
-          }
-        </select>
-      </div>
+    <div>
+      <h2 class="m-0 text-navy fs-2" i18n>Panel de Análisis</h2>
+      <p class="text-muted m-0" i18n>
+        Visualiza la distribución y tendencias de tus gastos
+      </p>
+    </div>
+
+    <div class="user-filter-box">
+      <label class="smaller text-muted text-uppercase fw-bold mb-1 d-block" i18n
+        >Filtrar por usuario</label
+      >
+      <select
+        name="name"
+        #user
+        class="form-select clean-select"
+        (change)="change(user.value)"
+      >
+        <option value="0" selected i18n>📊 Todos los usuarios</option>
+        @for (user of usersHTML(); track user.id) {
+          <option [value]="user.id">👤 {{ user.name }}</option>
+        }
+      </select>
     </div>
   </div>
 
-  <!-- KPI Cards -->
+  <!-- Main KPIs -->
   <section class="row g-4 mb-5">
     <div class="col-12 col-md-6">
       <div
-        class="app-card kpi-card h-100 d-flex flex-column justify-content-center p-4"
+        class="app-card kpi-glass h-100 p-4 border-start border-4 border-navy"
       >
-        <div class="d-flex align-items-center mb-2">
-          <div class="kpi-icon me-3 bg-primary-soft text-primary">
-            <mat-icon>payments</mat-icon>
-          </div>
-          <span class="text-muted fw-medium" i18n>Gasto Total</span>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span
+            class="text-muted font-semibold small text-uppercase letter-spacing-1"
+            i18n
+            >Gasto Acumulado</span
+          >
+          <mat-icon class="text-navy opacity-25">payments</mat-icon>
         </div>
-        <div class="kpi-value d-flex align-items-baseline gap-2">
-          <h1 class="display-5 fw-bold m-0 text-primary">
+        <div class="d-flex align-items-baseline gap-2">
+          <h1 class="display-4 fw-bold m-0 text-navy">
             {{ todayCost() | number: ".0-2" }}
           </h1>
-          <span class="fs-4 text-muted">{{ currency.currencySymbol }}</span>
+          <span class="fs-3 text-muted">{{ currency.currencySymbol }}</span>
         </div>
         @if (currency.active) {
-          <div class="kpi-exchange mt-2 small text-muted font-monospace">
-            ≈ {{ todayCost() | exchange | number: ".0-2" }}
+          <div class="mt-2 smaller text-muted font-monospace opacity-75">
+            Equivalent to {{ todayCost() | exchange | number: ".0-2" }}
             {{ currency.currencyExchangeSymbol }}
           </div>
         }
@@ -50,23 +58,25 @@
 
     <div class="col-12 col-md-6">
       <div
-        class="app-card kpi-card h-100 d-flex flex-column justify-content-center p-4"
+        class="app-card kpi-glass h-100 p-4 border-start border-4 border-sky"
       >
-        <div class="d-flex align-items-center mb-2">
-          <div class="kpi-icon me-3 bg-accent-soft text-accent">
-            <mat-icon>trending_up</mat-icon>
-          </div>
-          <span class="text-muted fw-medium" i18n>Media Diaria</span>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span
+            class="text-muted font-semibold small text-uppercase letter-spacing-1"
+            i18n
+            >Promedio Diario</span
+          >
+          <mat-icon class="text-sky opacity-50">trending_up</mat-icon>
         </div>
-        <div class="kpi-value d-flex align-items-baseline gap-2">
-          <h1 class="display-5 fw-bold m-0 text-accent">
+        <div class="d-flex align-items-baseline gap-2">
+          <h1 class="display-4 fw-bold m-0 text-navy">
             {{ meanCost() | number: ".0-2" }}
           </h1>
-          <span class="fs-4 text-muted">{{ currency.currencySymbol }}</span>
+          <span class="fs-3 text-muted">{{ currency.currencySymbol }}</span>
         </div>
         @if (currency.active) {
-          <div class="kpi-exchange mt-2 small text-muted font-monospace">
-            ≈ {{ meanCost() | exchange | number: ".0-2" }}
+          <div class="mt-2 smaller text-muted font-monospace opacity-75">
+            Equivalent to {{ meanCost() | exchange | number: ".0-2" }}
             {{ currency.currencyExchangeSymbol }}
           </div>
         }
@@ -74,27 +84,29 @@
     </div>
   </section>
 
-  <!-- Graphs -->
+  <!-- Charts -->
   <section class="row g-4">
     @if (dailyData(); as daily) {
-      <div class="col-12 col-xl-7">
-        <div class="app-card h-100 p-4">
-          <h4 class="mb-4 d-flex align-items-center">
-            <mat-icon class="me-2 text-primary">calendar_today</mat-icon>
-            <span i18n>Gastos por Día</span>
-          </h4>
+      <div class="col-12 col-xl-8">
+        <div class="app-card h-100 p-4 shadow-sm">
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <div class="chart-icon-bg"><mat-icon>bar_chart</mat-icon></div>
+            <h5 class="m-0 font-bold" i18n>Tendencia Temporal</h5>
+          </div>
           <app-summarygraph bytype="ByDay" [data]="daily"></app-summarygraph>
         </div>
       </div>
     }
 
     @if (typeData(); as type) {
-      <div class="col-12 col-xl-5">
-        <div class="app-card h-100 p-4">
-          <h4 class="mb-4 d-flex align-items-center">
-            <mat-icon class="me-2 text-primary">pie_chart</mat-icon>
-            <span i18n>Gastos por Categoría</span>
-          </h4>
+      <div class="col-12 col-xl-4">
+        <div class="app-card h-100 p-4 shadow-sm">
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <div class="chart-icon-bg bg-sky-soft text-sky">
+              <mat-icon>pie_chart</mat-icon>
+            </div>
+            <h5 class="m-0 font-bold" i18n>Distribución por Tipo</h5>
+          </div>
           <app-summarygraph bytype="ByType" [data]="type"></app-summarygraph>
         </div>
       </div>

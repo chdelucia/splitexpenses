@@ -1,52 +1,51 @@
-$primary-color: #6366f1;
-$bg-light: #f8fafc;
-$text-slate: #334155;
+$navy-dark: #020617;
+$sky-blue: #60a5fa;
+$border-light: #e2e8f0;
 
-.app-card {
-  border-radius: 20px;
+.no-subscript ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
 }
 
-.participants-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 0.75rem;
+.smaller { font-size: 0.65rem; }
+
+.participants-flex {
+  background: #f8fafc;
   padding: 1rem;
-  background-color: #f1f5f9;
-  border-radius: 12px;
+  border-radius: 8px;
+  border: 1px solid $border-light;
 }
 
-.participant-item {
-  padding: 0.4rem 0.8rem;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+.participant-toggle {
+  background: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid $border-light;
 }
 
-mat-radio-button {
-  padding: 0.6rem 0.8rem;
-  background-color: white;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+.minimal-radio {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid $border-light;
+  background: white;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
 
   &.mat-mdc-radio-checked {
-    border-color: $primary-color;
-    background-color: rgba($primary-color, 0.05);
+    border-color: $sky-blue;
+    background-color: rgba($sky-blue, 0.05);
   }
 }
 
-.currency {
-  font-weight: 700;
-  color: $primary-color;
+mat-form-field {
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 576px) {
-  .participants-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
   .app-card {
     padding: 1.5rem !important;
+  }
+  .btn-primary {
+    width: 100%;
   }
 }

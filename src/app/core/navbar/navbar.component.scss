@@ -1,97 +1,71 @@
-/* this is needed to make the content scrollable on larger screens */
+/* Minimalist Sidebar Design */
 @media (min-width: 576px) {
   .h-sm-100 {
     height: 100%;
   }
 }
 
-$nav-bg: #1e293b; // Deep Slate
-$primary-color: #6366f1;
+$navy-bg: #020617;
+$sky-blue: #60a5fa;
 
 svg {
-  width: 21px;
-  height: 21px;
-  color: white;
-  transition: transform 0.2s ease;
-  &:focus {
-    outline: 0;
-  }
-  &:hover {
-    cursor: pointer;
-  }
+  width: 20px;
+  height: 20px;
+  color: #94a3b8; // Slate 400
+  transition: all 0.2s ease;
 }
 
 .nav-link {
-  color: #94a3b8; // Slate 400
+  color: #94a3b8;
   font-family: "Alata", sans-serif;
   display: flex;
   align-items: center;
-  padding: 0.75rem 1rem;
-  margin: 0.25rem 0.75rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-
-  span {
-    font-size: 0.95rem;
-  }
+  padding: 0.7rem 1.25rem;
+  margin: 0.15rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.875rem;
+  font-weight: 500;
 
   &.active {
-    background-color: rgba($primary-color, 0.15);
+    background-color: rgba($sky-blue, 0.08);
     color: #ffffff;
     svg {
-      color: $primary-color;
-      transform: scale(1.1);
+      color: $sky-blue;
     }
   }
 
   &:hover:not(.active) {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #f1f5f9;
     svg {
-      color: #ffffff;
+      color: #f1f5f9;
     }
-  }
-
-  &.disabled {
-    color: #475569;
-    opacity: 0.5;
-    cursor: not-allowed;
   }
 }
 
 .splitty-logo {
   font-family: "Poppins", sans-serif;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
   color: #ffffff;
-  font-size: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .nav-link {
-    margin: 0.4rem 0.75rem;
-    padding: 0.8rem 1rem;
-  }
-}
-
-@media (min-width: 992px) {
-  svg {
-    width: 1.4rem;
-    height: 1.4rem;
-  }
+  font-size: 1.1rem;
 }
 
 .img-fluid {
-  max-width: 32px;
-  filter: drop-shadow(0 0 8px rgba($primary-color, 0.3));
+  max-width: 28px;
+  opacity: 0.9;
 }
 
 hr {
-  opacity: 0.1;
-  margin: 1.5rem 0;
+  opacity: 0.05;
+  margin: 1rem 0;
+}
+
+@media (max-width: 767px) {
+  .nav-link {
+    padding: 0.75rem;
+    margin: 0;
+    justify-content: center;
+  }
 }

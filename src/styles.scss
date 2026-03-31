@@ -5,85 +5,86 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
-// Custom Theme Colors
-$primary-color: #6366f1; // Indigo
-$accent-color: #10b981;  // Emerald
-$bg-slate: #f8fafc;
-$text-slate: #334155;
-$card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+// Midnight & Sky Theme Palette
+$navy-dark: #020617;
+$sky-blue: #60a5fa;
+$slate-bg: #f8fafc;
+$text-main: #1e293b;
+$text-muted: #64748b;
+$border-light: #e2e8f0;
+
+// Refined Shadows
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
 section {
-  margin-top: 1.5rem;
-}
-
-.mb-6 {
-  margin-bottom: 2rem;
-}
-.mb-8 {
-  margin-bottom: 3rem;
+  margin-top: 2rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Poppins", sans-serif;
-  color: $text-slate;
-  font-weight: 600;
+  color: $navy-dark;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   font-family: "Alata", sans-serif;
-  background-color: $bg-slate;
-  color: $text-slate;
+  background-color: $slate-bg;
+  color: $text-main;
+  -webkit-font-smoothing: antialiased;
 }
 
 main.container,
 main.container-fluid {
-  padding: 1.5rem;
-  background: #ffffff;
+  padding: 2rem;
+  background: transparent; // Using individual cards instead of one giant container
   box-sizing: border-box;
-  margin-top: 2rem;
-  border-radius: 12px;
-  min-height: 70vh;
-  box-shadow: $card-shadow;
+  margin-top: 1.5rem;
+  min-height: 80vh;
 }
 
-// Global Card Style
+// Reusable Professional Card
 .app-card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: $card-shadow;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border-light;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    box-shadow: $shadow-md;
+    border-color: rgba($sky-blue, 0.3);
   }
 }
 
+// Typography Enhancements
+.text-navy { color: $navy-dark !important; }
+.text-sky { color: $sky-blue !important; }
+.text-muted { color: $text-muted !important; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+// Buttons
 button.btn-primary {
-  background: linear-gradient(
-    135deg,
-    $primary-color,
-    color.adjust($primary-color, $lightness: -10%)
-  );
-  border: none;
-  color: #fff;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-  box-shadow: 0 4px 6px -1px rgba($primary-color, 0.3);
-  transition: all 0.2s ease;
+  background-color: $navy-dark;
+  border: 1px solid $navy-dark;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.15s ease;
+  box-shadow: $shadow-sm;
 
   &:hover:not(:disabled) {
+    background-color: lighten($navy-dark, 5%);
     transform: translateY(-1px);
-    box-shadow: 0 6px 10px -1px rgba($primary-color, 0.4);
-    background: linear-gradient(
-      135deg,
-      color.adjust($primary-color, $lightness: 5%),
-      $primary-color
-    );
+    box-shadow: $shadow-md;
   }
 
   &:active:not(:disabled) {
@@ -91,48 +92,47 @@ button.btn-primary {
   }
 }
 
+button.btn-outline {
+  background-color: transparent;
+  border: 1px solid $border-light;
+  color: $text-main;
+  border-radius: 6px;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+  &:hover {
+    background-color: $slate-bg;
+    border-color: $text-muted;
+  }
+}
+
 .btn-primary:disabled {
-  background: #cbd5e1;
-  color: #64748b;
+  background-color: #94a3b8;
+  border-color: #94a3b8;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
-// Snackbars
+// Mat Form Overrides for professional look
+.mat-mdc-form-field {
+  --mdc-outlined-idle-border-color: #{$border-light};
+  --mdc-outlined-hover-border-color: #{$text-muted};
+  --mdc-outlined-active-border-color: #{$navy-dark};
+}
+
 .mat-mdc-snack-bar-container {
-  &.blue-snackbar {
-    --mdc-snackbar-container-color: #{$primary-color};
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-  }
-
   &.OK-snackbar {
-    --mdc-snackbar-container-color: #{$accent-color};
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    border-radius: 8px;
-  }
-
-  &.KO-snackbar {
-    --mdc-snackbar-container-color: #ef4444;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    border-radius: 8px;
-  }
-
-  &.EXIST-snackbar {
-    --mdc-snackbar-container-color: #fef3c7;
-    --mat-mdc-snack-bar-button-color: #92400e;
-    --mdc-snackbar-supporting-text-color: #92400e;
-    border: 1px solid #fcd34d;
-    border-radius: 8px;
+    --mdc-snackbar-container-color: #{$navy-dark};
+    --mat-mdc-snack-bar-button-color: #{$sky-blue};
+    border-radius: 6px;
   }
 }
 
-.mat-mdc-paginator-page-size-label {
-  display: none;
+.badge-sky {
+  background-color: rgba($sky-blue, 0.1);
+  color: darken($sky-blue, 20%);
+  border: 1px solid rgba($sky-blue, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.75rem;
 }
-
-// Utility classes for text colors
-.text-primary { color: $primary-color !important; }
-.text-accent { color: $accent-color !important; }
-.text-slate { color: $text-slate !important; }

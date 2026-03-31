@@ -1,15 +1,15 @@
 <main class="container-fluid mb-5">
-  <div class="my-4 text-center">
-    <h2 class="m-0" i18n>
-      {{ isEditing ? "✏️ Editar Gasto" : "💸 Añadir Nuevo Gasto" }}
+  <div class="my-5 text-center">
+    <h2 class="text-navy" i18n>
+      {{ isEditing ? "✏️ Actualizar Transacción" : "💸 Nueva Transacción" }}
     </h2>
-    <p class="text-muted mt-2 small" i18n>
-      Registra los gastos compartidos para mantener el equilibrio.
+    <p class="text-muted small" i18n>
+      Completa los detalles para registrar el gasto compartido
     </p>
   </div>
 
   <div class="row justify-content-center">
-    <div class="col-12 col-xl-10 col-xxl-8">
+    <div class="col-12 col-xl-9">
       <div class="app-card p-4 p-md-5">
         <form
           class="row g-4"
@@ -17,23 +17,30 @@
           (ngSubmit)="onSubmit(expenseForm.value, formDirective)"
           #formDirective="ngForm"
         >
-          <!-- Pagador -->
+          <!-- Pagador & Importe -->
           <div class="col-12 col-md-6">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label i18n>Pagado por:</mat-label>
+            <label
+              class="smaller text-muted text-uppercase fw-bold mb-2 d-block"
+              i18n
+              >Pagado por</label
+            >
+            <mat-form-field appearance="outline" class="w-100 no-subscript">
               <mat-select formControlName="name" required>
                 @for (user of users(); track user.id) {
                   <mat-option [value]="user.id">👤 {{ user.name }}</mat-option>
                 }
               </mat-select>
-              <mat-icon matPrefix class="me-2 text-primary">person</mat-icon>
+              <mat-icon matPrefix class="me-2 text-muted">person</mat-icon>
             </mat-form-field>
           </div>
 
-          <!-- Precio -->
           <div class="col-12 col-md-6">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label i18n>Importe</mat-label>
+            <label
+              class="smaller text-muted text-uppercase fw-bold mb-2 d-block"
+              i18n
+              >Importe total</label
+            >
+            <mat-form-field appearance="outline" class="w-100 no-subscript">
               <input
                 matInput
                 formControlName="cost"
@@ -43,15 +50,11 @@
                 required
                 placeholder="0.00"
               />
-              <span matPrefix class="me-2 text-primary font-monospace">{{
+              <span matPrefix class="me-2 text-navy font-bold">{{
                 currency.currencySymbol
               }}</span>
               @if (currency.active && expenseForm.controls["cost"].value) {
-                <mat-hint
-                  align="end"
-                  class="font-monospace text-accent fw-bold"
-                  i18n
-                >
+                <span matSuffix class="text-muted small pe-2 font-monospace">
                   ≈
                   {{
                     expenseForm.controls["cost"].value
@@ -59,32 +62,37 @@
                       | number: ".0-2"
                   }}
                   {{ currency.currencyExchangeSymbol }}
-                </mat-hint>
+                </span>
               }
             </mat-form-field>
           </div>
 
-          <!-- Descripción -->
+          <!-- Descripción & Fecha -->
           <div class="col-12 col-md-6">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label i18n>Descripción</mat-label>
+            <label
+              class="smaller text-muted text-uppercase fw-bold mb-2 d-block"
+              i18n
+              >Concepto</label
+            >
+            <mat-form-field appearance="outline" class="w-100 no-subscript">
               <input
                 matInput
                 formControlName="title"
                 type="text"
-                placeholder="Ej: Cena Italiana, Alquiler Coche..."
+                placeholder="Ej: Supermercado, Alquiler..."
                 required
               />
-              <mat-icon matPrefix class="me-2 text-primary"
-                >description</mat-icon
-              >
+              <mat-icon matPrefix class="me-2 text-muted">description</mat-icon>
             </mat-form-field>
           </div>
 
-          <!-- Fecha -->
           <div class="col-12 col-md-6">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label i18n>Fecha</mat-label>
+            <label
+              class="smaller text-muted text-uppercase fw-bold mb-2 d-block"
+              i18n
+              >Fecha</label
+            >
+            <mat-form-field appearance="outline" class="w-100 no-subscript">
               <input
                 matInput
                 [matDatepicker]="picker"
@@ -96,25 +104,26 @@
                 [for]="picker"
               ></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
-              <mat-icon matPrefix class="me-2 text-primary"
+              <mat-icon matPrefix class="me-2 text-muted"
                 >calendar_today</mat-icon
               >
             </mat-form-field>
           </div>
 
           <!-- Participantes -->
-          <div class="col-12" formArrayName="sharedBy">
-            <div class="mb-3 d-flex align-items-center gap-2">
-              <mat-icon
-                class="text-primary"
-                style="font-size: 20px; width: 20px; height: 20px"
-                >group</mat-icon
+          <div class="col-12">
+            <div class="d-flex align-items-center gap-2 mb-3 mt-2">
+              <span class="smaller text-muted text-uppercase fw-bold" i18n
+                >Participantes</span
               >
-              <span class="fw-bold text-slate" i18n>¿Quiénes participan?</span>
+              <div class="flex-grow-1 border-bottom border-light"></div>
             </div>
-            <div class="participants-grid">
+            <div
+              class="participants-flex d-flex flex-wrap gap-3"
+              formArrayName="sharedBy"
+            >
               @for (user of users(); track user.id; let i = $index) {
-                <div class="participant-item">
+                <div class="participant-toggle">
                   <mat-checkbox [formControlName]="i" color="primary">
                     {{ user.name }}
                   </mat-checkbox>
@@ -125,22 +134,19 @@
 
           <!-- Categoría -->
           <div class="col-12">
-            <div class="mb-3 d-flex align-items-center gap-2">
-              <mat-icon
-                class="text-primary"
-                style="font-size: 20px; width: 20px; height: 20px"
-                >category</mat-icon
+            <div class="d-flex align-items-center gap-2 mb-3 mt-2">
+              <span class="smaller text-muted text-uppercase fw-bold" i18n
+                >Categoría</span
               >
-              <span class="fw-bold text-slate" i18n>Categoría de Gasto:</span>
+              <div class="flex-grow-1 border-bottom border-light"></div>
             </div>
             <mat-radio-group formControlName="type" class="w-100">
-              <div class="row g-3">
+              <div class="row g-2">
                 @for (type of expenseTypes; track type.id) {
                   <div class="col-6 col-sm-4 col-md-3">
                     <mat-radio-button
                       [value]="type.id"
-                      color="primary"
-                      class="w-100"
+                      class="minimal-radio w-100"
                     >
                       {{ type.name }}
                     </mat-radio-button>
@@ -150,19 +156,14 @@
             </mat-radio-group>
           </div>
 
-          <!-- Botón -->
-          <div class="col-12 mt-5">
+          <!-- Actions -->
+          <div class="col-12 mt-5 border-top pt-4 text-end">
             <button
               type="submit"
               [disabled]="!expenseForm.valid"
-              class="w-100 btn btn-primary py-3 d-flex align-items-center justify-content-center gap-2"
+              class="btn btn-primary px-5 py-3 fs-6"
             >
-              <mat-icon>{{
-                isEditing ? "save" : "add_circle_outline"
-              }}</mat-icon>
-              <span class="fs-5 fw-bold">{{
-                isEditing ? "Actualizar Gasto" : "Registrar Gasto"
-              }}</span>
+              {{ isEditing ? "Actualizar Registro" : "Guardar Transacción" }}
             </button>
           </div>
         </form>

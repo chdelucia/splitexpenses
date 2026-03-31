@@ -1,128 +1,131 @@
-@use "@angular/material" as mat;
-
-$primary-color: #6366f1;
-$accent-color: #10b981;
+$navy-dark: #020617;
+$sky-blue: #60a5fa;
+$border-light: #e2e8f0;
+$slate-bg: #f8fafc;
 $text-muted: #64748b;
-$bg-light: #f1f5f9;
 
-.expense-item {
-  padding: 1rem 1.25rem;
-  margin-bottom: 1rem;
-  border-radius: 12px;
-  background-color: #ffffff;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    border-color: rgba($primary-color, 0.1);
-  }
-}
-
-.date-divider {
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 250px;
+  background-color: $slate-bg;
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  text-transform: capitalize;
-  font-weight: 600;
-  color: $primary-color;
-  font-size: 0.9rem;
-  margin: 1.5rem 0 0.75rem;
-
-  &::after {
-    content: "";
-    flex: 1;
-    margin-left: 1rem;
-    height: 1px;
-    background: linear-gradient(to right, rgba($primary-color, 0.3), transparent);
-  }
-}
-
-.category-icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: $bg-light;
-  color: $primary-color;
-  transition: transform 0.2s ease;
-
-  mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-  }
-
-  &.cat-0 { background-color: #fef2f2; color: #ef4444; }
-  &.cat-1 { background-color: #fff7ed; color: #f97316; }
-  &.cat-2 { background-color: #fffbeb; color: #f59e0b; }
-  &.cat-3 { background-color: #f0fdf4; color: #22c55e; }
-  &.cat-4 { background-color: #ecfeff; color: #06b6d4; }
-  &.cat-5 { background-color: #f5f3ff; color: #8b5cf6; }
-  &.cat-6 { background-color: #fdf2f8; color: #ec4899; }
-  &.cat-7 { background-color: #f8fafc; color: #64748b; }
-}
-
-.expense-title {
-  font-weight: 600;
-  font-size: 1.1rem;
-  display: block;
-}
-
-.expense-meta {
-  font-size: 0.85rem;
-}
-
-.expense-amount {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: $primary-color;
-}
-
-.expense-amount-exchange {
-  font-size: 0.75rem;
-  opacity: 0.8;
-}
-
-.participant-badge {
-  background-color: #f8fafc;
-  color: #475569;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.action-btn {
-  background-color: transparent;
+  padding: 0 1rem;
+  border: 1px solid transparent;
   transition: all 0.2s ease;
 
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    transform: scale(1.1);
+  &:focus-within {
+    background-color: white;
+    border-color: $sky-blue;
+    box-shadow: 0 0 0 4px rgba($sky-blue, 0.1);
+  }
+
+  .search-icon {
+    font-size: 1.1rem;
+    color: $text-muted;
+    margin-right: 0.5rem;
+    width: 20px;
+    height: 20px;
+  }
+
+  .clean-search {
+    border: none;
+    background: transparent;
+    padding: 0.5rem 0;
+    width: 100%;
+    color: $navy-dark;
+    font-size: 0.875rem;
+    &:focus { outline: none; }
+    &::placeholder { color: $text-muted; }
   }
 }
 
-.large-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #cbd5e1;
+.expense-card {
+  border-radius: 8px;
+  border: 1px solid $border-light;
+  background: #ffffff;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-color: rgba($sky-blue, 0.2);
+    transform: translateY(-1px);
+  }
 }
 
-.no-subscript ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-  display: none;
+.category-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background-color: #cbd5e1;
+  &.cat-0 { background-color: #ef4444; }
+  &.cat-1 { background-color: #f97316; }
+  &.cat-2 { background-color: #f59e0b; }
+  &.cat-3 { background-color: #22c55e; }
+  &.cat-4 { background-color: #06b6d4; }
+  &.cat-5 { background-color: #8b5cf6; }
+  &.cat-6 { background-color: #ec4899; }
+  &.cat-7 { background-color: #64748b; }
 }
+
+.badge-user {
+  background-color: rgba($navy-dark, 0.04);
+  color: $navy-dark;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+}
+
+.badge-tag {
+  background-color: transparent;
+  color: $text-muted;
+  border: 1px solid #e2e8f0;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.25rem;
+  display: inline-block;
+}
+
+.btn-icon-soft {
+  color: #94a3b8;
+  transition: all 0.2s ease;
+  &:hover {
+    color: $navy-dark;
+    background-color: rgba(0,0,0,0.05);
+  }
+  &.text-danger:hover {
+    color: #ef4444;
+    background-color: #fee2e2;
+  }
+  mat-icon {
+    font-size: 1.25rem;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.date-label {
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: $text-muted;
+}
+
+.empty-state {
+  border: 2px dashed #e2e8f0;
+  background: transparent;
+  h3 { margin-bottom: 0.5rem; }
+}
+
+.smaller { font-size: 0.65rem; }
 
 @media (max-width: 576px) {
-  .expense-amount {
-    font-size: 1rem;
-  }
-  .category-icon-wrapper {
-    width: 40px;
-    height: 40px;
+  .expense-card {
+    padding: 1rem 1.25rem;
   }
 }

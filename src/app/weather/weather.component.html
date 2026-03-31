@@ -1,18 +1,43 @@
-<header class="mt-atuo bg-white">
-  @if (showWeather()) {
-    @let info = weatherInfo();
-    @if (info) {
-      <div class="container flex">
-        <div>{{ info.name }}, {{ info.sys.country }}:</div>
-        <div>
-          <img
-            src="http://openweathermap.org/img/w/{{ info.weather[0].icon }}.png"
-            alt="{{ info.name }}"
-          />
-          {{ info.weather[0].description }}
+@if (showWeather()) {
+  @let info = weatherInfo();
+  @if (info) {
+    <div class="weather-bar mb-4">
+      <div class="weather-card-glass">
+        <div class="weather-main">
+          <div class="location-info">
+            <span class="city">{{ info.name }}</span>
+            <span class="country">{{ info.sys.country }}</span>
+          </div>
+          <div class="condition-info">
+            <img
+              src="http://openweathermap.org/img/w/{{
+                info.weather[0].icon
+              }}.png"
+              alt="{{ info.name }}"
+              class="weather-icon"
+            />
+            <span class="description text-capitalize">{{
+              info.weather[0].description
+            }}</span>
+          </div>
+          <div class="temp-info">
+            <span class="temp-value">{{ info.main.temp }}°</span>
+            <span class="temp-unit">C</span>
+          </div>
         </div>
-        <b class="temp"> {{ info.main.temp }} °C</b>
+
+        <div class="weather-details d-none d-lg-flex">
+          <div class="detail-item">
+            <span class="label">Humedad</span>
+            <span class="value">{{ info.main.humidity }}%</span>
+          </div>
+          <div class="detail-divider"></div>
+          <div class="detail-item">
+            <span class="label">Viento</span>
+            <span class="value">{{ info.wind.speed }} m/s</span>
+          </div>
+        </div>
       </div>
-    }
+    </div>
   }
-</header>
+}

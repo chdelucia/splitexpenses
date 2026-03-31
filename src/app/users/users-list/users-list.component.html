@@ -1,15 +1,15 @@
-<div class="row g-4 mt-2">
+<div class="row g-4 mt-5">
   @if (users()) {
     @for (user of users(); track user.id) {
       <div class="col-12 col-md-6 col-lg-4">
-        <div class="app-card user-card h-100 d-flex align-items-center">
-          <div class="user-avatar me-3">
+        <div class="app-card user-item h-100 d-flex align-items-center">
+          <div class="user-initials me-3">
             {{ user.name.charAt(0).toUpperCase() }}
           </div>
-          <div class="flex-grow-1">
+          <div class="flex-grow-1 overflow-hidden">
             <div class="d-flex flex-column">
               <span
-                class="fw-bold fs-5 text-slate mb-1"
+                class="text-navy font-semibold fs-5 text-truncate"
                 #nameCell
                 contentEditable
                 (focusout)="edit(nameCell, user, 'name')"
@@ -17,37 +17,32 @@
                 {{ user.name }}
               </span>
               <span
-                class="text-muted small d-flex align-items-center"
+                class="text-muted smaller d-flex align-items-center mt-1"
                 #phoneCell
                 contentEditable
                 (focusout)="edit(phoneCell, user, 'phone')"
               >
                 <mat-icon
                   class="me-1"
-                  style="font-size: 16px; width: 16px; height: 16px"
+                  style="font-size: 14px; width: 14px; height: 14px"
                   >phone</mat-icon
                 >
-                {{ user.phone || "Sin teléfono" }}
+                {{ user.phone || "Sin número" }}
               </span>
             </div>
           </div>
-          <div class="ms-auto">
+          <div class="ms-auto border-start ps-2">
             <button
               mat-icon-button
-              color="warn"
+              class="text-muted opacity-50 btn-delete-user"
               (click)="delete(user.id)"
-              aria-label="Eliminar usuario"
+              aria-label="Delete"
             >
-              <mat-icon>delete_outline</mat-icon>
+              <mat-icon style="font-size: 1.25rem">delete_outline</mat-icon>
             </button>
           </div>
         </div>
       </div>
     }
-  } @else {
-    <div class="col-12 text-center py-5">
-      <mat-icon class="large-icon text-muted mb-3">group</mat-icon>
-      <h3 i18n>No hay usuarios registrados</h3>
-    </div>
   }
 </div>

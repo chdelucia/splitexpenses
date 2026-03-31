@@ -1,49 +1,40 @@
-$primary-color: #6366f1;
-$bg-light: #f8fafc;
-$text-slate: #334155;
+$navy-dark: #020617;
+$border-light: #f1f5f9;
 
-.user-card {
-  padding: 1.25rem;
-  border-radius: 12px;
-  background-color: #ffffff;
-  transition: all 0.2s ease-in-out;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-
+.user-item {
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  border-color: transparent;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05);
+  background: white;
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    border-color: rgba($primary-color, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
   }
 }
 
-.user-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background-color: rgba($primary-color, 0.1);
-  color: $primary-color;
+.user-initials {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: rgba($navy-dark, 0.04);
+  color: $navy-dark;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.4rem;
   flex-shrink: 0;
 }
 
+.smaller { font-size: 0.7rem; }
+
+.btn-delete-user:hover {
+  color: #ef4444 !important;
+  opacity: 1 !important;
+  background-color: #fee2e2;
+}
+
 [contentEditable]:focus {
-  outline: 2px solid rgba($primary-color, 0.3);
-  background-color: rgba($primary-color, 0.05);
+  outline: 1px solid rgba($navy-dark, 0.2);
+  background: #f8fafc;
   border-radius: 4px;
-  padding: 0 4px;
-}
-
-.large-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #cbd5e1;
-}
-
-mat-icon {
-  vertical-align: middle;
 }

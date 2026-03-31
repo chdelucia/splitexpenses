@@ -1,104 +1,70 @@
-$primary-color: #6366f1;
-$accent-color: #10b981;
-$danger-color: #ef4444;
-$success-color: #10b981;
-$text-slate: #334155;
-$bg-slate: #f1f5f9;
+$navy-dark: #020617;
+$sky-blue: #60a5fa;
+$border-light: #e2e8f0;
+$slate-bg: #f8fafc;
+$text-muted: #64748b;
 
 .debt-card {
   padding: 1.5rem;
   margin-bottom: 1rem;
-  border-radius: 16px;
+  border-radius: 12px;
   background-color: #ffffff;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid $border-light;
   cursor: pointer;
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    border-color: rgba($sky-blue, 0.3);
   }
 
   &.owing {
-    border-left: 4px solid $danger-color;
+    border-left: 4px solid #ef4444;
   }
 
   &.balanced {
-    border-left: 4px solid $success-color;
+    border-left: 4px solid #10b981;
   }
 }
 
-.user-avatar-small {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  background-color: $primary-color;
-  color: white;
+.avatar-mini {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: rgba($navy-dark, 0.05);
+  color: $navy-dark;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.user-name {
   font-weight: 700;
-  font-size: 1.1rem;
-  color: $text-slate;
+  font-size: 0.9rem;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 0.1rem 0.5rem;
-  border-radius: 4px;
+.status-indicator {
   font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-
-  &.bg-danger-soft {
-    background-color: #fef2f2;
-    color: $danger-color;
-  }
-
-  &.bg-success-soft {
-    background-color: #f0fdf4;
-    color: $success-color;
-  }
-}
-
-.total-amount {
   font-weight: 700;
-  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.amount-exchange {
-  font-weight: 500;
+.border-light-2 { border-color: #f1f5f9 !important; }
+.border-light-dash { border-top: 1px dashed #f1f5f9 !important; border-bottom: none !important; }
+
+.last-no-border:last-child {
+  border-bottom: none !important;
 }
 
-.detailed-debts {
-  border-top: 1px dashed #e2e8f0 !important;
+.btn-icon-tiny {
+  color: #94a3b8;
+  &:hover { color: $navy-dark; background-color: rgba(0,0,0,0.05); }
+  mat-icon { font-size: 1.25rem; width: 20px; height: 20px; }
 }
 
-.debt-row {
-  border-bottom: 1px solid #f8fafc;
-  &:last-child {
-    border-bottom: none;
-  }
-}
-
-.large-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: #cbd5e1;
-}
+.smaller { font-size: 0.65rem; }
 
 @media (max-width: 576px) {
-  .user-name {
-    font-size: 1rem;
-  }
-  .total-amount {
-    font-size: 1.1rem;
+  .debt-card {
+    padding: 1.25rem;
   }
 }
