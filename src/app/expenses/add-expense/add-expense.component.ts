@@ -5,6 +5,7 @@ import {
   OnInit,
   numberAttribute,
 } from '@angular/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import {
   AbstractControl,
   FormArray,
@@ -57,6 +58,7 @@ import { ExchangePipe } from '@shared/pipes/exchange.pipe';
     MatRadioModule,
     ExchangePipe,
   ],
+  providers: [provideNativeDateAdapter()],
 })
 export class AddExpenseComponent implements OnInit {
   id = input<string | number, number>('', { transform: numberAttribute });
@@ -124,17 +126,20 @@ export class AddExpenseComponent implements OnInit {
   }
 
   private createFormControl(userId: string): AbstractControl {
-    let controlValue = userId;
+    let isChecked = true;
     if (this.isEditing && !this.expense?.sharedBy.includes(userId)) {
-      controlValue = '';
+      isChecked = false;
     }
-    return this.fb.control(controlValue);
+    return this.fb.control(isChecked);
   }
 
-  onSubmit(expenseForm: ExpenseForm, formDirective: FormGroupDirective) {
-    const sharedBy = expenseForm.sharedBy.join('').split('');
+  onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
+    const selectedUserIds = this.users()
+      .filter((_, index) => expenseForm.sharedBy[index])
+      .map((user) => user.id);
+
     const originalCost = expenseForm.cost;
-    const costPerPerson = originalCost / sharedBy.length;
+    const costPerPerson = originalCost / selectedUserIds.length;
 
     const expense: Expense = {
       id: this.isEditing ? this.expense!.id : '',
@@ -144,7 +149,7 @@ export class AddExpenseComponent implements OnInit {
       date: expenseForm.date.toDateString(),
       paidBy: expenseForm.name,
       typeId: expenseForm.type,
-      sharedBy: sharedBy,
+      sharedBy: selectedUserIds,
       settleBy: [],
     };
 
@@ -162,16 +167,6 @@ export class AddExpenseComponent implements OnInit {
       date: this.expense?.date ? new Date(this.expense?.date) : new Date(),
       type: this.expense?.typeId,
     });
-  }
-
-  onCheckboxChange(e: MatCheckboxChange) {
-    const interests: FormArray = this.expenseForm.get('sharedBy') as FormArray;
-    if (e.checked) {
-      interests.push(new FormControl(e.source.value));
-    } else {
-      const i = interests.controls.findIndex((x) => x.value === e.source.value);
-      interests.removeAt(i);
-    }
   }
 
   private addExpense(expense: Expense): void {

@@ -69,14 +69,10 @@
       </mat-form-field>
     </div>
 
-    <div class="col-12">
+    <div class="col-12" formArrayName="sharedBy">
       <div class="mb-2" i18n>Quien participa:</div>
       @for (user of users(); track user; let i = $index) {
-        <mat-checkbox
-          [value]="user.id"
-          (change)="onCheckboxChange($event)"
-          [checked]="!expense || expense.sharedBy.includes(user.id)"
-        >
+        <mat-checkbox [formControlName]="i">
           {{ user.name }}
         </mat-checkbox>
       }
