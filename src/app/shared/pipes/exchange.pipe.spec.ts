@@ -1,10 +1,22 @@
 import { ExchangePipe } from './exchange.pipe';
+import { TestBed } from '@angular/core/testing';
 import { CurrencyService } from '@shared/services';
 
 describe('ExchangePipe', () => {
-  it('create an instance', () => {
+  let pipe: ExchangePipe;
+
+  beforeEach(() => {
     const currencyServiceSpy = {} as CurrencyService;
-    const pipe = new ExchangePipe(currencyServiceSpy);
+    TestBed.configureTestingModule({
+      providers: [
+        ExchangePipe,
+        { provide: CurrencyService, useValue: currencyServiceSpy },
+      ],
+    });
+    pipe = TestBed.inject(ExchangePipe);
+  });
+
+  it('create an instance', () => {
     expect(pipe).toBeTruthy();
   });
 });

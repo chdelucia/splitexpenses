@@ -15,6 +15,9 @@ import { UsersService } from '@users/shared/users.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { LoggerService } from '@core/services/logger.service';
 import { Expense } from '@shared/models';
+import { selectEnrichedExpensesOrderByDateDesc } from '@state/expenses/expenses.selectors';
+import { selectUserCount } from '@state/user/user.selectors';
+import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -55,11 +58,10 @@ export class ExpensesListComponent implements OnInit {
   private loggerService = inject(LoggerService);
 
   term = '';
+  private store = inject(Store);
   currency = this.currencyService.getCurrencySettings();
-  expenses = toSignal(
-    this.expensesService.getEnrichedExpensesOrderByDatesDesc(),
-  );
-  userCount = toSignal(this.usersService.getNumberOfUser());
+  expenses = this.store.selectSignal(selectEnrichedExpensesOrderByDateDesc);
+  userCount = this.store.selectSignal(selectUserCount);
   pageSize = 5;
   pageIndex = 0;
 

@@ -4,7 +4,6 @@
 @include mat.elevation-classes();
 @include mat.app-background();
 
-
 $primary-color: #2e4f4f;
 $accent-color: #0e8388;
 $secondary-color: #cbe4de;
@@ -38,8 +37,11 @@ main.container-fluid {
   margin-top: 2.5em;
   border-radius: 6px;
   min-height: 70vh;
-  --tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 rgba(0,0,0,0)),var(--tw-ring-shadow, 0 0 rgba(0,0,0,0)),var(--tw-shadow);
+  --tw-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    var(--tw-ring-offset-shadow, 0 0 rgba(0, 0, 0, 0)),
+    var(--tw-ring-shadow, 0 0 rgba(0, 0, 0, 0)), var(--tw-shadow);
 }
 
 button.btn-primary {

@@ -1,6 +1,7 @@
 <main class="mb-5 container">
   <h2 class="my-4 text-center" i18n>Historial</h2>
-  @if (expenses(); as expenses) {
+  @let currentExpenses = expenses();
+  @if (currentExpenses) {
     <section class="filters row">
       <div class="col-12 col-md-5 col-xl-6">
         <mat-form-field appearance="fill" class="w-100">
@@ -12,23 +13,23 @@
       <div class="col-12 col-md-7 col-xl-6">
         <mat-paginator
           (page)="handlePageEvent($event)"
-          [length]="expenses.length"
+          [length]="currentExpenses.length"
           [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions | wrapFn: expenses"
+          [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
           aria-label="Select page"
         >
         </mat-paginator>
       </div>
     </section>
     @for (
-      expense of expenses.slice(
+      expense of currentExpenses.slice(
         pageIndex * pageSize,
         (pageIndex + 1) * pageSize
       ) | filter: term;
       track expense;
       let i = $index
     ) {
-      @if (i === 0 || expenses[i - 1].date !== expense.date) {
+      @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
         <div class="date-title p-2">
           {{ expense.date | date: "fullDate" }}
         </div>

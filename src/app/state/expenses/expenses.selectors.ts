@@ -56,6 +56,51 @@ export const selectExpensesOrderByDateDesc = createSelector(
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
 );
 
+export const selectUserTotalBalance = (userId: string) =>
+  createSelector(selectIterableExpenses, (expenses) => {
+    let total = 0;
+    expenses.forEach((expense) => {
+      const paidByme = userId === expense.paidBy;
+      const Iparticipated = expense.sharedBy.includes(userId);
+      if (paidByme) {
+        total += expense.originalCost;
+      }
+      if (Iparticipated) {
+        total -= expense.cost;
+      }
+    });
+    return total;
+  });
+
+export const selectTotalPaidByUserToOthers = (userId: string) =>
+  createSelector(selectIterableExpenses, (expenses) => {
+    let total = 0;
+    expenses.forEach((expense) => {
+      const paidByme = userId === expense.paidBy;
+      const Iparticipated = expense.sharedBy.includes(userId);
+      if (paidByme) {
+        total += expense.originalCost;
+        if (Iparticipated) {
+          total -= expense.cost;
+        }
+      }
+    });
+    return total;
+  });
+
+export const selectTotalCost = (userId?: string) =>
+  createSelector(selectIterableExpenses, (expenses) => {
+    let total = 0;
+    expenses.forEach((expense) => {
+      if (!userId) {
+        total += expense.originalCost;
+      } else if (expense.sharedBy.includes(userId)) {
+        total += expense.cost;
+      }
+    });
+    return total;
+  });
+
 export const selectEnrichedExpenses = createSelector(
   selectIterableExpenses,
   selectUsers,

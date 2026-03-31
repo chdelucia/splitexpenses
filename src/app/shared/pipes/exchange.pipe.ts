@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { CurrencyService } from '@shared/services';
 
 @Pipe({
@@ -6,7 +6,8 @@ import { CurrencyService } from '@shared/services';
   standalone: true,
 })
 export class ExchangePipe implements PipeTransform {
-  constructor(private currencyService: CurrencyService) {}
+  private currencyService = inject(CurrencyService);
+
   transform(value: number = 0): number {
     const exchangeCost =
       value * this.currencyService.getCurrencySettings().exchangeValue;

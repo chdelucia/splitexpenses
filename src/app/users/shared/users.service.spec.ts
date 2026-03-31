@@ -4,6 +4,7 @@ import { LocalstorageService } from '@shared/services/localstorage/localstorage.
 import { Store } from '@ngrx/store';
 import { addUser, updateUser, addUsers } from '@state/user/user.actions';
 import { of, BehaviorSubject } from 'rxjs';
+import { signal } from '@angular/core';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -22,6 +23,7 @@ describe('UsersService', () => {
 
     const storeSpyInternal = {
       select: jest.fn().mockReturnValue(usersSubject.asObservable()),
+      selectSignal: jest.fn().mockReturnValue(signal({})),
       dispatch: jest.fn(),
     } as unknown as jest.Mocked<Store>;
 
@@ -104,7 +106,7 @@ describe('UsersService', () => {
         '0': { id: '0', name: 'Bob', email: '', image: '' },
       };
 
-      usersSubject.next(users);
+      jest.spyOn(service, 'users').mockReturnValue(users);
 
       await service.addUser(user);
 
