@@ -1,43 +1,104 @@
-.persoanlDebts {
-  border: 1px solid #1f2128;
-  border-radius: 7px;
-  background: white;
-  transition: all 1s ease;
-  .title {
-    font-size: 1.5rem;
-    padding-bottom: 0.6em;
-    margin-bottom: 0.6em;
+$primary-color: #6366f1;
+$accent-color: #10b981;
+$danger-color: #ef4444;
+$success-color: #10b981;
+$text-slate: #334155;
+$bg-slate: #f1f5f9;
+
+.debt-card {
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 16px;
+  background-color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
   }
-  .text {
-    font-size: small;
+
+  &.owing {
+    border-left: 4px solid $danger-color;
   }
-  .mainExchange {
-    font-size: medium;
-  }
-  .subtitle {
-    font-size: 1rem;
-  }
-  &:hover,
-  &:active {
-    //transform: scale(1.01);
-    border: 1px solid;
-    cursor: pointer;
-    box-shadow: 2px 2px black;
+
+  &.balanced {
+    border-left: 4px solid $success-color;
   }
 }
 
-.totalIowe {
-  color: #d84315;
-  font-weight: bolder;
-}
-.order-2 .totalIowe {
-  color: initial;
-  font-weight: initial;
-}
-.list-group-item {
+.user-avatar-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: $primary-color;
+  color: white;
   display: flex;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
-small {
-  display: block;
+
+.user-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: $text-slate;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.bg-danger-soft {
+    background-color: #fef2f2;
+    color: $danger-color;
+  }
+
+  &.bg-success-soft {
+    background-color: #f0fdf4;
+    color: $success-color;
+  }
+}
+
+.total-amount {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.amount-exchange {
+  font-weight: 500;
+}
+
+.detailed-debts {
+  border-top: 1px dashed #e2e8f0 !important;
+}
+
+.debt-row {
+  border-bottom: 1px solid #f8fafc;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.large-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #cbd5e1;
+}
+
+@media (max-width: 576px) {
+  .user-name {
+    font-size: 1rem;
+  }
+  .total-amount {
+    font-size: 1.1rem;
+  }
 }

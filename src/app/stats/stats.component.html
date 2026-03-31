@@ -1,63 +1,103 @@
-<main class="container py-2 mb-8 flex">
-  <div class="d-flex flex-row align-items-center justify-content-center">
-    <div class="me-2">
-      <h2 class="my-4 text-center" i18n>Estadisticas</h2>
-    </div>
-    <div>
-      <select
-        name="name"
-        #user
-        class="form-select"
-        (change)="change(user.value)"
-      >
-        <option value="0" selected i18n>Grupo</option>
-        @for (user of usersHTML(); track user) {
-          <option [value]="user.id">
-            {{ user.name }}
-          </option>
-        }
-      </select>
+<main class="container-fluid py-3 mb-5">
+  <div
+    class="d-flex flex-wrap justify-content-between align-items-center mb-5 gap-3"
+  >
+    <div class="d-flex align-items-center gap-3">
+      <h2 class="m-0" i18n>Panel de Estadísticas</h2>
+      <div class="vr mx-2"></div>
+      <div class="user-selector-wrapper">
+        <select
+          name="name"
+          #user
+          class="form-select border-0 shadow-sm rounded-pill px-4 py-2"
+          (change)="change(user.value)"
+        >
+          <option value="0" selected i18n>📊 Todos los usuarios</option>
+          @for (user of usersHTML(); track user.id) {
+            <option [value]="user.id">👤 {{ user.name }}</option>
+          }
+        </select>
+      </div>
     </div>
   </div>
 
-  <section class="mb-3 mt-2">
-    <h6 i18n>
-      Gasto Total: {{ todayCost() | number: ".0-2" }}
-      {{ currency.currencySymbol }}
-      @if (currency.active) {
-        <span class="mainExchange">
-          ( {{ todayCost() | exchange | number: ".0-2" }}
-          {{ currency.currencyExchangeSymbol }} )
-        </span>
-      }
-    </h6>
+  <!-- KPI Cards -->
+  <section class="row g-4 mb-5">
+    <div class="col-12 col-md-6">
+      <div
+        class="app-card kpi-card h-100 d-flex flex-column justify-content-center p-4"
+      >
+        <div class="d-flex align-items-center mb-2">
+          <div class="kpi-icon me-3 bg-primary-soft text-primary">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <span class="text-muted fw-medium" i18n>Gasto Total</span>
+        </div>
+        <div class="kpi-value d-flex align-items-baseline gap-2">
+          <h1 class="display-5 fw-bold m-0 text-primary">
+            {{ todayCost() | number: ".0-2" }}
+          </h1>
+          <span class="fs-4 text-muted">{{ currency.currencySymbol }}</span>
+        </div>
+        @if (currency.active) {
+          <div class="kpi-exchange mt-2 small text-muted font-monospace">
+            ≈ {{ todayCost() | exchange | number: ".0-2" }}
+            {{ currency.currencyExchangeSymbol }}
+          </div>
+        }
+      </div>
+    </div>
 
-    <div i18n>
-      Gasto por dia: {{ meanCost() | number: ".0-2" }}
-      {{ currency.currencySymbol }}
-      @if (currency.active) {
-        <span class="mainExchange">
-          ( {{ meanCost() | exchange | number: ".0-2" }}
-          {{ currency.currencyExchangeSymbol }} )
-        </span>
-      }
+    <div class="col-12 col-md-6">
+      <div
+        class="app-card kpi-card h-100 d-flex flex-column justify-content-center p-4"
+      >
+        <div class="d-flex align-items-center mb-2">
+          <div class="kpi-icon me-3 bg-accent-soft text-accent">
+            <mat-icon>trending_up</mat-icon>
+          </div>
+          <span class="text-muted fw-medium" i18n>Media Diaria</span>
+        </div>
+        <div class="kpi-value d-flex align-items-baseline gap-2">
+          <h1 class="display-5 fw-bold m-0 text-accent">
+            {{ meanCost() | number: ".0-2" }}
+          </h1>
+          <span class="fs-4 text-muted">{{ currency.currencySymbol }}</span>
+        </div>
+        @if (currency.active) {
+          <div class="kpi-exchange mt-2 small text-muted font-monospace">
+            ≈ {{ meanCost() | exchange | number: ".0-2" }}
+            {{ currency.currencyExchangeSymbol }}
+          </div>
+        }
+      </div>
     </div>
   </section>
 
-  <section class="d-flex flex-wrap g-4">
+  <!-- Graphs -->
+  <section class="row g-4">
     @if (dailyData(); as daily) {
-      <app-summarygraph
-        bytype="ByDay"
-        [data]="daily"
-        class="col-11 col-xxl-6"
-      ></app-summarygraph>
+      <div class="col-12 col-xl-7">
+        <div class="app-card h-100 p-4">
+          <h4 class="mb-4 d-flex align-items-center">
+            <mat-icon class="me-2 text-primary">calendar_today</mat-icon>
+            <span i18n>Gastos por Día</span>
+          </h4>
+          <app-summarygraph bytype="ByDay" [data]="daily"></app-summarygraph>
+        </div>
+      </div>
     }
+
     @if (typeData(); as type) {
-      <app-summarygraph
-        bytype="ByType"
-        [data]="type"
-        class="col-11 col-xxl-6"
-      ></app-summarygraph>
+      <div class="col-12 col-xl-5">
+        <div class="app-card h-100 p-4">
+          <h4 class="mb-4 d-flex align-items-center">
+            <mat-icon class="me-2 text-primary">pie_chart</mat-icon>
+            <span i18n>Gastos por Categoría</span>
+          </h4>
+          <app-summarygraph bytype="ByType" [data]="type"></app-summarygraph>
+        </div>
+      </div>
     }
   </section>
 </main>

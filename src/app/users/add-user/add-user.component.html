@@ -1,27 +1,55 @@
-<h2 class="my-4 text-center" i18n>Administración de usuarios</h2>
+<div class="row justify-content-center">
+  <div class="col-12 col-xl-10">
+    <div class="app-card p-4 p-md-5">
+      <div class="text-center mb-5">
+        <h2 class="m-0" i18n>👤 Gestión de Usuarios</h2>
+        <p class="text-muted mt-2 small" i18n>
+          Añade a las personas con las que compartes gastos.
+        </p>
+      </div>
 
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <div class="mb-2 row g-4 users">
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label i18n>Nombre usuario</mat-label>
-        <input matInput formControlName="user" />
-      </mat-form-field>
-    </div>
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label i18n>whatsApp number (optional)</mat-label>
-        <input matInput formControlName="phone" type="number" />
-      </mat-form-field>
+      <form
+        [formGroup]="userForm"
+        (ngSubmit)="onSubmit()"
+        class="row g-4 align-items-end"
+      >
+        <div class="col-12 col-md-5">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label i18n>Nombre del usuario</mat-label>
+            <input
+              matInput
+              formControlName="user"
+              placeholder="Ej: Juan Pérez"
+              required
+            />
+            <mat-icon matPrefix class="me-2 text-primary">person_add</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label i18n>WhatsApp (opcional)</mat-label>
+            <input
+              matInput
+              formControlName="phone"
+              type="number"
+              placeholder="Ej: 34600000000"
+            />
+            <mat-icon matPrefix class="me-2 text-primary">whatsapp</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-3">
+          <button
+            [disabled]="!userForm.valid"
+            class="w-100 btn btn-primary py-3 d-flex align-items-center justify-content-center gap-2"
+            type="submit"
+          >
+            <mat-icon>person_add_alt</mat-icon>
+            <span class="fw-bold" i18n>Añadir</span>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-
-  <button
-    [disabled]="!userForm.valid"
-    class="input-group btn mb-5 btn-primary p-2"
-    type="submit"
-    i18n
-  >
-    Añadir Usuario
-  </button>
-</form>
+</div>

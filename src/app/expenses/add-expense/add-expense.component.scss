@@ -1,5 +1,52 @@
+$primary-color: #6366f1;
+$bg-light: #f8fafc;
+$text-slate: #334155;
+
+.app-card {
+  border-radius: 20px;
+}
+
+.participants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: #f1f5f9;
+  border-radius: 12px;
+}
+
+.participant-item {
+  padding: 0.4rem 0.8rem;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+mat-radio-button {
+  padding: 0.6rem 0.8rem;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+
+  &.mat-mdc-radio-checked {
+    border-color: $primary-color;
+    background-color: rgba($primary-color, 0.05);
+  }
+}
+
 .currency {
-  font-size: 21px;
-  padding-right: 16px;
-  color: #707070;
+  font-weight: 700;
+  color: $primary-color;
+}
+
+@media (max-width: 576px) {
+  .participants-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .app-card {
+    padding: 1.5rem !important;
+  }
 }

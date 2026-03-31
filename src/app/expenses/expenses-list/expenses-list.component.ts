@@ -61,6 +61,16 @@ export class ExpensesListComponent implements OnInit {
   private store = inject(Store);
   currency = this.currencyService.getCurrencySettings();
   expenses = this.store.selectSignal(selectEnrichedExpensesOrderByDateDesc);
+  categoryIcons: Record<string, string> = {
+    '0': 'sports_esports',
+    '1': 'restaurant',
+    '2': 'directions_car',
+    '3': 'local_bar',
+    '4': 'museum',
+    '5': 'hotel',
+    '6': 'card_giftcard',
+    '7': 'more_horiz',
+  };
   userCount = this.store.selectSignal(selectUserCount);
   pageSize = 5;
   pageIndex = 0;

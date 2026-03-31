@@ -5,10 +5,14 @@
   }
 }
 
+$nav-bg: #1e293b; // Deep Slate
+$primary-color: #6366f1;
+
 svg {
   width: 21px;
   height: 21px;
   color: white;
+  transition: transform 0.2s ease;
   &:focus {
     outline: 0;
   }
@@ -16,59 +20,78 @@ svg {
     cursor: pointer;
   }
 }
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1900;
-}
 
 .nav-link {
-  color: white;
-  font-family: "Arvo", serif;
+  color: #94a3b8; // Slate 400
   font-family: "Alata", sans-serif;
-  &.active,
-  &:hover {
-    background-color: #e76f51;
-    background-color: #f4a261;
-    background-color: #0e8388;
-    //border-bottom: 1px solid #1391a5 ;
-    border-radius: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  span {
+    font-size: 0.95rem;
   }
+
+  &.active {
+    background-color: rgba($primary-color, 0.15);
+    color: #ffffff;
+    svg {
+      color: $primary-color;
+      transform: scale(1.1);
+    }
+  }
+
+  &:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    svg {
+      color: #ffffff;
+    }
+  }
+
   &.disabled {
-    color: lightgrey;
+    color: #475569;
     opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 
 .splitty-logo {
-  font-family: "Amita", cursive;
-  font-weight: bold;
-  letter-spacing: 2px;
   font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  font-size: 1.25rem;
 }
 
 @media (min-width: 768px) {
   svg {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav-link {
+    margin: 0.4rem 0.75rem;
+    padding: 0.8rem 1rem;
   }
 }
 
 @media (min-width: 992px) {
   svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-
-  .nav-link {
-    &.active,
-    &:hover {
-      border-radius: 0.25rem;
-    }
+    width: 1.4rem;
+    height: 1.4rem;
   }
 }
 
 .img-fluid {
-  max-width: 38px;
+  max-width: 32px;
+  filter: drop-shadow(0 0 8px rgba($primary-color, 0.3));
+}
+
+hr {
+  opacity: 0.1;
+  margin: 1.5rem 0;
 }

@@ -9,15 +9,16 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  background-color: #1f2128;
-  background-color: #2c3333;
+  background-color: #1e293b; // Deep Slate
   z-index: 1020;
+  box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 @media (min-width: 768px) {
   .nav {
     top: 0;
     z-index: 1020;
+    box-shadow: 4px 0 6px -1px rgb(0 0 0 / 0.05);
   }
 }
 

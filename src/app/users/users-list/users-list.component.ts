@@ -27,7 +27,7 @@ export class UsersListComponent {
 
   users = toSignal(this.userService.getIterableUsers());
 
-  edit(data: HTMLTableCellElement, user: User, fieldToEdit: 'phone' | 'name') {
+  edit(data: HTMLElement, user: User, fieldToEdit: 'phone' | 'name') {
     const oldValue = user[fieldToEdit];
     const newValue = data.innerText.trim();
 

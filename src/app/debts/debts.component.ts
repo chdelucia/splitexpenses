@@ -8,13 +8,20 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 import { DebtTracingComponent } from './debt-tracing/debt-tracing.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-debts',
   templateUrl: './debts.component.html',
   styleUrls: ['./debts.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, ExchangePipe, DebtTracingComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ExchangePipe,
+    DebtTracingComponent,
+    MatIconModule,
+  ],
 })
 export class DebtsComponent {
   private debtsService = inject(DebtsService);
