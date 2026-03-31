@@ -7,13 +7,23 @@ import { UsersService } from '@users/shared/users.service';
 import { CommonModule } from '@angular/common';
 import { SummarygraphComponent } from '@shared/components';
 import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss'],
   standalone: true,
-  imports: [CommonModule, SummarygraphComponent, ExchangePipe],
+  imports: [
+    CommonModule,
+    SummarygraphComponent,
+    ExchangePipe,
+    MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
+  ],
 })
 export class StatsComponent {
   private expensesService = inject(ExpensesService);

@@ -1,27 +1,28 @@
-<main class="container mb-5">
+<main class="container mb-5 form-container">
   <h2 class="my-4 text-center" i18n>
     {{ isEditing ? "Editar gasto" : "Añadir gastos" }}
   </h2>
 
   <form
-    class="row g-2"
+    class="row g-4"
     [formGroup]="expenseForm"
     (ngSubmit)="onSubmit(expenseForm.value, formDirective)"
     #formDirective="ngForm"
   >
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label i18n>Pagado por:</mat-label>
         <mat-select formControlName="name" required>
           @for (user of users(); track user) {
             <mat-option [value]="user.id">{{ user.name }}</mat-option>
           }
         </mat-select>
+        <mat-icon matPrefix class="me-2">person</mat-icon>
       </mat-form-field>
     </div>
 
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label i18n>Precio</mat-label>
         <input
           matInput
@@ -31,7 +32,8 @@
           step="any"
           required
         />
-        <span matSuffix class="currency">{{ currency.currencySymbol }}</span>
+        <mat-icon matPrefix class="me-2">payments</mat-icon>
+        <span matSuffix class="currency-label">{{ currency.currencySymbol }}</span>
         @if (currency.active && expenseForm.controls["cost"].value) {
           <mat-hint align="end" i18n>
             Equivale a
@@ -42,21 +44,22 @@
       </mat-form-field>
     </div>
 
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label i18n>Descripción</mat-label>
         <input
           matInput
           formControlName="title"
           type="text"
-          placeholder="Description"
+          placeholder="Ej: Cena en el centro"
           required
         />
+        <mat-icon matPrefix class="me-2">description</mat-icon>
       </mat-form-field>
     </div>
 
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="w-100">
         <mat-label i18n>Fecha</mat-label>
         <input
           matInput
@@ -66,40 +69,53 @@
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
+        <mat-icon matPrefix class="me-2">calendar_today</mat-icon>
       </mat-form-field>
     </div>
 
-    <div class="col-12" formArrayName="sharedBy">
-      <div class="mb-2" i18n>Quien participa:</div>
-      @for (user of users(); track user; let i = $index) {
-        <mat-checkbox [formControlName]="i">
-          {{ user.name }}
-        </mat-checkbox>
-      }
+    <div class="col-12 section-container">
+      <div class="section-title mb-3">
+        <mat-icon class="me-2">group</mat-icon>
+        <span i18n>¿Quién participa?</span>
+      </div>
+      <div class="participants-grid" formArrayName="sharedBy">
+        @for (user of users(); track user; let i = $index) {
+          <div class="participant-item">
+            <mat-checkbox [formControlName]="i" color="primary">
+              {{ user.name }}
+            </mat-checkbox>
+          </div>
+        }
+      </div>
     </div>
 
-    <div class="col-12">
-      <div class="mb-2" i18n>Tipo de gasto:</div>
-      <mat-radio-group formControlName="type">
-        <div class="row">
+    <div class="col-12 section-container">
+      <div class="section-title mb-3">
+        <mat-icon class="me-2">category</mat-icon>
+        <span i18n>Tipo de gasto</span>
+      </div>
+      <mat-radio-group formControlName="type" class="w-100">
+        <div class="row g-3">
           @for (type of expenseTypes; track type) {
-            <div class="col-md-3 col-xl-2">
-              <mat-radio-button [value]="type.id">{{
-                type.name
-              }}</mat-radio-button>
+            <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+              <mat-radio-button [value]="type.id" color="primary" class="type-radio">
+                {{ type.name }}
+              </mat-radio-button>
             </div>
           }
         </div>
       </mat-radio-group>
     </div>
 
-    <button
-      type="submit"
-      [disabled]="!expenseForm.valid"
-      class="input-group btn my-4 btn btn-primary p-2"
-      i18n
-    >
-      {{ isEditing ? "Editar gasto" : "Añadir gastos" }}
-    </button>
+    <div class="col-12 mt-5 text-center">
+      <button
+        type="submit"
+        [disabled]="!expenseForm.valid"
+        class="btn btn-primary btn-lg px-5 w-100 w-md-auto"
+        i18n
+      >
+        {{ isEditing ? "Guardar cambios" : "Añadir gasto" }}
+      </button>
+    </div>
   </form>
 </main>

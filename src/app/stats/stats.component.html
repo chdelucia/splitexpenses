@@ -1,63 +1,86 @@
-<main class="container py-2 mb-8 flex">
-  <div class="d-flex flex-row align-items-center justify-content-center">
-    <div class="me-2">
-      <h2 class="my-4 text-center" i18n>Estadisticas</h2>
+<main class="container py-4 mb-8">
+  <div class="header-section d-flex flex-column flex-md-row align-items-center justify-content-between mb-5">
+    <div class="title-group d-flex align-items-center">
+      <mat-icon class="header-icon me-3">analytics</mat-icon>
+      <h2 class="m-0" i18n>Estadísticas</h2>
     </div>
-    <div>
-      <select
-        name="name"
-        #user
-        class="form-select"
-        (change)="change(user.value)"
-      >
-        <option value="0" selected i18n>Grupo</option>
-        @for (user of usersHTML(); track user) {
-          <option [value]="user.id">
-            {{ user.name }}
-          </option>
-        }
-      </select>
+
+    <div class="user-selector mt-3 mt-md-0">
+      <mat-form-field appearance="outline">
+        <mat-label i18n>Ver por</mat-label>
+        <mat-select #user (selectionChange)="change(user.value)" value="0">
+          <mat-option value="0" i18n>Grupo</mat-option>
+          @for (user of usersHTML(); track user) {
+            <mat-option [value]="user.id">
+              {{ user.name }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-icon matPrefix class="me-2">person</mat-icon>
+      </mat-form-field>
     </div>
   </div>
 
-  <section class="mb-3 mt-2">
-    <h6 i18n>
-      Gasto Total: {{ todayCost() | number: ".0-2" }}
-      {{ currency.currencySymbol }}
-      @if (currency.active) {
-        <span class="mainExchange">
-          ( {{ todayCost() | exchange | number: ".0-2" }}
-          {{ currency.currencyExchangeSymbol }} )
-        </span>
-      }
-    </h6>
+  <section class="stats-overview row g-4 mb-5">
+    <div class="col-12 col-md-6">
+      <div class="metric-card total-card">
+        <div class="metric-icon">
+          <mat-icon>payments</mat-icon>
+        </div>
+        <div class="metric-content">
+          <div class="metric-label" i18n>Gasto Total</div>
+          <div class="metric-value">
+            {{ todayCost() | number: ".0-2" }} {{ currency.currencySymbol }}
+          </div>
+          @if (currency.active) {
+            <div class="metric-exchange">
+              ≈ {{ todayCost() | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
 
-    <div i18n>
-      Gasto por dia: {{ meanCost() | number: ".0-2" }}
-      {{ currency.currencySymbol }}
-      @if (currency.active) {
-        <span class="mainExchange">
-          ( {{ meanCost() | exchange | number: ".0-2" }}
-          {{ currency.currencyExchangeSymbol }} )
-        </span>
-      }
+    <div class="col-12 col-md-6">
+      <div class="metric-card average-card">
+        <div class="metric-icon">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+        <div class="metric-content">
+          <div class="metric-label" i18n>Gasto Diario</div>
+          <div class="metric-value">
+            {{ meanCost() | number: ".0-2" }} {{ currency.currencySymbol }}
+          </div>
+          @if (currency.active) {
+            <div class="metric-exchange">
+              ≈ {{ meanCost() | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+            </div>
+          }
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="d-flex flex-wrap g-4">
+  <section class="charts-section row g-4">
     @if (dailyData(); as daily) {
-      <app-summarygraph
-        bytype="ByDay"
-        [data]="daily"
-        class="col-11 col-xxl-6"
-      ></app-summarygraph>
+      <div class="col-12 col-xl-6">
+        <div class="chart-container">
+          <app-summarygraph
+            bytype="ByDay"
+            [data]="daily"
+          ></app-summarygraph>
+        </div>
+      </div>
     }
     @if (typeData(); as type) {
-      <app-summarygraph
-        bytype="ByType"
-        [data]="type"
-        class="col-11 col-xxl-6"
-      ></app-summarygraph>
+      <div class="col-12 col-xl-6">
+        <div class="chart-container">
+          <app-summarygraph
+            bytype="ByType"
+            [data]="type"
+          ></app-summarygraph>
+        </div>
+      </div>
     }
   </section>
 </main>

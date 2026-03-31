@@ -63,6 +63,17 @@ export class ExpensesListComponent implements OnInit {
   pageSize = 5;
   pageIndex = 0;
 
+  typeIcons: Record<string, string> = {
+    '0': 'sports_esports', // Hobbies
+    '1': 'restaurant', // Meals
+    '2': 'directions_car', // Transport
+    '3': 'local_bar', // Drinks
+    '4': 'museum', // Culture
+    '5': 'hotel', // Accommodation
+    '6': 'card_giftcard', // Souvenirs
+    '7': 'more_horiz', // Other
+  };
+
   private toastmsg = {
     OK: $localize`Gasto eliminado correctamente`,
     KO: $localize`Error fatal`,
