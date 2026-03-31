@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { calcNextID } from '@shared/utils';
 import { Store } from '@ngrx/store';
 import {
@@ -22,14 +22,13 @@ import { User } from '@shared/models';
   providedIn: 'root',
 })
 export class UsersService {
-  users$: Observable<Record<string, User>> = this.store.select(selectUsers);
-  iterableUsers$: Observable<Array<User>> =
-    this.store.select(selectIterableUsers);
+  private storageService = inject(LocalstorageService);
+  private store = inject(Store);
 
-  constructor(
-    private storageService: LocalstorageService,
-    private store: Store,
-  ) {
+  users = this.store.selectSignal(selectUsers);
+  iterableUsers = this.store.selectSignal(selectIterableUsers);
+
+  constructor() {
     const users = this.loadUsersFromLocalStorage();
     this.store.dispatch(addUsers({ users: users }));
   }
@@ -56,7 +55,7 @@ export class UsersService {
   }
 
   async addUser(user: User): Promise<void> {
-    const users = await firstValueFrom(this.users$);
+    const users = this.users();
     user.id = calcNextID(users);
     this.store.dispatch(addUser({ user }));
     this.saveUsersIntoLocalStorage();
@@ -74,7 +73,7 @@ export class UsersService {
 
   //TODO import module to auto sync store and localstore
   async saveUsersIntoLocalStorage(): Promise<void> {
-    const users = await firstValueFrom(this.users$);
+    const users = this.users();
     this.storageService.saveDataToLocalStorage(users);
   }
 

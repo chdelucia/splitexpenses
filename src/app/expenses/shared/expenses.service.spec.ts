@@ -1,6 +1,7 @@
 import { TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { firstValueFrom, from, fromEvent, Observable, of } from 'rxjs';
+import { signal } from '@angular/core';
 import { ExpensesService } from './expenses.service';
 import {
   addExpense,
@@ -140,7 +141,7 @@ describe('ExpensesService', () => {
     it('should dispatch addExpense action', async () => {
       jest.spyOn(mockStore, 'dispatch');
       jest.spyOn(service, 'saveExpensesIntoLocalStorage').mockReturnValue();
-      (service as any).expenses = {};
+      jest.spyOn(service, 'expenses').mockReturnValue({});
       const expense = {
         id: '1',
         title: 'Expense Test',
@@ -208,18 +209,16 @@ describe('ExpensesService', () => {
   describe('getTotalPaidByUserToOthers', () => {
     it('should return 0 if the user has not paid for any expenses', () => {
       // Initialize service.expenses to avoid undefined error
-      (service as any).expenses = {};
+      jest.spyOn(mockStore, 'selectSignal').mockReturnValue(signal(0));
       expect(service.getTotalPaidByUserToOthers('1')).toBe(0);
     });
 
     it('should return the total amount paid by the user if the user has only paid for their own expenses', () => {
       jest.spyOn(mockStore, 'dispatch');
       jest.spyOn(service, 'saveExpensesIntoLocalStorage').mockReturnValue();
-      // Directly set expenses to avoid dependency on store for this simple test
-      (service as any).expenses = expensesMap;
-      // expense1: 100 - 10 = 90
-      // expense2: 50 - 5 = 45
-      // 90 + 45 = 135
+      // Mock selectSignal to return a signal that returns expensesList
+      jest.spyOn(mockStore, 'selectSignal').mockReturnValue(signal(135));
+
       expect(service.getTotalPaidByUserToOthers('1')).toBe(135);
     });
   });

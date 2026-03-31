@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { LoggerService } from '@core/services/logger.service';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('ExpensesListComponent', () => {
   let component: ExpensesListComponent;
@@ -43,6 +44,12 @@ describe('ExpensesListComponent', () => {
         { provide: LoggerService, useValue: loggerServiceSpy },
         { provide: MatSnackBar, useValue: snackBarSpy },
         { provide: Router, useValue: routerSpy },
+        provideMockStore({
+          initialState: {
+            expenses: { expenses: {} },
+            users: { users: {} },
+          },
+        }),
       ],
     }).compileComponents();
 
