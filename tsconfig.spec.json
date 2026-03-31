@@ -4,8 +4,8 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "outDir": "./out-tsc/spec",
     "types": ["jest", "node"]
   },
