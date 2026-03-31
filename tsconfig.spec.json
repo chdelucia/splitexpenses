@@ -5,10 +5,10 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "module": "esnext",
+    "moduleResolution": "bundler",
     "outDir": "./out-tsc/spec",
     "types": ["jest", "node"]
   },
   "files": ["src/polyfills.ts"],
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
-
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }

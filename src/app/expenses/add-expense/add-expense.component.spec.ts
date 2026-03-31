@@ -1,24 +1,46 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { AddExpenseComponent } from './add-expense.component';
-
 import { provideMockStore } from '@ngrx/store/testing';
+import {
+  provideRouter,
+  ActivatedRoute,
+  convertToParamMap,
+} from '@angular/router';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 describe('AddExpenseComponent', () => {
   let component: AddExpenseComponent;
   let fixture: ComponentFixture<AddExpenseComponent>;
   const initialState = {
-    expenses: [
-      { id: '1', title: 'Expense 1', cost: 10 },
-      { id: '2', title: 'Expense 2', cost: 20 },
-    ],
+    expenses: {
+      expenses: {},
+    },
+    users: {
+      users: {},
+    },
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, AddExpenseComponent],
-      providers: [provideMockStore({ initialState })],
+      imports: [ReactiveFormsModule, AddExpenseComponent, NoopAnimationsModule],
+      providers: [
+        provideMockStore({ initialState }),
+        provideRouter([]),
+        provideNativeDateAdapter(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+            snapshot: {
+              params: {},
+              paramMap: convertToParamMap({}),
+            },
+          },
+        },
+      ],
     }).compileComponents();
   });
 

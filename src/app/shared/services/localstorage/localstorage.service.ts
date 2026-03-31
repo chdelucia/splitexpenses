@@ -49,26 +49,26 @@ export class LocalstorageService extends StorageService {
     const obj = {
       users: {
         1: {
-          id: "1",
-          name: "You"
+          id: '1',
+          name: 'You',
         },
         2: {
-          id: "2",
-          name: "Friend-1"
-        }
+          id: '2',
+          name: 'Friend-1',
+        },
       },
       expenses: {
         1: {
-            id: "1",
-            title: "Example expense",
-            originalCost: 0,
-            cost: 0,
-            date: new Date().toDateString(),
-            paidBy: "1",
-            typeId: "6",
-            sharedBy: ["1","2"],
-            settleBy: []
-          }
+          id: '1',
+          title: 'Example expense',
+          originalCost: 0,
+          cost: 0,
+          date: new Date().toDateString(),
+          paidBy: '1',
+          typeId: '6',
+          sharedBy: ['1', '2'],
+          settleBy: [],
+        },
       },
       name: environment.localStorageExpenses,
       currency: {

@@ -6,8 +6,18 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
 import { environment } from '@env/environment';
-import { provideRouter, withHashLocation, withComponentInputBinding, withInMemoryScrolling, Routes } from '@angular/router';
-import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  provideRouter,
+  withHashLocation,
+  withComponentInputBinding,
+  withInMemoryScrolling,
+  Routes,
+} from '@angular/router';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
 import { userReducer } from '@state/user/user.reducer';
 import { expensesReducer } from './app/state/expenses/expenses.reducer';
@@ -63,7 +73,12 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes, withHashLocation(), withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })),
+    provideRouter(
+      routes,
+      withHashLocation(),
+      withComponentInputBinding(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+    ),
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,

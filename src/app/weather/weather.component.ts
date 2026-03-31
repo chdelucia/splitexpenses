@@ -16,14 +16,12 @@ export class WeatherComponent {
   weatherSettings = this.weatherService.weatherSettings;
 
   weatherInfo = toSignal(
-    this.weatherService
-      .getWeatheritemsbyCity(this.weatherSettings().city)
-      .pipe(
-        map((result) => {
-          result.main.temp = Math.round(result.main.temp);
-          return result;
-        }),
-      ),
+    this.weatherService.getWeatheritemsbyCity(this.weatherSettings().city).pipe(
+      map((result) => {
+        result.main.temp = Math.round(result.main.temp);
+        return result;
+      }),
+    ),
   );
 
   showWeather = computed(

@@ -29,11 +29,11 @@
               <span
                 class="expense-cost"
                 [class.debt]="!expense.paidBy.includes(user.id)"
-                >
+              >
                 {{
-                calculateExpenseBalance
-                | wrapFn: expense : user.id
-                | number: ".0-2"
+                  calculateExpenseBalance
+                    | wrapFn: expense : user.id
+                    | number: ".0-2"
                 }}
               </span>
             }
@@ -42,9 +42,10 @@
           <td mat-footer-cell *matFooterCellDef>
             @if (
               calcUserTotalBalance
-              | wrapFn: user.id : expenses
-              | number: '.0-2'; as totalBalance
-              ) {
+                | wrapFn: user.id : expenses
+                | number: ".0-2";
+              as totalBalance
+            ) {
               <span class="expense-cost" [class.debt]="totalBalance < '0'">
                 {{ totalBalance }}
               </span>

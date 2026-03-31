@@ -12,13 +12,13 @@ describe('Expenses Selectors', () => {
       paidBy: 'u1',
       sharedBy: ['u1', 'u2'],
       settleBy: [],
-      typeId: 'food'
-    }
+      typeId: 'food',
+    },
   ];
 
   const users = {
-    'u1': { id: 'u1', name: 'User 1', email: '', image: '' },
-    'u2': { id: 'u2', name: 'User 2', email: '', image: '' }
+    u1: { id: 'u1', name: 'User 1', email: '', image: '' },
+    u2: { id: 'u2', name: 'User 2', email: '', image: '' },
   };
 
   it('should select enriched expenses', () => {

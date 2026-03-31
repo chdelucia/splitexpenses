@@ -2,8 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@core/*": ["src/app/core/*"],
       "@debts/*": ["src/app/debts/*"],

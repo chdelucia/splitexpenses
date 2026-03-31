@@ -9,20 +9,17 @@
     }
     <section class="forecast g-2 mb-4">
       @for (day of mymap(); track day; let i = $index) {
-        <div
-          class=""
-          (click)="changeDate(i)"
-          >
+        <div class="" (click)="changeDate(i)">
           {{ day.title }}
           <br />
           <img
             src="http://openweathermap.org/img/w/{{ day.icon }}.png"
             alt="{{ weather.city.name }}"
-            />
-            <br />
-            {{ day.max }}° {{ day.min }}°
-          </div>
-        }
-      </section>
-    </main>
-  }
+          />
+          <br />
+          {{ day.max }}° {{ day.min }}°
+        </div>
+      }
+    </section>
+  </main>
+}

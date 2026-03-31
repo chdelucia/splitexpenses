@@ -2,39 +2,47 @@ import { TestBed } from '@angular/core/testing';
 import { UsersService } from './users.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Store } from '@ngrx/store';
-import { User } from '@shared/models';
-import { addUser, updateUser } from '@state/user/user.actions';
-import { of } from 'rxjs';
+import { addUser, updateUser, addUsers } from '@state/user/user.actions';
+import { of, BehaviorSubject } from 'rxjs';
 
 describe('UsersService', () => {
   let service: UsersService;
-  let storageServiceSpy: jasmine.SpyObj<LocalstorageService>;
-  let storeSpy: jasmine.SpyObj<Store>;
+  let storageServiceSpy: jest.Mocked<LocalstorageService>;
+  let storeSpy: jest.Mocked<Store>;
+  let usersSubject: BehaviorSubject<any>;
 
   beforeEach(() => {
-    const storageSpy = jasmine.createSpyObj('LocalstorageService', [
-      'getData',
-      'saveDataToLocalStorage',
-    ]);
-    let storeSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
+    usersSubject = new BehaviorSubject({});
+    const storageSpy = {
+      getData: jest.fn().mockReturnValue({ users: {} }),
+      saveDataToLocalStorage: jest
+        .fn()
+        .mockImplementation(() => Promise.resolve()),
+    } as unknown as jest.Mocked<LocalstorageService>;
+
+    const storeSpyInternal = {
+      select: jest.fn().mockReturnValue(usersSubject.asObservable()),
+      dispatch: jest.fn(),
+    } as unknown as jest.Mocked<Store>;
 
     TestBed.configureTestingModule({
       providers: [
         UsersService,
         { provide: LocalstorageService, useValue: storageSpy },
-        { provide: Store, useValue: storeSpy },
+        { provide: Store, useValue: storeSpyInternal },
       ],
     });
 
-    service = TestBed.inject(UsersService);
     storageServiceSpy = TestBed.inject(
       LocalstorageService,
-    ) as jasmine.SpyObj<LocalstorageService>;
-    storeSpy = TestBed.inject(Store) as jasmine.SpyObj<Store>;
+    ) as jest.Mocked<LocalstorageService>;
+    storeSpy = TestBed.inject(Store) as jest.Mocked<Store>;
+    service = TestBed.inject(UsersService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+    expect(storeSpy.dispatch).toHaveBeenCalledWith(addUsers({ users: {} }));
   });
 
   describe('getUsers', () => {
@@ -42,7 +50,7 @@ describe('UsersService', () => {
       const expectedMap = {
         id1: { id: 'id1', name: 'Alice' },
       };
-      storeSpy.select.and.returnValue(of(expectedMap));
+      usersSubject.next(expectedMap);
 
       service.getUsers().subscribe((map) => {
         expect(map).toEqual(expectedMap);
@@ -54,7 +62,7 @@ describe('UsersService', () => {
   describe('getUserByID', () => {
     it('should return an observable of user', (done: jest.DoneCallback) => {
       const expectedUser = { id: 'id1', name: 'Alice' };
-      storeSpy.select.and.returnValue(of(expectedUser));
+      usersSubject.next(expectedUser);
 
       service.getUserByID('id1').subscribe((user) => {
         expect(user).toEqual(expectedUser);
@@ -66,7 +74,7 @@ describe('UsersService', () => {
   describe('getIterableUsers', () => {
     it('should return an observable of iterable users', (done: jest.DoneCallback) => {
       const expectedIterableUsers = [{ id: 'id1', name: 'Alice' }];
-      storeSpy.select.and.returnValue(of(expectedIterableUsers));
+      usersSubject.next(expectedIterableUsers);
 
       service.getIterableUsers().subscribe((iterableUsers) => {
         expect(iterableUsers).toEqual(expectedIterableUsers);
@@ -77,29 +85,37 @@ describe('UsersService', () => {
 
   describe('editUser', () => {
     it('should dispatch an updateUser action and save users into local storage', async () => {
-      const user = { id: 'id1', name: 'Alice' };
-      storeSpy.dispatch.and.stub();
+      const user = { id: 'id1', name: 'Alice', email: '', image: '' };
+      usersSubject.next({ [user.id]: user });
 
-      await service.editUser(user);
+      service.editUser(user);
 
       expect(storeSpy.dispatch).toHaveBeenCalledWith(updateUser({ user }));
+      // Wait for async saveUsersIntoLocalStorage
+      await new Promise((resolve) => setTimeout(resolve, 50));
       expect(storageServiceSpy.saveDataToLocalStorage).toHaveBeenCalled();
     });
   });
 
   describe('addUser', () => {
     it('should dispatch an addUser action and save users into local storage', async () => {
-      const user = { id: 'id1', name: 'Alice' };
+      const user = { id: 'id1', name: 'Alice', email: '', image: '' };
       const users = {
-        id0: { id: 'id0', name: 'Bob' },
+        '0': { id: '0', name: 'Bob', email: '', image: '' },
       };
-      storeSpy.select.and.returnValue(of(users));
-      storeSpy.dispatch.and.stub();
+
+      usersSubject.next(users);
 
       await service.addUser(user);
 
-      expect(user.id).toEqual('id1');
+      expect(user.id).toEqual('1');
       expect(storeSpy.dispatch).toHaveBeenCalledWith(addUser({ user }));
+
+      // Wait for async saveUsersIntoLocalStorage called inside addUser
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      expect(storageServiceSpy.saveDataToLocalStorage).toHaveBeenCalledWith(
+        users,
+      );
     });
   });
 });
