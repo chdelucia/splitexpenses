@@ -13,7 +13,7 @@
             [class.order-2]="userDebt!.totalIowe <= 0"
           >
             <div
-              class="persoanlDebts p-md-3 p-2"
+              class="personalDebts p-md-3 p-3 glass-card"
               routerLink="/debts/details"
               data-cy="user-debt"
             >
@@ -21,8 +21,8 @@
                 class="d-flex flex-row justify-content-between title"
                 [class.border-bottom]="usersLength && usersLength > 2"
               >
-                <div>{{ userDebt?.userName }}</div>
-                <div class="totalIowe">
+                <div class="user-name">{{ userDebt?.userName }}</div>
+                <div class="totalIowe" [class.negative]="userDebt!.totalIowe > 0">
                   {{ userDebt?.totalIowe | number: ".0-2" }}
                   {{ currency.currencySymbol }}
                   @if (currency.active) {
@@ -45,7 +45,7 @@
                     class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
                   >
                     <div>{{ debt.userName }}</div>
-                    <div>
+                    <div [class.negative]="debt.newDebt > 0" class="debt-amount">
                       {{ debt.newDebt | number: ".0-2" }}
                       {{ currency.currencySymbol }}
                       @if (currency.active) {

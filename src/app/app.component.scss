@@ -9,15 +9,32 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  background-color: #1f2128;
-  background-color: #2c3333;
+  background-color: var(--primary-navy);
   z-index: 1020;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (min-width: 768px) {
   .nav {
     top: 0;
-    z-index: 1020;
+    bottom: auto;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .offset-md-1,
+  .offset-lg-2 {
+    transition: margin-left 0.3s ease;
+  }
+}
+
+.col {
+  padding: 1.5rem;
+  @media (max-width: 767.98px) {
+    padding: 1rem;
+    padding-bottom: 5rem; /* Space for bottom nav */
   }
 }
 
@@ -25,7 +42,7 @@
   .nav-link {
     &.active,
     &:hover {
-      border-radius: 0.25rem;
+      border-radius: 0.5rem;
     }
   }
 }

@@ -2,9 +2,9 @@
   <h2 class="my-4 text-center" i18n>Historial</h2>
   @let currentExpenses = expenses();
   @if (currentExpenses) {
-    <section class="filters row">
+    <section class="filters row mb-4">
       <div class="col-12 col-md-5 col-xl-6">
-        <mat-form-field appearance="fill" class="w-100">
+        <mat-form-field appearance="outline" class="w-100">
           <mat-label i18n>Buscador</mat-label>
           <input matInput [(ngModel)]="term" type="text" />
           <mat-icon matSuffix>search</mat-icon>
@@ -21,75 +21,79 @@
         </mat-paginator>
       </div>
     </section>
-    @for (
-      expense of currentExpenses.slice(
-        pageIndex * pageSize,
-        (pageIndex + 1) * pageSize
-      ) | filter: term;
-      track expense;
-      let i = $index
-    ) {
-      @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
-        <div class="date-title p-2">
-          {{ expense.date | date: "fullDate" }}
-        </div>
-      }
-      <div class="expense px-2">
-        <div class="row g-2 align-items-center">
-          <div class="col-5">
-            <div>{{ expense.title }}</div>
+
+    <div class="expense-list shadow-sm rounded-3 overflow-hidden">
+      @for (
+        expense of currentExpenses.slice(
+          pageIndex * pageSize,
+          (pageIndex + 1) * pageSize
+        ) | filter: term;
+        track expense;
+        let i = $index
+      ) {
+        @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
+          <div class="date-header px-4 py-2 mt-3">
+            {{ expense.date | date: "fullDate" }}
           </div>
-          <div class="d-md-flex col-2 col-md-3">
-            {{ expense.originalCost }} {{ currency.currencySymbol }}
-          </div>
-          @if (!filter()) {
-            <div class="col-5 col-md-4 action-icons">
-              <button
-                mat-mini-fab
-                color="primary"
-                (click)="editExpense(expense.id)"
-                aria-label="Example icon button with a filter list icon"
-              >
-                <span class="material-icons">edit</span>
-              </button>
-              <span> </span>
-              <button
-                mat-mini-fab
-                color="warn"
-                (click)="deleteExpense(expense.id)"
-                aria-label="Example icon button with a filter list icon"
-              >
-                <span class="material-icons">delete_forever</span>
-              </button>
+        }
+        <div class="expense px-4 py-3 bg-white">
+          <div class="row g-2 align-items-center">
+            <div class="col-6 col-md-5">
+              <div class="expense-title">{{ expense.title }}</div>
+              <div class="paidBy text-muted">
+                <span i18n>Pagado por:</span>
+                <span class="fw-bold">{{ expense.paidByUserName }}</span>
+              </div>
             </div>
-          }
-        </div>
-        <div class="row g-2 align-items-center text-secondary">
-          <div class="col-sm-7 col-md-5 paidBy">
-            <span i18n>Pagado por:</span>
-            {{ expense.paidByUserName }}
-            <br />
-            <span i18n>Participan: </span>
-            @if (expense.sharedByNames?.length === userCount()) {
-              <span i18n>Todos</span>
-            } @else {
-              @for (name of expense.sharedByNames; track name) {
-                <span>
-                  {{ name }}
-                </span>
+            <div class="col-3 col-md-3 cost-container">
+              <span class="cost">{{ expense.originalCost }}</span>
+              <span class="currency ms-1">{{ currency.currencySymbol }}</span>
+              @if (currency.active) {
+                <div class="exchange-cost text-muted">
+                  {{ expense.originalCost | exchange | number: ".0-2" }}
+                  {{ currency.currencyExchangeSymbol }}
+                </div>
               }
+            </div>
+            @if (!filter()) {
+              <div class="col-3 col-md-4 action-icons">
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="editExpense(expense.id)"
+                  aria-label="Edit expense"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="deleteExpense(expense.id)"
+                  aria-label="Delete expense"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             }
           </div>
-          @if (currency.active) {
-            <div class="col-4 paidBy d-none d-md-inline">
-              {{ expense.originalCost | exchange | number: ".0-2" }}
-              {{ currency.currencyExchangeSymbol }}
+          <div class="row mt-1">
+            <div class="col-12 participants text-muted small">
+              <span i18n>Participan: </span>
+              @if (expense.sharedByNames?.length === userCount()) {
+                <span i18n class="badge bg-light text-dark">Todos</span>
+              } @else {
+                @for (name of expense.sharedByNames; track name) {
+                  <span class="badge bg-light text-dark me-1">
+                    {{ name }}
+                  </span>
+                }
+              }
             </div>
-          }
+          </div>
         </div>
-      </div>
-    }
+      }
+    </div>
   } @else {
-    No tienes gastos aun
+    <div class="text-center py-5" i18n>No tienes gastos aún</div>
   }
 </main>

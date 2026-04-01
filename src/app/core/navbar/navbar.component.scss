@@ -9,6 +9,7 @@ svg {
   width: 21px;
   height: 21px;
   color: white;
+  transition: all 0.2s ease;
   &:focus {
     outline: 0;
   }
@@ -25,15 +26,21 @@ svg {
 
 .nav-link {
   color: white;
-  font-family: "Arvo", serif;
-  font-family: "Alata", sans-serif;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem 0;
+
   &.active,
   &:hover {
-    background-color: #e76f51;
-    background-color: #f4a261;
-    background-color: #0e8388;
-    //border-bottom: 1px solid #1391a5 ;
-    border-radius: 0;
+    background-color: var(--accent-sky);
+    color: var(--primary-navy);
+    border-radius: 8px;
+    svg {
+      color: var(--primary-navy);
+    }
   }
   &.disabled {
     color: lightgrey;
@@ -42,30 +49,22 @@ svg {
 }
 
 .splitty-logo {
-  font-family: "Amita", cursive;
+  font-family: "Poppins", sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
-  font-family: "Poppins", sans-serif;
 }
 
 @media (min-width: 768px) {
   svg {
-    width: 30px;
-    height: 30px;
+    width: 24px;
+    height: 24px;
   }
 }
 
 @media (min-width: 992px) {
   svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-
-  .nav-link {
-    &.active,
-    &:hover {
-      border-radius: 0.25rem;
-    }
+    width: 1.4rem;
+    height: 1.4rem;
   }
 }
 
