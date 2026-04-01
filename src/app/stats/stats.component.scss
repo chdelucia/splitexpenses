@@ -1,3 +1,86 @@
-.mainExchange {
-  font-size: small;
+$sky: #60a5fa;
+$navy: #020617;
+$slate: #f8fafc;
+
+.kpi-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba(96, 165, 250, 0.4);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(
+      circle,
+      rgba(96, 165, 250, 0.1) 0%,
+      transparent 70%
+    );
+    z-index: 0;
+  }
+}
+
+.kpi-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  &.total-icon {
+    background: rgba(96, 165, 250, 0.2);
+    color: $sky;
+  }
+
+  &.mean-icon {
+    background: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+  }
+}
+
+.kpi-value,
+.kpi-exchange {
+  position: relative;
+  z-index: 1;
+}
+
+.chart-container {
+  min-height: 400px;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.form-select {
+  border: none;
+  cursor: pointer;
+  padding-right: 2rem;
+
+  &:focus {
+    box-shadow: none;
+    background-color: transparent;
+  }
+}
+
+.bg-navy {
+  background-color: $navy !important;
+}
+
+.text-slate {
+  color: $slate !important;
+}
+
+.text-sky {
+  color: $sky !important;
 }

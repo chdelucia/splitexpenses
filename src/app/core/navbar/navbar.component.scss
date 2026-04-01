@@ -1,74 +1,60 @@
-/* this is needed to make the content scrollable on larger screens */
-@media (min-width: 576px) {
-  .h-sm-100 {
-    height: 100%;
-  }
-}
-
-svg {
-  width: 21px;
-  height: 21px;
-  color: white;
-  &:focus {
-    outline: 0;
-  }
-  &:hover {
-    cursor: pointer;
-  }
-}
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1900;
-}
+$navy: #020617;
+$sky: #60a5fa;
+$slate: #f8fafc;
 
 .nav-link {
-  color: white;
-  font-family: "Arvo", serif;
-  font-family: "Alata", sans-serif;
-  &.active,
-  &:hover {
-    background-color: #e76f51;
-    background-color: #f4a261;
-    background-color: #0e8388;
-    //border-bottom: 1px solid #1391a5 ;
-    border-radius: 0;
+  color: #94a3b8;
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  margin: 0.2rem 0;
+
+  span.material-icons-outlined {
+    font-size: 24px;
   }
+
+  &.active {
+    background-color: rgba(96, 165, 250, 0.1) !important;
+    color: $sky !important;
+    box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.2);
+
+    span.material-icons-outlined {
+      color: $sky;
+    }
+  }
+
+  &:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: $slate;
+  }
+
   &.disabled {
-    color: lightgrey;
+    color: #475569;
     opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 
 .splitty-logo {
-  font-family: "Amita", cursive;
-  font-weight: bold;
-  letter-spacing: 2px;
   font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: $slate;
 }
 
-@media (min-width: 768px) {
-  svg {
-    width: 30px;
-    height: 30px;
-  }
+.logo-glow {
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.3));
 }
 
-@media (min-width: 992px) {
-  svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-
+@media (max-width: 767.98px) {
   .nav-link {
-    &.active,
-    &:hover {
-      border-radius: 0.25rem;
-    }
+    border-radius: 0;
+    margin: 0;
+    justify-content: center;
+    padding: 1rem 0;
   }
 }
 
 .img-fluid {
-  max-width: 38px;
+  max-width: 32px;
 }
