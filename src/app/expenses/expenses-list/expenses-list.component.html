@@ -1,95 +1,101 @@
-<main class="mb-5 container">
-  <h2 class="my-4 text-center" i18n>Historial</h2>
+<main class="container mb-5">
+  <h2 class="mb-4" i18n>Historial de Gastos</h2>
+
   @let currentExpenses = expenses();
-  @if (currentExpenses) {
-    <section class="filters row">
-      <div class="col-12 col-md-5 col-xl-6">
-        <mat-form-field appearance="fill" class="w-100">
-          <mat-label i18n>Buscador</mat-label>
-          <input matInput [(ngModel)]="term" type="text" />
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-      </div>
-      <div class="col-12 col-md-7 col-xl-6">
-        <mat-paginator
-          (page)="handlePageEvent($event)"
-          [length]="currentExpenses.length"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
-          aria-label="Select page"
-        >
-        </mat-paginator>
-      </div>
+  @if (currentExpenses && currentExpenses.length > 0) {
+    <section class="filters-section">
+      <mat-form-field appearance="fill" class="flex-grow-1">
+        <mat-label i18n>Buscador</mat-label>
+        <input matInput [(ngModel)]="term" type="text" placeholder="Ej: Supermercado, Vuelos..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="currentExpenses.length"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
+        aria-label="Seleccionar página"
+        class="glass-card py-0"
+      >
+      </mat-paginator>
     </section>
+
     @for (
       expense of currentExpenses.slice(
         pageIndex * pageSize,
         (pageIndex + 1) * pageSize
       ) | filter: term;
-      track expense;
+      track expense.id;
       let i = $index
     ) {
       @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
-        <div class="date-title p-2">
+        <div class="date-title">
           {{ expense.date | date: "fullDate" }}
         </div>
       }
-      <div class="expense px-2">
-        <div class="row g-2 align-items-center">
-          <div class="col-5">
-            <div>{{ expense.title }}</div>
-          </div>
-          <div class="d-md-flex col-2 col-md-3">
-            {{ expense.originalCost }} {{ currency.currencySymbol }}
-          </div>
-          @if (!filter()) {
-            <div class="col-5 col-md-4 action-icons">
-              <button
-                mat-mini-fab
-                color="primary"
-                (click)="editExpense(expense.id)"
-                aria-label="Example icon button with a filter list icon"
-              >
-                <span class="material-icons">edit</span>
-              </button>
-              <span> </span>
-              <button
-                mat-mini-fab
-                color="warn"
-                (click)="deleteExpense(expense.id)"
-                aria-label="Example icon button with a filter list icon"
-              >
-                <span class="material-icons">delete_forever</span>
-              </button>
+
+      <div class="glass-card expense-card p-3">
+        <div class="expense-content">
+          <div class="expense-info">
+            <div class="category-icon">
+              <mat-icon>{{ getCategoryIcon(expense.typeId) }}</mat-icon>
             </div>
-          }
-        </div>
-        <div class="row g-2 align-items-center text-secondary">
-          <div class="col-sm-7 col-md-5 paidBy">
-            <span i18n>Pagado por:</span>
-            {{ expense.paidByUserName }}
-            <br />
-            <span i18n>Participan: </span>
-            @if (expense.sharedByNames?.length === userCount()) {
-              <span i18n>Todos</span>
-            } @else {
-              @for (name of expense.sharedByNames; track name) {
-                <span>
-                  {{ name }}
-                </span>
+            <div class="expense-details">
+              <div class="title">{{ expense.title }}</div>
+              <div class="paid-by">
+                <span i18n>Pagado por</span> <strong>{{ expense.paidByUserName }}</strong>
+                @if (expense.sharedByNames?.length === userCount()) {
+                  • <span i18n>Todos participan</span>
+                } @else {
+                  • {{ expense.sharedByNames?.length }} <span i18n>participantes</span>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center">
+            <div class="expense-amount">
+              <div class="original-cost">
+                {{ expense.originalCost }} {{ currency.currencySymbol }}
+              </div>
+              @if (currency.active) {
+                <div class="exchange-cost">
+                  {{ expense.originalCost | exchange | number: ".0-2" }}
+                  {{ currency.currencyExchangeSymbol }}
+                </div>
               }
+            </div>
+
+            @if (!filter()) {
+              <div class="action-buttons">
+                <button
+                  mat-icon-button
+                  class="edit-btn"
+                  (click)="editExpense(expense.id)"
+                  aria-label="Editar gasto"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  class="delete-btn"
+                  (click)="deleteExpense(expense.id)"
+                  aria-label="Eliminar gasto"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             }
           </div>
-          @if (currency.active) {
-            <div class="col-4 paidBy d-none d-md-inline">
-              {{ expense.originalCost | exchange | number: ".0-2" }}
-              {{ currency.currencyExchangeSymbol }}
-            </div>
-          }
         </div>
       </div>
     }
   } @else {
-    No tienes gastos aun
+    <div class="glass-card empty-state">
+      <mat-icon>receipt_long</mat-icon>
+      <p i18n>No tienes gastos aún. ¡Añade el primero!</p>
+      <button class="btn-primary" (click)="addExpense()" i18n>Añadir gasto</button>
+    </div>
   }
 </main>

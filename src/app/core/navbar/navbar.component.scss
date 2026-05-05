@@ -1,74 +1,63 @@
-/* this is needed to make the content scrollable on larger screens */
-@media (min-width: 576px) {
-  .h-sm-100 {
-    height: 100%;
-  }
-}
-
-svg {
-  width: 21px;
-  height: 21px;
-  color: white;
-  &:focus {
-    outline: 0;
-  }
-  &:hover {
-    cursor: pointer;
-  }
-}
-.container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1900;
-}
-
 .nav-link {
-  color: white;
-  font-family: "Arvo", serif;
-  font-family: "Alata", sans-serif;
-  &.active,
-  &:hover {
-    background-color: #e76f51;
-    background-color: #f4a261;
-    background-color: #0e8388;
-    //border-bottom: 1px solid #1391a5 ;
-    border-radius: 0;
+  color: #94a3b8; // slate-muted
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  margin: 4px 8px;
+  padding: 12px !important;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
   }
+
+  span {
+    font-weight: 500;
+    font-family: "Inter", sans-serif;
+  }
+
+  &.active {
+    color: #60a5fa; // sky-blue
+    background: rgba(96, 165, 250, 0.1);
+
+    svg {
+      color: #60a5fa;
+      transform: scale(1.1);
+    }
+  }
+
+  &:hover:not(.active) {
+    color: #f8fafc; // slate-text
+    background: rgba(255, 255, 255, 0.05);
+  }
+
   &.disabled {
-    color: lightgrey;
-    opacity: 0.5;
+    opacity: 0.3;
+    cursor: not-allowed;
   }
 }
 
 .splitty-logo {
-  font-family: "Amita", cursive;
-  font-weight: bold;
-  letter-spacing: 2px;
   font-family: "Poppins", sans-serif;
-}
-
-@media (min-width: 768px) {
-  svg {
-    width: 30px;
-    height: 30px;
-  }
-}
-
-@media (min-width: 992px) {
-  svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-
-  .nav-link {
-    &.active,
-    &:hover {
-      border-radius: 0.25rem;
-    }
-  }
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #f8fafc;
 }
 
 .img-fluid {
-  max-width: 38px;
+  max-width: 32px;
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.5));
+}
+
+hr {
+  opacity: 0.1;
+  margin: 1rem 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .nav-link {
+    margin: 4px 12px;
+  }
 }

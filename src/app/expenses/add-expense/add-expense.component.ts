@@ -24,7 +24,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
-import { globalToast, openSnackBar } from '@shared/utils';
+import { globalToast, openSnackBar, getCategoryIcon } from '@shared/utils';
 import { UsersService } from '@users/shared/users.service';
 import {
   MatCheckboxChange,
@@ -84,6 +84,10 @@ export class AddExpenseComponent implements OnInit {
   users = this.usersService.iterableUsers;
   expenseTypes: ExpenseTypes[] = this.expensesService.getExpensesTypes();
   expense?: Expense;
+
+  getCategoryIcon(typeId: string | number): string {
+    return getCategoryIcon(Number(typeId));
+  }
 
   get isEditing(): boolean {
     return !!this.expense;

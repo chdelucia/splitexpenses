@@ -9,23 +9,16 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  background-color: #1f2128;
-  background-color: #2c3333;
+  background-color: #0f172a; // navy-medium
   z-index: 1020;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 @media (min-width: 768px) {
   .nav {
     top: 0;
     z-index: 1020;
-  }
-}
-
-@media (min-width: 992px) {
-  .nav-link {
-    &.active,
-    &:hover {
-      border-radius: 0.25rem;
-    }
+    border-top: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
   }
 }

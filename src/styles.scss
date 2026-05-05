@@ -1,16 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
-
 @use "@angular/material" as mat;
 @include mat.elevation-classes();
 @include mat.app-background();
 
-$primary-color: #2e4f4f;
-$accent-color: #0e8388;
-$secondary-color: #cbe4de;
-$background-color: #2c3333;
+// Midnight & Sky Fintech Palette
+$navy-dark: #020617;
+$navy-medium: #0f172a;
+$sky-blue: #60a5fa;
+$slate-text: #f8fafc;
+$slate-muted: #94a3b8;
 
 section {
-  margin-top: 1em;
+  margin-top: 1.5em;
 }
 
 .mb-6 {
@@ -20,90 +20,133 @@ section {
   margin-bottom: 3rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Inter", "Roboto", sans-serif;
+  background-color: $navy-dark;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(96, 165, 250, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.3) 0px, transparent 50%);
+  color: $slate-text;
+}
+
+h1, h2, h3, h4, h5, h6 {
   font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: $slate-text;
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: $slate-text;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 8px 32px 0 rgba(96, 165, 250, 0.1);
+  }
 }
 
 main.container,
 main.container-fluid {
-  padding-top: 0.4em;
-  background: #fff;
-  box-sizing: border-box;
-  margin-top: 2.5em;
-  border-radius: 6px;
-  min-height: 70vh;
-  --tw-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  box-shadow:
-    var(--tw-ring-offset-shadow, 0 0 rgba(0, 0, 0, 0)),
-    var(--tw-ring-shadow, 0 0 rgba(0, 0, 0, 0)), var(--tw-shadow);
+  padding: 1.5rem;
+  background: transparent;
+  margin-top: 2rem;
+  border-radius: 12px;
+  min-height: 80vh;
 }
 
 button.btn-primary {
-  background: linear-gradient(-45deg, #2e4f4f, #0e8388);
-  border-color: #2c3333;
-  color: #fff;
-  box-shadow: 0 10px 30px 0 rgb(0 0 0 / 15%);
+  background: $sky-blue;
+  border: none;
+  color: $navy-dark;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 4px 14px 0 rgba(96, 165, 250, 0.39);
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #3b82f6;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(96, 165, 250, 0.23);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: $slate-muted;
+    opacity: 0.6;
+  }
 }
-.btn-primary:disabled {
-  border-color: #2c3333;
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: $navy-dark;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $slate-muted;
 }
 
 .mat-mdc-snack-bar-container {
   &.blue-snackbar {
-    --mdc-snackbar-container-color: #2196f3;
+    --mdc-snackbar-container-color: #3b82f6;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
-}
-
-.mat-mdc-snack-bar-container {
   &.OK-snackbar {
-    --mdc-snackbar-container-color: #4caf50;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    background: linear-gradient(to right, #4caf50, #66bb6a);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
+    --mdc-snackbar-container-color: #10b981;
+    background: linear-gradient(to right, #10b981, #059669);
+    border-radius: 8px;
   }
-}
-
-.mat-mdc-snack-bar-container {
   &.KO-snackbar {
-    --mdc-snackbar-container-color: #f44336;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    background: linear-gradient(to right, #f44336, #ef5350);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
+    --mdc-snackbar-container-color: #ef4444;
+    background: linear-gradient(to right, #ef4444, #dc2626);
+    border-radius: 8px;
   }
 }
 
-.mat-mdc-snack-bar-container {
-  &.EXIST-snackbar {
-    --mdc-snackbar-container-color: #ffeb3b;
-    --mat-mdc-snack-bar-button-color: #333;
-    --mdc-snackbar-supporting-text-color: #333;
-    background-color: #fff9c4;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
-    border: 1px solid #ffd54f;
+.mat-mdc-paginator {
+  background: transparent !important;
+  color: $slate-muted !important;
+  .mat-mdc-select-value, .mat-mdc-paginator-navigation-button {
+    color: $slate-text !important;
   }
 }
 
-.mat-mdc-paginator-page-size-label {
-  display: none;
+.mat-mdc-form-field {
+  width: 100%;
 }
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: linear-gradient(316deg, #0e838899 0%, #cbe4de 100%);
-  background: linear-gradient(316deg, #0e838880 0%, #cbe4de8c 100%);
+// Modern Material Input overrides
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.mdc-floating-label {
+  color: $slate-muted !important;
+}
+
+.mdc-text-field--focused .mdc-floating-label {
+  color: $sky-blue !important;
+}
+
+.mdc-line-ripple::after {
+  border-bottom-color: $sky-blue !important;
 }

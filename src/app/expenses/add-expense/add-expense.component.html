@@ -1,105 +1,122 @@
 <main class="container mb-5">
-  <h2 class="my-4 text-center" i18n>
-    {{ isEditing ? "Editar gasto" : "Añadir gastos" }}
-  </h2>
+  <div class="glass-card p-4">
+    <h2 class="mb-4 text-center" i18n>
+      {{ isEditing ? "Editar Gasto" : "Nuevo Gasto" }}
+    </h2>
 
-  <form
-    class="row g-2"
-    [formGroup]="expenseForm"
-    (ngSubmit)="onSubmit(expenseForm.value, formDirective)"
-    #formDirective="ngForm"
-  >
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label i18n>Pagado por:</mat-label>
-        <mat-select formControlName="name" required>
-          @for (user of users(); track user) {
-            <mat-option [value]="user.id">{{ user.name }}</mat-option>
+    <form
+      class="row g-4"
+      [formGroup]="expenseForm"
+      (ngSubmit)="onSubmit(expenseForm.value, formDirective)"
+      #formDirective="ngForm"
+    >
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Pagado por</mat-label>
+          <mat-select formControlName="name" required>
+            @for (user of users(); track user.id) {
+              <mat-option [value]="user.id">
+                <div class="d-flex align-items-center">
+                  <mat-icon class="me-2 text-primary">person</mat-icon>
+                  {{ user.name }}
+                </div>
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Monto</mat-label>
+          <input
+            matInput
+            formControlName="cost"
+            type="number"
+            min="0.01"
+            step="any"
+            required
+            placeholder="0.00"
+          />
+          <span matSuffix class="currency-symbol">{{ currency.currencySymbol }}</span>
+          @if (currency.active && expenseForm.controls["cost"].value) {
+            <mat-hint i18n>
+              ≈ {{ expenseForm.controls["cost"].value | exchange | number: ".0-2" }}
+              {{ currency.currencyExchangeSymbol }}
+            </mat-hint>
           }
-        </mat-select>
-      </mat-form-field>
-    </div>
+        </mat-form-field>
+      </div>
 
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label i18n>Precio</mat-label>
-        <input
-          matInput
-          formControlName="cost"
-          type="number"
-          min="1"
-          step="any"
-          required
-        />
-        <span matSuffix class="currency">{{ currency.currencySymbol }}</span>
-        @if (currency.active && expenseForm.controls["cost"].value) {
-          <mat-hint align="end" i18n>
-            Equivale a
-            {{ expenseForm.controls["cost"].value | exchange | number: ".0-2" }}
-            {{ currency.currencyExchangeSymbol }}
-          </mat-hint>
-        }
-      </mat-form-field>
-    </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Descripción</mat-label>
+          <input
+            matInput
+            formControlName="title"
+            type="text"
+            placeholder="Ej: Cena en el centro"
+            required
+          />
+          <mat-icon matSuffix>description</mat-icon>
+        </mat-form-field>
+      </div>
 
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label i18n>Descripción</mat-label>
-        <input
-          matInput
-          formControlName="title"
-          type="text"
-          placeholder="Description"
-          required
-        />
-      </mat-form-field>
-    </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Fecha</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="date"
+            required
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
 
-    <div class="col-6">
-      <mat-form-field appearance="fill" class="w-100">
-        <mat-label i18n>Fecha</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          formControlName="date"
-          required
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-
-    <div class="col-12" formArrayName="sharedBy">
-      <div class="mb-2" i18n>Quien participa:</div>
-      @for (user of users(); track user; let i = $index) {
-        <mat-checkbox [formControlName]="i">
-          {{ user.name }}
-        </mat-checkbox>
-      }
-    </div>
-
-    <div class="col-12">
-      <div class="mb-2" i18n>Tipo de gasto:</div>
-      <mat-radio-group formControlName="type">
-        <div class="row">
-          @for (type of expenseTypes; track type) {
-            <div class="col-md-3 col-xl-2">
-              <mat-radio-button [value]="type.id">{{
-                type.name
-              }}</mat-radio-button>
+      <div class="col-12">
+        <label class="section-label mb-3 d-block" i18n>¿Quiénes participan?</label>
+        <div class="participants-grid" formArrayName="sharedBy">
+          @for (user of users(); track user.id; let i = $index) {
+            <div class="participant-item">
+              <mat-checkbox [formControlName]="i">
+                {{ user.name }}
+              </mat-checkbox>
             </div>
           }
         </div>
-      </mat-radio-group>
-    </div>
+      </div>
 
-    <button
-      type="submit"
-      [disabled]="!expenseForm.valid"
-      class="input-group btn my-4 btn btn-primary p-2"
-      i18n
-    >
-      {{ isEditing ? "Editar gasto" : "Añadir gastos" }}
-    </button>
-  </form>
+      <div class="col-12">
+        <label class="section-label mb-3 d-block" i18n>Categoría</label>
+        <mat-radio-group formControlName="type" class="category-radio-group">
+          <div class="row g-3">
+            @for (type of expenseTypes; track type.id) {
+              <div class="col-6 col-sm-4 col-md-3">
+                <mat-radio-button [value]="type.id" class="category-radio-button">
+                  <div class="category-content">
+                    <mat-icon>{{ getCategoryIcon(type.id) }}</mat-icon>
+                    <span>{{ type.name }}</span>
+                  </div>
+                </mat-radio-button>
+              </div>
+            }
+          </div>
+        </mat-radio-group>
+      </div>
+
+      <div class="col-12 mt-5">
+        <button
+          type="submit"
+          [disabled]="!expenseForm.valid"
+          class="btn-primary w-100 py-3"
+          i18n
+        >
+          {{ isEditing ? "Guardar Cambios" : "Crear Gasto" }}
+        </button>
+      </div>
+    </form>
+  </div>
 </main>
