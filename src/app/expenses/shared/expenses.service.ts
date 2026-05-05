@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from '@shared/models';
 import { calcNextID, diffinDays } from '@shared/utils';
@@ -25,7 +25,6 @@ import {
   selectUserTotalBalance,
   selectTotalCost,
 } from '@state/expenses/expenses.selectors';
-import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
 
 @Injectable({
@@ -38,7 +37,6 @@ export class ExpensesService extends ExpenseRepository {
 
   private settings: Settings;
   expenses = this.store.selectSignal(selectExpenses);
-  mapper = new ExpensesMapper();
 
   constructor() {
     super();
@@ -50,8 +48,7 @@ export class ExpensesService extends ExpenseRepository {
   getExpensesAPI(): Observable<Expense[]> {
     const headers = new HttpHeaders().set('skip-interceptor', 'true');
     return this.http
-      .get<Expense[]>(`${this.apiUrl}/expenses`, { headers })
-      .pipe(map((expenses) => this.mapper.mapFromList(expenses)));
+      .get<Expense[]>(`${this.apiUrl}/expenses`, { headers });
   }
 
   getExpenseAPI(id: string): Observable<Expense> {
@@ -196,7 +193,7 @@ export class ExpensesService extends ExpenseRepository {
   } {
     const data = Array(Object.keys(this.settings.graph.types).length).fill(0);
     const labels: string[] = [];
-    Object.values(this.settings.graph.types).forEach((item) => {
+    Object.values(this.settings.graph.types).forEach((item: ExpenseTypes) => {
       labels.push(item.name);
     });
 
