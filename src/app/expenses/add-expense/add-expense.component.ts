@@ -39,7 +39,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
   selector: 'app-add-expense',
@@ -57,7 +56,6 @@ import { ExchangePipe } from '@shared/pipes/exchange.pipe';
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
-    ExchangePipe,
   ],
   providers: [provideNativeDateAdapter()],
 })

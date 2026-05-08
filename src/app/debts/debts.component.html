@@ -1,69 +1,72 @@
 @let appUsers = users();
 @let usersLength = appUsers?.length;
 
-<main class="container-md mb-5">
-  <h2 class="my-4 text-center" i18n>Deudas</h2>
+<main class="animate-in">
+  <div class="section-header">
+    <h2 i18n>Balance de Deudas</h2>
+  </div>
+
   @if (debts(); as currentDebts) {
-    <section class="row g-4">
+    <section class="dashboard-grid">
       @if ((currentDebts | keyvalue).length) {
         @for (user of appUsers; track user.id) {
           @let userDebt = currentDebts[user.id];
+          @let isSettled = userDebt!.totalIowe === 0;
+
           <div
-            class="col-sm-12 col-lg-6 col-xxl-4"
-            [class.order-2]="userDebt!.totalIowe <= 0"
+            class="glass-card debt-card"
+            [class.settled]="isSettled"
+            routerLink="/debts/details"
           >
-            <div
-              class="persoanlDebts p-md-3 p-2"
-              routerLink="/debts/details"
-              data-cy="user-debt"
-            >
-              <div
-                class="d-flex flex-row justify-content-between title"
-                [class.border-bottom]="usersLength && usersLength > 2"
-              >
-                <div>{{ userDebt?.userName }}</div>
-                <div class="totalIowe">
-                  {{ userDebt?.totalIowe | number: ".0-2" }}
-                  {{ currency.currencySymbol }}
-                  @if (currency.active) {
-                    <div class="text-end mainExchange">
-                      {{ userDebt?.totalIowe | exchange | number: ".0-2" }}
-                      {{ currency.currencyExchangeSymbol }}
-                    </div>
-                  }
+            <div class="card-header">
+              <div class="user-info">
+                <div class="avatar">
+                  {{ userDebt?.userName?.charAt(0) }}
                 </div>
+                <div class="username">{{ userDebt?.userName }}</div>
               </div>
-              @for (person of appUsers; track person.id) {
-                @let debt = userDebt?.debts?.[person.id];
-                @if (
-                  user.id !== person.id &&
-                  usersLength &&
-                  usersLength > 2 &&
-                  debt
-                ) {
-                  <div
-                    class="d-flex flex-row justify-content-between align-items-center text-secondary py-1 subtitle"
-                  >
-                    <div>{{ debt.userName }}</div>
-                    <div>
-                      {{ debt.newDebt | number: ".0-2" }}
-                      {{ currency.currencySymbol }}
-                      @if (currency.active) {
-                        <small class="text-end">
-                          {{ debt.newDebt | exchange | number: ".0-2" }}
-                          {{ currency.currencyExchangeSymbol }}
-                        </small>
-                      }
-                    </div>
+
+              <div class="debt-summary">
+                <div class="label" i18n>Total</div>
+                <div class="amount" [class.positive]="userDebt!.totalIowe < 0">
+                  {{ userDebt?.totalIowe | number: ".0-2" }} {{ currency.currencySymbol }}
+                </div>
+                @if (currency.active) {
+                  <div class="exchange">
+                    {{ userDebt?.totalIowe | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
                   </div>
                 }
-              }
+              </div>
             </div>
+
+            @if (usersLength && usersLength > 2) {
+              <div class="details-list">
+                @for (person of appUsers; track person.id) {
+                  @let debt = userDebt?.debts?.[person.id];
+                  @if (user.id !== person.id && debt) {
+                    <div class="detail-item">
+                      <div class="person-name">
+                        <mat-icon>person</mat-icon>
+                        {{ debt.userName }}
+                      </div>
+                      <div class="detail-amount">
+                        {{ debt.newDebt | number: ".0-2" }} {{ currency.currencySymbol }}
+                        @if (currency.active) {
+                          <small>({{ debt.newDebt | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }})</small>
+                        }
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            }
           </div>
         }
       }
     </section>
   }
 
-  <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
+  <div class="mt-5">
+    <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
+  </div>
 </main>

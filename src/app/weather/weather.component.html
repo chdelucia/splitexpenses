@@ -1,18 +1,41 @@
-<header class="mt-atuo bg-white">
-  @if (showWeather()) {
-    @let info = weatherInfo();
-    @if (info) {
-      <div class="container flex">
-        <div>{{ info.name }}, {{ info.sys.country }}:</div>
-        <div>
+@if (showWeather()) {
+  @let info = weatherInfo();
+  @if (info) {
+    <div class="glass-card weather-banner animate-in">
+      <div class="weather-main">
+        <div class="location">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ info.name }}, {{ info.sys.country }}</span>
+        </div>
+        <div class="condition">
           <img
             src="http://openweathermap.org/img/w/{{ info.weather[0].icon }}.png"
             alt="{{ info.name }}"
           />
-          {{ info.weather[0].description }}
+          <span class="description">{{ info.weather[0].description }}</span>
         </div>
-        <b class="temp"> {{ info.main.temp }} °C</b>
       </div>
-    }
+
+      <div class="weather-metrics">
+        <div class="temp">
+          <span class="value">{{ info.main.temp | number:'.0-0' }}</span>
+          <span class="unit">°C</span>
+        </div>
+        <div class="details">
+          @if (info.main.humidity !== undefined) {
+            <div class="detail">
+              <mat-icon>water_drop</mat-icon>
+              <span>{{ info.main.humidity }}%</span>
+            </div>
+          }
+          @if (info.wind && info.wind.speed !== undefined) {
+            <div class="detail">
+              <mat-icon>air</mat-icon>
+              <span>{{ info.wind.speed }} km/h</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
   }
-</header>
+}
