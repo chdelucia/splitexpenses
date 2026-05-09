@@ -12,8 +12,8 @@ $primary: #3b82f6;
 $primary-hover: #2563eb;
 $accent: #60a5fa;
 $text-primary: #f8fafc;
-$text-secondary: #94a3b8;
-$border: rgba(255, 255, 255, 0.08);
+$text-secondary: #cbd5e1; // Slate 300 for better contrast
+$border: rgba(255, 255, 255, 0.15);
 
 :root {
   --app-bg: #{$bg-dark};
@@ -130,30 +130,38 @@ h1, h2, h3, h4, h5, h6 {
 
 // Material Overrides for Dark Theme
 .mat-mdc-form-field {
-  --mdc-filled-text-field-container-color: rgba(15, 23, 42, 0.6) !important;
-  --mdc-filled-text-field-focus-active-indicator-color: var(--primary);
-  --mdc-filled-text-field-label-text-color: var(--text-muted);
-  --mdc-filled-text-field-focus-label-text-color: var(--primary);
+  --mdc-filled-text-field-container-color: rgba(30, 41, 59, 0.5) !important; // Slightly lighter surface (Slate 800)
+  --mdc-filled-text-field-focus-active-indicator-color: var(--accent);
+  --mdc-filled-text-field-label-text-color: #cbd5e1 !important; // Slate 300
+  --mdc-filled-text-field-focus-label-text-color: var(--accent);
   --mdc-filled-text-field-input-text-color: var(--text-main);
-  --mat-select-panel-background-color: var(--surface);
+  --mdc-filled-text-field-caret-color: var(--accent);
+  --mat-select-panel-background-color: #0f172a;
   --mat-select-enabled-trigger-text-color: var(--text-main);
 
   .mdc-text-field--filled {
     border-radius: 12px !important;
-    border: 1px solid var(--border-color) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.25) !important; // Increased border opacity
     transition: all 0.2s ease;
 
-    &::before { display: none; } // Remove default ripple background
+    &::before { display: none; }
 
     &:hover {
-      border-color: rgba(59, 130, 246, 0.4) !important;
-      background-color: rgba(15, 23, 42, 0.8) !important;
+      border-color: rgba(96, 165, 250, 0.8) !important; // Stronger accent hover
+      background-color: rgba(30, 41, 59, 0.7) !important;
     }
   }
 
   &.mat-focused .mdc-text-field--filled {
-    border-color: var(--primary) !important;
-    background-color: rgba(15, 23, 42, 0.9) !important;
+    border-color: #93c5fd !important; // Brighter Blue (Blue 300) for focus
+    background-color: rgba(30, 41, 59, 0.9) !important;
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
+  }
+
+  // Improve placeholder contrast
+  ::placeholder {
+    color: #94a3b8 !important; // Slate 400
+    opacity: 1;
   }
 }
 
@@ -161,6 +169,25 @@ h1, h2, h3, h4, h5, h6 {
   --mdc-list-item-label-text-color: var(--text-main);
   background-color: var(--surface);
   &:hover { background-color: var(--surface-hover); }
+}
+
+.mat-mdc-checkbox {
+  --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.4);
+  --mdc-checkbox-selected-icon-color: var(--accent);
+  --mdc-checkbox-selected-focus-icon-color: var(--accent);
+  --mdc-checkbox-selected-hover-icon-color: var(--accent);
+  --mdc-checkbox-selected-pressed-icon-color: var(--accent);
+  --mdc-checkbox-selected-focus-state-layer-color: var(--accent);
+  --mdc-checkbox-selected-hover-state-layer-color: var(--accent);
+  --mdc-checkbox-selected-pressed-state-layer-color: var(--accent);
+}
+
+.mat-mdc-radio-button {
+  --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.4);
+  --mdc-radio-selected-focus-icon-color: var(--accent);
+  --mdc-radio-selected-hover-icon-color: var(--accent);
+  --mdc-radio-selected-icon-color: var(--accent);
+  --mdc-radio-selected-pressed-icon-color: var(--accent);
 }
 
 .mat-mdc-select-panel {
