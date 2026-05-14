@@ -1,0 +1,41 @@
+- Generating browser application bundles (phase: setup)...
+[32m✔[39m Browser application bundle generation complete.
+
+Initial chunk files                                                                                     | Names                        |  Raw size
+main.js                                                                                                 | main                         |   3.17 MB |
+polyfills.js                                                                                            | polyfills                    | 234.40 kB |
+styles.css, styles.js                                                                                   | styles                       | 199.90 kB |
+runtime.js                                                                                              | runtime                      |  13.15 kB |
+
+                                                                                                        | Initial total                |   3.62 MB
+
+Lazy chunk files                                                                                        | Names                        |  Raw size
+src_app_expenses_expenses_routes_ts.js                                                                  | app-expenses-expenses-routes | 494.39 kB |
+default-node_modules_angular_cdk_fesm2022__a11y-module-chunk_mjs-node_modules_angular_cdk_fes-eba9cb.js | app-users-users-routes       | 346.92 kB |
+src_app_debts_debts_routes_ts.js                                                                        | app-debts-debts-routes       | 216.24 kB |
+default-node_modules_angular_material_fesm2022_input_mjs-node_modules_angular_material_fesm20-ebbaf4.js | app-users-users-routes       | 159.68 kB |
+default-node_modules_angular_forms_fesm2022_forms_mjs.js                                                | app-users-users-routes       | 156.62 kB |
+default-src_app_shared_models_index_ts-src_app_shared_pipes_exchange_pipe_ts-node_modules_ang-490e1e.js | app-stats-stats-routes       | 150.10 kB |
+default-node_modules_angular_cdk_fesm2022_scrolling_mjs.js                                              | app-users-users-routes       |  90.20 kB |
+src_app_settings_options_routes_ts.js                                                                   | app-settings-options-routes  |  84.26 kB |
+src_app_users_users_routes_ts.js                                                                        | app-users-users-routes       |  29.12 kB |
+src_app_stats_stats_routes_ts.js                                                                        | app-stats-stats-routes       |  22.63 kB |
+src_app_forecast_forecast_routes_ts.js                                                                  | app-forecast-forecast-routes |  11.28 kB |
+common.js                                                                                               | common                       |   8.79 kB |
+
+Build at: 2026-05-14T17:09:08.031Z - Hash: 8b153feaa6d2f32f - Time: 32402ms
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
+[32m✔[39m Browser application bundle generation complete.
+
+Initial chunk files | Names   | Raw size
+runtime.js          | runtime | 13.15 kB |
+
+15 unchanged chunks
+
+Build at: 2026-05-14T17:11:19.287Z - Hash: a5128b88ae13a176 - Time: 9819ms
+
+✔ Compiled successfully.

@@ -113,7 +113,7 @@
       &:hover {
         background: rgba(255, 255, 255, 0.05);
         &.edit-btn { color: var(--primary); }
-        &.delete-btn { color: #ef4444; }
+        &.delete-btn { color: var(--error); }
       }
     }
   }

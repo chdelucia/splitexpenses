@@ -39,9 +39,9 @@ tr.mat-mdc-footer-row td {
 }
 
 .expense-cost {
-  color: #00796b;
-  font-weight: bolder;
+  color: var(--success);
+  font-weight: 700;
   &.debt {
-    color: #d84315;
+    color: var(--error);
   }
 }
