@@ -1,25 +1,44 @@
 @use "@angular/material" as mat;
 @use "sass:color";
 
-@include mat.elevation-classes();
-@include mat.app-background();
+@include mat.core();
 
 // Premium Fintech Palette
 $bg-dark: #020617;
 $surface-dark: #0f172a;
 $surface-lighter: #1e293b;
-$primary: #3b82f6;
+$primary-color: #3b82f6;
 $primary-hover: #2563eb;
-$accent: #60a5fa;
+$accent-color: #60a5fa;
 $text-primary: #f8fafc;
 $text-secondary: #cbd5e1; // Slate 300 for better contrast
 $border: rgba(255, 255, 255, 0.15);
+
+// Material Theme Definition
+$theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: 'Poppins',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+@include mat.all-component-themes($theme);
+@include mat.elevation-classes();
+@include mat.app-background();
 
 :root {
   --app-bg: #{$bg-dark};
   --surface: #{$surface-dark};
   --surface-hover: #{$surface-lighter};
-  --primary: #{$primary};
+  --primary: #{$primary-color};
   --primary-rgb: 59, 130, 246;
   --text-main: #{$text-primary};
   --text-muted: #{$text-secondary};
@@ -130,64 +149,76 @@ h1, h2, h3, h4, h5, h6 {
 
 // Material Overrides for Dark Theme
 .mat-mdc-form-field {
-  --mdc-filled-text-field-container-color: rgba(30, 41, 59, 0.5) !important; // Slightly lighter surface (Slate 800)
-  --mdc-filled-text-field-focus-active-indicator-color: var(--accent);
-  --mdc-filled-text-field-label-text-color: #cbd5e1 !important; // Slate 300
-  --mdc-filled-text-field-focus-label-text-color: var(--accent);
-  --mdc-filled-text-field-input-text-color: var(--text-main);
-  --mdc-filled-text-field-caret-color: var(--accent);
+  --mdc-filled-text-field-container-color: rgba(15, 23, 42, 0.8) !important; // Deeper surface for better contrast with light text
+  --mdc-filled-text-field-focus-active-indicator-color: #{$accent-color};
+  --mdc-filled-text-field-label-text-color: #f1f5f9 !important; // Slate 100 for high visibility
+  --mdc-filled-text-field-focus-label-text-color: #{$accent-color};
+  --mdc-filled-text-field-input-text-color: #ffffff !important;
+  --mdc-filled-text-field-caret-color: #{$accent-color};
   --mat-select-panel-background-color: #0f172a;
-  --mat-select-enabled-trigger-text-color: var(--text-main);
+  --mat-select-enabled-trigger-text-color: #ffffff !important;
 
   .mdc-text-field--filled {
     border-radius: 12px !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.25) !important; // Increased border opacity
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important; // Even more border opacity
     transition: all 0.2s ease;
 
     &::before { display: none; }
 
     &:hover {
-      border-color: rgba(96, 165, 250, 0.8) !important; // Stronger accent hover
-      background-color: rgba(30, 41, 59, 0.7) !important;
+      border-color: rgba(96, 165, 250, 0.9) !important;
+      background-color: rgba(30, 41, 59, 0.8) !important;
     }
   }
 
   &.mat-focused .mdc-text-field--filled {
-    border-color: #93c5fd !important; // Brighter Blue (Blue 300) for focus
-    background-color: rgba(30, 41, 59, 0.9) !important;
-    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
+    border-color: #93c5fd !important;
+    background-color: #0f172a !important;
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.3);
   }
 
   // Improve placeholder contrast
   ::placeholder {
-    color: #94a3b8 !important; // Slate 400
-    opacity: 1;
+    color: #cbd5e1 !important; // Slate 300
+    opacity: 0.8;
   }
 }
 
 .mat-mdc-option {
-  --mdc-list-item-label-text-color: var(--text-main);
-  background-color: var(--surface);
-  &:hover { background-color: var(--surface-hover); }
+  --mdc-list-item-label-text-color: #ffffff !important;
+  background-color: #0f172a;
+  &:hover { background-color: #1e293b; }
+  &.mdc-list-item--selected {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+  }
 }
 
 .mat-mdc-checkbox {
-  --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.4);
-  --mdc-checkbox-selected-icon-color: var(--accent);
-  --mdc-checkbox-selected-focus-icon-color: var(--accent);
-  --mdc-checkbox-selected-hover-icon-color: var(--accent);
-  --mdc-checkbox-selected-pressed-icon-color: var(--accent);
-  --mdc-checkbox-selected-focus-state-layer-color: var(--accent);
-  --mdc-checkbox-selected-hover-state-layer-color: var(--accent);
-  --mdc-checkbox-selected-pressed-state-layer-color: var(--accent);
+  --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.7) !important; // Much more visible when unselected
+  --mdc-checkbox-selected-icon-color: #{$accent-color};
+  --mdc-checkbox-selected-focus-icon-color: #{$accent-color};
+  --mdc-checkbox-selected-hover-icon-color: #{$accent-color};
+  --mdc-checkbox-selected-pressed-icon-color: #{$accent-color};
+  --mdc-checkbox-selected-focus-state-layer-color: #{$accent-color};
+  --mdc-checkbox-selected-hover-state-layer-color: #{$accent-color};
+  --mdc-checkbox-selected-pressed-state-layer-color: #{$accent-color};
+
+  label {
+    color: #ffffff !important;
+    font-weight: 500;
+  }
 }
 
 .mat-mdc-radio-button {
-  --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.4);
-  --mdc-radio-selected-focus-icon-color: var(--accent);
-  --mdc-radio-selected-hover-icon-color: var(--accent);
-  --mdc-radio-selected-icon-color: var(--accent);
-  --mdc-radio-selected-pressed-icon-color: var(--accent);
+  --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.7) !important; // Much more visible when unselected
+  --mdc-radio-selected-focus-icon-color: #{$accent-color};
+  --mdc-radio-selected-hover-icon-color: #{$accent-color};
+  --mdc-radio-selected-icon-color: #{$accent-color};
+  --mdc-radio-selected-pressed-icon-color: #{$accent-color};
+
+  label {
+    color: #ffffff !important;
+  }
 }
 
 .mat-mdc-select-panel {
