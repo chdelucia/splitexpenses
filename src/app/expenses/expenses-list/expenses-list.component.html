@@ -1,95 +1,98 @@
-<main class="mb-5 container">
-  <h2 class="my-4 text-center" i18n>Historial</h2>
+<main class="animate-in">
+  <div class="section-header">
+    <h2 i18n>Historial de Gastos</h2>
+  </div>
+
   @let currentExpenses = expenses();
-  @if (currentExpenses) {
-    <section class="filters row">
-      <div class="col-12 col-md-5 col-xl-6">
-        <mat-form-field appearance="fill" class="w-100">
-          <mat-label i18n>Buscador</mat-label>
-          <input matInput [(ngModel)]="term" type="text" />
+  @if (currentExpenses && currentExpenses.length > 0) {
+    <section class="expenses-container">
+      <div class="filters-header">
+        <mat-form-field appearance="fill" class="search-field">
+          <mat-label i18n>Buscar gastos</mat-label>
+          <input matInput [(ngModel)]="term" type="text" placeholder="Ej: Supermercado, Gasolina..." />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-      </div>
-      <div class="col-12 col-md-7 col-xl-6">
-        <mat-paginator
-          (page)="handlePageEvent($event)"
-          [length]="currentExpenses.length"
-          [pageSize]="pageSize"
-          [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
-          aria-label="Select page"
-        >
-        </mat-paginator>
-      </div>
-    </section>
-    @for (
-      expense of currentExpenses.slice(
-        pageIndex * pageSize,
-        (pageIndex + 1) * pageSize
-      ) | filter: term;
-      track expense;
-      let i = $index
-    ) {
-      @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
-        <div class="date-title p-2">
-          {{ expense.date | date: "fullDate" }}
+
+        <div class="glass-card paginator-card">
+          <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="currentExpenses.length"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
+            aria-label="Páginas"
+          >
+          </mat-paginator>
         </div>
-      }
-      <div class="expense px-2">
-        <div class="row g-2 align-items-center">
-          <div class="col-5">
-            <div>{{ expense.title }}</div>
-          </div>
-          <div class="d-md-flex col-2 col-md-3">
-            {{ expense.originalCost }} {{ currency.currencySymbol }}
-          </div>
-          @if (!filter()) {
-            <div class="col-5 col-md-4 action-icons">
-              <button
-                mat-mini-fab
-                color="primary"
-                (click)="editExpense(expense.id)"
-                aria-label="Example icon button with a filter list icon"
-              >
-                <span class="material-icons">edit</span>
-              </button>
-              <span> </span>
-              <button
-                mat-mini-fab
-                color="warn"
-                (click)="deleteExpense(expense.id)"
-                aria-label="Example icon button with a filter list icon"
-              >
-                <span class="material-icons">delete_forever</span>
-              </button>
+      </div>
+
+      <div class="expense-list-content">
+        @for (
+          expense of currentExpenses.slice(
+            pageIndex * pageSize,
+            (pageIndex + 1) * pageSize
+          ) | filter: term;
+          track expense.id;
+          let i = $index
+        ) {
+          @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
+            <div class="date-divider">
+              <span class="date-text">{{ expense.date | date: "fullDate" }}</span>
+              <div class="line"></div>
             </div>
           }
-        </div>
-        <div class="row g-2 align-items-center text-secondary">
-          <div class="col-sm-7 col-md-5 paidBy">
-            <span i18n>Pagado por:</span>
-            {{ expense.paidByUserName }}
-            <br />
-            <span i18n>Participan: </span>
-            @if (expense.sharedByNames?.length === userCount()) {
-              <span i18n>Todos</span>
-            } @else {
-              @for (name of expense.sharedByNames; track name) {
-                <span>
-                  {{ name }}
-                </span>
+
+          <div class="glass-card expense-item animate-in" [style.animation-delay]="(i * 0.05) + 's'">
+            <div class="category-icon-wrapper">
+              <mat-icon>{{ getCategoryIcon(expense.typeId) }}</mat-icon>
+            </div>
+
+            <div class="expense-main-info">
+              <div class="expense-title">{{ expense.title }}</div>
+              <div class="expense-meta">
+                <span i18n>Pagado por</span> <strong>{{ expense.paidByUserName }}</strong>
+                <span class="mx-2">•</span>
+                @if (expense.sharedByNames?.length === userCount()) {
+                  <span i18n>Todos</span>
+                } @else {
+                  {{ expense.sharedByNames?.length }} <span i18n>pers.</span>
+                }
+              </div>
+            </div>
+
+            <div class="expense-amount-box">
+              <div class="main-amount">
+                {{ expense.originalCost | number: ".0-2" }} {{ currency.currencySymbol }}
+              </div>
+              @if (currency.active) {
+                <div class="exchange-amount">
+                  {{ expense.originalCost | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+                </div>
               }
+            </div>
+
+            @if (!filter()) {
+              <div class="actions-group">
+                <button mat-icon-button class="edit-btn" (click)="editExpense(expense.id)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="delete-btn" (click)="deleteExpense(expense.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             }
           </div>
-          @if (currency.active) {
-            <div class="col-4 paidBy d-none d-md-inline">
-              {{ expense.originalCost | exchange | number: ".0-2" }}
-              {{ currency.currencyExchangeSymbol }}
-            </div>
-          }
-        </div>
+        }
       </div>
-    }
+    </section>
   } @else {
-    No tienes gastos aun
+    <div class="glass-card empty-history animate-in">
+      <mat-icon>receipt_long</mat-icon>
+      <h3 i18n>Sin gastos todavía</h3>
+      <p i18n>Registra tu primer gasto para empezar a dividir las cuentas.</p>
+      <button class="btn-primary" (click)="addExpense()">
+        <mat-icon>add</mat-icon>
+        <span i18n>Añadir mi primer gasto</span>
+      </button>
+    </div>
   }
 </main>

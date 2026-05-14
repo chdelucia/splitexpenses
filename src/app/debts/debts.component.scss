@@ -1,43 +1,136 @@
-.persoanlDebts {
-  border: 1px solid #1f2128;
-  border-radius: 7px;
-  background: white;
-  transition: all 1s ease;
-  .title {
-    font-size: 1.5rem;
-    padding-bottom: 0.6em;
-    margin-bottom: 0.6em;
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.debt-card {
+  cursor: pointer;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(var(--primary-rgb), 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+      }
+
+      .username {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-main);
+      }
+    }
   }
-  .text {
-    font-size: small;
+
+  .debt-summary {
+    text-align: right;
+
+    .label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .amount {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ef4444; // Default to "owe"
+      line-height: 1;
+
+      &.positive {
+        color: #10b981;
+      }
+    }
+
+    .exchange {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
   }
-  .mainExchange {
-    font-size: medium;
+
+  .details-list {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+
+      .person-name {
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        mat-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          color: var(--text-muted);
+        }
+      }
+
+      .detail-amount {
+        font-weight: 600;
+        color: var(--text-main);
+
+        small {
+          color: var(--text-muted);
+          font-weight: 400;
+          margin-left: 0.5rem;
+        }
+      }
+    }
   }
-  .subtitle {
-    font-size: 1rem;
-  }
-  &:hover,
-  &:active {
-    //transform: scale(1.01);
-    border: 1px solid;
-    cursor: pointer;
-    box-shadow: 2px 2px black;
+
+  &.settled {
+    .amount {
+      color: var(--text-main);
+    }
+    opacity: 0.8;
+    &:hover { opacity: 1; }
   }
 }
 
-.totalIowe {
-  color: #d84315;
-  font-weight: bolder;
-}
-.order-2 .totalIowe {
-  color: initial;
-  font-weight: initial;
-}
-.list-group-item {
+.section-header {
   display: flex;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+  }
 }
-small {
-  display: block;
+
+@media (max-width: 576px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 }

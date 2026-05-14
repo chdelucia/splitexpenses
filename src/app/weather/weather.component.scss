@@ -1,8 +1,106 @@
-.flex {
+.weather-banner {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  margin-bottom: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(15, 23, 42, 0.6) 100%);
+
+  .weather-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .location {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        color: var(--primary);
+      }
+    }
+
+    .condition {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .description {
+        text-transform: capitalize;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .weather-metrics {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .temp {
+      display: flex;
+      align-items: flex-start;
+
+      .value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--text-main);
+      }
+
+      .unit {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-top: 0.25rem;
+      }
+    }
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .detail {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          color: var(--text-secondary);
+        }
+      }
+    }
+  }
 }
-.temp {
-  margin-left: 5px;
+
+@media (max-width: 600px) {
+  .weather-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    .weather-metrics {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
 }

@@ -8,7 +8,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { openSnackBar, globalToast } from '@shared/utils';
+import { openSnackBar, globalToast, getCategoryIcon } from '@shared/utils';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { UsersService } from '@users/shared/users.service';
@@ -86,6 +86,14 @@ export class ExpensesListComponent implements OnInit {
 
   editExpense(expenseId: string) {
     this.router.navigate(['/expense', expenseId]);
+  }
+
+  addExpense() {
+    this.router.navigate(['/expense']);
+  }
+
+  getCategoryIcon(typeId: string | number): string {
+    return getCategoryIcon(Number(typeId));
   }
 
   handlePageEvent(e: PageEvent) {

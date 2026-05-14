@@ -24,7 +24,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
-import { globalToast, openSnackBar } from '@shared/utils';
+import { globalToast, openSnackBar, getCategoryIcon } from '@shared/utils';
 import { UsersService } from '@users/shared/users.service';
 import {
   MatCheckboxChange,
@@ -39,7 +39,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
-import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 
 @Component({
   selector: 'app-add-expense',
@@ -57,7 +56,6 @@ import { ExchangePipe } from '@shared/pipes/exchange.pipe';
     MatButtonModule,
     MatIconModule,
     MatRadioModule,
-    ExchangePipe,
   ],
   providers: [provideNativeDateAdapter()],
 })
@@ -84,6 +82,10 @@ export class AddExpenseComponent implements OnInit {
   users = this.usersService.iterableUsers;
   expenseTypes: ExpenseTypes[] = this.expensesService.getExpensesTypes();
   expense?: Expense;
+
+  getCategoryIcon(typeId: string | number): string {
+    return getCategoryIcon(Number(typeId));
+  }
 
   get isEditing(): boolean {
     return !!this.expense;

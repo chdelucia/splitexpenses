@@ -3,13 +3,14 @@ import { WeatherService } from '@forecast/shared/weather.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { map } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
 })
 export class WeatherComponent {
   private weatherService = inject(WeatherService);

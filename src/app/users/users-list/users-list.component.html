@@ -1,36 +1,36 @@
 @if (users()) {
-  <table class="table table-striped mt-4">
-    <thead>
-      <tr>
-        <th i18n>Nombre</th>
-        <th i18n>Telf</th>
-        <th>-</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (user of users(); track user) {
-        <tr>
-          <td
+  <div class="users-grid">
+    @for (user of users(); track user.id) {
+      <div class="glass-card user-card animate-in">
+        <div class="user-avatar">
+          {{ user.name.charAt(0) }}
+        </div>
+
+        <div class="user-details">
+          <div
             #nameCell
             contentEditable
+            class="user-name"
             (focusout)="edit(nameCell, user, 'name')"
+            spellcheck="false"
           >
             {{ user.name }}
-          </td>
-          <td
+          </div>
+          <div
             #phoneCell
             contentEditable
+            class="user-phone"
             (focusout)="edit(phoneCell, user, 'phone')"
+            spellcheck="false"
           >
             {{ user.phone }}
-          </td>
-          <td (click)="delete(user.id)">
-            <button mat-mini-fab color="warn">
-              <span class="material-icons">delete_forever</span>
-            </button>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+          </div>
+        </div>
+
+        <button mat-icon-button class="delete-btn" (click)="delete(user.id)" i18n-aria-label aria-label="Eliminar usuario">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
 }
