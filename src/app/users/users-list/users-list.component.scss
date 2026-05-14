@@ -59,7 +59,7 @@
   .delete-btn {
     opacity: 0;
     transition: opacity 0.2s ease;
-    color: #ef4444;
+    color: var(--error);
   }
 
   &:hover .delete-btn {

@@ -4,11 +4,20 @@ svg {
 }
 
 .nav-link {
-  color: black;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: var(--text-main);
+  }
 }
 .nav-link.active {
-  background: linear-gradient(-45deg, #1391a5, #0e8388);
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.2) 0%, rgba(var(--primary-rgb), 0.05) 100%);
+  color: var(--primary);
+  font-weight: 600;
 }
 hr {
-  border: 2px solid #274685;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1rem 0;
 }

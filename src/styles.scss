@@ -1,31 +1,72 @@
 @use "@angular/material" as mat;
 @use "sass:color";
 
-@include mat.elevation-classes();
-@include mat.app-background();
+@include mat.core();
 
-// Premium Fintech Palette
+// Premium Fintech Palette - Unified Variable System
 $bg-dark: #020617;
 $surface-dark: #0f172a;
 $surface-lighter: #1e293b;
-$primary: #3b82f6;
+$primary-color: #3b82f6;
 $primary-hover: #2563eb;
-$accent: #60a5fa;
+$accent-color: #60a5fa;
+$success-color: #10b981;
+$error-color: #ef4444;
 $text-primary: #f8fafc;
-$text-secondary: #cbd5e1; // Slate 300 for better contrast
-$border: rgba(255, 255, 255, 0.15);
+$text-secondary: #cbd5e1;
+$text-muted: #94a3b8;
+$border-color: rgba(255, 255, 255, 0.15);
 
 :root {
+  // Brand Colors
+  --primary: #{$primary-color};
+  --primary-hover: #{$primary-hover};
+  --primary-rgb: 59, 130, 246;
+  --accent: #{$accent-color};
+
+  // Backgrounds & Surfaces
   --app-bg: #{$bg-dark};
   --surface: #{$surface-dark};
   --surface-hover: #{$surface-lighter};
-  --primary: #{$primary};
-  --primary-rgb: 59, 130, 246;
+  --surface-glass: rgba(15, 23, 42, 0.7);
+
+  // Status Colors
+  --success: #{$success-color};
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --error: #{$error-color};
+  --error-bg: rgba(239, 68, 68, 0.1);
+
+  // Text Colors
   --text-main: #{$text-primary};
-  --text-muted: #{$text-secondary};
-  --border-color: #{$border};
+  --text-secondary: #{$text-secondary};
+  --text-muted: #{$text-muted};
+
+  // Borders & Shadows
+  --border-color: #{$border-color};
+  --border-hover: rgba(59, 130, 246, 0.3);
   --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --focus-glow: 0 0 0 4px rgba(96, 165, 250, 0.25);
 }
+
+// Material Theme Definition
+$theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  typography: (
+    brand-family: 'Poppins',
+    plain-family: 'Inter',
+  ),
+  density: (
+    scale: 0
+  )
+));
+
+@include mat.all-component-themes($theme);
+@include mat.elevation-classes();
+@include mat.app-background();
 
 body {
   min-height: 100vh;
@@ -49,7 +90,7 @@ h1, h2, h3, h4, h5, h6 {
 
 // Glassmorphism & Cards
 .glass-card {
-  background: rgba(15, 23, 42, 0.7);
+  background: var(--surface-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
@@ -59,7 +100,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    border-color: rgba(59, 130, 246, 0.3);
+    border-color: var(--border-hover);
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.1);
   }
@@ -76,7 +117,7 @@ h1, h2, h3, h4, h5, h6 {
 // Components
 .btn-primary {
   background: var(--primary);
-  color: #fff;
+  color: #ffffff;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 10px;
@@ -101,10 +142,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   &:disabled {
-    background: #334155;
-    color: #64748b;
+    background: var(--surface-hover);
+    color: var(--text-muted);
     cursor: not-allowed;
     box-shadow: none;
+    opacity: 0.5;
   }
 }
 
@@ -117,62 +159,65 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.05em;
 
   &-success {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10b981;
+    background: var(--success-bg);
+    color: var(--success);
     border: 1px solid rgba(16, 185, 129, 0.2);
   }
   &-error {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
+    background: var(--error-bg);
+    color: var(--error);
     border: 1px solid rgba(239, 68, 68, 0.2);
   }
 }
 
 // Material Overrides for Dark Theme
 .mat-mdc-form-field {
-  --mdc-filled-text-field-container-color: rgba(30, 41, 59, 0.5) !important; // Slightly lighter surface (Slate 800)
+  --mdc-filled-text-field-container-color: rgba(15, 23, 42, 0.8) !important;
   --mdc-filled-text-field-focus-active-indicator-color: var(--accent);
-  --mdc-filled-text-field-label-text-color: #cbd5e1 !important; // Slate 300
+  --mdc-filled-text-field-label-text-color: var(--text-main) !important;
   --mdc-filled-text-field-focus-label-text-color: var(--accent);
-  --mdc-filled-text-field-input-text-color: var(--text-main);
+  --mdc-filled-text-field-input-text-color: #ffffff !important;
   --mdc-filled-text-field-caret-color: var(--accent);
-  --mat-select-panel-background-color: #0f172a;
-  --mat-select-enabled-trigger-text-color: var(--text-main);
+  --mat-select-panel-background-color: var(--surface);
+  --mat-select-enabled-trigger-text-color: #ffffff !important;
 
   .mdc-text-field--filled {
     border-radius: 12px !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.25) !important; // Increased border opacity
+    border: 1.5px solid var(--border-color) !important;
     transition: all 0.2s ease;
 
     &::before { display: none; }
 
     &:hover {
-      border-color: rgba(96, 165, 250, 0.8) !important; // Stronger accent hover
-      background-color: rgba(30, 41, 59, 0.7) !important;
+      border-color: var(--border-hover) !important;
+      background-color: var(--surface-hover) !important;
     }
   }
 
   &.mat-focused .mdc-text-field--filled {
-    border-color: #93c5fd !important; // Brighter Blue (Blue 300) for focus
-    background-color: rgba(30, 41, 59, 0.9) !important;
-    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
+    border-color: var(--accent) !important;
+    background-color: var(--surface) !important;
+    box-shadow: var(--focus-glow);
   }
 
   // Improve placeholder contrast
   ::placeholder {
-    color: #94a3b8 !important; // Slate 400
-    opacity: 1;
+    color: var(--text-muted) !important;
+    opacity: 0.8;
   }
 }
 
 .mat-mdc-option {
-  --mdc-list-item-label-text-color: var(--text-main);
+  --mdc-list-item-label-text-color: #ffffff !important;
   background-color: var(--surface);
   &:hover { background-color: var(--surface-hover); }
+  &.mdc-list-item--selected {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+  }
 }
 
 .mat-mdc-checkbox {
-  --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.4);
+  --mdc-checkbox-unselected-icon-color: rgba(255, 255, 255, 0.7) !important;
   --mdc-checkbox-selected-icon-color: var(--accent);
   --mdc-checkbox-selected-focus-icon-color: var(--accent);
   --mdc-checkbox-selected-hover-icon-color: var(--accent);
@@ -180,14 +225,23 @@ h1, h2, h3, h4, h5, h6 {
   --mdc-checkbox-selected-focus-state-layer-color: var(--accent);
   --mdc-checkbox-selected-hover-state-layer-color: var(--accent);
   --mdc-checkbox-selected-pressed-state-layer-color: var(--accent);
+
+  label {
+    color: var(--text-main) !important;
+    font-weight: 500;
+  }
 }
 
 .mat-mdc-radio-button {
-  --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.4);
+  --mdc-radio-unselected-icon-color: rgba(255, 255, 255, 0.7) !important;
   --mdc-radio-selected-focus-icon-color: var(--accent);
   --mdc-radio-selected-hover-icon-color: var(--accent);
   --mdc-radio-selected-icon-color: var(--accent);
   --mdc-radio-selected-pressed-icon-color: var(--accent);
+
+  label {
+    color: var(--text-main) !important;
+  }
 }
 
 .mat-mdc-select-panel {
@@ -202,12 +256,12 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--app-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: var(--surface-hover);
   border-radius: 5px;
   border: 2px solid var(--app-bg);
 
   &:hover {
-    background: #334155;
+    background: var(--primary);
   }
 }
 
