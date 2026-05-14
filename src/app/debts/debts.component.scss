@@ -53,11 +53,11 @@
     .amount {
       font-size: 1.75rem;
       font-weight: 800;
-      color: #ef4444; // Default to "owe"
+      color: var(--error);
       line-height: 1;
 
       &.positive {
-        color: #10b981;
+        color: var(--success);
       }
     }
 
