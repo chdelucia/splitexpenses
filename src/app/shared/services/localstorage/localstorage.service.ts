@@ -110,7 +110,7 @@ export class LocalstorageService extends StorageService {
     const obj: Settings = {
       weather: { active: false, city: '', key: '' },
       travels: {
-        names: [environment.localStorageExpenses],
+        names: [environment.localStorageExpenses, 'Personal'],
         active: environment.localStorageExpenses,
       },
       graph: {

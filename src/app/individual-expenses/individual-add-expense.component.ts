@@ -8,5 +8,5 @@ import { AddExpenseComponent } from '@expenses/add-expense/add-expense.component
   template: `<app-add-expense [individualMode]="true" [id]="id()"></app-add-expense>`,
 })
 export class IndividualAddExpenseComponent {
-  id = input<string | number, number>('', { transform: numberAttribute });
+  id = input<number, string | number>(0, { transform: numberAttribute });
 }

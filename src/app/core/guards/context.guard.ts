@@ -4,7 +4,9 @@ import { ExpensesService } from '@expenses/shared/expenses.service';
 
 export const contextGuard: CanActivateFn = (route) => {
   const expenseService = inject(ExpensesService);
-  const context = route.data['context'] || 'Default';
-  expenseService.switchContext(context);
+  const context = route.data['context'];
+  if (context) {
+    expenseService.switchContext(context);
+  }
   return true;
 };

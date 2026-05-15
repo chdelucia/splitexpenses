@@ -60,7 +60,7 @@ import { MatRadioModule } from '@angular/material/radio';
   providers: [provideNativeDateAdapter()],
 })
 export class AddExpenseComponent implements OnInit {
-  id = input<string | number, number>('', { transform: numberAttribute });
+  id = input<number, string | number>(0, { transform: numberAttribute });
   individualMode = input<boolean>(false);
 
   private route = inject(ActivatedRoute);
