@@ -19,3 +19,4 @@ export const addUsers = createAction(
   '[Users] Add Users',
   props<{ users: Record<string, User> }>(),
 );
+export const clearUsers = createAction('[User] Clear Users');

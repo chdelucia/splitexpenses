@@ -61,6 +61,7 @@ import { MatRadioModule } from '@angular/material/radio';
 })
 export class AddExpenseComponent implements OnInit {
   id = input<string | number, number>('', { transform: numberAttribute });
+  individualMode = input<boolean>(false);
 
   private route = inject(ActivatedRoute);
   private expensesService = inject(ExpensesService);
@@ -100,7 +101,16 @@ export class AddExpenseComponent implements OnInit {
     effect(() => {
       this.initializeExpense();
       this.initializeCheckboxControls();
+      this.handleIndividualMode();
     });
+  }
+
+  private handleIndividualMode(): void {
+    if (this.individualMode() && !this.isEditing) {
+      this.expenseForm.get('name')?.setValue('1');
+      this.expenseForm.get('name')?.clearValidators();
+      this.expenseForm.get('name')?.updateValueAndValidity();
+    }
   }
 
   ngOnInit(): void {
@@ -124,6 +134,13 @@ export class AddExpenseComponent implements OnInit {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
     if (sharedBy.length === this.users().length) return;
     sharedBy.clear();
+
+    if (this.individualMode()) {
+      const control = this.fb.control(true);
+      sharedBy.push(control);
+      return;
+    }
+
     this.users().forEach((user) => {
       const control = this.createFormControl(user.id);
       sharedBy.push(control);
@@ -139,9 +156,17 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
-    const selectedUserIds = this.users()
-      .filter((_, index) => expenseForm.sharedBy[index])
-      .map((user) => user.id);
+    let selectedUserIds: string[] = [];
+    let paidBy = expenseForm.name;
+
+    if (this.individualMode()) {
+      selectedUserIds = ['1'];
+      paidBy = '1';
+    } else {
+      selectedUserIds = this.users()
+        .filter((_, index) => expenseForm.sharedBy[index])
+        .map((user) => user.id);
+    }
 
     const originalCost = expenseForm.cost;
     const costPerPerson = originalCost / selectedUserIds.length;
@@ -152,7 +177,7 @@ export class AddExpenseComponent implements OnInit {
       originalCost: originalCost,
       cost: costPerPerson,
       date: expenseForm.date.toDateString(),
-      paidBy: expenseForm.name,
+      paidBy: paidBy,
       typeId: expenseForm.type,
       sharedBy: selectedUserIds,
       settleBy: [],

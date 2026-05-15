@@ -26,6 +26,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { authGuard } from './app/core/guards/auth.guard';
+import { contextGuard } from './app/core/guards/context.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/expense', pathMatch: 'full' },
@@ -57,13 +58,24 @@ const routes: Routes = [
     path: 'expense',
     loadChildren: () =>
       import('./app/expenses/expenses.routes').then((m) => m.routes),
-    canActivate: [authGuard],
+    canActivate: [authGuard, contextGuard],
+    data: { context: 'Default' },
+  },
+  {
+    path: 'personal',
+    loadChildren: () =>
+      import('./app/individual-expenses/individual-expenses.routes').then(
+        (m) => m.routes,
+      ),
+    canActivate: [authGuard, contextGuard],
+    data: { context: 'Personal' },
   },
   {
     path: 'debts',
     loadChildren: () =>
       import('./app/debts/debts.routes').then((m) => m.routes),
-    canActivate: [authGuard],
+    canActivate: [authGuard, contextGuard],
+    data: { context: 'Default' },
   },
 ];
 

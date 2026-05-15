@@ -17,3 +17,4 @@ export const addExpenses = createAction(
   '[Expenses] Add Expenses',
   props<{ expenses: Record<string, Expense> }>(),
 );
+export const clearExpenses = createAction('[Expenses] Clear Expenses');

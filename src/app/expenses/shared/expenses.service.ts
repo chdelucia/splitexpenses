@@ -10,7 +10,9 @@ import {
   addExpenses,
   removeExpense,
   updateExpense,
+  clearExpenses,
 } from '@state/expenses/expenses.actions';
+import { resetUsers, addUsers } from '@state/user/user.actions';
 import {
   selectExpenseByID,
   selectExpenses,
@@ -142,6 +144,19 @@ export class ExpensesService extends ExpenseRepository {
   deleteExpense(id: string) {
     this.store.dispatch(removeExpense({ id }));
     this.saveExpensesIntoLocalStorage();
+  }
+
+  switchContext(name: string): void {
+    if (this.storageService.getActiveTravelName() === name) return;
+
+    this.storageService.changeTravel(name);
+
+    this.store.dispatch(clearExpenses());
+    this.loadExpensesFromLocalStorage();
+
+    this.store.dispatch(resetUsers());
+    const users = this.storageService.getData().users;
+    this.store.dispatch(addUsers({ users: users || {} }));
   }
 
   getTotalPaidByUserToOthers(userId: string): number {

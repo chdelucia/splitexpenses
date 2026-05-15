@@ -4,6 +4,7 @@ import {
   updateExpense,
   removeExpense,
   addExpenses,
+  clearExpenses,
 } from './expenses.actions';
 import { Expense } from '@shared/models';
 
@@ -40,4 +41,5 @@ export const expensesReducer = createReducer(
       expenses: { ...state.expenses, ...expenses },
     }),
   ),
+  on(clearExpenses, (): ExpensesState => initialState),
 );

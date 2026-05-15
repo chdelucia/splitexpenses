@@ -27,6 +27,12 @@ export class LocalstorageService extends StorageService {
   loadDataFromLocalStorage(): StorageData {
     const travelName = this.getActiveTravelName();
     const ans = this.getItem<StorageData>(travelName);
+
+    if (!ans && travelName === 'Personal') {
+      this.addNewTravel('Personal');
+      return this.getItem<StorageData>('Personal')!;
+    }
+
     const answers = ans ?? this.createDataStructure();
     return answers;
   }
@@ -124,7 +130,17 @@ export class LocalstorageService extends StorageService {
     this.settings.travels.active = name;
     this.settings.travels.names.push(name);
 
-    const data = { users: '', expenses: '', name: name, currency: '' };
+    let users = {};
+    if (name === 'Personal') {
+      users = {
+        '1': {
+          id: '1',
+          name: 'You',
+        },
+      };
+    }
+
+    const data = { users: users, expenses: {}, name: name, currency: '' };
     this.setItem(name, data);
     this.setItem(environment.localStorageSettings, this.settings);
     this.reset();

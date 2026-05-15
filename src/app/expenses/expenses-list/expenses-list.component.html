@@ -4,6 +4,29 @@
   </div>
 
   @let currentExpenses = expenses();
+
+  @if (monthlyFilter()) {
+    <div class="filters-header mb-4">
+      <mat-form-field appearance="fill">
+        <mat-label i18n>Mes</mat-label>
+        <mat-select [ngModel]="selectedMonth()" (ngModelChange)="selectedMonth.set($event)">
+          @for (month of months; track month.value) {
+            <mat-option [value]="month.value">{{ month.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label i18n>Año</mat-label>
+        <mat-select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set($event)">
+          @for (year of years(); track year) {
+            <mat-option [value]="year">{{ year }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  }
+
   @if (currentExpenses && currentExpenses.length > 0) {
     <section class="expenses-container">
       <div class="filters-header">
@@ -48,15 +71,17 @@
 
             <div class="expense-main-info">
               <div class="expense-title">{{ expense.title }}</div>
-              <div class="expense-meta">
-                <span i18n>Pagado por</span> <strong>{{ expense.paidByUserName }}</strong>
-                <span class="mx-2">•</span>
-                @if (expense.sharedByNames?.length === userCount()) {
-                  <span i18n>Todos</span>
-                } @else {
-                  {{ expense.sharedByNames?.length }} <span i18n>pers.</span>
-                }
-              </div>
+              @if (!monthlyFilter()) {
+                <div class="expense-meta">
+                  <span i18n>Pagado por</span> <strong>{{ expense.paidByUserName }}</strong>
+                  <span class="mx-2">•</span>
+                  @if (expense.sharedByNames?.length === userCount()) {
+                    <span i18n>Todos</span>
+                  } @else {
+                    {{ expense.sharedByNames?.length }} <span i18n>pers.</span>
+                  }
+                </div>
+              }
             </div>
 
             <div class="expense-amount-box">
@@ -88,11 +113,13 @@
     <div class="glass-card empty-history animate-in">
       <mat-icon>receipt_long</mat-icon>
       <h3 i18n>Sin gastos todavía</h3>
-      <p i18n>Registra tu primer gasto para empezar a dividir las cuentas.</p>
-      <button class="btn-primary" (click)="addExpense()">
-        <mat-icon>add</mat-icon>
-        <span i18n>Añadir mi primer gasto</span>
-      </button>
+      <p i18n>{{ monthlyFilter() ? 'No hay gastos para este periodo.' : 'Registra tu primer gasto para empezar a dividir las cuentas.' }}</p>
+      @if (!monthlyFilter()) {
+        <button class="btn-primary" (click)="addExpense()">
+          <mat-icon>add</mat-icon>
+          <span i18n>Añadir mi primer gasto</span>
+        </button>
+      }
     </div>
   }
 </main>
