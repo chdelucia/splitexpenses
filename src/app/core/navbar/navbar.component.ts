@@ -3,6 +3,7 @@ import { WeatherService } from '@forecast/shared/weather.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,5 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class NavbarComponent {
   private weatherService = inject(WeatherService);
+  private storageService = inject(LocalstorageService);
+
   weatherActive = computed(() => this.weatherService.weatherSettings().active);
+  isPersonal = computed(() => this.storageService.getActiveTravelName() === 'Personal');
 }

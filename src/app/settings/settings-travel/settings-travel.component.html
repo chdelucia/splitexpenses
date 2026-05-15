@@ -8,7 +8,7 @@
       [class.btn-secondary]="travel !== settings.travels.active"
       (click)="changeTravel(travel)"
     >
-      <span contenteditable>{{ travel }}</span>
+      <span>{{ travel }}</span>
       @if (travel === settings.travels.active) {
         <span class="ms-2 badge bg-danger">Active</span>
       }

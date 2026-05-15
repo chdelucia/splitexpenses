@@ -1,0 +1,6 @@
+
+> splitexpenses@1.5.0 start
+> ng serve
+
+An unhandled exception occurred: Port 4200 is already in use. Use '--port' to specify a different port.
+See "/tmp/ng-FUG1Gl/angular-errors.log" for further details.

@@ -26,7 +26,7 @@ export class SettingsTravelComponent {
   }
 
   changeTravel(name: string) {
-    this.localStorageService.changeTravel(name);
+    this.expensesService.switchContext(name);
     this.updateSettings();
     this.resetAll();
     this.showAlert = true;
