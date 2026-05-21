@@ -1,0 +1,31 @@
+<div class="welcome-container animate-in">
+  <header class="welcome-header">
+    <img src="./assets/img/splitty.svg" alt="Splitty Logo" class="welcome-logo" />
+    <h1 i18n>Bienvenido a Splitty</h1>
+    <p i18n>¿Cómo quieres empezar hoy?</p>
+  </header>
+
+  <div class="modes-grid">
+    <button class="glass-card mode-card animate-in" style="animation-delay: 0.1s" (click)="selectMode('personal')">
+      <div class="mode-icon-wrapper personal">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div class="mode-info">
+        <h2 i18n>Gastos Personales</h2>
+        <p i18n>Controla tus gastos individuales mes a mes de forma privada.</p>
+      </div>
+      <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+    </button>
+
+    <button class="glass-card mode-card animate-in" style="animation-delay: 0.2s" (click)="selectMode('shared')">
+      <div class="mode-icon-wrapper shared">
+        <mat-icon>group</mat-icon>
+      </div>
+      <div class="mode-info">
+        <h2 i18n>Gastos Compartidos</h2>
+        <p i18n>Divide cuentas con amigos, pareja o compañeros de viaje.</p>
+      </div>
+      <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>

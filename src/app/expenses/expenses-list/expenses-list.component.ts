@@ -4,10 +4,10 @@ import {
   inject,
   input,
   OnInit,
+  computed,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { openSnackBar, globalToast, getCategoryIcon } from '@shared/utils';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
@@ -18,6 +18,7 @@ import { Expense } from '@shared/models';
 import { selectEnrichedExpensesOrderByDateDesc } from '@state/expenses/expenses.selectors';
 import { selectUserCount } from '@state/user/user.selectors';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,12 +50,26 @@ import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 })
 export class ExpensesListComponent implements OnInit {
   filter = input<string>('');
+  individualMode = input<boolean>(false);
+  monthlyFilter = input<boolean>(false);
+  basePath = input<string>('/expense');
+
+  isIndividualMode = computed(
+    () => this.individualMode() || this.route.snapshot?.data?.['individualMode'],
+  );
+  isMonthlyFilter = computed(
+    () => this.monthlyFilter() || this.route.snapshot?.data?.['monthlyFilter'],
+  );
+  effectiveBasePath = computed(
+    () => this.basePath() || this.route.snapshot?.data?.['basePath'] || '/expense',
+  );
 
   private expensesService = inject(ExpensesService);
   private currencyService = inject(CurrencyService);
   private usersService = inject(UsersService);
   private _snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private loggerService = inject(LoggerService);
 
   term = '';
@@ -85,11 +100,11 @@ export class ExpensesListComponent implements OnInit {
   }
 
   editExpense(expenseId: string) {
-    this.router.navigate(['/expense', expenseId]);
+    this.router.navigate([this.effectiveBasePath(), expenseId]);
   }
 
   addExpense() {
-    this.router.navigate(['/expense']);
+    this.router.navigate([this.effectiveBasePath()]);
   }
 
   getCategoryIcon(typeId: string | number): string {

@@ -26,19 +26,28 @@
       </div>
 
       <div class="expense-list-content">
+        @let filteredExpenses = currentExpenses | filter: term;
+        @let displayedExpenses = filteredExpenses.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
         @for (
-          expense of currentExpenses.slice(
-            pageIndex * pageSize,
-            (pageIndex + 1) * pageSize
-          ) | filter: term;
+          expense of displayedExpenses;
           track expense.id;
           let i = $index
         ) {
-          @if (i === 0 || currentExpenses[i - 1].date !== expense.date) {
-            <div class="date-divider">
-              <span class="date-text">{{ expense.date | date: "fullDate" }}</span>
-              <div class="line"></div>
-            </div>
+          @if (isMonthlyFilter()) {
+            @if (i === 0 || (displayedExpenses[i - 1].date | date: "MMMM yyyy") !== (expense.date | date: "MMMM yyyy")) {
+              <div class="date-divider month-group-header">
+                <span class="date-text">{{ expense.date | date: "MMMM yyyy" | titlecase }}</span>
+                <div class="line"></div>
+              </div>
+            }
+          } @else {
+            @if (i === 0 || displayedExpenses[i - 1].date !== expense.date) {
+              <div class="date-divider">
+                <span class="date-text">{{ expense.date | date: "fullDate" }}</span>
+                <div class="line"></div>
+              </div>
+            }
           }
 
           <div class="glass-card expense-item animate-in" [style.animation-delay]="(i * 0.05) + 's'">
@@ -49,12 +58,16 @@
             <div class="expense-main-info">
               <div class="expense-title">{{ expense.title }}</div>
               <div class="expense-meta">
-                <span i18n>Pagado por</span> <strong>{{ expense.paidByUserName }}</strong>
-                <span class="mx-2">•</span>
-                @if (expense.sharedByNames?.length === userCount()) {
-                  <span i18n>Todos</span>
+                @if (isIndividualMode()) {
+                  <span class="date-meta">{{ expense.date | date: "mediumDate" }}</span>
                 } @else {
-                  {{ expense.sharedByNames?.length }} <span i18n>pers.</span>
+                  <span i18n>Pagado por</span> <strong>{{ expense.paidByUserName }}</strong>
+                  <span class="mx-2">•</span>
+                  @if (expense.sharedByNames?.length === userCount()) {
+                    <span i18n>Todos</span>
+                  } @else {
+                    {{ expense.sharedByNames?.length }} <span i18n>pers.</span>
+                  }
                 }
               </div>
             </div>

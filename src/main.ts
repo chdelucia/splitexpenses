@@ -26,9 +26,32 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { authGuard } from './app/core/guards/auth.guard';
+import { WelcomeComponent } from './app/core/welcome/welcome.component';
+import { contextGuard } from './app/core/guards/context.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/expense', pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: () => {
+      const preferred = localStorage.getItem('splity_preferred_mode');
+      if (!preferred) return '/welcome';
+      return preferred === 'personal' ? '/personal' : '/expense';
+    },
+    pathMatch: 'full',
+  },
+  {
+    path: 'welcome',
+    component: WelcomeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'personal',
+    loadChildren: () =>
+      import('./app/individual-expenses/individual-expenses.routes').then(
+        (m) => m.routes,
+      ),
+    canActivate: [authGuard],
+  },
   {
     path: 'users',
     loadChildren: () =>
@@ -57,7 +80,8 @@ const routes: Routes = [
     path: 'expense',
     loadChildren: () =>
       import('./app/expenses/expenses.routes').then((m) => m.routes),
-    canActivate: [authGuard],
+    canActivate: [authGuard, contextGuard],
+    data: { context: 'shared' },
   },
   {
     path: 'debts',

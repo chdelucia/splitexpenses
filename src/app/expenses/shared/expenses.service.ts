@@ -8,6 +8,7 @@ import { calcNextID, diffinDays } from '@shared/utils';
 import {
   addExpense,
   addExpenses,
+  clearExpenses,
   removeExpense,
   updateExpense,
 } from '@state/expenses/expenses.actions';
@@ -25,6 +26,8 @@ import {
   selectUserTotalBalance,
   selectTotalCost,
 } from '@state/expenses/expenses.selectors';
+import { resetUsers } from '@state/user/user.actions';
+import { UsersService } from '@users/shared/users.service';
 import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
 
@@ -33,6 +36,7 @@ import { ExpenseRepository } from './expense.repository';
 })
 export class ExpensesService extends ExpenseRepository {
   private storageService = inject(LocalstorageService);
+  private usersService = inject(UsersService);
   private store = inject(Store);
   private http = inject(HttpClient);
 
@@ -142,6 +146,23 @@ export class ExpensesService extends ExpenseRepository {
   deleteExpense(id: string) {
     this.store.dispatch(removeExpense({ id }));
     this.saveExpensesIntoLocalStorage();
+  }
+
+  switchContext(context: 'shared' | 'personal'): void {
+    const travelName = context === 'shared' ? 'Expenses' : 'Personal';
+
+    if (this.storageService.getActiveTravelName() === travelName) return;
+
+    this.store.dispatch(clearExpenses());
+    this.store.dispatch(resetUsers());
+
+    this.storageService.changeTravel(travelName);
+    if (!this.storageService.getData().name) {
+      this.storageService.addNewTravel(travelName);
+    }
+
+    this.init();
+    this.usersService.init();
   }
 
   getTotalPaidByUserToOthers(userId: string): number {
