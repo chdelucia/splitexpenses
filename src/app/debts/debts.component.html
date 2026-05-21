@@ -29,11 +29,11 @@
               <div class="debt-summary">
                 <div class="label" i18n>Total</div>
                 <div class="amount" [class.positive]="userDebt!.totalIowe < 0">
-                  {{ userDebt?.totalIowe | number: ".0-2" }} {{ currency.currencySymbol }}
+                  {{ userDebt?.totalIowe | number: ".0-2" }} {{ currency().currencySymbol }}
                 </div>
-                @if (currency.active) {
+                @if (currency().active) {
                   <div class="exchange">
-                    {{ userDebt?.totalIowe | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+                    {{ userDebt?.totalIowe | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }}
                   </div>
                 }
               </div>
@@ -50,9 +50,9 @@
                         {{ debt.userName }}
                       </div>
                       <div class="detail-amount">
-                        {{ debt.newDebt | number: ".0-2" }} {{ currency.currencySymbol }}
-                        @if (currency.active) {
-                          <small>({{ debt.newDebt | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }})</small>
+                        {{ debt.newDebt | number: ".0-2" }} {{ currency().currencySymbol }}
+                        @if (currency().active) {
+                          <small>({{ debt.newDebt | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }})</small>
                         }
                       </div>
                     </div>
@@ -67,6 +67,6 @@
   }
 
   <div class="mt-5">
-    <app-debt-tracing [debtTracing]="debtTracing"></app-debt-tracing>
+    <app-debt-tracing [debtTracing]="debtTracing()"></app-debt-tracing>
   </div>
 </main>

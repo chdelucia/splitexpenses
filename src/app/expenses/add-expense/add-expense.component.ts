@@ -6,6 +6,7 @@ import {
   numberAttribute,
   effect,
   computed,
+  resource,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import {
@@ -20,7 +21,7 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first, Observable } from 'rxjs';
+import { first, firstValueFrom, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
@@ -60,13 +61,23 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   providers: [provideNativeDateAdapter()],
 })
-export class AddExpenseComponent implements OnInit {
+export class AddExpenseComponent {
   id = input<string | number, number>('', { transform: numberAttribute });
   individualMode = input<boolean>(false);
 
   isIndividualMode = computed(
     () => this.individualMode() || this.route.snapshot?.data?.['individualMode'],
   );
+
+  expenseResource = resource({
+    loader: async () => {
+      const id = this.id();
+      if (!id) return undefined;
+      return firstValueFrom(
+        this.expensesService.getExpenseByID(id.toString()),
+      );
+    },
+  });
 
   public route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -76,6 +87,7 @@ export class AddExpenseComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
   private fb = inject(FormBuilder);
 
+  currency = this.currencyService.currencySignal;
   expenseForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     cost: ['', [Validators.required, Validators.min(1)]],
@@ -85,7 +97,6 @@ export class AddExpenseComponent implements OnInit {
     date: [new Date(), Validators.required],
   });
 
-  currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
   users = this.usersService.iterableUsers;
   expenseTypes: ExpenseTypes[] = this.expensesService.getExpensesTypes();
   expense?: Expense;
@@ -105,9 +116,16 @@ export class AddExpenseComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.initializeExpense();
-      this.initializeCheckboxControls();
       this.handleIndividualMode();
+      this.initializeCheckboxControls();
+    });
+
+    effect(() => {
+      const expense = this.expenseResource.value();
+      if (expense) {
+        this.expense = expense as Expense;
+        this.updateForm();
+      }
     });
   }
 
@@ -117,22 +135,7 @@ export class AddExpenseComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    // Already handled by effect
-  }
 
-  private initializeExpense(): void {
-    const id = this.id();
-    if (id) {
-      this.expensesService
-        .getExpenseByID(id.toString())
-        .pipe(first())
-        .subscribe((expense) => {
-          this.expense = expense;
-          this.updateForm();
-        });
-    }
-  }
 
   private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;

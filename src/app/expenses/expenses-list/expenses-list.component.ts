@@ -74,7 +74,7 @@ export class ExpensesListComponent implements OnInit {
 
   term = '';
   private store = inject(Store);
-  currency = this.currencyService.getCurrencySettings();
+  currency = this.currencyService.currencySignal;
   expenses = this.store.selectSignal(selectEnrichedExpensesOrderByDateDesc);
   userCount = this.store.selectSignal(selectUserCount);
   pageSize = 5;

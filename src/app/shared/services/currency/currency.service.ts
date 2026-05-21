@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { CurrencyPlugin } from '@shared/models';
 import { LocalstorageService } from '../localstorage/localstorage.service';
 
@@ -6,10 +6,14 @@ import { LocalstorageService } from '../localstorage/localstorage.service';
   providedIn: 'root',
 })
 export class CurrencyService {
-  currency: CurrencyPlugin;
+  private _currency = signal<CurrencyPlugin>({
+    currencySymbol: '$',
+    active: false,
+    exchangeValue: 0,
+  });
 
   constructor(private storageService: LocalstorageService) {
-    this.currency = this.loadCurrencyFromLocalStorage();
+    this._currency.set(this.loadCurrencyFromLocalStorage());
   }
 
   loadCurrencyFromLocalStorage(): CurrencyPlugin {
@@ -20,16 +24,20 @@ export class CurrencyService {
     this.storageService.saveDataToLocalStorage(
       undefined,
       undefined,
-      this.currency,
+      currency,
     );
-    this.currency = currency;
+    this._currency.set(currency);
   }
 
   getCurrencySettings(): CurrencyPlugin {
-    return this.currency;
+    return this._currency();
+  }
+
+  get currencySignal() {
+    return this._currency.asReadonly();
   }
 
   reset() {
-    this.currency = this.loadCurrencyFromLocalStorage();
+    this._currency.set(this.loadCurrencyFromLocalStorage());
   }
 }

@@ -74,11 +74,11 @@
 
             <div class="expense-amount-box">
               <div class="main-amount">
-                {{ expense.originalCost | number: ".0-2" }} {{ currency.currencySymbol }}
+                {{ expense.originalCost | number: ".0-2" }} {{ currency().currencySymbol }}
               </div>
-              @if (currency.active) {
+              @if (currency().active) {
                 <div class="exchange-amount">
-                  {{ expense.originalCost | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+                  {{ expense.originalCost | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }}
                 </div>
               }
             </div>

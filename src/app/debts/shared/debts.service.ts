@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed, effect, signal } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import {
   Debt,
@@ -22,14 +22,16 @@ import { selectIterableExpenses } from '@state/expenses/expenses.selectors';
   providedIn: 'root',
 })
 export class DebtsService {
-  private debts: Record<string, Debt> = {};
-  private debtTracing: TraceAutoSettle[] = [];
+  private _debts = signal<Record<string, Debt>>({});
+  private _debtTracing = signal<TraceAutoSettle[]>([]);
+
+  private users = this.store.selectSignal(selectUsers);
+  private expenses = this.store.selectSignal(selectIterableExpenses);
 
   constructor(private store: Store) {
-    combineLatest([
-      this.store.select(selectUsers),
-      this.store.select(selectIterableExpenses),
-    ]).subscribe(([users, expenses]) => {
+    effect(() => {
+      const users = this.users();
+      const expenses = this.expenses();
       if (Object.keys(users).length && expenses.length) {
         this.initialize(users, expenses);
       }
@@ -37,6 +39,7 @@ export class DebtsService {
   }
 
   updateDebts(debts: Record<string, Debt>) {
+    this._debts.set(debts);
     this.store.dispatch(UpdateDebts({ debts }));
   }
 
@@ -57,17 +60,17 @@ export class DebtsService {
   }
 
   initialize(users: Record<string, User>, expenses: Expense[]): void {
-    this.createStructure(users);
-    this.calcDebt(expenses);
-    this.settleCrossAccountDebts(users);
-    this.updateDebts(this.debts);
+    const debts = this.createStructure(users);
+    this.calcDebt(expenses, debts);
+    this.settleCrossAccountDebts(users, debts);
+    this.updateDebts(debts);
   }
 
   getDebtTracing(): TraceAutoSettle[] {
-    return this.debtTracing;
+    return this._debtTracing();
   }
 
-  createStructure(users: Record<string, User>): void {
+  createStructure(users: Record<string, User>): Record<string, Debt> {
     const newDebts: Record<string, Debt> = {};
     Object.values(users).forEach((parentUser) => {
       const userDebts = this.createDebtObj();
@@ -79,7 +82,7 @@ export class DebtsService {
       });
       newDebts[parentUser.id] = userDebts;
     });
-    this.debts = { ...newDebts };
+    return newDebts;
   }
 
   private createDebtObj(): Debt {
@@ -99,19 +102,17 @@ export class DebtsService {
     };
   }
 
-  calcDebt(expenses: Expense[]): void {
-    for (const expense of expenses) {
-      this.updateExpenseDebt(expense);
-    }
-  }
 
-  settleCrossAccountDebts(users: Record<string, User>): void {
-    this.debtTracing = [];
-    Object.entries(this.debts).forEach(([debtorId, debts]) => {
-      Object.entries(debts.debts).forEach(([lenderId, individualDebt]) => {
+  settleCrossAccountDebts(
+    users: Record<string, User>,
+    debts: Record<string, Debt>,
+  ): void {
+    const tracing: TraceAutoSettle[] = [];
+    Object.entries(debts).forEach(([debtorId, userDebts]) => {
+      Object.entries(userDebts.debts).forEach(([lenderId, individualDebt]) => {
         let debtorDebt = individualDebt.newDebt;
         if (debtorDebt > 0) {
-          const filteredDebts = Object.entries(this.debts).filter(
+          const filteredDebts = Object.entries(debts).filter(
             ([key]) => key !== debtorId && key !== lenderId,
           );
           filteredDebts.forEach(([intermediaryId, indDebt]) => {
@@ -121,7 +122,7 @@ export class DebtsService {
             if (intermediaryDebtToDebtor > 0) {
               let diff = Math.min(debtorDebt, intermediaryDebtToDebtor);
               const lenderDebtToIntermediary =
-                this.debts[lenderId]?.debts[intermediaryId]?.newDebt || 0;
+                debts[lenderId]?.debts[intermediaryId]?.newDebt || 0;
 
               if (
                 lenderDebtToIntermediary > 0 &&
@@ -139,7 +140,7 @@ export class DebtsService {
                 lenderDebtToIntermediary: lenderDebtToIntermediary,
                 amount: diff,
               };
-              this.traceOfAutoSettlement(trace, users);
+              this.traceOfAutoSettlement(trace, users, tracing);
 
               //TODO split each comment into a function
               //settling the debts of the intermediary with the debtor
@@ -147,12 +148,12 @@ export class DebtsService {
               indDebt.debts[lenderId]!.newDebt! += diff;
 
               //settling the debts of the debtor to the intermediary and the lender
-              debts.debts[intermediaryId]!.newDebt! += diff;
+              userDebts.debts[intermediaryId]!.newDebt! += diff;
               individualDebt.newDebt! -= diff;
 
               //settling the debt of the lender's account
-              this.debts[lenderId]!.debts[debtorId]!.newDebt! += diff;
-              this.debts[lenderId]!.debts[intermediaryId]!.newDebt! -= diff;
+              debts[lenderId]!.debts[debtorId]!.newDebt! += diff;
+              debts[lenderId]!.debts[intermediaryId]!.newDebt! -= diff;
 
               //update
               debtorDebt = individualDebt.newDebt;
@@ -161,9 +162,14 @@ export class DebtsService {
         }
       });
     });
+    this._debtTracing.set(tracing);
   }
 
-  traceOfAutoSettlement(trace: TraceAutoSettle, users: Record<string, User>) {
+  traceOfAutoSettlement(
+    trace: TraceAutoSettle,
+    users: Record<string, User>,
+    tracing: TraceAutoSettle[],
+  ) {
     const debtorName = users[trace.debtorId]!.name;
     const lenderName = users[trace.lenderId]!.name;
     const intermediaryName = users[trace.intermediaryId]!.name;
@@ -204,21 +210,27 @@ export class DebtsService {
     );
     trace.finalIntermediaryDebt = trace.intermediaryDebtToDebtor - trace.amount;
 
-    this.debtTracing.push(trace);
+    tracing.push(trace);
   }
 
-  updateExpenseDebt(expense: Expense) {
-    this.updatePayerDebt(expense);
+  calcDebt(expenses: Expense[], debts: Record<string, Debt>): void {
+    for (const expense of expenses) {
+      this.updateExpenseDebt(expense, debts);
+    }
+  }
+
+  updateExpenseDebt(expense: Expense, debts: Record<string, Debt>) {
+    this.updatePayerDebt(expense, debts);
     const { sharedBy: debtorsIds } = expense;
     debtorsIds.forEach((debtorId) => {
-      this.updateDebtorDebt(debtorId, expense);
+      this.updateDebtorDebt(debtorId, expense, debts);
     });
-    this.calcDirectDebtsDiff();
+    this.calcDirectDebtsDiff(debts);
   }
 
-  updatePayerDebt(expense: Expense) {
+  updatePayerDebt(expense: Expense, debts: Record<string, Debt>) {
     const { paidBy: payerId } = expense;
-    const payerDebts = this.debts[payerId];
+    const payerDebts = debts[payerId];
     if (!payerDebts) {
       throw new Error(`El pagador con ID '${payerId}' no está definido.`);
     }
@@ -229,9 +241,13 @@ export class DebtsService {
     );
   }
 
-  updateDebtorDebt(debtorId: string, expense: Expense) {
+  updateDebtorDebt(
+    debtorId: string,
+    expense: Expense,
+    debts: Record<string, Debt>,
+  ) {
     const { paidBy: payerId } = expense;
-    const debtorDebts = this.debts[debtorId];
+    const debtorDebts = debts[debtorId];
 
     if (!debtorDebts) {
       throw new Error(`El deudor con ID ${debtorId} no está definido.`);
@@ -260,13 +276,13 @@ export class DebtsService {
   /**
    * If two persons have debts between theirself extract the difference
    */
-  calcDirectDebtsDiff(): void {
-    Object.entries(this.debts).forEach(([me, i]) => {
+  calcDirectDebtsDiff(debts: Record<string, Debt>): void {
+    Object.entries(debts).forEach(([me, i]) => {
       i.totalIowe = 0;
       Object.entries(i.debts).forEach(([userName, j]) => {
         const Iowe = j.individualtotalIveBeenPaid;
         const owesMe =
-          this.debts[userName]?.debts[me]?.individualtotalIveBeenPaid || 0;
+          debts[userName]?.debts[me]?.individualtotalIveBeenPaid || 0;
         //j.individualtotalIPaid = owesMe;
         j.newDebt = Iowe - owesMe;
         i.totalIowe = i.totalIowe + j.newDebt;
@@ -288,7 +304,7 @@ export class DebtsService {
 
   verifyTotalAmountIPaid(userId: string): number {
     let totalAmountIpaid = 0;
-    Object.entries(this.debts).forEach(([key, item]) => {
+    Object.entries(this._debts()).forEach(([key, item]) => {
       if (userId !== key) {
         totalAmountIpaid += item.debts[userId]?.individualtotalIveBeenPaid || 0;
       }
@@ -313,7 +329,7 @@ export class DebtsService {
 
   verifyTotalAmountIhaveBeenPaid(userId: string): number {
     let totalAmountIhaveBeenPaid = 0;
-    const userDebts = this.debts[userId];
+    const userDebts = this._debts()[userId];
     if (userDebts) {
       Object.values(userDebts.debts).forEach((debt: IndividualDebt) => {
         totalAmountIhaveBeenPaid += debt.individualtotalIveBeenPaid;

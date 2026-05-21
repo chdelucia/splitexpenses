@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { DebtsService } from './shared/debts.service';
@@ -32,7 +32,7 @@ export class DebtsComponent {
 
   users = toSignal(this.userService.getIterableUsers());
 
-  currency: CurrencyPlugin = this.currencyService.getCurrencySettings();
+  currency = this.currencyService.currencySignal;
 
-  debtTracing: TraceAutoSettle[] = this.debtsService.getDebtTracing();
+  debtTracing = computed(() => this.debtsService.getDebtTracing());
 }
