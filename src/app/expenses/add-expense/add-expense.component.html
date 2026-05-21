@@ -29,17 +29,19 @@
       <!-- Amount and Payer -->
       <div class="form-section-title full-width" i18n>Pago y Monto</div>
 
-      <mat-form-field appearance="fill">
-        <mat-label i18n>Pagado por</mat-label>
-        <mat-select formControlName="name">
-          @for (user of users(); track user.id) {
-            <mat-option [value]="user.id">
-              {{ user.name }}
-            </mat-option>
-          }
-        </mat-select>
-        <mat-icon matSuffix>person</mat-icon>
-      </mat-form-field>
+      @if (!individualMode()) {
+        <mat-form-field appearance="fill">
+          <mat-label i18n>Pagado por</mat-label>
+          <mat-select formControlName="name">
+            @for (user of users(); track user.id) {
+              <mat-option [value]="user.id">
+                {{ user.name }}
+              </mat-option>
+            }
+          </mat-select>
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+      }
 
       <mat-form-field appearance="fill">
         <mat-label i18n>Monto Total</mat-label>
@@ -48,19 +50,21 @@
       </mat-form-field>
 
       <!-- Participants -->
-      <div class="form-section-title full-width" i18n>¿Quiénes participan?</div>
+      @if (!individualMode()) {
+        <div class="form-section-title full-width" i18n>¿Quiénes participan?</div>
 
-      <div class="full-width participants-grid" formArrayName="sharedBy">
-        @for (user of users(); track user.id; let i = $index) {
-          <mat-checkbox
-            [formControlName]="i"
-            class="participant-checkbox"
-            [class.mat-checkbox-checked]="expenseForm.get('sharedBy')?.get(i.toString())?.value"
-          >
-            {{ user.name }}
-          </mat-checkbox>
-        }
-      </div>
+        <div class="full-width participants-grid" formArrayName="sharedBy">
+          @for (user of users(); track user.id; let i = $index) {
+            <mat-checkbox
+              [formControlName]="i"
+              class="participant-checkbox"
+              [class.mat-checkbox-checked]="expenseForm.get('sharedBy')?.get(i.toString())?.value"
+            >
+              {{ user.name }}
+            </mat-checkbox>
+          }
+        </div>
+      }
 
       <!-- Category Selection -->
       <div class="form-section-title full-width" i18n>Categoría</div>

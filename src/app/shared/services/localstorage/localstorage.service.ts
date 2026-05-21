@@ -27,7 +27,7 @@ export class LocalstorageService extends StorageService {
   loadDataFromLocalStorage(): StorageData {
     const travelName = this.getActiveTravelName();
     const ans = this.getItem<StorageData>(travelName);
-    const answers = ans ?? this.createDataStructure();
+    const answers = ans ?? this.createDataStructure(travelName);
     return answers;
   }
 
@@ -45,32 +45,46 @@ export class LocalstorageService extends StorageService {
     this.setItem(travelName, this.data);
   }
 
-  createDataStructure(): StorageData {
-    const obj = {
-      users: {
-        1: {
-          id: '1',
-          name: 'You',
-        },
-        2: {
-          id: '2',
-          name: 'Friend-1',
-        },
-      },
-      expenses: {
-        1: {
-          id: '1',
-          title: 'Example expense',
-          originalCost: 0,
-          cost: 0,
-          date: new Date().toDateString(),
-          paidBy: '1',
-          typeId: '6',
-          sharedBy: ['1', '2'],
-          settleBy: [],
-        },
-      },
-      name: environment.localStorageExpenses,
+  createDataStructure(name?: string): StorageData {
+    const isPersonal = name === 'Personal';
+    const users: Record<string, User> = isPersonal
+      ? {
+          1: {
+            id: '1',
+            name: 'You',
+          },
+        }
+      : {
+          1: {
+            id: '1',
+            name: 'You',
+          },
+          2: {
+            id: '2',
+            name: 'Friend-1',
+          },
+        };
+
+    const expenses: Record<string, Expense> = isPersonal
+      ? {}
+      : {
+          1: {
+            id: '1',
+            title: 'Example expense',
+            originalCost: 0,
+            cost: 0,
+            date: new Date().toDateString(),
+            paidBy: '1',
+            typeId: '6',
+            sharedBy: ['1', '2'],
+            settleBy: [],
+          },
+        };
+
+    const obj: StorageData = {
+      users,
+      expenses,
+      name: name || environment.localStorageExpenses,
       currency: {
         currencySymbol: environment.defaultCurrency,
         active: false,
@@ -122,9 +136,11 @@ export class LocalstorageService extends StorageService {
 
   addNewTravel(name: string) {
     this.settings.travels.active = name;
-    this.settings.travels.names.push(name);
+    if (!this.settings.travels.names.includes(name)) {
+      this.settings.travels.names.push(name);
+    }
 
-    const data = { users: '', expenses: '', name: name, currency: '' };
+    const data = this.createDataStructure(name);
     this.setItem(name, data);
     this.setItem(environment.localStorageSettings, this.settings);
     this.reset();

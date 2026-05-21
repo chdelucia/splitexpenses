@@ -130,4 +130,5 @@ export enum globalRoutes {
   stats = 'stats',
   settings = 'settings',
   expense = 'expense',
+  personal = 'personal',
 }

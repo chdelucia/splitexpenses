@@ -49,6 +49,9 @@ import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 })
 export class ExpensesListComponent implements OnInit {
   filter = input<string>('');
+  individualMode = input<boolean>(false);
+  monthlyFilter = input<boolean>(false);
+  basePath = input<string>('/expense');
 
   private expensesService = inject(ExpensesService);
   private currencyService = inject(CurrencyService);
@@ -85,11 +88,11 @@ export class ExpensesListComponent implements OnInit {
   }
 
   editExpense(expenseId: string) {
-    this.router.navigate(['/expense', expenseId]);
+    this.router.navigate([this.basePath(), expenseId]);
   }
 
   addExpense() {
-    this.router.navigate(['/expense']);
+    this.router.navigate([this.basePath()]);
   }
 
   getCategoryIcon(typeId: string | number): string {

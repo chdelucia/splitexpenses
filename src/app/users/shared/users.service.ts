@@ -66,6 +66,11 @@ export class UsersService {
     this.saveUsersIntoLocalStorage();
   }
 
+  init(): void {
+    const users = this.loadUsersFromLocalStorage();
+    this.store.dispatch(addUsers({ users: users }));
+  }
+
   loadUsersFromLocalStorage(): Record<string, User> {
     const ans = this.storageService.getData().users;
     return ans || {};

@@ -8,13 +8,19 @@
 
   <ul class="nav-links">
     <li class="nav-item">
+      <a routerLink="/welcome" routerLinkActive="active" class="nav-link">
+        <mat-icon>home</mat-icon>
+        <span class="d-md-none d-lg-inline" i18n>Inicio</span>
+      </a>
+    </li>
+    <li class="nav-item">
       <a routerLink="/debts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
         <mat-icon>dashboard</mat-icon>
         <span class="d-md-none d-lg-inline" i18n>Deudas</span>
       </a>
     </li>
     <li class="nav-item">
-      <a routerLink="/expense/details" routerLinkActive="active" class="nav-link">
+      <a [routerLink]="expenseDetailsLink()" routerLinkActive="active" class="nav-link">
         <mat-icon>receipt_long</mat-icon>
         <span class="d-md-none d-lg-inline" i18n>Gastos</span>
       </a>
@@ -26,9 +32,15 @@
       </a>
     </li>
     <li class="nav-item">
+      <a routerLink="/personal" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        <mat-icon>person</mat-icon>
+        <span class="d-md-none d-lg-inline" i18n>Personal</span>
+      </a>
+    </li>
+    <li class="nav-item">
       <a routerLink="/expense" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-        <mat-icon>add_circle</mat-icon>
-        <span class="d-md-none d-lg-inline" i18n>Añadir</span>
+        <mat-icon>group</mat-icon>
+        <span class="d-md-none d-lg-inline" i18n>Grupal</span>
       </a>
     </li>
     <li class="nav-item">
