@@ -59,14 +59,14 @@ describe('DebtsService', () => {
   });
 
   it('should initialize debts and debtTracing', () => {
-    expect(debtsService['debts']).toEqual({});
-    expect(debtsService['debtTracing']).toEqual([]);
+    expect(debtsService['_debts']()).toEqual({});
+    expect(debtsService.getDebtTracing()).toEqual([]);
   });
 
   describe('getDebts', () => {
     it('should return the debts map', (done) => {
       debtsService.getDebts().subscribe((debts) => {
-        expect(debts).toEqual(debtsService['debts']);
+        expect(debts).toEqual(debtsService['_debts']());
         done();
       });
     });
@@ -75,14 +75,14 @@ describe('DebtsService', () => {
   describe('getdebtTracing', () => {
     it('should return the debtTracing array', () => {
       const debtTracing = debtsService.getDebtTracing();
-      expect(debtTracing).toEqual(debtsService['debtTracing']);
+      expect(debtTracing).toEqual(debtsService['_debtTracing']());
     });
   });
 
-  it('should create structure', async () => {
-    await debtsService.createStructure({ [mockUser.id]: mockUser });
-    expect(Object.keys(debtsService['debts']).length).toBe(1);
-    expect(debtsService['debts'][mockUser.id]).toBeDefined();
+  it('should create structure', () => {
+    const debts = debtsService.createStructure({ [mockUser.id]: mockUser });
+    expect(Object.keys(debts).length).toBe(1);
+    expect(debts[mockUser.id]).toBeDefined();
   });
 
   it('should get trace debts', () => {

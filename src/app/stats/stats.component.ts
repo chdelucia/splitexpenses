@@ -1,7 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
-import { ExpensesService } from '@expenses/shared/expenses.service';
+import { StatsService } from './shared/stats.service';
 import { CurrencyPlugin, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { CommonModule } from '@angular/common';
@@ -24,36 +24,30 @@ import { MatSelectModule } from '@angular/material/select';
   ],
 })
 export class StatsComponent {
-  private expensesService = inject(ExpensesService);
+  private statsService = inject(StatsService);
   private currencyService = inject(CurrencyService);
   private userService = inject(UsersService);
 
   usersHTML = toSignal(this.userService.getIterableUsers());
 
-  meanCost = signal<number>(0);
-  todayCost = signal<number>(0);
-  currency: CurrencyPlugin;
-  dailyData = signal<any>(null);
-  typeData = signal<any>(null);
+  selectedUserId = signal<string | undefined>(undefined);
 
-  constructor() {
-    this.currency = this.currencyService.getCurrencySettings();
+  todayCost = computed(() =>
+    this.statsService.getTotalCost(this.selectedUserId()),
+  );
+  meanCost = computed(() =>
+    this.statsService.getAverageCostPerDay(this.selectedUserId()),
+  );
+  dailyData = computed(() =>
+    this.statsService.gettotalCostEachDayPerType(this.selectedUserId()),
+  );
+  typeData = computed(() =>
+    this.statsService.getExpensesByType(this.selectedUserId()),
+  );
 
-    this.init();
-  }
+  currency = this.currencyService.currencySignal;
 
   change(id: string): void {
-    if (id !== '0') {
-      this.init(id);
-    } else {
-      this.init();
-    }
-  }
-
-  init(userId?: string) {
-    this.todayCost.set(this.expensesService.getTotalCost(userId));
-    this.meanCost.set(this.expensesService.getAverageCostPerDay(userId));
-    this.dailyData.set(this.expensesService.gettotalCostEachDayPerType(userId));
-    this.typeData.set(this.expensesService.getExpensesByType(userId));
+    this.selectedUserId.set(id !== '0' ? id : undefined);
   }
 }

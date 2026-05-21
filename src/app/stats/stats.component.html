@@ -19,11 +19,11 @@
     <div class="glass-card kpi-card">
       <div class="kpi-label" i18n>Gasto Total</div>
       <div class="kpi-value">
-        {{ todayCost() | number: ".0-2" }} {{ currency.currencySymbol }}
+        {{ todayCost() | number: ".0-2" }} {{ currency().currencySymbol }}
       </div>
-      @if (currency.active) {
+      @if (currency().active) {
         <div class="kpi-exchange">
-          {{ todayCost() | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+          {{ todayCost() | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }}
         </div>
       }
     </div>
@@ -31,11 +31,11 @@
     <div class="glass-card kpi-card">
       <div class="kpi-label" i18n>Promedio por Día</div>
       <div class="kpi-value">
-        {{ meanCost() | number: ".0-2" }} {{ currency.currencySymbol }}
+        {{ meanCost() | number: ".0-2" }} {{ currency().currencySymbol }}
       </div>
-      @if (currency.active) {
+      @if (currency().active) {
         <div class="kpi-exchange">
-          {{ meanCost() | exchange | number: ".0-2" }} {{ currency.currencyExchangeSymbol }}
+          {{ meanCost() | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }}
         </div>
       }
     </div>

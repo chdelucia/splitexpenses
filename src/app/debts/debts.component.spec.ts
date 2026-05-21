@@ -29,6 +29,11 @@ describe('DebtsComponent', () => {
         active: false,
         currencyExchangeSymbol: '$',
       }),
+      currencySignal: jest.fn().mockReturnValue({
+        currencySymbol: '€',
+        active: false,
+        currencyExchangeSymbol: '$',
+      }),
     } as any;
 
     await TestBed.configureTestingModule({
@@ -61,8 +66,7 @@ describe('DebtsComponent', () => {
   });
 
   it('should get currency settings', () => {
-    expect(currencyServiceSpy.getCurrencySettings).toHaveBeenCalled();
-    expect(component.currency).toEqual({
+    expect(component.currency()).toEqual({
       currencySymbol: '€',
       active: false,
       currencyExchangeSymbol: '$',
