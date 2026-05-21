@@ -13,35 +13,34 @@
         <span class="d-md-none d-lg-inline" i18n>Inicio</span>
       </a>
     </li>
-    @if (!isPersonalMode()) {
-      <li class="nav-item">
-        <a routerLink="/debts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-          <mat-icon>dashboard</mat-icon>
-          <span class="d-md-none d-lg-inline" i18n>Deudas</span>
-        </a>
-      </li>
-    }
+
     <li class="nav-item">
       <a [routerLink]="expenseDetailsLink()" routerLinkActive="active" class="nav-link">
         <mat-icon>receipt_long</mat-icon>
         <span class="d-md-none d-lg-inline" i18n>Gastos</span>
       </a>
     </li>
-    @if (!isPersonalMode()) {
+
+    @if (isPersonalMode()) {
+      <li class="nav-item">
+        <a routerLink="/personal" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+          <mat-icon>person</mat-icon>
+          <span class="d-md-none d-lg-inline" i18n>Personal</span>
+        </a>
+      </li>
+    } @else {
+      <li class="nav-item">
+        <a routerLink="/debts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+          <mat-icon>dashboard</mat-icon>
+          <span class="d-md-none d-lg-inline" i18n>Deudas</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a routerLink="/stats" routerLinkActive="active" class="nav-link">
           <mat-icon>analytics</mat-icon>
           <span class="d-md-none d-lg-inline" i18n>Reportes</span>
         </a>
       </li>
-    }
-    <li class="nav-item">
-      <a routerLink="/personal" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
-        <mat-icon>person</mat-icon>
-        <span class="d-md-none d-lg-inline" i18n>Personal</span>
-      </a>
-    </li>
-    @if (!isPersonalMode()) {
       <li class="nav-item">
         <a routerLink="/expense" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
           <mat-icon>group</mat-icon>
@@ -55,6 +54,7 @@
         </a>
       </li>
     }
+
     <li class="nav-item">
       <a routerLink="/forecast" routerLinkActive="active" [class.disabled]="!weatherActive()" class="nav-link">
         <mat-icon>wb_sunny</mat-icon>
