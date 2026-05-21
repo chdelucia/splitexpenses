@@ -5,6 +5,7 @@ import {
   OnInit,
   numberAttribute,
   effect,
+  computed,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import {
@@ -18,7 +19,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { first, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
@@ -63,7 +64,12 @@ export class AddExpenseComponent implements OnInit {
   id = input<string | number, number>('', { transform: numberAttribute });
   individualMode = input<boolean>(false);
 
-  private route = inject(ActivatedRoute);
+  isIndividualMode = computed(
+    () => this.individualMode() || this.route.snapshot?.data?.['individualMode'],
+  );
+
+  public route = inject(ActivatedRoute);
+  private router = inject(Router);
   private expensesService = inject(ExpensesService);
   private usersService = inject(UsersService);
   private currencyService = inject(CurrencyService);
@@ -106,7 +112,7 @@ export class AddExpenseComponent implements OnInit {
   }
 
   private handleIndividualMode(): void {
-    if (this.individualMode() && this.users().length > 0) {
+    if (this.isIndividualMode() && this.users().length > 0) {
       this.expenseForm.get('name')?.setValue(this.users()[0].id);
     }
   }
@@ -147,7 +153,11 @@ export class AddExpenseComponent implements OnInit {
   }
 
   onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
-    const selectedUserIds = this.individualMode()
+    if (this.expenseForm.invalid) return;
+
+    const isIndividual = this.isIndividualMode();
+
+    const selectedUserIds = isIndividual
       ? [this.users()[0].id]
       : this.users()
           .filter((_, index) => expenseForm.sharedBy[index])
@@ -162,7 +172,7 @@ export class AddExpenseComponent implements OnInit {
       originalCost: originalCost,
       cost: costPerPerson,
       date: expenseForm.date.toDateString(),
-      paidBy: this.individualMode() ? this.users()[0].id : expenseForm.name,
+      paidBy: isIndividual ? this.users()[0].id : expenseForm.name,
       typeId: expenseForm.type,
       sharedBy: selectedUserIds,
       settleBy: [],
@@ -172,6 +182,11 @@ export class AddExpenseComponent implements OnInit {
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     this.resetForm();
     formDirective.resetForm();
+
+    const redirectPath = isIndividual
+      ? '/personal/details'
+      : '/expense/details';
+    this.router.navigate([redirectPath]);
   }
 
   updateForm() {

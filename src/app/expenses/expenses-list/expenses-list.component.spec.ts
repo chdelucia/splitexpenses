@@ -4,7 +4,7 @@ import { ExpensesService } from '@expenses/shared/expenses.service';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { UsersService } from '@users/shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoggerService } from '@core/services/logger.service';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,6 +34,9 @@ describe('ExpensesListComponent', () => {
     const routerSpy = {
       navigate: jest.fn(),
     };
+    const activatedRouteSpy = {
+      snapshot: { data: {} },
+    };
 
     await TestBed.configureTestingModule({
       imports: [ExpensesListComponent, NoopAnimationsModule],
@@ -44,6 +47,7 @@ describe('ExpensesListComponent', () => {
         { provide: LoggerService, useValue: loggerServiceSpy },
         { provide: MatSnackBar, useValue: snackBarSpy },
         { provide: Router, useValue: routerSpy },
+        { provide: ActivatedRoute, useValue: activatedRouteSpy },
         provideMockStore({
           initialState: {
             expenses: { expenses: {} },

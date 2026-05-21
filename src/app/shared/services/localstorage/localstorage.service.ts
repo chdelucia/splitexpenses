@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { environment } from '@env/environment';
 import {
   CurrencyPlugin,
@@ -17,11 +17,13 @@ import { StorageService } from './storage';
 export class LocalstorageService extends StorageService {
   data: StorageData;
   settings: Settings;
+  activeTravelName = signal<string>(environment.localStorageExpenses);
 
   constructor() {
     super(window.localStorage);
     this.settings = this.loadSettings();
     this.data = this.loadDataFromLocalStorage();
+    this.activeTravelName.set(this.getActiveTravelName());
   }
 
   loadDataFromLocalStorage(): StorageData {
@@ -143,6 +145,7 @@ export class LocalstorageService extends StorageService {
     const data = this.createDataStructure(name);
     this.setItem(name, data);
     this.setItem(environment.localStorageSettings, this.settings);
+    this.activeTravelName.set(name);
     this.reset();
   }
 
@@ -161,6 +164,7 @@ export class LocalstorageService extends StorageService {
   changeTravel(name: string): void {
     this.settings.travels.active = name;
     this.saveSettings();
+    this.activeTravelName.set(name);
     this.reset();
   }
 

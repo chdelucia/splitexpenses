@@ -29,7 +29,7 @@
       <!-- Amount and Payer -->
       <div class="form-section-title full-width" i18n>Pago y Monto</div>
 
-      @if (!individualMode()) {
+      @if (!isIndividualMode()) {
         <mat-form-field appearance="fill">
           <mat-label i18n>Pagado por</mat-label>
           <mat-select formControlName="name">
@@ -50,7 +50,7 @@
       </mat-form-field>
 
       <!-- Participants -->
-      @if (!individualMode()) {
+      @if (!isIndividualMode()) {
         <div class="form-section-title full-width" i18n>¿Quiénes participan?</div>
 
         <div class="full-width participants-grid" formArrayName="sharedBy">

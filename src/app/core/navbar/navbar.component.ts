@@ -18,7 +18,7 @@ export class NavbarComponent {
   weatherActive = computed(() => this.weatherService.weatherSettings().active);
 
   isPersonalMode = computed(() => {
-    return this.storageService.getActiveTravelName() === 'Personal';
+    return this.storageService.activeTravelName() === 'Personal';
   });
 
   expenseDetailsLink = computed(() => {
