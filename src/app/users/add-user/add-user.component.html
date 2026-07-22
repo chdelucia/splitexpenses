@@ -1,23 +1,23 @@
 <h2 class="my-4 text-center" i18n>Administración de usuarios</h2>
 
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+<form (submit)="$event.preventDefault(); onSubmit()">
   <div class="mb-2 row g-4 users">
     <div class="col-6">
       <mat-form-field appearance="fill" class="w-100">
         <mat-label i18n>Nombre usuario</mat-label>
-        <input matInput formControlName="user" />
+        <input matInput [formField]="userForm.user" />
       </mat-form-field>
     </div>
     <div class="col-6">
       <mat-form-field appearance="fill" class="w-100">
         <mat-label i18n>whatsApp number (optional)</mat-label>
-        <input matInput formControlName="phone" type="number" />
+        <input matInput [formField]="userForm.phone" type="number" />
       </mat-form-field>
     </div>
   </div>
 
   <button
-    [disabled]="!userForm.valid"
+    [disabled]="userForm().invalid()"
     class="input-group btn mb-5 btn-primary p-2"
     type="submit"
     i18n

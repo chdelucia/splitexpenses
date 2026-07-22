@@ -7,18 +7,9 @@ import {
   effect,
   computed,
   resource,
+  signal,
 } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-  FormGroupDirective,
-  ReactiveFormsModule,
-} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, firstValueFrom, Observable } from 'rxjs';
@@ -32,7 +23,7 @@ import {
   MatCheckboxChange,
   MatCheckboxModule,
 } from '@angular/material/checkbox';
-import { ExpenseForm } from '@expenses/models';
+import { form, FormField, required, validate } from '@angular/forms/signals';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -42,6 +33,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 
+export interface ExpenseFormModel {
+  title: string;
+  date: Date;
+  name: string;
+  cost: number | '';
+  type: string | '';
+  sharedBy: Record<string, boolean>;
+}
+
 @Component({
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
@@ -49,7 +49,7 @@ import { MatRadioModule } from '@angular/material/radio';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    FormField,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -85,16 +85,29 @@ export class AddExpenseComponent {
   private usersService = inject(UsersService);
   private currencyService = inject(CurrencyService);
   private _snackBar = inject(MatSnackBar);
-  private fb = inject(FormBuilder);
 
   currency = this.currencyService.currencySignal;
-  expenseForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    cost: ['', [Validators.required, Validators.min(1)]],
-    title: ['', Validators.required],
-    sharedBy: this.fb.array([]),
-    type: ['', Validators.required],
-    date: [new Date(), Validators.required],
+
+  expenseModel = signal<ExpenseFormModel>({
+    title: '',
+    date: new Date(),
+    name: '',
+    cost: '',
+    type: '',
+    sharedBy: {},
+  });
+
+  expenseForm = form(this.expenseModel, (path) => {
+    required(path.title);
+    required(path.date);
+    required(path.type);
+    required(path.cost);
+    validate(path.name, (ctx) => {
+      if (!this.isIndividualMode() && !ctx.value()) {
+        return { kind: 'required', message: 'Name is required' };
+      }
+      return null;
+    });
   });
 
   users = this.usersService.iterableUsers;
@@ -131,52 +144,65 @@ export class AddExpenseComponent {
 
   private handleIndividualMode(): void {
     if (this.isIndividualMode() && this.users().length > 0) {
-      this.expenseForm.get('name')?.setValue(this.users()[0].id);
+      this.expenseModel.update(m => ({
+        ...m,
+        name: this.users()[0].id
+      }));
     }
   }
-
-
 
   private initializeCheckboxControls(): void {
-    const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
-    if (sharedBy.length === this.users().length) return;
-    sharedBy.clear();
-    this.users().forEach((user) => {
-      const control = this.createFormControl(user.id);
-      sharedBy.push(control);
+    const currentShared = this.expenseModel().sharedBy;
+    const users = this.users();
+    if (users.length === 0) return;
+
+    const newShared: Record<string, boolean> = { ...currentShared };
+    let changed = false;
+    users.forEach((user) => {
+      if (newShared[user.id] === undefined) {
+        let isChecked = true;
+        if (this.isEditing && !this.expense?.sharedBy.includes(user.id)) {
+          isChecked = false;
+        }
+        newShared[user.id] = isChecked;
+        changed = true;
+      }
     });
-  }
 
-  private createFormControl(userId: string): AbstractControl {
-    let isChecked = true;
-    if (this.isEditing && !this.expense?.sharedBy.includes(userId)) {
-      isChecked = false;
+    if (changed) {
+      this.expenseModel.update(m => ({
+        ...m,
+        sharedBy: newShared
+      }));
     }
-    return this.fb.control(isChecked);
   }
 
-  onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
-    if (this.expenseForm.invalid) return;
+  onSubmit() {
+    if (this.expenseForm().invalid()) return;
 
     const isIndividual = this.isIndividualMode();
+    const expenseData = this.expenseModel();
 
     const selectedUserIds = isIndividual
       ? [this.users()[0].id]
       : this.users()
-          .filter((_, index) => expenseForm.sharedBy[index])
+          .filter((user) => expenseData.sharedBy[user.id])
           .map((user) => user.id);
 
-    const originalCost = expenseForm.cost;
+    const originalCost = Number(expenseData.cost);
     const costPerPerson = originalCost / selectedUserIds.length;
+
+    const dateVal = expenseData.date;
+    const dateStr = dateVal instanceof Date ? dateVal.toDateString() : new Date(dateVal).toDateString();
 
     const expense: Expense = {
       id: this.isEditing ? this.expense!.id : '',
-      title: expenseForm.title,
+      title: expenseData.title,
       originalCost: originalCost,
       cost: costPerPerson,
-      date: expenseForm.date.toDateString(),
-      paidBy: isIndividual ? this.users()[0].id : expenseForm.name,
-      typeId: expenseForm.type,
+      date: dateStr,
+      paidBy: isIndividual ? this.users()[0].id : expenseData.name,
+      typeId: expenseData.type,
       sharedBy: selectedUserIds,
       settleBy: [],
     };
@@ -184,7 +210,6 @@ export class AddExpenseComponent {
     this.addExpense(expense);
     openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
     this.resetForm();
-    formDirective.resetForm();
 
     const redirectPath = isIndividual
       ? '/personal/details'
@@ -193,12 +218,19 @@ export class AddExpenseComponent {
   }
 
   updateForm() {
-    this.expenseForm.patchValue({
-      name: this.expense?.paidBy,
-      cost: this.expense?.originalCost,
-      title: this.expense?.title,
-      date: this.expense?.date ? new Date(this.expense?.date) : new Date(),
-      type: this.expense?.typeId,
+    if (!this.expense) return;
+    const sharedByObj: Record<string, boolean> = {};
+    this.users().forEach((u) => {
+      sharedByObj[u.id] = this.expense!.sharedBy.includes(u.id);
+    });
+
+    this.expenseModel.set({
+      title: this.expense.title,
+      date: this.expense.date ? new Date(this.expense.date) : new Date(),
+      name: this.expense.paidBy,
+      cost: this.expense.originalCost,
+      type: this.expense.typeId,
+      sharedBy: sharedByObj,
     });
   }
 
@@ -211,6 +243,13 @@ export class AddExpenseComponent {
   }
 
   private resetForm(): void {
-    if (!this.isEditing) this.expenseForm.reset();
+    this.expenseForm().reset({
+      title: '',
+      date: new Date(),
+      name: '',
+      cost: '',
+      type: '',
+      sharedBy: {},
+    });
   }
 }

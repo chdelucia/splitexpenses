@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AddExpenseComponent } from './add-expense.component';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
@@ -25,7 +24,7 @@ describe('AddExpenseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, AddExpenseComponent, NoopAnimationsModule],
+      imports: [AddExpenseComponent, NoopAnimationsModule],
       providers: [
         provideMockStore({ initialState }),
         provideRouter([]),

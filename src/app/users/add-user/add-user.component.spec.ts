@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -37,7 +36,6 @@ describe('AddUserComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule,
         StoreModule.forRoot({ userState: userReducer }),
         AddUserComponent,
         NoopAnimationsModule,
@@ -60,13 +58,13 @@ describe('AddUserComponent', () => {
   });
 
   it('should call addUser method on UsersService when onSubmit is called', async () => {
-    component.userForm.setValue({ user: 'John Doe', phone: '1112223333' });
+    component.userModel.set({ user: 'John Doe', phone: '1112223333' });
     await component.onSubmit();
     expect(usersServiceSpy.addUser).toHaveBeenCalled();
   });
 
   it('should call checkIfNameExist method on UsersService when onSubmit is called', async () => {
-    component.userForm.setValue({ user: 'John Doe', phone: '1112223333' });
+    component.userModel.set({ user: 'John Doe', phone: '1112223333' });
     await component.onSubmit();
     expect(usersServiceSpy.checkIfNameExist).toHaveBeenCalledWith('John Doe');
   });

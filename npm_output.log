@@ -1,0 +1,51 @@
+
+> splitexpenses@1.5.0 start
+> ng serve
+
+The "@angular-devkit/build-angular:dev-server" builder is deprecated as part of Angular's Webpack support deprecation. Use "@angular/build:dev-server" instead. For more information, see https://angular.dev/tools/cli/build-system-migration.
+- Generating browser application bundles (phase: setup)...
+[32m✔[39m Browser application bundle generation complete.
+
+Initial chunk files                                                                                     | Names                                              |  Raw size
+main.js                                                                                                 | main                                               |   3.44 MB |
+polyfills.js                                                                                            | polyfills                                          | 234.84 kB |
+styles.css, styles.js                                                                                   | styles                                             | 201.23 kB |
+runtime.js                                                                                              | runtime                                            |  13.14 kB |
+
+                                                                                                        | Initial total                                      |   3.89 MB
+
+Lazy chunk files                                                                                        | Names                                              |  Raw size
+default-src_app_expenses_add-expense_add-expense_component_ts-src_app_expenses_expenses-list_-93fb41.js | app-individual-expenses-individual-expenses-routes | 543.37 kB |
+default-node_modules_angular_cdk_fesm2022__a11y-module-chunk_mjs-node_modules_angular_cdk_fes-109cfa.js | app-individual-expenses-individual-expenses-routes | 410.04 kB |
+src_app_debts_debts_routes_ts.js                                                                        | app-debts-debts-routes                             | 214.52 kB |
+default-node_modules_angular_forms_fesm2022_forms_mjs.js                                                | app-individual-expenses-individual-expenses-routes | 169.17 kB |
+default-src_app_shared_pipes_exchange_pipe_ts-node_modules_angular_material_fesm2022_select_mjs.js      | app-individual-expenses-individual-expenses-routes | 112.72 kB |
+src_app_settings_options_routes_ts.js                                                                   | app-settings-options-routes                        |  88.10 kB |
+default-node_modules_angular_cdk_fesm2022_scrolling_mjs.js                                              | app-individual-expenses-individual-expenses-routes |  86.65 kB |
+default-node_modules_rxjs_dist_esm_internal_firstValueFrom_js-node_modules_angular_material_f-dfe095.js | app-individual-expenses-individual-expenses-routes |  80.08 kB |
+src_app_stats_stats_routes_ts.js                                                                        | app-stats-stats-routes                             |  28.73 kB |
+src_app_users_users_routes_ts.js                                                                        | app-users-users-routes                             |  28.42 kB |
+src_app_forecast_forecast_routes_ts.js                                                                  | app-forecast-forecast-routes                       |  11.41 kB |
+common.js                                                                                               | common                                             |   7.70 kB |
+src_app_individual-expenses_individual-expenses_routes_ts.js                                            | app-individual-expenses-individual-expenses-routes |   2.18 kB |
+src_app_expenses_expenses_routes_ts.js                                                                  | app-expenses-expenses-routes                       |   1.35 kB |
+
+Build at: 2026-07-22T15:19:09.197Z - Hash: 635a81807d88e6d6 - Time: 39510ms
+
+Warning: [96msrc/app/debts/debts.component.html[0m:[93m45[0m:[93m49[0m - [93mwarning[0m[90m NG8107: [0mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be safely removed. Find more at https://v22.angular.dev/extended-diagnostics/NG8107
+
+[7m45[0m                   @let debt = userDebt?.debts?.[person.id];
+[7m  [0m [93m                                                ~~~~~~~~~[0m
+
+  [96msrc/app/debts/debts.component.ts[0m:[93m15[0m:[93m16[0m
+    [7m15[0m   templateUrl: './debts.component.html',
+    [7m  [0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    Warning occurs in the template of component DebtsComponent.
+
+
+
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
