@@ -21,7 +21,8 @@
     "cypress:run": "cypress run",
     "cy:run:chrome": "cypress run --browser chrome",
     "cy:run:firefox": "cypress run --browser firefox",
-    "prettier:write": "npx prettier --write ."
+    "prettier:write": "npx prettier --write .",
+    "postinstall": "node patch-node-version-check.js"
   },
   "private": true,
   "dependencies": {
