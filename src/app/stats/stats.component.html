@@ -23,7 +23,8 @@
       </div>
       @if (currency().active) {
         <div class="kpi-exchange">
-          {{ todayCost() | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }}
+          {{ todayCost() | exchange | number: ".0-2" }}
+          {{ currency().currencyExchangeSymbol }}
         </div>
       }
     </div>
@@ -35,7 +36,8 @@
       </div>
       @if (currency().active) {
         <div class="kpi-exchange">
-          {{ meanCost() | exchange | number: ".0-2" }} {{ currency().currencyExchangeSymbol }}
+          {{ meanCost() | exchange | number: ".0-2" }}
+          {{ currency().currencyExchangeSymbol }}
         </div>
       }
     </div>

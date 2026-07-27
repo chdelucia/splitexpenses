@@ -102,7 +102,6 @@ export class DebtsService {
     };
   }
 
-
   settleCrossAccountDebts(
     users: Record<string, User>,
     debts: Record<string, Debt>,

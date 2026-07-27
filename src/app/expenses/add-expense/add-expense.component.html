@@ -15,14 +15,21 @@
 
       <mat-form-field appearance="fill">
         <mat-label i18n>Descripción</mat-label>
-        <input matInput formControlName="title" placeholder="Ej: Cena en el centro" />
+        <input
+          matInput
+          formControlName="title"
+          placeholder="Ej: Cena en el centro"
+        />
         <mat-icon matSuffix>description</mat-icon>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label i18n>Fecha</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="date" />
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
@@ -45,20 +52,29 @@
 
       <mat-form-field appearance="fill">
         <mat-label i18n>Monto Total</mat-label>
-        <input matInput type="number" formControlName="cost" placeholder="0.00" />
+        <input
+          matInput
+          type="number"
+          formControlName="cost"
+          placeholder="0.00"
+        />
         <span matSuffix class="me-2">{{ currency().currencySymbol }}</span>
       </mat-form-field>
 
       <!-- Participants -->
       @if (!isIndividualMode()) {
-        <div class="form-section-title full-width" i18n>¿Quiénes participan?</div>
+        <div class="form-section-title full-width" i18n>
+          ¿Quiénes participan?
+        </div>
 
         <div class="full-width participants-grid" formArrayName="sharedBy">
           @for (user of users(); track user.id; let i = $index) {
             <mat-checkbox
               [formControlName]="i"
               class="participant-checkbox"
-              [class.mat-checkbox-checked]="expenseForm.get('sharedBy')?.get(i.toString())?.value"
+              [class.mat-checkbox-checked]="
+                expenseForm.get('sharedBy')?.get(i.toString())?.value
+              "
             >
               {{ user.name }}
             </mat-checkbox>

@@ -15,7 +15,11 @@
     </li>
 
     <li class="nav-item">
-      <a [routerLink]="expenseDetailsLink()" routerLinkActive="active" class="nav-link">
+      <a
+        [routerLink]="expenseDetailsLink()"
+        routerLinkActive="active"
+        class="nav-link"
+      >
         <mat-icon>receipt_long</mat-icon>
         <span class="d-md-none d-lg-inline" i18n>Gastos</span>
       </a>
@@ -23,14 +27,24 @@
 
     @if (isPersonalMode()) {
       <li class="nav-item">
-        <a routerLink="/personal" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        <a
+          routerLink="/personal"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+        >
           <mat-icon>person</mat-icon>
           <span class="d-md-none d-lg-inline" i18n>Personal</span>
         </a>
       </li>
     } @else {
       <li class="nav-item">
-        <a routerLink="/debts" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        <a
+          routerLink="/debts"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+        >
           <mat-icon>dashboard</mat-icon>
           <span class="d-md-none d-lg-inline" i18n>Deudas</span>
         </a>
@@ -42,7 +56,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <a routerLink="/expense" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+        <a
+          routerLink="/expense"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+        >
           <mat-icon>group</mat-icon>
           <span class="d-md-none d-lg-inline" i18n>Grupal</span>
         </a>
@@ -56,7 +75,12 @@
     }
 
     <li class="nav-item">
-      <a routerLink="/forecast" routerLinkActive="active" [class.disabled]="!weatherActive()" class="nav-link">
+      <a
+        routerLink="/forecast"
+        routerLinkActive="active"
+        [class.disabled]="!weatherActive()"
+        class="nav-link"
+      >
         <mat-icon>wb_sunny</mat-icon>
         <span class="d-md-none d-lg-inline" i18n>Tiempo</span>
       </a>

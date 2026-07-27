@@ -66,16 +66,15 @@ export class AddExpenseComponent {
   individualMode = input<boolean>(false);
 
   isIndividualMode = computed(
-    () => this.individualMode() || this.route.snapshot?.data?.['individualMode'],
+    () =>
+      this.individualMode() || this.route.snapshot?.data?.['individualMode'],
   );
 
   expenseResource = resource({
     loader: async () => {
       const id = this.id();
       if (!id) return undefined;
-      return firstValueFrom(
-        this.expensesService.getExpenseByID(id.toString()),
-      );
+      return firstValueFrom(this.expensesService.getExpenseByID(id.toString()));
     },
   });
 
@@ -134,8 +133,6 @@ export class AddExpenseComponent {
       this.expenseForm.get('name')?.setValue(this.users()[0].id);
     }
   }
-
-
 
   private initializeCheckboxControls(): void {
     const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
