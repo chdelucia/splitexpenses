@@ -185,5 +185,4 @@ export class ExpensesService extends ExpenseRepository {
     }
     return total;
   }
-
 }

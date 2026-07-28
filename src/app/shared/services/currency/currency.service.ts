@@ -21,11 +21,7 @@ export class CurrencyService {
   }
 
   saveCurrencyIntoLocalStorage(currency: CurrencyPlugin): void {
-    this.storageService.saveDataToLocalStorage(
-      undefined,
-      undefined,
-      currency,
-    );
+    this.storageService.saveDataToLocalStorage(undefined, undefined, currency);
     this._currency.set(currency);
   }
 

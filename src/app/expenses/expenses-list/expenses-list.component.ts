@@ -55,13 +55,15 @@ export class ExpensesListComponent implements OnInit {
   basePath = input<string>('/expense');
 
   isIndividualMode = computed(
-    () => this.individualMode() || this.route.snapshot?.data?.['individualMode'],
+    () =>
+      this.individualMode() || this.route.snapshot?.data?.['individualMode'],
   );
   isMonthlyFilter = computed(
     () => this.monthlyFilter() || this.route.snapshot?.data?.['monthlyFilter'],
   );
   effectiveBasePath = computed(
-    () => this.basePath() || this.route.snapshot?.data?.['basePath'] || '/expense',
+    () =>
+      this.basePath() || this.route.snapshot?.data?.['basePath'] || '/expense',
   );
 
   private expensesService = inject(ExpensesService);

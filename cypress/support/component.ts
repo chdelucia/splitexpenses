@@ -15,7 +15,6 @@
 
 // Import commands.js using ES2015 syntax:
 /* tslint:disable */
-/* eslint-disable */
 
 //import './commands'
 
