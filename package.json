@@ -63,7 +63,7 @@
     "@ngrx/schematics": "22.0.0-beta.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.1.2",
-    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.58.0",
     "angular-eslint": "^22.1.0",
     "cypress": "^15.16.0",
