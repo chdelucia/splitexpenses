@@ -104,7 +104,10 @@ export const selectTotalCost = (userId?: string) =>
 export const selectEnrichedExpenses = createSelector(
   selectIterableExpenses,
   selectUsers,
-  (expenses, users) => {
+  (
+    expenses,
+    users,
+  ): (Expense & { paidByUserName: string; sharedByNames: string[] })[] => {
     return expenses.map((expense) => ({
       ...expense,
       paidByUserName: users[expense.paidBy]?.name || expense.paidBy,
@@ -115,7 +118,9 @@ export const selectEnrichedExpenses = createSelector(
 
 export const selectEnrichedExpensesOrderByDateDesc = createSelector(
   selectEnrichedExpenses,
-  (expenses) =>
+  (
+    expenses,
+  ): (Expense & { paidByUserName: string; sharedByNames: string[] })[] =>
     expenses
       .slice()
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),

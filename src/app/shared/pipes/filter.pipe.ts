@@ -5,18 +5,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class FilterPipe implements PipeTransform {
-  transform(
-    listOfObject: Record<string, unknown>[],
-    value: string,
-  ): Record<string, unknown>[] {
+  transform<T>(listOfObject: T[], value: string): T[] {
     const keyword = value.toLowerCase();
     if (!value || value.trim() === '') {
       return listOfObject;
     }
 
     return listOfObject.filter((objeto) => {
-      return Object.keys(objeto).some((key) => {
-        const valor = objeto[key];
+      const obj = objeto as Record<string, unknown>;
+      return Object.keys(obj).some((key) => {
+        const valor = obj[key];
         if (
           typeof valor === 'string' &&
           valor.toLowerCase().includes(keyword)

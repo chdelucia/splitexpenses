@@ -28,6 +28,11 @@ import { MatInputModule } from '@angular/material/input';
 import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
 
+export interface EnrichedExpense extends Expense {
+  paidByUserName: string;
+  sharedByNames: string[];
+}
+
 @Component({
   selector: 'app-expenses-list',
   templateUrl: './expenses-list.component.html',
@@ -76,7 +81,12 @@ export class ExpensesListComponent implements OnInit {
   term = '';
   private store = inject(Store);
   currency = this.currencyService.currencySignal;
-  expenses = this.store.selectSignal(selectEnrichedExpensesOrderByDateDesc);
+  private selectEnrichedExpensesSignal = this.store.selectSignal(
+    selectEnrichedExpensesOrderByDateDesc,
+  );
+  expenses = computed<EnrichedExpense[]>(() => {
+    return this.selectEnrichedExpensesSignal() as unknown as EnrichedExpense[];
+  });
   userCount = this.store.selectSignal(selectUserCount);
   pageSize = 5;
   pageIndex = 0;
