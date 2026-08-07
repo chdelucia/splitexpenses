@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from '@shared/models';
-import { calcNextID, diffinDays } from '@shared/utils';
+import { calcNextID } from '@shared/utils';
 import {
   addExpense,
   addExpenses,
@@ -24,12 +24,12 @@ import {
   selectEnrichedExpensesOrderByDateDesc,
   selectTotalPaidByUserToOthers,
   selectUserTotalBalance,
-  selectTotalCost,
 } from '@state/expenses/expenses.selectors';
 import { resetUsers } from '@state/user/user.actions';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
+import { LoggerService } from '@core/services/logger.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +39,7 @@ export class ExpensesService extends ExpenseRepository {
   private usersService = inject(UsersService);
   private store = inject(Store);
   private http = inject(HttpClient);
+  private loggerService = inject(LoggerService);
 
   private settings: Settings;
   expenses = this.store.selectSignal(selectExpenses);
@@ -140,7 +141,9 @@ export class ExpensesService extends ExpenseRepository {
     expense.id = calcNextID(this.expenses());
     this.store.dispatch(addExpense({ expense }));
     this.saveExpensesIntoLocalStorage();
-    this.addExpenseAPI(expense).subscribe((x) => console.log(x));
+    this.addExpenseAPI(expense).subscribe((x) => {
+      this.loggerService.info('ExpensesService', 'addExpenseAPI', x);
+    });
   }
 
   deleteExpense(id: string) {

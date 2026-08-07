@@ -9,7 +9,14 @@
     }
     <section class="forecast g-2 mb-4">
       @for (day of mymap(); track day; let i = $index) {
-        <div class="" (click)="changeDate(i)">
+        <div
+          class="forecast-item"
+          role="button"
+          tabindex="0"
+          (click)="changeDate(i)"
+          (keydown.enter)="changeDate(i)"
+          (keydown.space)="changeDate(i)"
+        >
           {{ day.title }}
           <br />
           <img

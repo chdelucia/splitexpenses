@@ -8,7 +8,6 @@ import {
   StorageData,
   User,
 } from '@shared/models';
-import * as utils from '@shared/utils';
 import { StorageService } from './storage';
 
 @Injectable({

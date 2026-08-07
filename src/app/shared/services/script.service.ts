@@ -1,10 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScriptService {
+  private document = inject(DOCUMENT);
+
   get renderer(): Renderer2 {
     return this.currentRenderer;
   }
@@ -20,8 +22,6 @@ export class ScriptService {
   }
 
   private currentRenderer!: Renderer2;
-
-  constructor(@Inject(DOCUMENT) private document: Document) {}
 
   loadScripts(renderer: Renderer2): void {
     this.renderer = renderer;

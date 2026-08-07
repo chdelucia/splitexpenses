@@ -6,7 +6,6 @@ import {
   OnInit,
   computed,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { openSnackBar, globalToast, getCategoryIcon } from '@shared/utils';
 import { CurrencyService } from '@shared/services/currency/currency.service';
@@ -28,6 +27,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
+
+export interface EnrichedExpense extends Expense {
+  paidByUserName: string;
+  sharedByNames: string[];
+}
 
 @Component({
   selector: 'app-expenses-list',
@@ -77,7 +81,12 @@ export class ExpensesListComponent implements OnInit {
   term = '';
   private store = inject(Store);
   currency = this.currencyService.currencySignal;
-  expenses = this.store.selectSignal(selectEnrichedExpensesOrderByDateDesc);
+  private selectEnrichedExpensesSignal = this.store.selectSignal(
+    selectEnrichedExpensesOrderByDateDesc,
+  );
+  expenses = computed<EnrichedExpense[]>(() => {
+    return this.selectEnrichedExpensesSignal() as unknown as EnrichedExpense[];
+  });
   userCount = this.store.selectSignal(selectUserCount);
   pageSize = 5;
   pageIndex = 0;

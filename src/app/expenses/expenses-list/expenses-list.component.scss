@@ -112,8 +112,12 @@
 
       &:hover {
         background: rgba(255, 255, 255, 0.05);
-        &.edit-btn { color: var(--primary); }
-        &.delete-btn { color: var(--error); }
+        &.edit-btn {
+          color: var(--primary);
+        }
+        &.delete-btn {
+          color: var(--error);
+        }
       }
     }
   }
@@ -149,9 +153,15 @@
       "icon info actions";
     gap: 1rem;
 
-    .category-icon-wrapper { grid-area: icon; }
-    .expense-main-info { grid-area: info; }
-    .expense-amount-box { grid-area: amount; }
+    .category-icon-wrapper {
+      grid-area: icon;
+    }
+    .expense-main-info {
+      grid-area: info;
+    }
+    .expense-amount-box {
+      grid-area: amount;
+    }
     .actions-group {
       grid-area: actions;
       justify-content: flex-end;

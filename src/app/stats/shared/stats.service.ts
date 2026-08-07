@@ -99,7 +99,11 @@ export class StatsService {
 
   gettotalCostEachDayPerType(userId?: string): {
     labels: Array<string>;
-    data: Array<any>;
+    data: Array<{
+      label: string;
+      data: Array<number>;
+      backgroundColor: string;
+    }>;
   } {
     const expensesArray = Object.values(this.expenses());
     // Create Object of expenses group by Day

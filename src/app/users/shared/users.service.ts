@@ -8,7 +8,7 @@ import {
   selectUserByName,
   selectUserCount,
 } from '@state/user/user.selectors';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   addUser,
   addUsers,

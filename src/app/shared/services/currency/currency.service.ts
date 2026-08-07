@@ -1,18 +1,20 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { CurrencyPlugin } from '@shared/models';
-import { LocalstorageService } from '../localstorage/localstorage.service';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CurrencyService {
+  private storageService = inject(LocalstorageService);
+
   private _currency = signal<CurrencyPlugin>({
     currencySymbol: '$',
     active: false,
     exchangeValue: 0,
   });
 
-  constructor(private storageService: LocalstorageService) {
+  constructor() {
     this._currency.set(this.loadCurrencyFromLocalStorage());
   }
 

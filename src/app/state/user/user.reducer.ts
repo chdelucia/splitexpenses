@@ -25,14 +25,15 @@ export const userReducer = createReducer(
       users: { ...state.users, [user.id]: user },
     }),
   ),
-  on(removeUser, (state, { id }) => {
-    const { [id]: _, ...newUsers } = state.users;
+  on(removeUser, (state, { id }): UserState => {
+    const newUsers = { ...state.users };
+    delete newUsers[id];
     return {
       ...state,
       users: newUsers,
     };
   }),
-  on(updateUser, (state, { user }) => {
+  on(updateUser, (state, { user }): UserState => {
     return {
       ...state,
       users: { ...state.users, [user.id]: user },

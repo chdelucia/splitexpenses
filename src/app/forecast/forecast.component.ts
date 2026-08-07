@@ -3,6 +3,20 @@ import { WeatherObject, WeatherPlugin } from '@shared/models';
 import { WeatherService } from './shared/weather.service';
 import { CommonModule } from '@angular/common';
 import { SummarygraphComponent } from '@shared/components';
+import { LoggerService } from '@core/services/logger.service';
+
+export interface ForecastDay {
+  title: string;
+  icon: string;
+  data: number[];
+  min: number | string;
+  max: number | string;
+  description: string[];
+  icons: string[];
+  wind: number[];
+  humidity: number[];
+  labels: string[];
+}
 
 @Component({
   selector: 'app-forecast',
@@ -13,11 +27,12 @@ import { SummarygraphComponent } from '@shared/components';
 })
 export class ForecastComponent implements OnInit {
   private weatherService = inject(WeatherService);
+  private loggerService = inject(LoggerService);
 
   weatherInfo = signal<WeatherObject | null>(null);
   weatherSettings: WeatherPlugin;
-  mymap = signal<any[]>([]);
-  datagraph = signal<any>(null);
+  mymap = signal<ForecastDay[]>([]);
+  datagraph = signal<ForecastDay | null>(null);
 
   constructor() {
     this.weatherSettings = this.weatherService.getWeahterSettings();
@@ -31,14 +46,14 @@ export class ForecastComponent implements OnInit {
     this.weatherService
       .getForecastbyCity(this.weatherSettings.city)
       .subscribe((result: WeatherObject) => {
-        console.log(result);
+        this.loggerService.info('ForecastComponent', 'getForecast', result);
         this.weatherInfo.set(result);
         this.filteringHours();
       });
   }
 
-  resetObj() {
-    const obj: any = {
+  resetObj(): ForecastDay {
+    return {
       title: '',
       icon: '',
       data: [],
@@ -50,11 +65,10 @@ export class ForecastComponent implements OnInit {
       humidity: [],
       labels: [],
     };
-    return obj;
   }
 
   filteringHours(): void {
-    const mymap: any[] = [];
+    const mymap: ForecastDay[] = [];
     let obj = this.resetObj();
     const weatherData = this.weatherInfo();
     if (!weatherData) return;
@@ -78,14 +92,14 @@ export class ForecastComponent implements OnInit {
       if (stopAt !== item[i].dt_txt.split(' ')[0]) {
         obj.min = Math.round(Math.min(...obj.data));
         obj.max = Math.round(Math.max(...obj.data));
-        obj.icon = this.mode(obj.icons);
+        obj.icon = this.mode(obj.icons) || '';
         mymap.push(obj);
         obj = this.resetObj();
         stopAt = item[i].dt_txt.split(' ')[0];
       }
     }
 
-    console.log(mymap);
+    this.loggerService.info('ForecastComponent', 'filteringHours', mymap);
     this.mymap.set(mymap);
     this.datagraph.set(mymap[0]);
   }
@@ -94,7 +108,7 @@ export class ForecastComponent implements OnInit {
     this.datagraph.set(this.mymap()[i]);
   }
 
-  mode(arr: Array<string>) {
+  mode(arr: Array<string>): string | undefined {
     return arr
       .sort(
         (a, b) =>
