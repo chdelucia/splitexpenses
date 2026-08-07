@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { CurrencyPlugin } from '@shared/models';
 import { CommonModule } from '@angular/common';
@@ -11,16 +11,12 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class SettingsCurrencyComponent implements OnInit {
-  currencySettings: CurrencyPlugin;
+export class SettingsCurrencyComponent {
+  private currencyService = inject(CurrencyService);
+
+  currencySettings: CurrencyPlugin = this.currencyService.getCurrencySettings();
   showAlert = false;
   isError = false;
-
-  constructor(private currencyService: CurrencyService) {
-    this.currencySettings = this.currencyService.getCurrencySettings();
-  }
-
-  ngOnInit(): void {}
 
   close() {
     this.showAlert = false;

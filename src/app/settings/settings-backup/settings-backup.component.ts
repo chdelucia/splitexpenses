@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
 import { CommonModule } from '@angular/common';
@@ -11,15 +11,12 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
 })
 export class SettingsBackupComponent {
+  private localStorageService = inject(LocalstorageService);
+
   showAlert = false;
   isError = false;
-  settings: Settings;
-  travels: string[] = [];
-
-  constructor(private localStorageService: LocalstorageService) {
-    this.settings = this.localStorageService.getSettings();
-    this.travels = this.settings.travels.names;
-  }
+  settings: Settings = this.localStorageService.getSettings();
+  travels: string[] = this.settings.travels.names;
 
   copyData() {
     const name = this.localStorageService.getActiveTravelName();

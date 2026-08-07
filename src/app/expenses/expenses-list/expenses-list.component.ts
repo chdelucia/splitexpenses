@@ -6,7 +6,6 @@ import {
   OnInit,
   computed,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { openSnackBar, globalToast, getCategoryIcon } from '@shared/utils';
 import { CurrencyService } from '@shared/services/currency/currency.service';

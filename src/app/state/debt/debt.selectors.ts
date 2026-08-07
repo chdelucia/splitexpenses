@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { DebtState } from './debt.model';
 import { selectUsers } from '@state/user/user.selectors';
+import { Debt, IndividualDebt } from '@shared/models';
 
 const selectExpensesState = createFeatureSelector<DebtState>('debts');
 
@@ -21,9 +22,9 @@ export const selectEnrichedDebts = createSelector(
   selectDebts,
   selectUsers,
   (debts, users) => {
-    const enriched: Record<string, any> = {};
+    const enriched: Record<string, Debt> = {};
     Object.entries(debts).forEach(([userId, debt]) => {
-      const individualDebtsEnriched: Record<string, any> = {};
+      const individualDebtsEnriched: Record<string, IndividualDebt> = {};
       Object.entries(debt.debts).forEach(([targetUserId, individualDebt]) => {
         individualDebtsEnriched[targetUserId] = {
           ...individualDebt,

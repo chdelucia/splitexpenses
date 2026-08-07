@@ -5,7 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class FilterPipe implements PipeTransform {
-  transform(listOfObject: any[], value: string): any[] {
+  transform(
+    listOfObject: Record<string, unknown>[],
+    value: string,
+  ): Record<string, unknown>[] {
     const keyword = value.toLowerCase();
     if (!value || value.trim() === '') {
       return listOfObject;

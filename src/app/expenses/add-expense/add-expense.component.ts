@@ -2,7 +2,6 @@ import {
   Component,
   inject,
   input,
-  OnInit,
   numberAttribute,
   effect,
   computed,
@@ -13,7 +12,6 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
   FormGroupDirective,
@@ -21,18 +19,13 @@ import {
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first, firstValueFrom, Observable } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { firstValueFrom } from 'rxjs';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
-import { CurrencyPlugin, Expense, ExpenseTypes, User } from '@shared/models';
+import { Expense, ExpenseTypes } from '@shared/models';
 import { globalToast, openSnackBar, getCategoryIcon } from '@shared/utils';
 import { UsersService } from '@users/shared/users.service';
-import {
-  MatCheckboxChange,
-  MatCheckboxModule,
-} from '@angular/material/checkbox';
-import { ExpenseForm } from '@expenses/models';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -152,7 +145,17 @@ export class AddExpenseComponent {
     return this.fb.control(isChecked);
   }
 
-  onSubmit(expenseForm: any, formDirective: FormGroupDirective) {
+  onSubmit(
+    expenseForm: {
+      name: string;
+      cost: number;
+      title: string;
+      sharedBy: boolean[];
+      type: string;
+      date: Date;
+    },
+    formDirective: FormGroupDirective,
+  ) {
     if (this.expenseForm.invalid) return;
 
     const isIndividual = this.isIndividualMode();

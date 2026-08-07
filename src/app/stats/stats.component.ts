@@ -2,7 +2,6 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CurrencyService } from '@shared/services/currency/currency.service';
 import { StatsService } from './shared/stats.service';
-import { CurrencyPlugin, User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { CommonModule } from '@angular/common';
 import { SummarygraphComponent } from '@shared/components';

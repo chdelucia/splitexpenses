@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WeatherService } from '@forecast/shared/weather.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings, WeatherPlugin } from '@shared/models';
@@ -12,21 +12,14 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class SettingsWeatherComponent implements OnInit {
-  weatherSettings: WeatherPlugin;
-  settings: Settings;
+export class SettingsWeatherComponent {
+  private weatherService = inject(WeatherService);
+  private localStorageService = inject(LocalstorageService);
+
+  settings: Settings = this.localStorageService.getSettings();
+  weatherSettings: WeatherPlugin = this.settings.weather;
   showAlert = false;
   isError = false;
-
-  constructor(
-    private weatherService: WeatherService,
-    private localStorageService: LocalstorageService,
-  ) {
-    this.settings = this.localStorageService.getSettings();
-    this.weatherSettings = this.settings.weather;
-  }
-
-  ngOnInit(): void {}
 
   setWeatherPlugin(city: string, status: boolean, key: string) {
     this.weatherService.setWeatherPluginOnLocalStorage(city, status, key);

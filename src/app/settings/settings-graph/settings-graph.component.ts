@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { ExpenseTypes, Settings } from '@shared/models';
 import { CommonModule } from '@angular/common';
@@ -12,14 +12,12 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class SettingsGraphComponent {
+  private localStorageService = inject(LocalstorageService);
+
   showAlert = false;
   isError = false;
-  settings: Settings;
-  types: ExpenseTypes[];
-  constructor(private localStorageService: LocalstorageService) {
-    this.settings = this.localStorageService.getSettings();
-    this.types = Object.values(this.settings.graph.types);
-  }
+  settings: Settings = this.localStorageService.getSettings();
+  types: ExpenseTypes[] = Object.values(this.settings.graph.types);
 
   trackByIdx(index: number): number {
     return index;

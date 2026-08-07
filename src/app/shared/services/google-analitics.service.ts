@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { ScriptService } from './script.service';
 import { environment } from '@env/environment';
 import { NavigationEnd, Router } from '@angular/router';
@@ -17,17 +17,15 @@ interface GtagWindow extends Window {
   providedIn: 'root',
 })
 export class GoogleAnaliticsService implements OnDestroy {
+  private document = inject(DOCUMENT);
+  private scriptService = inject(ScriptService);
+  private router = inject(Router);
+
   get gtag(): GtagFunction | undefined {
     return (this.document.defaultView as GtagWindow)?.gtag;
   }
 
   private unsubscribe$: Subject<void> = new Subject<void>();
-
-  constructor(
-    @Inject(DOCUMENT) private document: Document,
-    private scriptService: ScriptService,
-    private router: Router,
-  ) {}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();

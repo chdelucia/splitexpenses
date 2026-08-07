@@ -18,20 +18,21 @@ const initialState: ExpensesState = {
 
 export const expensesReducer = createReducer(
   initialState,
-  on(addExpense, (state, { expense }) => {
+  on(addExpense, (state, { expense }): ExpensesState => {
     return {
       ...state,
       expenses: { ...state.expenses, [expense.id]: expense },
     };
   }),
-  on(updateExpense, (state, { expense }) => {
+  on(updateExpense, (state, { expense }): ExpensesState => {
     return {
       ...state,
       expenses: { ...state.expenses, [expense.id]: expense },
     };
   }),
-  on(removeExpense, (state, { id }) => {
-    const { [id]: _, ...expenses } = state.expenses;
+  on(removeExpense, (state, { id }): ExpensesState => {
+    const expenses = { ...state.expenses };
+    delete expenses[id];
     return { ...state, expenses };
   }),
   on(

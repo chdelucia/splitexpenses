@@ -12,9 +12,10 @@
 
   <div class="row g-2">
     <div class="col-6">
-      <label i18n>Moneda de pago</label>
+      <label for="currency-input" i18n>Moneda de pago</label>
       <input
         #currency
+        id="currency-input"
         class="form-control"
         type="text"
         maxlength="4"
@@ -26,20 +27,24 @@
     <div class="form-check form-switch mt-4 mb-2">
       <input
         #exchange
+        id="exchange-switch"
         class="form-check-input"
         type="checkbox"
         role="switch"
         [checked]="currencySettings.active"
         [(ngModel)]="currencySettings.active"
       />
-      <label class="form-check-label" i18n> On / Off "Cambio de divisa"</label>
+      <label for="exchange-switch" class="form-check-label" i18n>
+        On / Off "Cambio de divisa"</label
+      >
     </div>
 
     <ng-container>
       <div class="col-6">
-        <label i18n>Moneda de cambio</label>
+        <label for="excurrency-input" i18n>Moneda de cambio</label>
         <input
           #excurrency
+          id="excurrency-input"
           class="form-control"
           type="text"
           maxlength="4"
@@ -49,9 +54,10 @@
         />
       </div>
       <div class="col-6">
-        <label i18n>Valor del cambio</label>
+        <label for="exvalue-input" i18n>Valor del cambio</label>
         <input
           #exvalue
+          id="exvalue-input"
           class="form-control"
           type="number"
           [disabled]="!exchange.checked"

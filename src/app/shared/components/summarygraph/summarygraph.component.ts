@@ -15,7 +15,10 @@ export class SummarygraphComponent {
   private storageService = inject(LocalstorageService);
 
   bytype = input<string>('false');
-  data = input<{ labels: Array<string>; data: Array<any> }>({
+  data = input<{
+    labels: Array<string>;
+    data: Array<unknown>;
+  }>({
     labels: [''],
     data: [],
   });
@@ -86,7 +89,7 @@ export class SummarygraphComponent {
     this.barChartData.datasets[0].backgroundColor =
       this.settings.graph.bgColors;
 
-    this.barChartData.datasets[0].data = this.data().data;
+    this.barChartData.datasets[0].data = this.data().data as any;
     this.barChartData.labels = this.data().labels;
   }
 
@@ -95,7 +98,7 @@ export class SummarygraphComponent {
       this.barChartOptions.plugins.title.text = $localize`Gasto diario`;
     }
 
-    this.barChartData.datasets = this.data().data;
+    this.barChartData.datasets = this.data().data as any;
     //this.barChartData.datasets[0].data = this.expensesService.getTotalCostEachDay().x;
 
     //change Y-axis to the lang
@@ -109,7 +112,7 @@ export class SummarygraphComponent {
     this.barChartData.labels = this.data().labels;
     this.barChartType = 'line';
 
-    this.barChartData.datasets[0].data = this.data().data;
+    this.barChartData.datasets[0].data = this.data().data as any;
     this.barChartData.datasets[0].fill = true;
     if (this.barChartOptions?.scales && this.barChartOptions.scales['y']) {
       //this.barChartOptions.scales['y'].min = 10

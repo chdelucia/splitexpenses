@@ -68,7 +68,7 @@ export interface WeatherObject {
   name: string;
   cod: number;
   dt_txt: string;
-  list: any[];
+  list: Array<WeatherObject>;
   city: {
     name: string;
   };

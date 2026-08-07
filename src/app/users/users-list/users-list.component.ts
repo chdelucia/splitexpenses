@@ -4,7 +4,6 @@ import { User } from '@shared/models';
 import { UsersService } from '@users/shared/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { globalToast, openSnackBar } from '@shared/utils';
-import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 

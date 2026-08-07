@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
@@ -13,17 +13,13 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class SettingsTravelComponent {
-  settings: Settings;
+  private localStorageService = inject(LocalstorageService);
+  private expensesService = inject(ExpensesService);
+
+  settings: Settings = this.localStorageService.getSettings();
   expenseNameInput = '';
   showAlert = false;
   isError = false;
-
-  constructor(
-    private localStorageService: LocalstorageService,
-    private expensesService: ExpensesService,
-  ) {
-    this.settings = this.localStorageService.getSettings();
-  }
 
   changeTravel(name: string) {
     this.localStorageService.changeTravel(name);
