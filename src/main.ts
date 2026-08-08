@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
 /// <reference types="@angular/localize" />
 
-import { enableProdMode, isDevMode } from '@angular/core';
+import {
+  enableProdMode,
+  isDevMode,
+  provideZonelessChangeDetection,
+} from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
@@ -91,6 +95,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideZonelessChangeDetection(),
     provideRouter(
       routes,
       withHashLocation(),
