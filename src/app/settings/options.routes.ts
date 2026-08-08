@@ -5,7 +5,6 @@ import { SettingsCurrencyComponent } from './settings-currency/settings-currency
 import { SettingsGraphComponent } from './settings-graph/settings-graph.component';
 import { SettingsTravelComponent } from './settings-travel/settings-travel.component';
 import { SettingsUploadComponent } from './settings-upload/settings-upload.component';
-import { SettingsWeatherComponent } from './settings-weather/settings-weather.component';
 
 export const routes: Routes = [
   {
@@ -15,7 +14,6 @@ export const routes: Routes = [
       { path: '', redirectTo: 'currency', pathMatch: 'full' },
       { path: 'currency', component: SettingsCurrencyComponent },
       { path: 'travel', component: SettingsTravelComponent },
-      { path: 'weather', component: SettingsWeatherComponent },
       { path: 'graph', component: SettingsGraphComponent },
       { path: 'backup', component: SettingsBackupComponent },
       { path: 'upload', component: SettingsUploadComponent },

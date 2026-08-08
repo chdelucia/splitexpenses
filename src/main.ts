@@ -59,12 +59,6 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'forecast',
-    loadChildren: () =>
-      import('./app/forecast/forecast.routes').then((m) => m.routes),
-    canActivate: [authGuard],
-  },
-  {
     path: 'stats',
     loadChildren: () =>
       import('./app/stats/stats.routes').then((m) => m.routes),

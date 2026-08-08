@@ -78,6 +78,7 @@ export class StatsService {
         dates.push(expense.date);
       }
     });
+    dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 
     const xAxis: Array<number> = Array(dates.length).fill(0);
     dates.forEach((date, i) => {
@@ -113,7 +114,9 @@ export class StatsService {
       return r;
     }, Object.create(null));
 
-    const yAxis = Object.keys(result);
+    const yAxis = Object.keys(result).sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime(),
+    );
 
     // Create stacked xAxis
     const stackedxAxis: Array<{

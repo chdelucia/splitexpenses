@@ -1,7 +1,5 @@
-import { Component, computed, inject, OnInit, Renderer2 } from '@angular/core';
-import { WeatherService } from './forecast/shared/weather.service';
+import { Component, inject, OnInit, Renderer2 } from '@angular/core';
 import { GoogleAnaliticsService, ScriptService } from '@shared/services';
-import { WeatherComponent } from './weather/weather.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
 
@@ -10,16 +8,14 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [WeatherComponent, NavbarComponent, RouterOutlet],
+  imports: [NavbarComponent, RouterOutlet],
 })
 export class AppComponent implements OnInit {
   private renderer = inject(Renderer2);
-  private weatherService = inject(WeatherService);
   private googleAnalitics = inject(GoogleAnaliticsService);
   private scriptService = inject(ScriptService);
 
   title = 'splity';
-  weatherActive = computed(() => this.weatherService.weatherSettings().active);
 
   ngOnInit(): void {
     this.scriptService.loadScripts(this.renderer);
