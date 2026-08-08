@@ -1,10 +1,21 @@
-<div class="mb-3">
-  <canvas
-    baseChart
-    [data]="barChartData"
-    [options]="barChartOptions"
-    [plugins]="barChartPlugins"
-    [type]="barChartType"
-  >
-  </canvas>
+<div class="mb-3 chart-canvas-wrapper">
+  @if (barChartType === "doughnut") {
+    <canvas
+      baseChart
+      [data]="barChartData"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      type="doughnut"
+    >
+    </canvas>
+  } @else {
+    <canvas
+      baseChart
+      [data]="barChartData"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      type="bar"
+    >
+    </canvas>
+  }
 </div>

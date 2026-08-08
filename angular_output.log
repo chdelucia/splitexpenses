@@ -1,0 +1,71 @@
+
+> splitexpenses@1.5.0 start
+> ng serve
+
+The "@angular-devkit/build-angular:dev-server" builder is deprecated as part of Angular's Webpack support deprecation. Use "@angular/build:dev-server" instead. For more information, see https://angular.dev/tools/cli/build-system-migration.
+- Generating browser application bundles (phase: setup)...
+[32m✔[39m Browser application bundle generation complete.
+
+Initial chunk files                                                                                     | Names                                              |  Raw size
+main.js                                                                                                 | main                                               |   3.42 MB |
+polyfills.js                                                                                            | polyfills                                          | 234.40 kB |
+styles.css, styles.js                                                                                   | styles                                             | 201.23 kB |
+runtime.js                                                                                              | runtime                                            |  13.14 kB |
+
+                                                                                                        | Initial total                                      |   3.86 MB
+
+Lazy chunk files                                                                                        | Names                                              |  Raw size
+default-src_app_expenses_add-expense_add-expense_component_ts-src_app_expenses_expenses-list_-93fb41.js | app-individual-expenses-individual-expenses-routes | 537.20 kB |
+default-node_modules_angular_cdk_fesm2022__a11y-module-chunk_mjs-node_modules_angular_cdk_fes-109cfa.js | app-individual-expenses-individual-expenses-routes | 409.76 kB |
+src_app_debts_debts_routes_ts.js                                                                        | app-debts-debts-routes                             | 214.54 kB |
+default-node_modules_angular_forms_fesm2022_forms_mjs.js                                                | app-individual-expenses-individual-expenses-routes | 169.17 kB |
+default-src_app_shared_pipes_exchange_pipe_ts-node_modules_angular_material_fesm2022_select_mjs.js      | app-individual-expenses-individual-expenses-routes | 112.72 kB |
+default-node_modules_angular_cdk_fesm2022_scrolling_mjs.js                                              | app-individual-expenses-individual-expenses-routes |  88.56 kB |
+default-node_modules_rxjs_dist_esm_internal_firstValueFrom_js-node_modules_angular_material_f-dfe095.js | app-individual-expenses-individual-expenses-routes |  80.08 kB |
+src_app_settings_options_routes_ts.js                                                                   | app-settings-options-routes                        |  75.08 kB |
+src_app_stats_stats_routes_ts.js                                                                        | app-stats-stats-routes                             |  41.83 kB |
+src_app_users_users_routes_ts.js                                                                        | app-users-users-routes                             |  28.53 kB |
+src_app_individual-expenses_individual-expenses_routes_ts.js                                            | app-individual-expenses-individual-expenses-routes |   2.18 kB |
+src_app_expenses_expenses_routes_ts.js                                                                  | app-expenses-expenses-routes                       |   1.35 kB |
+
+Build at: 2026-08-08T10:13:13.084Z - Hash: 3d8245c1efe38dae - Time: 37010ms
+
+Warning: [96msrc/app/debts/debts.component.html[0m:[93m47[0m:[93m49[0m - [93mwarning[0m[90m NG8107: [0mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be safely removed. Find more at https://v22.angular.dev/extended-diagnostics/NG8107
+
+[7m47[0m                   @let debt = userDebt?.debts?.[person.id];
+[7m  [0m [93m                                                ~~~~~~~~~[0m
+
+  [96msrc/app/debts/debts.component.ts[0m:[93m15[0m:[93m16[0m
+    [7m15[0m   templateUrl: './debts.component.html',
+    [7m  [0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    Warning occurs in the template of component DebtsComponent.
+
+
+Warning: [96msrc/app/expenses/expenses-list/expenses-list.component.html[0m:[93m85[0m:[93m47[0m - [93mwarning[0m[90m NG8107: [0mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator. Find more at https://v22.angular.dev/extended-diagnostics/NG8107
+
+[7m85[0m                   @if (expense.sharedByNames?.length === userCount()) {
+[7m  [0m [93m                                              ~~~~~~[0m
+
+  [96msrc/app/expenses/expenses-list/expenses-list.component.ts[0m:[93m38[0m:[93m16[0m
+    [7m38[0m   templateUrl: './expenses-list.component.html',
+    [7m  [0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    Warning occurs in the template of component ExpensesListComponent.
+
+
+Warning: [96msrc/app/expenses/expenses-list/expenses-list.component.html[0m:[93m88[0m:[93m47[0m - [93mwarning[0m[90m NG8107: [0mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator. Find more at https://v22.angular.dev/extended-diagnostics/NG8107
+
+[7m88[0m                     {{ expense.sharedByNames?.length }} <span i18n>pers.</span>
+[7m  [0m [93m                                              ~~~~~~[0m
+
+  [96msrc/app/expenses/expenses-list/expenses-list.component.ts[0m:[93m38[0m:[93m16[0m
+    [7m38[0m   templateUrl: './expenses-list.component.html',
+    [7m  [0m [96m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    Warning occurs in the template of component ExpensesListComponent.
+
+
+
+
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.
