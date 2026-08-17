@@ -58,7 +58,7 @@
     "@cypress/schematic": "5.0.0",
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
-    "@ngrx/eslint-plugin": "22.0.0-beta.0",
+    "@ngrx/eslint-plugin": "22.0.0-rc.0",
     "@ngrx/schematics": "22.0.0-beta.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.2.0",
