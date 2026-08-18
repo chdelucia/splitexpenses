@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddExpenseComponent } from './add-expense.component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 import {
   provideRouter,
   ActivatedRoute,
@@ -14,20 +15,13 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 describe('AddExpenseComponent', () => {
   let component: AddExpenseComponent;
   let fixture: ComponentFixture<AddExpenseComponent>;
-  const initialState = {
-    expenses: {
-      expenses: {},
-    },
-    users: {
-      users: {},
-    },
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, AddExpenseComponent, NoopAnimationsModule],
       providers: [
-        provideMockStore({ initialState }),
+        ExpensesStore,
+        UserStore,
         provideRouter([]),
         provideNativeDateAdapter(),
         {

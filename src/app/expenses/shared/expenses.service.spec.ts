@@ -1,24 +1,11 @@
-import { TestBed, tick } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { firstValueFrom, from, fromEvent, Observable, of } from 'rxjs';
-import { signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { firstValueFrom, of } from 'rxjs';
 import { ExpensesService } from './expenses.service';
-import {
-  addExpense,
-  addExpenses,
-  removeExpense,
-  updateExpense,
-} from '@state/expenses/expenses.actions';
-import {
-  selectExpenses,
-  selectIterableExpenses,
-  selectExpensesFilterByType,
-  selectExpensesDates,
-  selectExpenseByID,
-} from '@state/expenses/expenses.selectors';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
-import { Expense, Settings } from '@shared/models';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { Expense } from '@shared/models';
+import { HttpClient } from '@angular/common/http';
 
 const expense1: Expense = {
   id: '1',
@@ -44,105 +31,53 @@ const expense2: Expense = {
   settleBy: [],
 };
 
-const expensesMap = {
-  [expense1.id]: expense1,
-  [expense2.id]: expense2,
-};
-
-const expensesList = [expense1, expense2];
-
-const mockLocalStorageService = {
-  getData: jest.fn(),
-  saveDataToLocalStorage: jest.fn(),
-  getSettings: jest.fn().mockReturnValue({ graph: { types: {} } }),
-};
-
-const mockStoreObj = {
-  dispatch: jest.fn(),
-  select: (selector: any): Observable<any> => {
-    switch (selector) {
-      case selectExpenses:
-        return of(expensesMap);
-      case selectIterableExpenses:
-        return of(expensesList);
-      case selectExpensesFilterByType('1'):
-        return of([expense1]);
-      case selectExpensesDates:
-        return of(['2022-01-01']);
-      case selectExpenseByID(expense1.id):
-        return of(expense1);
-      default:
-        return of({});
-    }
-  },
-};
-
-const expensesMock = {
-  '1': expense1,
-  '2': expense2,
-};
-
 describe('ExpensesService', () => {
   let service: ExpensesService;
-  let mockStore: MockStore;
-  const initialState = {
-    expenses: {
-      ids: ['1', '2'],
-      entities: {
-        '1': {
-          id: '1',
-          name: 'Expense 1',
-          originalCost: 100,
-          cost: 50,
-          date: '2022-03-23',
-          paidBy: 'user1',
-          sharedBy: ['user1', 'user2'],
-          typeId: '1',
-        },
-        '2': {
-          id: '2',
-          name: 'Expense 2',
-          originalCost: 200,
-          cost: 100,
-          date: '2022-03-24',
-          paidBy: 'user2',
-          sharedBy: ['user2'],
-          typeId: '2',
-        },
-      },
-      filter: null,
-      dates: [],
-    },
+  let expensesStore: InstanceType<typeof ExpensesStore>;
+  let userStore: InstanceType<typeof UserStore>;
+
+  const mockLocalStorageService = {
+    getData: jest.fn().mockReturnValue({ expenses: {} }),
+    saveDataToLocalStorage: jest.fn(),
+    getSettings: jest.fn().mockReturnValue({ graph: { types: {} } }),
+  };
+
+  const mockHttpClient = {
+    get: jest.fn().mockReturnValue(of([])),
+    post: jest.fn().mockReturnValue(of({})),
+    put: jest.fn().mockReturnValue(of({})),
+    delete: jest.fn().mockReturnValue(of({})),
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ExpensesService,
-        LocalstorageService,
-        provideMockStore({ initialState }),
+        ExpensesStore,
+        UserStore,
+        { provide: LocalstorageService, useValue: mockLocalStorageService },
+        { provide: HttpClient, useValue: mockHttpClient },
       ],
     });
     service = TestBed.inject(ExpensesService);
-    mockStore = TestBed.inject(MockStore);
+    expensesStore = TestBed.inject(ExpensesStore);
+    userStore = TestBed.inject(UserStore);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load expenses from local storage', async () => {
+  it('should load expenses from local storage', () => {
     jest.spyOn(service, 'loadExpensesFromLocalStorage');
     service.loadExpensesFromLocalStorage();
     expect(service.loadExpensesFromLocalStorage).toHaveBeenCalled();
   });
 
   describe('addExpense', () => {
-    it('should dispatch addExpense action', async () => {
-      jest.spyOn(mockStore, 'dispatch');
+    it('should add expense to expenses store', () => {
       jest.spyOn(service, 'saveExpensesIntoLocalStorage').mockReturnValue();
-      jest.spyOn(service, 'expenses').mockReturnValue({});
-      const expense = {
+      const expense: Expense = {
         id: '1',
         title: 'Expense Test',
         date: '2023-01-01',
@@ -155,70 +90,59 @@ describe('ExpensesService', () => {
       };
       service.addExpense(expense);
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(addExpense({ expense }));
+      expect(expensesStore.expenses()['1']).toBeDefined();
       expect(service.saveExpensesIntoLocalStorage).toHaveBeenCalled();
     });
   });
 
   describe('deleteExpense', () => {
-    it('should dispatch removeExpense action', () => {
-      jest.spyOn(mockStore, 'dispatch');
+    it('should remove expense from store', () => {
+      expensesStore.addExpense(expense1);
       jest.spyOn(service, 'saveExpensesIntoLocalStorage').mockReturnValue();
 
       service.deleteExpense('1');
 
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        removeExpense({ id: '1' }),
-      );
+      expect(expensesStore.expenses()['1']).toBeUndefined();
       expect(service.saveExpensesIntoLocalStorage).toHaveBeenCalled();
     });
   });
 
   describe('getExpenses', () => {
     it('should return expenses$', async () => {
-      const expense = {
-        '1': expense1,
-      };
-      jest.spyOn(mockStore, 'select').mockReturnValue(of(expense));
+      expensesStore.addExpense(expense1);
       const result = await firstValueFrom(service.getExpenses());
-      expect(result).toEqual(expense);
+      expect(result).toEqual({ '1': expense1 });
     });
   });
 
   describe('editExpense', () => {
-    it('should dispatch an updateExpense action and save expenses to local storage', () => {
-      const expense = expense1;
-      jest.spyOn(mockStore, 'dispatch');
+    it('should update expense in store and save to local storage', () => {
+      expensesStore.addExpense(expense1);
       jest.spyOn(service, 'saveExpensesIntoLocalStorage').mockReturnValue();
-      service.editExpense(expense1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        updateExpense({ expense }),
-      );
+
+      const updatedExpense = { ...expense1, title: 'Updated' };
+      service.editExpense(updatedExpense);
+
+      expect(expensesStore.expenses()['1'].title).toBe('Updated');
       expect(service.saveExpensesIntoLocalStorage).toHaveBeenCalled();
     });
   });
 
   describe('getExpenseByID', () => {
     it('should return an observable of Expense or undefined', async () => {
-      jest.spyOn(mockStore, 'select').mockReturnValue(of(expense1));
-      const resutl = await firstValueFrom(service.getExpenseByID('1'));
-      expect(resutl).toEqual(expense1);
+      expensesStore.addExpense(expense1);
+      const result = await firstValueFrom(service.getExpenseByID('1'));
+      expect(result).toEqual(expense1);
     });
   });
 
   describe('getTotalPaidByUserToOthers', () => {
     it('should return 0 if the user has not paid for any expenses', () => {
-      // Initialize service.expenses to avoid undefined error
-      jest.spyOn(mockStore, 'selectSignal').mockReturnValue(signal(0));
       expect(service.getTotalPaidByUserToOthers('1')).toBe(0);
     });
 
-    it('should return the total amount paid by the user if the user has only paid for their own expenses', () => {
-      jest.spyOn(mockStore, 'dispatch');
-      jest.spyOn(service, 'saveExpensesIntoLocalStorage').mockReturnValue();
-      // Mock selectSignal to return a signal that returns expensesList
-      jest.spyOn(mockStore, 'selectSignal').mockReturnValue(signal(135));
-
+    it('should return total paid by user to others', () => {
+      expensesStore.addExpenses({ '1': expense1, '2': expense2 });
       expect(service.getTotalPaidByUserToOthers('1')).toBe(135);
     });
   });
