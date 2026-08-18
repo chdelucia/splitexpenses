@@ -29,4 +29,13 @@ describe('SettingsTravelComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create new travel and switch active travel', () => {
+    component.addNewTravel('Japon 2025');
+    expect(component.settings.travels.names).toContain('Japon 2025');
+    expect(component.settings.travels.active).toBe('Japon 2025');
+
+    component.changeTravel('Expenses');
+    expect(component.settings.travels.active).toBe('Expenses');
+  });
 });

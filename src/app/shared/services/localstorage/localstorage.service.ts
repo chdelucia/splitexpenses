@@ -92,7 +92,7 @@ export class LocalstorageService extends StorageService {
         exchangeValue: 0,
       },
     };
-    this.setItem(environment.localStorageExpenses, obj);
+    this.setItem(name || environment.localStorageExpenses, obj);
     return obj;
   }
 
