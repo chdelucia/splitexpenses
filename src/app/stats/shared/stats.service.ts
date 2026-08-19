@@ -1,22 +1,18 @@
 import { inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Expense, Settings } from '@shared/models';
 import { diffinDays } from '@shared/utils';
-import {
-  selectExpenses,
-  selectTotalCost,
-} from '@state/expenses/expenses.selectors';
+import { ExpensesStore } from '@state/expenses/expenses.store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StatsService {
   private storageService = inject(LocalstorageService);
-  private store = inject(Store);
+  private expensesStore = inject(ExpensesStore);
 
   private settings: Settings;
-  expenses = this.store.selectSignal(selectExpenses);
+  expenses = this.expensesStore.expenses;
 
   constructor() {
     this.settings = this.storageService.getSettings();
@@ -24,7 +20,7 @@ export class StatsService {
 
   /* Calculate by group if user not given */
   getTotalCost(userId?: string): number {
-    return this.store.selectSignal(selectTotalCost(userId))();
+    return this.expensesStore.calcTotalCost(userId);
   }
 
   getAverageCostPerDay(userId?: string): number {

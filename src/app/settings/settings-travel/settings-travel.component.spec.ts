@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { SettingsTravelComponent } from './settings-travel.component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 
 describe('SettingsTravelComponent', () => {
   let component: SettingsTravelComponent;
@@ -11,14 +12,7 @@ describe('SettingsTravelComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, SettingsTravelComponent],
-      providers: [
-        provideMockStore({
-          initialState: {
-            expenses: { expenses: {} },
-            users: { users: {} },
-          },
-        }),
-      ],
+      providers: [ExpensesStore, UserStore],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsTravelComponent);

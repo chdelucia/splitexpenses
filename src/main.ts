@@ -23,8 +23,6 @@ import {
   HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { provideStore } from '@ngrx/store';
-import { userReducer } from '@state/user/user.reducer';
-import { expensesReducer } from './app/state/expenses/expenses.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
@@ -108,7 +106,7 @@ bootstrapApplication(AppComponent, {
       useClass: AuthInterceptor,
       multi: true,
     },
-    provideStore({ users: userReducer, expenses: expensesReducer }),
+    provideStore(),
     provideAnimations(),
     provideCharts(withDefaultRegisterables()),
     provideStoreDevtools({

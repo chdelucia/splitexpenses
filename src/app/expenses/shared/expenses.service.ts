@@ -1,31 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { computed, inject, Injectable, Injector } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Expense, ExpenseTypes, Settings } from '@shared/models';
 import { calcNextID } from '@shared/utils';
-import {
-  addExpense,
-  addExpenses,
-  clearExpenses,
-  removeExpense,
-  updateExpense,
-} from '@state/expenses/expenses.actions';
-import {
-  selectExpenseByID,
-  selectExpenses,
-  selectExpensesDates,
-  selectExpensesFilterByType,
-  selectIterableExpenses,
-  selectExpensesGroupByDates,
-  selectExpensesOrderByDateDesc,
-  selectEnrichedExpenses,
-  selectEnrichedExpensesOrderByDateDesc,
-  selectTotalPaidByUserToOthers,
-  selectUserTotalBalance,
-} from '@state/expenses/expenses.selectors';
-import { resetUsers } from '@state/user/user.actions';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesMapper } from '@expenses/shared/expense.mapper';
 import { ExpenseRepository } from './expense.repository';
@@ -37,12 +18,14 @@ import { LoggerService } from '@core/services/logger.service';
 export class ExpensesService extends ExpenseRepository {
   private storageService = inject(LocalstorageService);
   private usersService = inject(UsersService);
-  private store = inject(Store);
+  private expensesStore = inject(ExpensesStore);
+  private userStore = inject(UserStore);
   private http = inject(HttpClient);
   private loggerService = inject(LoggerService);
+  private injector = inject(Injector);
 
   private settings: Settings;
-  expenses = this.store.selectSignal(selectExpenses);
+  expenses = this.expensesStore.expenses;
   mapper = new ExpensesMapper();
 
   constructor() {
@@ -85,7 +68,7 @@ export class ExpensesService extends ExpenseRepository {
   loadExpensesFromLocalStorage(): void {
     const ans = this.storageService.getData().expenses;
     const expenses = ans || {};
-    this.store.dispatch(addExpenses({ expenses: expenses }));
+    this.expensesStore.addExpenses(expenses);
   }
 
   saveExpensesIntoLocalStorage(): void {
@@ -93,39 +76,64 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getExpenses(): Observable<Record<string, Expense>> {
-    return this.store.select(selectExpenses);
+    return toObservable(this.expensesStore.expenses, {
+      injector: this.injector,
+    });
   }
 
   getExpenseByID(id: string): Observable<Expense | undefined> {
-    return this.store.select(selectExpenseByID(id));
+    return toObservable(
+      computed(() => this.expensesStore.expenses()[id]),
+      { injector: this.injector },
+    );
   }
 
   getIterableExpenses(): Observable<Expense[]> {
-    return this.store.select(selectIterableExpenses);
+    return toObservable(this.expensesStore.iterableExpenses, {
+      injector: this.injector,
+    });
   }
 
   getExpensesFilterByType(filter: string): Observable<Array<Expense>> {
-    return this.store.select(selectExpensesFilterByType(filter));
+    return toObservable(
+      computed(() =>
+        this.expensesStore
+          .iterableExpenses()
+          .filter((expense) => expense.typeId === filter),
+      ),
+      { injector: this.injector },
+    );
   }
 
   getExpensesDates(): Observable<string[]> {
-    return this.store.select(selectExpensesDates);
+    return toObservable(this.expensesStore.expensesDates, {
+      injector: this.injector,
+    });
   }
 
   getExpensesGroupByDates(): Observable<Record<string, Expense[]>> {
-    return this.store.select(selectExpensesGroupByDates);
+    return toObservable(this.expensesStore.expensesGroupByDates, {
+      injector: this.injector,
+    });
   }
 
   getExpensesOrderByDatesDesc(): Observable<Expense[]> {
-    return this.store.select(selectExpensesOrderByDateDesc);
+    return toObservable(this.expensesStore.expensesOrderByDateDesc, {
+      injector: this.injector,
+    });
   }
 
   getEnrichedExpenses(): Observable<Expense[]> {
-    return this.store.select(selectEnrichedExpenses);
+    return toObservable(this.expensesStore.enrichedExpenses as any, {
+      injector: this.injector,
+    });
   }
 
   getEnrichedExpensesOrderByDatesDesc(): Observable<Expense[]> {
-    return this.store.select(selectEnrichedExpensesOrderByDateDesc);
+    return toObservable(
+      this.expensesStore.enrichedExpensesOrderByDateDesc as any,
+      { injector: this.injector },
+    );
   }
 
   getExpensesTypes(): Array<ExpenseTypes> {
@@ -133,13 +141,13 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   editExpense(expense: Expense): void {
-    this.store.dispatch(updateExpense({ expense }));
+    this.expensesStore.updateExpense(expense);
     this.saveExpensesIntoLocalStorage();
   }
 
   addExpense(expense: Expense): void {
     expense.id = calcNextID(this.expenses());
-    this.store.dispatch(addExpense({ expense }));
+    this.expensesStore.addExpense(expense);
     this.saveExpensesIntoLocalStorage();
     this.addExpenseAPI(expense).subscribe((x) => {
       this.loggerService.info('ExpensesService', 'addExpenseAPI', x);
@@ -147,7 +155,7 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   deleteExpense(id: string) {
-    this.store.dispatch(removeExpense({ id }));
+    this.expensesStore.removeExpense(id);
     this.saveExpensesIntoLocalStorage();
   }
 
@@ -156,8 +164,8 @@ export class ExpensesService extends ExpenseRepository {
 
     if (this.storageService.getActiveTravelName() === travelName) return;
 
-    this.store.dispatch(clearExpenses());
-    this.store.dispatch(resetUsers());
+    this.expensesStore.clearExpenses();
+    this.userStore.resetUsers();
 
     this.storageService.changeTravel(travelName);
     if (!this.storageService.getData().name) {
@@ -169,11 +177,11 @@ export class ExpensesService extends ExpenseRepository {
   }
 
   getTotalPaidByUserToOthers(userId: string): number {
-    return this.store.selectSignal(selectTotalPaidByUserToOthers(userId))();
+    return this.expensesStore.calcTotalPaidByUserToOthers(userId);
   }
 
   calcUserTotalBalance(userId: string): number {
-    return this.store.selectSignal(selectUserTotalBalance(userId))();
+    return this.expensesStore.calcUserTotalBalance(userId);
   }
 
   calculateExpenseBalanceByUser(expense: Expense, userId: string): number {

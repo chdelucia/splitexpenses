@@ -14,9 +14,8 @@ import { UsersService } from '@users/shared/users.service';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { LoggerService } from '@core/services/logger.service';
 import { Expense } from '@shared/models';
-import { selectEnrichedExpensesOrderByDateDesc } from '@state/expenses/expenses.selectors';
-import { selectUserCount } from '@state/user/user.selectors';
-import { Store } from '@ngrx/store';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -77,17 +76,15 @@ export class ExpensesListComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private loggerService = inject(LoggerService);
+  private expensesStore = inject(ExpensesStore);
+  private userStore = inject(UserStore);
 
   term = '';
-  private store = inject(Store);
   currency = this.currencyService.currencySignal;
-  private selectEnrichedExpensesSignal = this.store.selectSignal(
-    selectEnrichedExpensesOrderByDateDesc,
-  );
   expenses = computed<EnrichedExpense[]>(() => {
-    return this.selectEnrichedExpensesSignal() as unknown as EnrichedExpense[];
+    return this.expensesStore.enrichedExpensesOrderByDateDesc() as unknown as EnrichedExpense[];
   });
-  userCount = this.store.selectSignal(selectUserCount);
+  userCount = this.userStore.userCount;
   pageSize = 5;
   pageIndex = 0;
 

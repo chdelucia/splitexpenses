@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, firstValueFrom } from 'rxjs';
 import { DebtsService } from './debts.service';
 import { UsersService } from '@users/shared/users.service';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { Expense, User } from '@shared/models';
-import { provideMockStore } from '@ngrx/store/testing';
+import { DebtStore } from '@state/debt/debt.store';
+import { UserStore } from '@state/user/user.store';
+import { ExpensesStore } from '@state/expenses/expenses.store';
 
 describe('DebtsService', () => {
   let debtsService: DebtsService;
@@ -41,15 +43,11 @@ describe('DebtsService', () => {
     TestBed.configureTestingModule({
       providers: [
         DebtsService,
+        DebtStore,
+        UserStore,
+        ExpensesStore,
         { provide: UsersService, useValue: usersServiceSpyObj },
         { provide: ExpensesService, useValue: expensesServiceSpyObj },
-        provideMockStore({
-          initialState: {
-            users: { users: {} },
-            expenses: { expenses: {} },
-            debts: { debts: {} },
-          },
-        }),
       ],
     });
 
@@ -64,11 +62,9 @@ describe('DebtsService', () => {
   });
 
   describe('getDebts', () => {
-    it('should return the debts map', (done) => {
-      debtsService.getDebts().subscribe((debts) => {
-        expect(debts).toEqual(debtsService['_debts']());
-        done();
-      });
+    it('should return the debts map', async () => {
+      const debts = await firstValueFrom(debtsService.getDebts());
+      expect(debts).toEqual({});
     });
   });
 
@@ -90,10 +86,8 @@ describe('DebtsService', () => {
     expect(debtTracing).toEqual([]);
   });
 
-  it('should get debts', (done) => {
-    debtsService.getDebts().subscribe((debts) => {
-      expect(debts).toEqual({});
-      done();
-    });
+  it('should get debts', async () => {
+    const debts = await firstValueFrom(debtsService.getDebts());
+    expect(debts).toEqual({});
   });
 });

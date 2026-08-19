@@ -1,20 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, Injector } from '@angular/core';
 import { calcNextID } from '@shared/utils';
-import { Store } from '@ngrx/store';
-import {
-  selectUsers,
-  selectUserByID,
-  selectIterableUsers,
-  selectUserByName,
-  selectUserCount,
-} from '@state/user/user.selectors';
+import { UserStore } from '@state/user/user.store';
 import { Observable } from 'rxjs';
-import {
-  addUser,
-  addUsers,
-  removeUser,
-  updateUser,
-} from '@state/user/user.actions';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { User } from '@shared/models';
 
@@ -23,52 +11,57 @@ import { User } from '@shared/models';
 })
 export class UsersService {
   private storageService = inject(LocalstorageService);
-  private store = inject(Store);
+  private userStore = inject(UserStore);
+  private injector = inject(Injector);
 
-  users = this.store.selectSignal(selectUsers);
-  iterableUsers = this.store.selectSignal(selectIterableUsers);
+  users = this.userStore.users;
+  iterableUsers = this.userStore.iterableUsers;
 
   constructor() {
     const users = this.loadUsersFromLocalStorage();
-    this.store.dispatch(addUsers({ users: users }));
+    this.userStore.addUsers(users);
   }
 
   getUsers(): Observable<Record<string, User>> {
-    return this.store.select(selectUsers);
+    return toObservable(this.userStore.users, { injector: this.injector });
   }
 
   getUserByID(id: string): Observable<User | undefined> {
-    return this.store.select(selectUserByID(id));
+    return toObservable(computed(() => this.userStore.users()[id]), {
+      injector: this.injector,
+    });
   }
 
   getIterableUsers(): Observable<Array<User>> {
-    return this.store.select(selectIterableUsers);
+    return toObservable(this.userStore.iterableUsers, {
+      injector: this.injector,
+    });
   }
 
   getNumberOfUser(): Observable<number> {
-    return this.store.select(selectUserCount);
+    return toObservable(this.userStore.userCount, { injector: this.injector });
   }
 
   editUser(user: User): void {
-    this.store.dispatch(updateUser({ user }));
+    this.userStore.updateUser(user);
     this.saveUsersIntoLocalStorage();
   }
 
   async addUser(user: User): Promise<void> {
     const users = this.users();
     user.id = calcNextID(users);
-    this.store.dispatch(addUser({ user }));
+    this.userStore.addUser(user);
     this.saveUsersIntoLocalStorage();
   }
 
   removeUser(id: string): void {
-    this.store.dispatch(removeUser({ id }));
+    this.userStore.removeUser(id);
     this.saveUsersIntoLocalStorage();
   }
 
   init(): void {
     const users = this.loadUsersFromLocalStorage();
-    this.store.dispatch(addUsers({ users: users }));
+    this.userStore.addUsers(users);
   }
 
   loadUsersFromLocalStorage(): Record<string, User> {
@@ -83,6 +76,11 @@ export class UsersService {
   }
 
   checkIfNameExist(name: string): Observable<boolean> {
-    return this.store.select(selectUserByName(name));
+    return toObservable(
+      computed(() =>
+        this.userStore.iterableUsers().some((user: User) => user.name === name),
+      ),
+      { injector: this.injector },
+    );
   }
 }

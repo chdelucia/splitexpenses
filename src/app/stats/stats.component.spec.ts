@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatsComponent } from './stats.component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 
 describe('StatsComponent', () => {
   let component: StatsComponent;
@@ -10,14 +11,7 @@ describe('StatsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StatsComponent],
-      providers: [
-        provideMockStore({
-          initialState: {
-            expenses: { expenses: {} },
-            users: { users: {} },
-          },
-        }),
-      ],
+      providers: [ExpensesStore, UserStore],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StatsComponent);

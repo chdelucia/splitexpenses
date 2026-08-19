@@ -1,5 +1,6 @@
-import { Injectable, computed, effect, signal } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
+import { Injectable, computed, effect, inject, signal, Injector } from '@angular/core';
+import { Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 import {
   Debt,
   Expense,
@@ -7,16 +8,9 @@ import {
   TraceAutoSettle,
   User,
 } from '@shared/models';
-import {
-  selectDebts,
-  selectDebtsByID,
-  selectIterableDebts,
-  selectEnrichedDebts,
-} from '@state/debt/debt.selectors';
-import { UpdateDebts } from '@state/debt/debt.actions';
-import { Store } from '@ngrx/store';
-import { selectUsers } from '@state/user/user.selectors';
-import { selectIterableExpenses } from '@state/expenses/expenses.selectors';
+import { DebtStore } from '@state/debt/debt.store';
+import { UserStore } from '@state/user/user.store';
+import { ExpensesStore } from '@state/expenses/expenses.store';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +19,15 @@ export class DebtsService {
   private _debts = signal<Record<string, Debt>>({});
   private _debtTracing = signal<TraceAutoSettle[]>([]);
 
-  private users = this.store.selectSignal(selectUsers);
-  private expenses = this.store.selectSignal(selectIterableExpenses);
+  private debtStore = inject(DebtStore);
+  private userStore = inject(UserStore);
+  private expensesStore = inject(ExpensesStore);
+  private injector = inject(Injector);
 
-  constructor(private store: Store) {
+  private users = this.userStore.users;
+  private expenses = this.expensesStore.iterableExpenses;
+
+  constructor() {
     effect(() => {
       const users = this.users();
       const expenses = this.expenses();
@@ -40,23 +39,30 @@ export class DebtsService {
 
   updateDebts(debts: Record<string, Debt>) {
     this._debts.set(debts);
-    this.store.dispatch(UpdateDebts({ debts }));
+    this.debtStore.updateDebts(debts);
   }
 
   getDebts(): Observable<Record<string, Debt>> {
-    return this.store.select(selectDebts);
+    return toObservable(this.debtStore.debts, { injector: this.injector });
   }
 
   getEnrichedDebts(): Observable<Record<string, Debt>> {
-    return this.store.select(selectEnrichedDebts);
+    return toObservable(this.debtStore.enrichedDebts, {
+      injector: this.injector,
+    });
   }
 
   getUserByID(id: string): Observable<Debt | undefined> {
-    return this.store.select(selectDebtsByID(id));
+    return toObservable(
+      computed(() => this.debtStore.debts()[id]),
+      { injector: this.injector },
+    );
   }
 
   getIterableDebts(): Observable<Array<Debt>> {
-    return this.store.select(selectIterableDebts);
+    return toObservable(this.debtStore.iterableDebts, {
+      injector: this.injector,
+    });
   }
 
   initialize(users: Record<string, User>, expenses: Expense[]): void {
@@ -141,20 +147,15 @@ export class DebtsService {
               };
               this.traceOfAutoSettlement(trace, users, tracing);
 
-              //TODO split each comment into a function
-              //settling the debts of the intermediary with the debtor
               indDebt.debts[debtorId]!.newDebt! -= diff;
               indDebt.debts[lenderId]!.newDebt! += diff;
 
-              //settling the debts of the debtor to the intermediary and the lender
               userDebts.debts[intermediaryId]!.newDebt! += diff;
               individualDebt.newDebt! -= diff;
 
-              //settling the debt of the lender's account
               debts[lenderId]!.debts[debtorId]!.newDebt! += diff;
               debts[lenderId]!.debts[intermediaryId]!.newDebt! -= diff;
 
-              //update
               debtorDebt = individualDebt.newDebt;
             }
           });
@@ -179,21 +180,10 @@ export class DebtsService {
     trace.lenderId = lenderName;
     trace.intermediaryId = intermediaryName;
 
-    if (trace.intermediaryDebtToDebtor > trace.debtorDebt) {
-      //console.log('compra la deuda entera Paga el intermediario')
-    }
-    if (
-      debtorDebt > intermediaryDebtToDebtor &&
-      lenderDebtToIntermediary < intermediaryDebtToDebtor
-    ) {
-      //console.log('El intermediario se hace cargo de parte de la deuda')
-    }
-
     if (
       debtorDebt > intermediaryDebtToDebtor &&
       lenderDebtToIntermediary > intermediaryDebtToDebtor
     ) {
-      //console.log('El deudor compra la deuda al intermediario PAGA el deudor')
       trace.debtorId = lenderName;
       trace.lenderId = intermediaryName;
       trace.intermediaryId = debtorName;
@@ -272,9 +262,6 @@ export class DebtsService {
     debtorDebts.debts[payerId]?.RefDebtsIds.push(expense);
   }
 
-  /**
-   * If two persons have debts between theirself extract the difference
-   */
   calcDirectDebtsDiff(debts: Record<string, Debt>): void {
     Object.entries(debts).forEach(([me, i]) => {
       i.totalIowe = 0;
@@ -282,7 +269,6 @@ export class DebtsService {
         const Iowe = j.individualtotalIveBeenPaid;
         const owesMe =
           debts[userName]?.debts[me]?.individualtotalIveBeenPaid || 0;
-        //j.individualtotalIPaid = owesMe;
         j.newDebt = Iowe - owesMe;
         i.totalIowe = i.totalIowe + j.newDebt;
       });

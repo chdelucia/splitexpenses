@@ -8,7 +8,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoggerService } from '@core/services/logger.service';
 import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { provideMockStore } from '@ngrx/store/testing';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 
 describe('ExpensesListComponent', () => {
   let component: ExpensesListComponent;
@@ -41,6 +42,8 @@ describe('ExpensesListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ExpensesListComponent, NoopAnimationsModule],
       providers: [
+        ExpensesStore,
+        UserStore,
         { provide: ExpensesService, useValue: expensesServiceSpy },
         { provide: CurrencyService, useValue: currencyServiceSpy },
         { provide: UsersService, useValue: usersServiceSpy },
@@ -48,12 +51,6 @@ describe('ExpensesListComponent', () => {
         { provide: MatSnackBar, useValue: snackBarSpy },
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
-        provideMockStore({
-          initialState: {
-            expenses: { expenses: {} },
-            users: { users: {} },
-          },
-        }),
       ],
     }).compileComponents();
 
