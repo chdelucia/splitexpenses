@@ -28,7 +28,8 @@
         class="form-control"
         type="text"
         placeholder="Nombre"
-        [(ngModel)]="expenseNameInput"
+        [value]="expenseNameInput()"
+        (input)="expenseNameInput.set($any($event.target).value)"
       />
     </div>
     <div class="col-6">
