@@ -74,7 +74,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "jest-preset-angular": "^17.0.0",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.3.0",
     "prettier": "^3.8.1",
     "prettier-eslint": "^16.4.2",
     "simple-git-hooks": "^2.13.1",
