@@ -27,9 +27,12 @@ export class UsersService {
   }
 
   getUserByID(id: string): Observable<User | undefined> {
-    return toObservable(computed(() => this.userStore.users()[id]), {
-      injector: this.injector,
-    });
+    return toObservable(
+      computed(() => this.userStore.users()[id]),
+      {
+        injector: this.injector,
+      },
+    );
   }
 
   getIterableUsers(): Observable<Array<User>> {

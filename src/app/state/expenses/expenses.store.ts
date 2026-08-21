@@ -24,7 +24,11 @@ export const ExpensesStore = signalStore(
     const iterableExpenses = computed(() => Object.values(expenses()));
 
     const expensesDates = computed(() => [
-      ...new Set(iterableExpenses().map((expense) => expense.date).reverse()),
+      ...new Set(
+        iterableExpenses()
+          .map((expense) => expense.date)
+          .reverse(),
+      ),
     ]);
 
     const expensesGroupByDates = computed(() => {
