@@ -1,29 +1,28 @@
-import { Component, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, inject, signal } from '@angular/core';
 import { ExpensesService } from '@expenses/shared/expenses.service';
 import { UsersService } from '@users/shared/users.service';
 import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 import { Settings } from '@shared/models';
-import { clearExpenses } from '@state/expenses/expenses.actions';
-import { resetUsers } from '@state/user/user.actions';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+import { UserStore } from '@state/user/user.store';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-settings-travel',
   templateUrl: './settings-travel.component.html',
   styleUrls: ['./settings-travel.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
 })
 export class SettingsTravelComponent {
   private localStorageService = inject(LocalstorageService);
   private expensesService = inject(ExpensesService);
   private usersService = inject(UsersService);
-  private store = inject(Store);
+  private expensesStore = inject(ExpensesStore);
+  private userStore = inject(UserStore);
 
   settings: Settings = this.localStorageService.getSettings();
-  expenseNameInput = '';
+  expenseNameInput = signal('');
   showAlert = false;
   isError = false;
 
@@ -35,8 +34,8 @@ export class SettingsTravelComponent {
   }
 
   resetAll() {
-    this.store.dispatch(clearExpenses());
-    this.store.dispatch(resetUsers());
+    this.expensesStore.clearExpenses();
+    this.userStore.resetUsers();
     this.expensesService.init();
     this.usersService.init();
   }

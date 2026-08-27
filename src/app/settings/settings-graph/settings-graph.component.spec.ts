@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 
 import { SettingsGraphComponent } from './settings-graph.component';
 
@@ -9,7 +8,7 @@ describe('SettingsGraphComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, SettingsGraphComponent],
+      imports: [SettingsGraphComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsGraphComponent);

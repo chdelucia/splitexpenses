@@ -7,15 +7,21 @@
     </span>
   </div>
   <div class="row g-2 align-items-center">
-    @for (color of settings.graph.bgColors; track color; let i = $index) {
+    @for (color of bgColors(); track color; let i = $index) {
       <div class="col-6">
-        <input class="form-control" type="text" [(ngModel)]="types[i].name" />
+        <input
+          class="form-control"
+          type="text"
+          [value]="types()[i].name"
+          (input)="updateTypeName(i, $any($event.target).value)"
+        />
       </div>
       <div class="col-2">
         <input
           class="colors"
           type="color"
-          [(ngModel)]="settings.graph.bgColors[i]"
+          [value]="color"
+          (input)="updateBgColor(i, $any($event.target).value)"
         />
       </div>
     }

@@ -28,10 +28,7 @@ describe('UsersComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [FormsModule, UsersComponent],
-      providers: [
-        UserStore,
-        { provide: UsersService, useValue: usersService },
-      ],
+      providers: [UserStore, { provide: UsersService, useValue: usersService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsersComponent);

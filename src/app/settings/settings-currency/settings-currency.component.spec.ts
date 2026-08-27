@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 
 import { SettingsCurrencyComponent } from './settings-currency.component';
 
@@ -9,7 +8,7 @@ describe('SettingsCurrencyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, SettingsCurrencyComponent],
+      imports: [SettingsCurrencyComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SettingsCurrencyComponent);
