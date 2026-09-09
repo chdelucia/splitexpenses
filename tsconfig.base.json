@@ -1,0 +1,30 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "es2020",
+    "lib": ["es2020", "dom"],
+    "strict": true,
+    "types": ["@angular/localize"],
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@debts/*": ["src/app/debts/*"],
+      "@expenses/*": ["src/app/expenses/*"],
+      "@forecast/*": ["src/app/forecast/*"],
+      "@settings/*": ["src/app/settings/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@state/*": ["src/app/state/*"],
+      "@stats/*": ["src/app/stats/*"],
+      "@users/*": ["src/app/users/*"],
+      "@weather/*": ["src/app/weather/*"],
+      "@env/*": ["src/environments/*"],
+      "shared": ["./libs/shared/src/index.ts"]
+    }
+  }
+}
