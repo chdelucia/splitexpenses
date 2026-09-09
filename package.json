@@ -31,7 +31,7 @@
     "@angular/animations": "22.0.8",
     "@angular/cdk": "22.1.2",
     "@angular/common": "22.0.8",
-    "@angular/compiler": "22.0.8",
+    "@angular/compiler": "22.1.5",
     "@angular/core": "22.1.4",
     "@angular/forms": "22.1.2",
     "@angular/material": "22.0.6",
