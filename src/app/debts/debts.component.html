@@ -29,12 +29,12 @@
               <div class="debt-summary">
                 <div class="label" i18n>Total</div>
                 <div class="amount" [class.positive]="userDebt!.totalIowe < 0">
-                  {{ userDebt?.totalIowe | number: ".0-2" }}
+                  {{ userDebt?.totalIowe | number: '.0-2' }}
                   {{ currency().currencySymbol }}
                 </div>
                 @if (currency().active) {
                   <div class="exchange">
-                    {{ userDebt?.totalIowe | exchange | number: ".0-2" }}
+                    {{ userDebt?.totalIowe | exchange | number: '.0-2' }}
                     {{ currency().currencyExchangeSymbol }}
                   </div>
                 }
@@ -52,11 +52,11 @@
                         {{ debt.userName }}
                       </div>
                       <div class="detail-amount">
-                        {{ debt.newDebt | number: ".0-2" }}
+                        {{ debt.newDebt | number: '.0-2' }}
                         {{ currency().currencySymbol }}
                         @if (currency().active) {
                           <small
-                            >({{ debt.newDebt | exchange | number: ".0-2" }}
+                            >({{ debt.newDebt | exchange | number: '.0-2' }}
                             {{ currency().currencyExchangeSymbol }})</small
                           >
                         }

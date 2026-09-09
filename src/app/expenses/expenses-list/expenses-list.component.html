@@ -42,12 +42,12 @@
           @if (isMonthlyFilter()) {
             @if (
               i === 0 ||
-              (displayedExpenses[i - 1].date | date: "MMMM yyyy") !==
-                (expense.date | date: "MMMM yyyy")
+              (displayedExpenses[i - 1].date | date: 'MMMM yyyy') !==
+                (expense.date | date: 'MMMM yyyy')
             ) {
               <div class="date-divider month-group-header">
                 <span class="date-text">{{
-                  expense.date | date: "MMMM yyyy" | titlecase
+                  expense.date | date: 'MMMM yyyy' | titlecase
                 }}</span>
                 <div class="line"></div>
               </div>
@@ -56,7 +56,7 @@
             @if (i === 0 || displayedExpenses[i - 1].date !== expense.date) {
               <div class="date-divider">
                 <span class="date-text">{{
-                  expense.date | date: "fullDate"
+                  expense.date | date: 'fullDate'
                 }}</span>
                 <div class="line"></div>
               </div>
@@ -76,7 +76,7 @@
               <div class="expense-meta">
                 @if (isIndividualMode()) {
                   <span class="date-meta">{{
-                    expense.date | date: "mediumDate"
+                    expense.date | date: 'mediumDate'
                   }}</span>
                 } @else {
                   <span i18n>Pagado por</span>
@@ -93,12 +93,12 @@
 
             <div class="expense-amount-box">
               <div class="main-amount">
-                {{ expense.originalCost | number: ".0-2" }}
+                {{ expense.originalCost | number: '.0-2' }}
                 {{ currency().currencySymbol }}
               </div>
               @if (currency().active) {
                 <div class="exchange-amount">
-                  {{ expense.originalCost | exchange | number: ".0-2" }}
+                  {{ expense.originalCost | exchange | number: '.0-2' }}
                   {{ currency().currencyExchangeSymbol }}
                 </div>
               }

@@ -149,8 +149,8 @@
   .expense-item {
     grid-template-columns: auto 1fr auto;
     grid-template-areas:
-      "icon info amount"
-      "icon info actions";
+      'icon info amount'
+      'icon info actions';
     gap: 1rem;
 
     .category-icon-wrapper {
