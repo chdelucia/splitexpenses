@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { LocalstorageService } from '@shared/services/localstorage/localstorage.service';
 
 @Component({
   selector: 'app-options',
@@ -8,4 +9,10 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule],
 })
-export class OptionsComponent {}
+export class OptionsComponent {
+  private localStorageService = inject(LocalstorageService);
+
+  isPersonalMode = computed(() => {
+    return this.localStorageService.activeTravelName() === 'Personal';
+  });
+}

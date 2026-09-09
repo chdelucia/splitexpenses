@@ -28,18 +28,11 @@
         "outputPath": "dist/splitexpenses",
         "index": "src/index.html",
         "main": "src/main.ts",
-        "polyfills": [
-          "src/polyfills.ts"
-        ],
+        "polyfills": ["src/polyfills.ts"],
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "src/favicon.ico",
-          "src/assets"
-        ],
-        "styles": [
-          "src/styles.scss"
-        ],
+        "assets": ["src/favicon.ico", "src/assets"],
+        "styles": ["src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -77,9 +70,7 @@
           ]
         },
         "en": {
-          "localize": [
-            "en"
-          ],
+          "localize": ["en"],
           "outputPath": "dist/en/",
           "i18nMissingTranslation": "error",
           "fileReplacements": [
@@ -91,9 +82,7 @@
         }
       },
       "defaultConfiguration": "production",
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -125,32 +114,20 @@
       "options": {
         "codeCoverage": true,
         "configPath": "jest.config.ts",
-        "polyfills": [
-          "src/polyfills.ts"
-        ],
+        "polyfills": ["src/polyfills.ts"],
         "tsConfig": "tsconfig.spec.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "src/favicon.ico",
-          "src/assets"
-        ],
-        "styles": [
-          "src/styles.scss"
-        ],
+        "assets": ["src/favicon.ico", "src/assets"],
+        "styles": ["src/styles.scss"],
         "scripts": []
       }
     },
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": [
-          "src/**/*.ts",
-          "src/**/*.html"
-        ]
+        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
       },
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     },
     "cypress-run": {
       "executor": "@cypress/schematic:cypress",

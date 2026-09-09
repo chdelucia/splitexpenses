@@ -11,7 +11,7 @@
         {{ trace.intermediaryId }} asume las deudas de
         {{ trace.debtorId }} porque le debia
         <strong
-          >{{ trace.intermediaryDebtToDebtor | number: ".0-2"
+          >{{ trace.intermediaryDebtToDebtor | number: '.0-2'
           }}{{ currency.currencySymbol }}</strong
         >
       </div>
@@ -20,11 +20,11 @@
       <div class="item first">{{ trace.intermediaryId }}</div>
       <div class="element">
         <div class="current-debt">
-          {{ trace.finalIntermediaryDebt | number: ".0-2"
+          {{ trace.finalIntermediaryDebt | number: '.0-2'
           }}{{ currency.currencySymbol }}
         </div>
         <div class="old-debt">
-          {{ trace.intermediaryDebtToDebtor | number: ".0-2"
+          {{ trace.intermediaryDebtToDebtor | number: '.0-2'
           }}{{ currency.currencySymbol }}
         </div>
         <div class="triangle"></div>
@@ -35,11 +35,11 @@
       <div class="item first">{{ trace.intermediaryId }}</div>
       <div class="element">
         <div class="current-debt">
-          {{ trace.finalLenderDebt | number: ".0-2"
+          {{ trace.finalLenderDebt | number: '.0-2'
           }}{{ currency.currencySymbol }}
         </div>
         <div class="old-debt">
-          {{ trace.lenderDebtToIntermediary | number: ".0-2"
+          {{ trace.lenderDebtToIntermediary | number: '.0-2'
           }}{{ currency.currencySymbol }}
         </div>
         <div class="triangle"></div>
@@ -50,11 +50,11 @@
       <div class="item first">{{ trace.debtorId }}</div>
       <div class="element">
         <div class="current-debt">
-          {{ trace.finalDebtorDebt | number: ".0-2"
+          {{ trace.finalDebtorDebt | number: '.0-2'
           }}{{ currency.currencySymbol }}
         </div>
         <div class="old-debt">
-          {{ trace.debtorDebt | number: ".0-2" }}{{ currency.currencySymbol }}
+          {{ trace.debtorDebt | number: '.0-2' }}{{ currency.currencySymbol }}
         </div>
         <div class="triangle"></div>
       </div>

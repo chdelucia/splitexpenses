@@ -1,6 +1,6 @@
 <main class="form-container animate-in">
   <div class="section-header">
-    <h2 i18n>{{ isEditing ? "Editar Gasto" : "Nuevo Gasto" }}</h2>
+    <h2 i18n>{{ isEditing ? 'Editar Gasto' : 'Nuevo Gasto' }}</h2>
   </div>
 
   <form
@@ -105,8 +105,8 @@
         class="btn-primary btn-submit"
         [disabled]="!expenseForm.valid"
       >
-        <mat-icon>{{ isEditing ? "save" : "add_circle" }}</mat-icon>
-        <span i18n>{{ isEditing ? "Guardar Cambios" : "Crear Gasto" }}</span>
+        <mat-icon>{{ isEditing ? 'save' : 'add_circle' }}</mat-icon>
+        <span i18n>{{ isEditing ? 'Guardar Cambios' : 'Crear Gasto' }}</span>
       </button>
     </div>
   </form>

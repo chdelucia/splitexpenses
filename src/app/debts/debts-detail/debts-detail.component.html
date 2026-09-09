@@ -33,7 +33,7 @@
                 {{
                   calculateExpenseBalance
                     | wrapFn: expense : user.id
-                    | number: ".0-2"
+                    | number: '.0-2'
                 }}
               </span>
             }
@@ -43,7 +43,7 @@
             @if (
               calcUserTotalBalance
                 | wrapFn: user.id : expenses
-                | number: ".0-2";
+                | number: '.0-2';
               as totalBalance
             ) {
               <span class="expense-cost" [class.debt]="totalBalance < '0'">
