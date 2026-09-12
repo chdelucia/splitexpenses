@@ -1,10 +1,17 @@
 <main class="animate-in">
   <div class="section-header">
     <h2 i18n>Historial de Gastos</h2>
+    @if (isIndividualMode() && expenses().length > 0) {
+      <button class="btn-primary export-excel-btn" (click)="exportToExcel()">
+        <mat-icon>file_download</mat-icon>
+        <span i18n>Exportar Excel</span>
+      </button>
+    }
   </div>
 
-  @let currentExpenses = expenses();
-  @if (currentExpenses && currentExpenses.length > 0) {
+  @let currentExpenses = displayExpenses();
+  @let allExpensesCount = expenses().length;
+  @if (allExpensesCount > 0) {
     <section class="expenses-container">
       <div class="filters-header">
         <mat-form-field appearance="fill" class="search-field">
@@ -17,6 +24,22 @@
           />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
+
+        @if (isMonthlyFilter() && availableMonths().length > 0) {
+          <mat-form-field appearance="fill" class="month-field">
+            <mat-label i18n>Filtrar por mes</mat-label>
+            <mat-select
+              [ngModel]="selectedMonth()"
+              (ngModelChange)="selectedMonth.set($event)"
+            >
+              <mat-option value="" i18n>Todos los meses</mat-option>
+              @for (m of availableMonths(); track m.key) {
+                <mat-option [value]="m.key">{{ m.label }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>calendar_month</mat-icon>
+          </mat-form-field>
+        }
 
         <div class="glass-card paginator-card">
           <mat-paginator
@@ -37,6 +60,14 @@
             pageIndex * pageSize,
             (pageIndex + 1) * pageSize
           );
+
+        @if (displayedExpenses.length === 0) {
+          <div class="glass-card empty-history animate-in">
+            <mat-icon>search_off</mat-icon>
+            <h3 i18n>Sin resultados</h3>
+            <p i18n>No se encontraron gastos para los filtros aplicados.</p>
+          </div>
+        }
 
         @for (expense of displayedExpenses; track expense.id; let i = $index) {
           @if (isMonthlyFilter()) {
