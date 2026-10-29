@@ -10,10 +10,12 @@ import { of } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ExpensesStore } from '@state/expenses/expenses.store';
 import { UserStore } from '@state/user/user.store';
+import { ExcelExportService } from '@core/services/excel-export.service';
 
 describe('ExpensesListComponent', () => {
   let component: ExpensesListComponent;
   let fixture: ComponentFixture<ExpensesListComponent>;
+  let excelExportServiceSpy: { exportExpensesToExcel: jest.Mock };
 
   beforeEach(async () => {
     const expensesServiceSpy = {
@@ -38,6 +40,9 @@ describe('ExpensesListComponent', () => {
     const activatedRouteSpy = {
       snapshot: { data: {} },
     };
+    excelExportServiceSpy = {
+      exportExpensesToExcel: jest.fn(),
+    };
 
     await TestBed.configureTestingModule({
       imports: [ExpensesListComponent, NoopAnimationsModule],
@@ -51,6 +56,7 @@ describe('ExpensesListComponent', () => {
         { provide: MatSnackBar, useValue: snackBarSpy },
         { provide: Router, useValue: routerSpy },
         { provide: ActivatedRoute, useValue: activatedRouteSpy },
+        { provide: ExcelExportService, useValue: excelExportServiceSpy },
       ],
     }).compileComponents();
 
@@ -61,5 +67,13 @@ describe('ExpensesListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call ExcelExportService on exportToExcel', () => {
+    component.exportToExcel();
+    expect(excelExportServiceSpy.exportExpensesToExcel).toHaveBeenCalledWith(
+      component.expenses(),
+      'gastos_individuales.xlsx',
+    );
   });
 });

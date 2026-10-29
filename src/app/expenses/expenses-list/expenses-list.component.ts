@@ -5,6 +5,7 @@ import {
   input,
   OnInit,
   computed,
+  signal,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { openSnackBar, globalToast, getCategoryIcon } from '@shared/utils';
@@ -24,12 +25,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { FilterPipe } from '@shared/pipes/filter.pipe';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { ExchangePipe } from '@shared/pipes/exchange.pipe';
 import { WrapFnPipe } from '@shared/pipes/wrap-fn.pipe';
+import { ExcelExportService } from '@core/services/excel-export.service';
 
 export interface EnrichedExpense extends Expense {
   paidByUserName: string;
   sharedByNames: string[];
+}
+
+export interface MonthOption {
+  key: string;
+  label: string;
 }
 
 @Component({
@@ -47,6 +55,7 @@ export interface EnrichedExpense extends Expense {
     FilterPipe,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     ExchangePipe,
     WrapFnPipe,
   ],
@@ -78,12 +87,64 @@ export class ExpensesListComponent implements OnInit {
   private loggerService = inject(LoggerService);
   private expensesStore = inject(ExpensesStore);
   private userStore = inject(UserStore);
+  private excelExportService = inject(ExcelExportService);
 
   term = '';
+  selectedMonth = signal<string>('');
+
   currency = this.currencyService.currencySignal;
   expenses = computed<EnrichedExpense[]>(() => {
     return this.expensesStore.enrichedExpensesOrderByDateDesc() as unknown as EnrichedExpense[];
   });
+
+  availableMonths = computed<MonthOption[]>(() => {
+    const exps = this.expenses();
+    const map = new Map<string, { key: string; label: string; date: Date }>();
+
+    exps.forEach((exp) => {
+      if (!exp.date) return;
+      const d = new Date(exp.date);
+      if (isNaN(d.getTime())) return;
+
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const key = `${year}-${month}`;
+
+      if (!map.has(key)) {
+        const label = d.toLocaleDateString('es-ES', {
+          month: 'long',
+          year: 'numeric',
+        });
+        const capitalizedLabel =
+          label.charAt(0).toUpperCase() + label.slice(1);
+        map.set(key, {
+          key,
+          label: capitalizedLabel,
+          date: new Date(year, d.getMonth(), 1),
+        });
+      }
+    });
+
+    return Array.from(map.values())
+      .sort((a, b) => b.date.getTime() - a.date.getTime())
+      .map(({ key, label }) => ({ key, label }));
+  });
+
+  displayExpenses = computed<EnrichedExpense[]>(() => {
+    const exps = this.expenses();
+    const monthKey = this.selectedMonth();
+    if (!monthKey) return exps;
+
+    return exps.filter((exp) => {
+      if (!exp.date) return false;
+      const d = new Date(exp.date);
+      if (isNaN(d.getTime())) return false;
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      return `${year}-${month}` === monthKey;
+    });
+  });
+
   userCount = this.userStore.userCount;
   pageSize = 5;
   pageIndex = 0;
@@ -128,6 +189,13 @@ export class ExpensesListComponent implements OnInit {
     return Array.from(
       { length: Math.ceil(expenses.length / 5) },
       (_, index) => (index + 1) * 5,
+    );
+  }
+
+  exportToExcel(): void {
+    this.excelExportService.exportExpensesToExcel(
+      this.expenses(),
+      'gastos_individuales.xlsx',
     );
   }
 }
