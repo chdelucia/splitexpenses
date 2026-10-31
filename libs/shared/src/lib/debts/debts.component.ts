@@ -1,0 +1,35 @@
+import { Component, inject, computed } from '@angular/core';
+import { CurrencyService } from '@shared/services/currency/currency.service';
+import { DebtsService } from './shared/debts.service';
+import { UsersService } from '@users/shared/users.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ExchangePipe } from '@shared/pipes/exchange.pipe';
+import { DebtTracingComponent } from './debt-tracing/debt-tracing.component';
+import { MatIconModule } from '@angular/material/icon';
+
+@Component({
+  selector: 'app-debts',
+  templateUrl: './debts.component.html',
+  styleUrls: ['./debts.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    ExchangePipe,
+    DebtTracingComponent,
+    MatIconModule,
+  ],
+})
+export class DebtsComponent {
+  private debtsService = inject(DebtsService);
+  private userService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
+
+  debts = this.debtsService.getEnrichedDebts();
+  users = this.userService.getIterableUsers();
+
+  currency = this.currencyService.currencySignal;
+
+  debtTracing = computed(() => this.debtsService.getDebtTracing());
+}

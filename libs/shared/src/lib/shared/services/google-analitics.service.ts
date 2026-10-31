@@ -1,0 +1,56 @@
+import { Injectable, inject, DestroyRef } from '@angular/core';
+import { ScriptService } from './script.service';
+import { environment } from '@env/environment';
+import { NavigationEnd, Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+type GtagFunction = {
+  (data: unknown): void;
+};
+
+interface GtagWindow extends Window {
+  gtag?: GtagFunction;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class GoogleAnaliticsService {
+  private document = inject(DOCUMENT);
+  private scriptService = inject(ScriptService);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
+
+  get gtag(): GtagFunction | undefined {
+    return (this.document.defaultView as GtagWindow)?.gtag;
+  }
+
+  initialize(): void {
+    this.onRouteChange();
+    this.scriptService.createScript(
+      `https://www.googletagmanager.com/gtag/js?id=${environment.googleAnalytics}`,
+    );
+
+    this.scriptService.createScriptWithContent(`
+       window.dataLayer = window.dataLayer || [];
+       function gtag(){dataLayer.push(arguments);}
+       gtag('js', new Date());
+       gtag('config', '${environment.googleAnalytics}')`);
+  }
+
+  onRouteChange(): void {
+    this.router.events
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd && this.gtag) {
+          this.gtag({
+            page_path: event.urlAfterRedirects,
+            page_location: document.location.href,
+            page_referrer: document.referrer,
+            send_page_view: true,
+          });
+        }
+      });
+  }
+}

@@ -1,4 +1,3 @@
-export * from './lib/shared/shared';
 export * from '@shared/models';
 export * from '@shared/utils';
 export * from '@shared/services/localstorage/localstorage.service';

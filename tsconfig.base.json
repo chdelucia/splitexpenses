@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
@@ -11,20 +12,21 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "strict": true,
+    "ignoreDeprecations": "6.0",
     "types": ["@angular/localize"],
     "paths": {
-      "@core/*": ["src/app/core/*"],
-      "@debts/*": ["src/app/debts/*"],
-      "@expenses/*": ["src/app/expenses/*"],
-      "@forecast/*": ["src/app/forecast/*"],
-      "@settings/*": ["src/app/settings/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@state/*": ["src/app/state/*"],
-      "@stats/*": ["src/app/stats/*"],
-      "@users/*": ["src/app/users/*"],
-      "@weather/*": ["src/app/weather/*"],
-      "@env/*": ["src/environments/*"],
-      "shared": ["./libs/shared/src/index.ts"]
+      "@core/*": ["libs/shared/src/lib/core/*"],
+      "@debts/*": ["libs/shared/src/lib/debts/*"],
+      "@expenses/*": ["libs/shared/src/lib/expenses/*"],
+      "@forecast/*": ["libs/shared/src/lib/forecast/*"],
+      "@settings/*": ["libs/shared/src/lib/settings/*"],
+      "@shared/*": ["libs/shared/src/lib/shared/*"],
+      "@state/*": ["libs/shared/src/lib/state/*"],
+      "@stats/*": ["libs/shared/src/lib/stats/*"],
+      "@users/*": ["libs/shared/src/lib/users/*"],
+      "@weather/*": ["libs/shared/src/lib/weather/*"],
+      "@env/*": ["libs/shared/src/environments/*"],
+      "shared": ["libs/shared/src/index.ts"]
     }
   }
 }

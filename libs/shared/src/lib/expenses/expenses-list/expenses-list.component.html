@@ -1,0 +1,171 @@
+<main class="animate-in">
+  <div class="section-header">
+    <h2 i18n>Historial de Gastos</h2>
+    @if (isIndividualMode() && expenses().length > 0) {
+      <button class="btn-primary export-excel-btn" (click)="exportToExcel()">
+        <mat-icon>file_download</mat-icon>
+        <span i18n>Exportar Excel</span>
+      </button>
+    }
+  </div>
+
+  @let currentExpenses = displayExpenses();
+  @let allExpensesCount = expenses().length;
+  @if (allExpensesCount > 0) {
+    <section class="expenses-container">
+      <div class="filters-header">
+        <mat-form-field appearance="fill" class="search-field">
+          <mat-label i18n>Buscar gastos</mat-label>
+          <input
+            matInput
+            [(ngModel)]="term"
+            type="text"
+            placeholder="Ej: Supermercado, Gasolina..."
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        @if (isMonthlyFilter() && availableMonths().length > 0) {
+          <mat-form-field appearance="fill" class="month-field">
+            <mat-label i18n>Filtrar por mes</mat-label>
+            <mat-select
+              [ngModel]="selectedMonth()"
+              (ngModelChange)="selectedMonth.set($event)"
+            >
+              <mat-option value="" i18n>Todos los meses</mat-option>
+              @for (m of availableMonths(); track m.key) {
+                <mat-option [value]="m.key">{{ m.label }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>calendar_month</mat-icon>
+          </mat-form-field>
+        }
+
+        <div class="glass-card paginator-card">
+          <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="currentExpenses.length"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions | wrapFn: currentExpenses"
+            aria-label="Páginas"
+          >
+          </mat-paginator>
+        </div>
+      </div>
+
+      <div class="expense-list-content">
+        @let filteredExpenses = currentExpenses | filter: term;
+        @let displayedExpenses =
+          filteredExpenses.slice(
+            pageIndex * pageSize,
+            (pageIndex + 1) * pageSize
+          );
+
+        @if (displayedExpenses.length === 0) {
+          <div class="glass-card empty-history animate-in">
+            <mat-icon>search_off</mat-icon>
+            <h3 i18n>Sin resultados</h3>
+            <p i18n>No se encontraron gastos para los filtros aplicados.</p>
+          </div>
+        }
+
+        @for (expense of displayedExpenses; track expense.id; let i = $index) {
+          @if (isMonthlyFilter()) {
+            @if (
+              i === 0 ||
+              (displayedExpenses[i - 1].date | date: "MMMM yyyy") !==
+                (expense.date | date: "MMMM yyyy")
+            ) {
+              <div class="date-divider month-group-header">
+                <span class="date-text">{{
+                  expense.date | date: "MMMM yyyy" | titlecase
+                }}</span>
+                <div class="line"></div>
+              </div>
+            }
+          } @else {
+            @if (i === 0 || displayedExpenses[i - 1].date !== expense.date) {
+              <div class="date-divider">
+                <span class="date-text">{{
+                  expense.date | date: "fullDate"
+                }}</span>
+                <div class="line"></div>
+              </div>
+            }
+          }
+
+          <div
+            class="glass-card expense-item animate-in"
+            [style.animation-delay]="i * 0.05 + 's'"
+          >
+            <div class="category-icon-wrapper">
+              <mat-icon>{{ getCategoryIcon(expense.typeId) }}</mat-icon>
+            </div>
+
+            <div class="expense-main-info">
+              <div class="expense-title">{{ expense.title }}</div>
+              <div class="expense-meta">
+                @if (isIndividualMode()) {
+                  <span class="date-meta">{{
+                    expense.date | date: "mediumDate"
+                  }}</span>
+                } @else {
+                  <span i18n>Pagado por</span>
+                  <strong>{{ expense.paidByUserName }}</strong>
+                  <span class="mx-2">•</span>
+                  @if (expense.sharedByNames.length === userCount()) {
+                    <span i18n>Todos</span>
+                  } @else {
+                    {{ expense.sharedByNames.length }} <span i18n>pers.</span>
+                  }
+                }
+              </div>
+            </div>
+
+            <div class="expense-amount-box">
+              <div class="main-amount">
+                {{ expense.originalCost | number: ".0-2" }}
+                {{ currency().currencySymbol }}
+              </div>
+              @if (currency().active) {
+                <div class="exchange-amount">
+                  {{ expense.originalCost | exchange | number: ".0-2" }}
+                  {{ currency().currencyExchangeSymbol }}
+                </div>
+              }
+            </div>
+
+            @if (!filter()) {
+              <div class="actions-group">
+                <button
+                  mat-icon-button
+                  class="edit-btn"
+                  (click)="editExpense(expense.id)"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  class="delete-btn"
+                  (click)="deleteExpense(expense.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+  } @else {
+    <div class="glass-card empty-history animate-in">
+      <mat-icon>receipt_long</mat-icon>
+      <h3 i18n>Sin gastos todavía</h3>
+      <p i18n>Registra tu primer gasto para empezar a dividir las cuentas.</p>
+      <button class="btn-primary" (click)="addExpense()">
+        <mat-icon>add</mat-icon>
+        <span i18n>Añadir mi primer gasto</span>
+      </button>
+    </div>
+  }
+</main>
