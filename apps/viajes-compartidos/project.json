@@ -19,7 +19,7 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "src/assets",
+            "input": "libs/shared/src/assets",
             "output": "assets"
           },
           {

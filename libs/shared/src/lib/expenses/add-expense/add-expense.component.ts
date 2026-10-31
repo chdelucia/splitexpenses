@@ -1,0 +1,215 @@
+import {
+  Component,
+  inject,
+  input,
+  numberAttribute,
+  effect,
+  computed,
+  resource,
+} from '@angular/core';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormGroupDirective,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CurrencyService } from '@shared/services/currency/currency.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { Expense, ExpenseTypes } from '@shared/models';
+import { globalToast, openSnackBar, getCategoryIcon } from '@shared/utils';
+import { UsersService } from '@users/shared/users.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+
+@Component({
+  selector: 'app-add-expense',
+  templateUrl: './add-expense.component.html',
+  styleUrls: ['./add-expense.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatIconModule,
+    MatRadioModule,
+  ],
+  providers: [provideNativeDateAdapter()],
+})
+export class AddExpenseComponent {
+  id = input<string | number, number>('', { transform: numberAttribute });
+  individualMode = input<boolean>(false);
+
+  isIndividualMode = computed(
+    () =>
+      this.individualMode() || this.route.snapshot?.data?.['individualMode'],
+  );
+
+  expenseResource = resource({
+    loader: async () => {
+      const id = this.id();
+      if (!id) return undefined;
+      return this.expensesService.getExpenseByID(id.toString())();
+    },
+  });
+
+  public route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private expensesService = inject(ExpensesService);
+  private usersService = inject(UsersService);
+  private currencyService = inject(CurrencyService);
+  private _snackBar = inject(MatSnackBar);
+  private fb = inject(FormBuilder);
+
+  currency = this.currencyService.currencySignal;
+  expenseForm: FormGroup = this.fb.group({
+    name: ['', Validators.required],
+    cost: ['', [Validators.required, Validators.min(1)]],
+    title: ['', Validators.required],
+    sharedBy: this.fb.array([]),
+    type: ['', Validators.required],
+    date: [new Date(), Validators.required],
+  });
+
+  users = this.usersService.iterableUsers;
+  expenseTypes: ExpenseTypes[] = this.expensesService.getExpensesTypes();
+  expense?: Expense;
+
+  getCategoryIcon(typeId: string | number): string {
+    return getCategoryIcon(Number(typeId));
+  }
+
+  get isEditing(): boolean {
+    return !!this.expense;
+  }
+
+  private toastmsg = {
+    OK: $localize`Gasto guardado correctamente`,
+    KO: $localize`Error fatal`,
+  };
+
+  constructor() {
+    effect(() => {
+      this.handleIndividualMode();
+      this.initializeCheckboxControls();
+    });
+
+    effect(() => {
+      const expense = this.expenseResource.value();
+      if (expense) {
+        this.expense = expense as Expense;
+        this.updateForm();
+      }
+    });
+  }
+
+  private handleIndividualMode(): void {
+    if (this.isIndividualMode() && this.users().length > 0) {
+      this.expenseForm.get('name')?.setValue(this.users()[0].id);
+    }
+  }
+
+  private initializeCheckboxControls(): void {
+    const sharedBy = this.expenseForm.get('sharedBy') as FormArray;
+    if (sharedBy.length === this.users().length) return;
+    sharedBy.clear();
+    this.users().forEach((user) => {
+      const control = this.createFormControl(user.id);
+      sharedBy.push(control);
+    });
+  }
+
+  private createFormControl(userId: string): AbstractControl {
+    let isChecked = true;
+    if (this.isEditing && !this.expense?.sharedBy.includes(userId)) {
+      isChecked = false;
+    }
+    return this.fb.control(isChecked);
+  }
+
+  onSubmit(
+    expenseForm: {
+      name: string;
+      cost: number;
+      title: string;
+      sharedBy: boolean[];
+      type: string;
+      date: Date;
+    },
+    formDirective: FormGroupDirective,
+  ) {
+    if (this.expenseForm.invalid) return;
+
+    const isIndividual = this.isIndividualMode();
+
+    const selectedUserIds = isIndividual
+      ? [this.users()[0].id]
+      : this.users()
+          .filter((_, index) => expenseForm.sharedBy[index])
+          .map((user) => user.id);
+
+    const originalCost = expenseForm.cost;
+    const costPerPerson = originalCost / selectedUserIds.length;
+
+    const expense: Expense = {
+      id: this.isEditing ? this.expense!.id : '',
+      title: expenseForm.title,
+      originalCost: originalCost,
+      cost: costPerPerson,
+      date: expenseForm.date.toDateString(),
+      paidBy: isIndividual ? this.users()[0].id : expenseForm.name,
+      typeId: expenseForm.type,
+      sharedBy: selectedUserIds,
+      settleBy: [],
+    };
+
+    this.addExpense(expense);
+    openSnackBar(this._snackBar, globalToast.OK, this.toastmsg.OK);
+    this.resetForm();
+    formDirective.resetForm();
+
+    const redirectPath = isIndividual
+      ? '/personal/details'
+      : '/expense/details';
+    this.router.navigate([redirectPath]);
+  }
+
+  updateForm() {
+    this.expenseForm.patchValue({
+      name: this.expense?.paidBy,
+      cost: this.expense?.originalCost,
+      title: this.expense?.title,
+      date: this.expense?.date ? new Date(this.expense?.date) : new Date(),
+      type: this.expense?.typeId,
+    });
+  }
+
+  private addExpense(expense: Expense): void {
+    if (this.isEditing) {
+      this.expensesService.editExpense(expense);
+    } else {
+      this.expensesService.addExpense(expense);
+    }
+  }
+
+  private resetForm(): void {
+    if (!this.isEditing) this.expenseForm.reset();
+  }
+}

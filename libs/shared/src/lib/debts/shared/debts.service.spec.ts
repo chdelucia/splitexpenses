@@ -1,0 +1,93 @@
+import { TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
+import { DebtsService } from './debts.service';
+import { UsersService } from '@users/shared/users.service';
+import { ExpensesService } from '@expenses/shared/expenses.service';
+import { Expense, User } from '@shared/models';
+import { DebtStore } from '@state/debt/debt.store';
+import { UserStore } from '@state/user/user.store';
+import { ExpensesStore } from '@state/expenses/expenses.store';
+
+describe('DebtsService', () => {
+  let debtsService: DebtsService;
+  let userServiceSpy: any;
+  let expensesServiceSpy: any;
+
+  const mockUser: User = {
+    id: '1',
+    name: 'John Doe',
+  };
+
+  const mockExpense: Expense = {
+    id: '1',
+    title: 'Expense 1',
+    cost: 100,
+    date: 'string',
+    paidBy: '1',
+    sharedBy: ['1', '2'],
+    originalCost: 23,
+    settleBy: [],
+    typeId: '7',
+  };
+
+  beforeEach(() => {
+    const usersServiceSpyObj = {
+      getUsers: jest.fn().mockReturnValue(signal({ [mockUser.id]: mockUser })),
+    };
+
+    const expensesServiceSpyObj = {
+      getIterableExpenses: jest.fn().mockReturnValue(signal([mockExpense])),
+      getEnrichedDebts: jest.fn().mockReturnValue(signal({})),
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        DebtsService,
+        DebtStore,
+        UserStore,
+        ExpensesStore,
+        { provide: UsersService, useValue: usersServiceSpyObj },
+        { provide: ExpensesService, useValue: expensesServiceSpyObj },
+      ],
+    });
+
+    debtsService = TestBed.inject(DebtsService);
+    userServiceSpy = TestBed.inject(UsersService);
+    expensesServiceSpy = TestBed.inject(ExpensesService);
+  });
+
+  it('should initialize debts and debtTracing', () => {
+    expect(debtsService['_debts']()).toEqual({});
+    expect(debtsService.getDebtTracing()).toEqual([]);
+  });
+
+  describe('getDebts', () => {
+    it('should return the debts map', () => {
+      const debts = debtsService.getDebts()();
+      expect(debts).toEqual({});
+    });
+  });
+
+  describe('getdebtTracing', () => {
+    it('should return the debtTracing array', () => {
+      const debtTracing = debtsService.getDebtTracing();
+      expect(debtTracing).toEqual(debtsService['_debtTracing']());
+    });
+  });
+
+  it('should create structure', () => {
+    const debts = debtsService.createStructure({ [mockUser.id]: mockUser });
+    expect(Object.keys(debts).length).toBe(1);
+    expect(debts[mockUser.id]).toBeDefined();
+  });
+
+  it('should get trace debts', () => {
+    const debtTracing = debtsService.getDebtTracing();
+    expect(debtTracing).toEqual([]);
+  });
+
+  it('should get debts', () => {
+    const debts = debtsService.getDebts()();
+    expect(debts).toEqual({});
+  });
+});
